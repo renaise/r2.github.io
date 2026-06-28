@@ -70,22 +70,37 @@
     font-family:Tahoma,Verdana,sans-serif;}
   .loglist[hidden]{display:none;}
 
-  /* ── dark mode: Navigation modal ── */
-  aside .win{background:#1c1c28;border-color:#0a0a14;}
+  /* ── dark mode: Navigation modal (black) ── */
+  aside .win{background:#000;border-color:#222;}
   aside .body{color:#1a6bff;}
   aside nav a{color:#1a6bff;}
-  aside nav a.cur::before{color:#7fb0ff;}
-  aside .credit{color:#d2d2e2;}
-  aside .bgat{color:#9a9ab0;}
-  aside .bgtoggle,aside .emojibtn,aside .logtoggle{
-    background:#2c2c3a;color:#e8e8f0;border-color:#0047ab;}
-  aside .bgform{background:#26263a;border-color:#0047ab;}
-  aside .bgform h3,aside .bgform label{color:#e8e8f0;}
-  aside .bgform .note{color:#9a9ab0;}
-  aside .bgform input{background:#12121c;color:#fff;border-color:#0047ab;}
-  aside .bgform input[type=color]{background:#12121c;}
-  aside .emojigrid{background:#1c1c28;border-color:#0047ab;}
-  aside .emojigrid button:hover{background:#2a3a66;}
+  aside nav a.cur::before{color:#1a6bff;}
+  aside .credit{color:#cfcfcf;}
+  aside .bgat{color:#888;}
+  aside .bgtoggle,aside .emojibtn,aside .logtoggle,aside .bgform button{
+    background:#000;color:#e8e8e8;border:1px solid #333;}
+  aside .bgform{background:#000;border:1px solid #333;}
+  aside .bgform h3,aside .bgform label{color:#e8e8e8;}
+  aside .bgform .note{color:#888;}
+  aside .bgform input{background:#0a0a0a;color:#fff;border:1px solid #333;}
+  aside .emojigrid{background:#000;border:1px solid #333;}
+  aside .emojigrid button:hover{background:#222;border-color:#444;}
+  aside .emojigrid button.sel{background:#1a6bff;}
+  aside .loglist{background:#000;border:1px solid #333;}
+  /* no blue active/focus outline anywhere */
+  input:focus,button:focus,a:focus,select:focus{outline:none;box-shadow:none;}
+
+  /* RGB + opacity color picker */
+  .cpick{margin-top:2px;}
+  .cprev{height:30px;border:1px solid #333;border-radius:3px;margin-bottom:6px;
+    background-image:linear-gradient(45deg,#555 25%,transparent 25%,transparent 75%,#555 75%),
+      linear-gradient(45deg,#555 25%,transparent 25%,transparent 75%,#555 75%);
+    background-size:12px 12px;background-position:0 0,6px 6px;}
+  .cprev i{display:block;height:100%;}
+  .crow{display:flex;align-items:center;gap:8px;margin:3px 0;}
+  .crow span{width:14px;font-size:11px;color:#aaa;}
+  .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#1a6bff;}
+  .crow b{width:34px;text-align:right;font-size:11px;color:#ccc;}
   .loglist .row{margin-bottom:9px;}
   .loglist .nm{font-weight:bold;}
   .loglist .act{color:#c7c7d6;}
@@ -146,7 +161,14 @@
             <label>Your name</label>
             <input type="text" id="who" placeholder="Visitor" required>
             <label>Pick a color</label>
-            <input type="color" id="color" value="#3f9c7a">
+            <div class="cpick">
+              <div class="cprev"><i id="cprev"></i></div>
+              <div class="crow"><span>R</span><input type="range" id="cr" min="0" max="255" value="63"><b id="crv">63</b></div>
+              <div class="crow"><span>G</span><input type="range" id="cg" min="0" max="255" value="156"><b id="cgv">156</b></div>
+              <div class="crow"><span>B</span><input type="range" id="cb" min="0" max="255" value="122"><b id="cbv">122</b></div>
+              <div class="crow"><span>A</span><input type="range" id="ca" min="0" max="100" value="100"><b id="cav">100</b></div>
+            </div>
+            <input type="hidden" id="color" value="#3f9c7a">
             <label>…or an emoji (tiles, optional)</label>
             <button type="button" class="emojibtn" id="emojibtn">Choose emoji ▾ <span id="emojisel"></span></button>
             <div class="emojigrid" id="emojigrid" hidden></div>
@@ -213,6 +235,24 @@
     document.getElementById('bgat').textContent = s.at ? fmt(s.at) : "";
   }
   fetch(API).then(r=>r.json()).then(applyBg).catch(()=>{});
+
+  // RGB + opacity picker
+  var cr=document.getElementById('cr'), cg=document.getElementById('cg'),
+      cb=document.getElementById('cb'), ca=document.getElementById('ca'),
+      colorInput=document.getElementById('color');
+  function h2(n){ n=Number(n); return (n<16?"0":"")+n.toString(16); }
+  function updColor(){
+    var r=+cr.value,g=+cg.value,b=+cb.value,a=+ca.value;
+    document.getElementById('crv').textContent=r;
+    document.getElementById('cgv').textContent=g;
+    document.getElementById('cbv').textContent=b;
+    document.getElementById('cav').textContent=a;
+    var hex="#"+h2(r)+h2(g)+h2(b)+(a<100?h2(Math.round(a*255/100)):"");
+    colorInput.value=hex;
+    document.getElementById('cprev').style.background="rgba("+r+","+g+","+b+","+(a/100)+")";
+  }
+  [cr,cg,cb,ca].forEach(function(s){ s.addEventListener('input',updColor); });
+  updColor();
 
   var form=document.getElementById('bgform'), toggle=document.getElementById('bgtoggle');
   toggle.addEventListener('click',function(){ form.hidden=!form.hidden;
