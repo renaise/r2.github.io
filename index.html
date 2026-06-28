@@ -66,7 +66,9 @@
   .emojigrid button.sel{background:#0047ab;}
 
   /* Live log (background changes) */
-  .loglist{height:240px;overflow-y:auto;background:#1c1c28;color:#e8e8f0;
+  .logwin{margin-top:16px;border:1px solid #0047ab;border-radius:6px;overflow:hidden;}
+  .logwin .titlebar{border-radius:0;}
+  .loglist{height:200px;overflow-y:auto;background:#1c1c28;color:#e8e8f0;
     padding:10px 12px;font-size:13px;line-height:1.5;
     font-family:Tahoma,Verdana,sans-serif;}
   .loglist.collapsed{display:none;}
@@ -137,13 +139,11 @@
             <div class="note">This is global. Whatever you set, every visitor sees.</div>
           </form>
         </div>
-      </div>
-    </div>
 
-    <div class="win" style="margin-top:24px;">
-      <div class="titlebar" id="logbar"><span>Live Log ▾</span><span class="x">✕</span></div>
-      <div class="body" style="padding:0;">
-        <div class="loglist" id="loglist">Loading…</div>
+        <div class="logwin">
+          <div class="titlebar" id="logbar"><span>Live Log ▾</span><span class="x">✕</span></div>
+          <div class="loglist" id="loglist">Loading…</div>
+        </div>
       </div>
     </div>
   </aside>
