@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Renaise</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚽</text></svg>">
 <style>
   *{box-sizing:border-box;}
   body{margin:0;
@@ -118,7 +119,10 @@
   .card a{font-size:20px;font-weight:bold;text-decoration:underline;}
   .cardsub{font-size:12px;color:#555;margin-top:4px;}
 
-  @media(max-width:760px){.layout{flex-direction:column;}aside{width:100%;flex:none;}
+  @media(max-width:760px){
+    .layout{flex-direction:column;align-items:stretch;}
+    aside{width:100%;flex:none;}
+    main{width:100%;max-width:none;flex:none;}
     .cards{grid-template-columns:1fr;}.congrats{font-size:24px;}}
 </style>
 </head>
