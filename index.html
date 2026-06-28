@@ -36,6 +36,7 @@
     background:linear-gradient(#5a5a5a,#222 50%,#000 51%,#1a1a1a);
     border:1px solid #000;border-radius:6px;text-shadow:1px 1px 1px #000;}
   .member:hover{filter:brightness(1.08);}
+  .memberlogo{display:block;width:30px;height:30px;margin:8px auto 0;border-radius:6px;}
 
   .credit{position:relative;font-size:12px;margin-top:14px;}
   .bgtoggle{margin-top:8px;width:100%;text-align:center;cursor:pointer;font-size:12px;
@@ -50,6 +51,19 @@
   .bgform button{margin-top:10px;padding:6px 12px;cursor:pointer;
     background:linear-gradient(#fdfdfd,#d8d4c0);border:1px solid #888;border-radius:4px;font-size:13px;}
   .bgform .note{font-size:11px;color:#555;margin-top:6px;}
+  .bgat{display:block;font-size:11px;color:#666;margin-top:2px;}
+
+  /* RPG live chat */
+  .chatlog{height:170px;overflow-y:auto;background:#0a0a2a;color:#fff;
+    border:2px solid #fff;border-radius:4px;padding:10px;font-size:13px;line-height:1.5;
+    font-family:"Courier New",monospace;box-shadow:inset 0 0 0 2px #0047ab;}
+  .chatlog .msg{margin-bottom:6px;}
+  .chatlog .nm{color:#ffe14d;font-weight:bold;}
+  .chatlog .tm{color:#7fa0ff;font-size:10px;}
+  .chatform{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+  .chatform input{padding:6px;border:1px solid #7f9db9;font-size:13px;}
+  .chatform button{padding:7px;cursor:pointer;font-weight:bold;
+    background:linear-gradient(#5a78d8,#1d5fd6);color:#fff;border:1px solid #0047ab;border-radius:4px;}
 
   /* main message window */
   main{flex:1;max-width:760px;}
@@ -90,9 +104,10 @@
           <a href="https://artificenyc.org" target="_blank" rel="noopener">The Artifact Index</a>
           <a href="mailto:krenaise@gmail.com">Contact</a>
         </nav>
-        <a class="member" href="https://www.zeffy.com/en-US/ticketing/membership-98" target="_blank" rel="noopener">Become a Member →</a>
+        <a class="member" href="https://www.zeffy.com/en-US/ticketing/membership-98" target="_blank" rel="noopener">Become a Member<img class="memberlogo" src="artifice-mark.png" alt="Artifice"></a>
         <div class="credit">
-          Background changed by: <b id="bgby">Renaise</b>
+          Background changed by: <b id="bgby">Renaise</b><br>
+          <span class="bgat" id="bgat"></span>
           <button class="bgtoggle" id="bgtoggle">Change background ▾</button>
           <form class="bgform" id="bgform" hidden>
             <h3>Change the background</h3>
@@ -100,12 +115,26 @@
             <input type="text" id="who" placeholder="Visitor" required>
             <label>Pick a color</label>
             <input type="color" id="color" value="#3f9c7a">
+            <label>…or an emoji (tiles, optional)</label>
+            <input type="text" id="emoji" placeholder="🚽 🌭 ⭐ …" maxlength="8">
             <label>…or paste an image URL (https, optional)</label>
             <input type="url" id="img" placeholder="https://…">
-            <button type="submit">Change it for everyone</button>
+            <button type="submit">Change</button>
             <div class="note">This is global. Whatever you set, every visitor sees.</div>
           </form>
         </div>
+      </div>
+    </div>
+
+    <div class="win" style="margin-top:24px;">
+      <div class="titlebar"><span>★ Tavern — live chat</span><span class="x">✕</span></div>
+      <div class="body">
+        <div class="chatlog" id="chatlog">Loading the party…</div>
+        <form class="chatform" id="chatform">
+          <input type="text" id="chatwho" placeholder="Hero name" maxlength="40">
+          <input type="text" id="chattext" placeholder="Say something…" maxlength="240" required>
+          <button type="submit">▶ Speak</button>
+        </form>
       </div>
     </div>
   </aside>
@@ -138,16 +167,25 @@
   var API = "https://renaise-bg.polished-flower-1ec2.workers.dev/";
   var CHECKER="linear-gradient(45deg,#c8c8c8 25%,transparent 25%,transparent 75%,#c8c8c8 75%),"+
     "linear-gradient(45deg,#c8c8c8 25%,transparent 25%,transparent 75%,#c8c8c8 75%)";
+  function fmt(at){ if(!at) return ""; try{ return new Date(at).toLocaleString(); }catch(e){ return ""; } }
+  function emojiBg(e){
+    var svg="<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'>"+
+      "<text x='32' y='44' font-size='34' text-anchor='middle'>"+e+"</text></svg>";
+    return "url(\"data:image/svg+xml,"+encodeURIComponent(svg)+"\")";
+  }
   function applyBg(s){
     var b=document.body.style;
-    if(s.img){ b.backgroundColor=""; b.backgroundImage="url('"+s.img+"')";
+    if(s.img){ b.backgroundColor="#fff"; b.backgroundImage="url('"+s.img+"')";
       b.backgroundSize="cover"; b.backgroundPosition="center"; }
+    else if(s.emoji){ b.backgroundColor="#fff"; b.backgroundImage=emojiBg(s.emoji);
+      b.backgroundSize="64px 64px"; b.backgroundPosition="0 0"; }
     else if(s.color){ b.backgroundColor=s.color;
       b.backgroundImage="repeating-linear-gradient(135deg,#ffffff14 0 2px,transparent 2px 22px)";
       b.backgroundSize="auto"; b.backgroundPosition="0 0"; }
     else { b.backgroundColor="#ffffff"; b.backgroundImage=CHECKER;
       b.backgroundSize="24px 24px"; b.backgroundPosition="0 0,12px 12px"; }
     document.getElementById('bgby').textContent = s.who || "Anonymous";
+    document.getElementById('bgat').textContent = s.at ? fmt(s.at) : "";
   }
   fetch(API).then(r=>r.json()).then(applyBg).catch(()=>{});
 
@@ -159,12 +197,40 @@
     e.preventDefault();
     var s={ who:document.getElementById('who').value.trim()||"Anonymous",
       color:document.getElementById('color').value,
+      emoji:document.getElementById('emoji').value.trim(),
       img:document.getElementById('img').value.trim() };
     var btn=this.querySelector('button[type=submit]'); btn.textContent="Saving…"; btn.disabled=true;
     fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)})
       .then(r=>r.json()).then(function(rec){ applyBg(rec); btn.textContent="Changed!"; })
       .catch(function(){ btn.textContent="Failed — try again"; })
-      .finally(function(){ btn.disabled=false; setTimeout(function(){btn.textContent="Change it for everyone";},2000); });
+      .finally(function(){ btn.disabled=false; setTimeout(function(){btn.textContent="Change";},2000); });
+  });
+
+  // ─── RPG live chat ───
+  var CHAT = API + "chat";
+  function esc(s){ return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function renderChat(list){
+    var log=document.getElementById('chatlog');
+    if(!list.length){ log.innerHTML="<div class='msg'>…the tavern is quiet. Be the first to speak.</div>"; return; }
+    log.innerHTML=list.map(function(m){
+      var t=""; try{ t=new Date(m.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }catch(e){}
+      return "<div class='msg'><span class='nm'>"+esc(m.who||"???")+":</span> "+esc(m.text)+
+        " <span class='tm'>"+t+"</span></div>";
+    }).join("");
+    log.scrollTop=log.scrollHeight;
+  }
+  function loadChat(){ fetch(CHAT+"?t="+Date.now()).then(r=>r.json()).then(renderChat).catch(function(){}); }
+  loadChat(); setInterval(loadChat, 8000);
+  document.getElementById('chatform').addEventListener('submit',function(e){
+    e.preventDefault();
+    var who=document.getElementById('chatwho').value.trim()||"Anonymous",
+        ti=document.getElementById('chattext'), text=ti.value.trim();
+    if(!text) return;
+    var btn=this.querySelector('button'); btn.disabled=true;
+    fetch(CHAT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({who:who,text:text})})
+      .then(r=>r.json()).then(function(list){ renderChat(list); ti.value=""; })
+      .catch(function(){})
+      .finally(function(){ btn.disabled=false; });
   });
 </script>
 </body>
