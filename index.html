@@ -3,169 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RENAISE KIM ~ an ongoing collaborative experiment</title>
+<title>Renaise Kim</title>
 <style>
-  body{
-    margin:0;
-    background-color:#f3e600;
-    background-image:
-      repeating-linear-gradient(45deg,#ff2ea6 0 14px,transparent 14px 28px),
-      repeating-linear-gradient(-45deg,#00c2ff33 0 14px,transparent 14px 28px);
-    font-family:Georgia,"Times New Roman",serif;
-    color:#111;
-    line-height:1.35;
-  }
+  *{box-sizing:border-box;}
+  body{margin:0;
+    background-color:#3f9c7a;
+    background-image:repeating-linear-gradient(135deg,#ffffff14 0 2px,transparent 2px 22px);
+    font-family:Helvetica,Arial,sans-serif;color:#000;font-size:15px;line-height:1.45;}
   a{color:#0000ee;}
-  a:visited{color:#551a8b;}
-  a:hover{background:#000;color:#f3e600;}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 8px;}
+  .layout{display:flex;align-items:flex-start;gap:24px;padding:24px 16px;max-width:1100px;margin:0 auto;}
 
-  /* masthead */
-  .banner{background:#000;color:#fff;text-align:center;padding:6px;
-    font-family:"Courier New",monospace;font-size:13px;letter-spacing:2px;
-    border-bottom:4px ridge #ff2ea6;}
-  .marquee{overflow:hidden;white-space:nowrap;}
-  .marquee span{display:inline-block;padding-left:100%;animation:scroll 18s linear infinite;}
-  @keyframes scroll{to{transform:translateX(-100%);}}
+  aside{width:200px;flex:0 0 200px;}
+  nav{background:#fff;padding:14px;}
+  nav a{display:block;text-decoration:none;color:#000;margin:5px 0;}
+  nav a.cur::before{content:"■ ";color:#e0532a;}
+  nav a:hover{text-decoration:underline;}
+  .credit{font-size:13px;margin-top:16px;background:#fff;padding:10px 14px;}
 
-  .title{background:#ffffff;border:6px double #000;margin:18px 0;padding:14px;text-align:center;}
-  .title h1{margin:0;font-family:"Brush Script MT","Comic Sans MS",cursive;
-    font-size:64px;color:#d6006e;text-shadow:3px 3px 0 #00c2ff;line-height:1;}
-  .title .sub{font-family:"Courier New",monospace;font-size:14px;margin-top:8px;
-    background:#f3e600;display:inline-block;padding:3px 8px;border:2px dotted #000;}
+  main{flex:1;max-width:800px;}
+  h1.title{display:inline;font-size:54px;font-weight:bold;line-height:1.05;
+    background:#f3e600;padding:2px 6px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+  .panel{background:#d8f3ff;padding:28px;margin-top:26px;}
+  .panel h2{font-size:28px;line-height:1.3;margin:0 0 16px;}
 
-  /* nav as a clutter of buttons */
-  .nav{text-align:center;margin:14px 0;}
-  .nav a{display:inline-block;background:#00c2ff;border:3px outset #fff;
-    padding:4px 10px;margin:3px;font-family:"Comic Sans MS",sans-serif;
-    font-weight:bold;text-decoration:none;color:#000;}
-  .nav a:nth-child(2){background:#ff2ea6;}
-  .nav a:nth-child(3){background:#7CFC00;}
-  .nav a:nth-child(4){background:#ff8a00;}
-  .nav a:hover{border-style:inset;}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;}
+  .card{background:linear-gradient(180deg,#fff,#f3e600);padding:24px;min-height:120px;}
+  .card a{font-size:26px;font-weight:bold;text-decoration:underline;}
 
-  /* about blurb */
-  .about{background:#fff;border:4px solid #000;padding:16px;margin:18px 0;
-    font-size:19px;}
-  .about b{background:#f3e600;}
-  .blink{animation:blink 1s steps(2) infinite;color:#d6006e;font-weight:bold;font-family:"Courier New",monospace;}
-  @keyframes blink{50%{opacity:0;}}
+  .bgform{background:#fff;padding:18px;margin-top:18px;}
+  .bgform h3{margin:0 0 10px;font-size:16px;}
+  .bgform label{display:block;font-size:12px;margin:8px 0 2px;}
+  .bgform input{width:100%;padding:6px;border:1px solid #000;font-size:14px;}
+  .bgform input[type=color]{height:36px;padding:2px;}
+  .bgform button{margin-top:12px;background:#000;color:#fff;border:0;padding:9px 16px;cursor:pointer;font-size:14px;}
+  .bgform .note{font-size:12px;color:#666;margin-top:8px;}
 
-  /* the spheres — a wiki table */
-  h2.sec{font-family:"Courier New",monospace;background:#000;color:#7CFC00;
-    padding:6px 10px;margin:24px 0 0;border:3px solid #d6006e;text-transform:uppercase;}
-  table.idx{width:100%;border-collapse:collapse;background:#fff;border:4px solid #000;}
-  table.idx td{border:2px solid #000;padding:12px;vertical-align:top;}
-  table.idx tr:nth-child(odd){background:#fff7c2;}
-  table.idx tr:nth-child(even){background:#d6f5ff;}
-  .ent{font-family:"Comic Sans MS",sans-serif;font-size:24px;font-weight:bold;color:#000;}
-  .ent a{color:#0000ee;}
-  .tag{font-family:"Courier New",monospace;font-size:11px;background:#000;color:#f3e600;
-    padding:1px 5px;}
-  .num{font-family:"Courier New",monospace;font-size:20px;font-weight:bold;color:#d6006e;}
-
-  /* featured artifact box */
-  .feat{background:#d6006e;color:#fff;border:6px ridge #00c2ff;padding:18px;margin:24px 0;}
-  .feat h3{margin:0 0 8px;font-family:"Brush Script MT",cursive;font-size:40px;
-    text-shadow:2px 2px 0 #000;}
-  .feat .tags span{display:inline-block;background:#000;color:#7CFC00;
-    font-family:"Courier New",monospace;font-size:11px;padding:2px 6px;margin:3px 2px;border:1px solid #fff;}
-
-  /* guestbook-style footer */
-  .colophon{background:#fff;border:4px dashed #000;padding:14px;margin:24px 0;
-    font-family:"Courier New",monospace;font-size:13px;}
-  .colophon a{display:inline-block;margin:2px 8px 2px 0;}
-  .hr{border:0;border-top:4px dotted #000;margin:18px 0;}
-  .counter{text-align:center;font-family:"Courier New",monospace;font-size:12px;
-    margin:10px 0 30px;}
-  .counter b{background:#000;color:#0f0;padding:2px 6px;letter-spacing:4px;}
+  @media(max-width:760px){.layout{flex-direction:column;}aside{width:100%;flex:none;}
+    .cards{grid-template-columns:1fr;}h1.title{font-size:38px;}}
 </style>
 </head>
 <body>
+<div class="layout">
+  <aside>
+    <nav>
+      <a href="#">Home</a>
+      <a class="cur" href="#">Work</a>
+      <a href="#">About</a>
+      <a href="#">The Artifact Index</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="credit">Background changed by: <b id="bgby">Renaise</b></div>
+  </aside>
 
-<div class="banner marquee"><span>★ AN ONGOING COLLABORATIVE EXPERIMENT ★ PROVENANCE &gt; REACH ★ LAST EDITED BY: RENAISE ★ THIS PAGE IS NEVER FINISHED ★ EST. NYC ★</span></div>
+  <main>
+    <h1 class="title">WORK</h1>
 
-<div class="wrap">
-
-  <div class="title">
-    <h1>Renaise Kim</h1>
-    <div class="sub">founder-operator &nbsp;//&nbsp; executive + creative director &nbsp;//&nbsp; reg. 001</div>
-  </div>
-
-  <div class="nav">
-    <a href="#idx">~ The Index ~</a>
-    <a href="#idx">Work!!!</a>
-    <a href="#feat">The Artifact Index</a>
-    <a href="#colophon">Contact &amp; Guestbook</a>
-  </div>
-
-  <div class="about">
-    <span class="blink">[ welcome ]</span> This is an ongoing experiment across a cultural-research
-    <b>nonprofit</b>, a design <b>studio</b>, and a <b>venture stack</b> — held together by one premise:
-    provenance is worth more than reach, and craft is the only durable moat. Pages get edited. Nothing here is final.
-  </div>
-
-  <h2 class="sec">>> The Index — Spheres of Work (04 entries)</h2>
-  <table class="idx">
-    <tr>
-      <td class="num">001</td>
-      <td class="ent"><a href="#">Artifice NYC</a><br><span class="tag">501(c)(3) · CULTURAL RESEARCH</span></td>
-      <td>A nonprofit building the Artifact Index — a free, public, citable archive of provenance-carrying
-        artifacts. Chapters, FWBFest, WHITEBOX / BLACKBOX.</td>
-    </tr>
-    <tr>
-      <td class="num">002</td>
-      <td class="ent"><a href="#">Studio Artifice</a><br><span class="tag">LLC · DESIGN STUDIO</span></td>
-      <td>The commercial practice and R&amp;D lab. Worldsites, retainers, and IRL work for clients who want
-        craft over template. The cash engine.</td>
-    </tr>
-    <tr>
-      <td class="num">003</td>
-      <td class="ent"><a href="#">Codex Foundry</a><br><span class="tag">HOLDCO · VENTURE</span></td>
-      <td>The umbrella for scalable product IP — where the studio's R&amp;D becomes shippable product.
-        The only equity-fundable vehicle in the stack.</td>
-    </tr>
-    <tr>
-      <td class="num">004</td>
-      <td class="ent"><a href="#">Lettuce Cap</a><br><span class="tag">GP VEHICLE · FUND</span></td>
-      <td>The diligence lens and angel-position vehicle. Pressure-tests theses through the Farming Play:
-        demand the harvest, inspect the soil.</td>
-    </tr>
-  </table>
-
-  <div class="feat" id="feat">
-    <h3>★ Featured Entry: The Artifact Index ★</h3>
-    <p style="font-size:17px;margin:8px 0;">A permanent, citable archive of artifacts that carry their own
-      provenance. Free to the public, built to outlast its institution. The clearest statement of the whole
-      practice: the record matters more than the reach.</p>
-    <div class="tags">
-      <span>PROVENANCE</span><span>OPEN ARCHIVE</span><span>WHITEBOX</span><span>BLACKBOX</span><span>CITABLE</span>
+    <div class="panel">
+      <h2>Renaise Kim works across a nonprofit, a design studio, and a venture stack.</h2>
+      <p>Provenance &gt; reach. Craft is the only durable moat.</p>
     </div>
-  </div>
 
-  <hr class="hr">
+    <div class="cards">
+      <div class="card"><a href="#">Artifice NYC</a></div>
+      <div class="card"><a href="#">Studio Artifice</a></div>
+      <div class="card"><a href="#">Codex Foundry</a></div>
+      <div class="card"><a href="#">Lettuce Cap</a></div>
+    </div>
 
-  <div class="colophon" id="colophon">
-    <b>// COLOPHON &amp; CONTACT //</b><br><br>
-    SPHERES:
-    <a href="#">Artifice NYC</a>
-    <a href="#">Studio Artifice</a>
-    <a href="#">Codex Foundry</a>
-    <a href="#">Lettuce Cap</a><br>
-    PRODUCTS:
-    <a href="#">The Artifact Index</a><br>
-    CONNECT:
-    <a href="#">Email</a>
-    <a href="#">Studio inquiries</a>
-    <a href="#">Press</a><br><br>
-    set in georgia, courier &amp; whatever was lying around. an ongoing experiment. updated continuously.
-    © renaise kim — all work, all spheres.
-  </div>
-
-  <div class="counter">
-    you are visitor #&nbsp;<b>00001337</b>&nbsp; ★ this page is never finished ★
-  </div>
-
+    <form class="bgform" id="bgform">
+      <h3>Change the background</h3>
+      <label>Your name</label>
+      <input type="text" id="who" placeholder="Visitor" required>
+      <label>Pick a color</label>
+      <input type="color" id="color" value="#3f9c7a">
+      <label>…or paste an image URL (https, optional)</label>
+      <input type="url" id="img" placeholder="https://…">
+      <button type="submit">Change it for everyone</button>
+      <div class="note">This is global. Whatever you set, every visitor sees.</div>
+    </form>
+  </main>
 </div>
+
+<script>
+  var API = "https://renaise-bg.polished-flower-1ec2.workers.dev/";
+  function applyBg(s){
+    if(s.img){ document.body.style.backgroundImage="url('"+s.img+"')";
+      document.body.style.backgroundSize="cover"; }
+    else { document.body.style.backgroundColor=s.color;
+      document.body.style.backgroundImage="repeating-linear-gradient(135deg,#ffffff14 0 2px,transparent 2px 22px)"; }
+    document.getElementById('bgby').textContent = s.who || "Anonymous";
+  }
+  fetch(API).then(r=>r.json()).then(applyBg).catch(()=>{});
+  document.getElementById('bgform').addEventListener('submit',function(e){
+    e.preventDefault();
+    var s={ who:document.getElementById('who').value.trim()||"Anonymous",
+      color:document.getElementById('color').value,
+      img:document.getElementById('img').value.trim() };
+    var btn=this.querySelector('button'); btn.textContent="Saving…"; btn.disabled=true;
+    fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)})
+      .then(r=>r.json()).then(function(rec){ applyBg(rec); btn.textContent="Changed!"; })
+      .catch(function(){ btn.textContent="Failed — try again"; })
+      .finally(function(){ btn.disabled=false; setTimeout(function(){btn.textContent="Change it for everyone";},2000); });
+  });
+</script>
 </body>
 </html>
