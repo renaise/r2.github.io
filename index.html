@@ -65,13 +65,13 @@
   .emojigrid button:hover{background:#dbe7ff;border-color:#0047ab;}
   .emojigrid button.sel{background:#0047ab;}
 
-  /* Live log (background changes) */
-  .logwin{margin-top:16px;border:1px solid #0047ab;border-radius:6px;overflow:hidden;}
-  .logwin .titlebar{border-radius:0;}
-  .loglist{height:200px;overflow-y:auto;background:#1c1c28;color:#e8e8f0;
-    padding:10px 12px;font-size:13px;line-height:1.5;
+  /* Live log (background changes) — submodal */
+  .logtoggle{width:100%;text-align:left;cursor:pointer;font-size:12px;margin-top:12px;padding:6px 8px;
+    background:linear-gradient(#fdfdfd,#d8d4c0);border:1px solid #888;border-radius:4px;}
+  .loglist{height:170px;overflow-y:auto;background:#1c1c28;color:#e8e8f0;margin-top:6px;
+    border:1px solid #0047ab;border-radius:4px;padding:10px 12px;font-size:13px;line-height:1.5;
     font-family:Tahoma,Verdana,sans-serif;}
-  .loglist.collapsed{display:none;}
+  .loglist[hidden]{display:none;}
   .loglist .row{margin-bottom:9px;}
   .loglist .nm{font-weight:bold;}
   .loglist .act{color:#c7c7d6;}
@@ -137,12 +137,10 @@
             <input type="url" id="img" placeholder="https://…">
             <button type="submit">Change</button>
             <div class="note">This is global. Whatever you set, every visitor sees.</div>
-          </form>
-        </div>
 
-        <div class="logwin">
-          <div class="titlebar" id="logbar"><span>Live Log ▾</span><span class="x">✕</span></div>
-          <div class="loglist" id="loglist">Loading…</div>
+            <button type="button" class="logtoggle" id="logtoggle">Live log ▾</button>
+            <div class="loglist" id="loglist" hidden>Loading…</div>
+          </form>
         </div>
       </div>
     </div>
@@ -253,12 +251,10 @@
   function loadLog(){ fetch(LOG+"?t="+Date.now()).then(r=>r.json()).then(renderLog).catch(function(){}); }
   loadLog(); setInterval(loadLog, 8000);
 
-  // collapsible header
-  document.getElementById('logbar').addEventListener('click',function(e){
-    if(e.target.classList.contains('x')) return;
-    var el=document.getElementById('loglist'); el.classList.toggle('collapsed');
-    this.querySelector('span').textContent = el.classList.contains('collapsed') ? "Live Log ▸" : "Live Log ▾";
-  });
+  // live-log submodal toggle
+  var logtoggle=document.getElementById('logtoggle'), loglistEl=document.getElementById('loglist');
+  logtoggle.addEventListener('click',function(){ loglistEl.hidden=!loglistEl.hidden;
+    logtoggle.textContent=(loglistEl.hidden?"Live log ▾":"Live log ▴"); });
 </script>
 </body>
 </html>
