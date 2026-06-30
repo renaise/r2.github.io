@@ -95,10 +95,14 @@
   aside .emojigrid{background:#0a0a0a;border:1px solid #222;}
   aside .emojigrid button:hover{background:#1c1c1c;border-color:#333;}
   aside .emojigrid button.sel{background:#46c41f;}
-  /* either/or groups */
-  .grp.inactive{opacity:.4;filter:grayscale(.5);}
-  .grpdiv{text-align:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-    color:#6a6a6a;margin:16px 0 4px;}
+  /* either/or tabs */
+  .tabs{display:flex;gap:0;margin:14px 0 12px;border:1px solid #2a2a2a;border-radius:8px;
+    overflow:hidden;background:#0d0d0d;}
+  .tab{flex:1;padding:9px 0;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;background:transparent;border:0;color:#8a8a8a;}
+  .tab.active{background:#1f1f1f;color:#fff;}
+  .tabpane[hidden]{display:none;}
+  .tabpane>label:first-child{margin-top:0;}
   aside .loglist{background:#000;border:1px solid #333;}
   /* no blue active/focus outline anywhere */
   input:focus,button:focus,a:focus,select:focus{box-shadow:none;}
@@ -119,6 +123,14 @@
   .crow{display:flex;align-items:center;gap:8px;margin:3px 0;}
   .crow span{width:14px;font-size:11px;color:#aaa;}
   .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#46c41f;}
+  /* graduated alpha track */
+  #ca{-webkit-appearance:none;appearance:none;height:14px;border-radius:7px;border:1px solid #2a2a2a;
+    accent-color:auto;cursor:pointer;
+    background:repeating-linear-gradient(45deg,#3a3a3a 0 5px,#555 5px 10px);}
+  #ca::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
+  #ca::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
+  #ca::-moz-range-track{background:transparent;}
   .crow b{width:34px;text-align:right;font-size:11px;color:#ccc;}
   .cphexrow{display:flex;align-items:center;gap:8px;margin-top:8px;}
   .cprev{display:inline-block;width:40px;height:34px;border:1px solid #2a2a2a;border-radius:6px;flex:none;overflow:hidden;
@@ -151,7 +163,7 @@
 
   .subwin{margin-top:24px;}
   .shout{color:#4f86ff;}
-  .intro{font-size:14px;line-height:1;margin:0 0 6px;color:#9a9aa8;width:100%;}
+  .intro{font-size:14px;line-height:1.1;margin:0 0 6px;color:#9a9aa8;width:100%;}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
   .card{background:#202020;border:1px solid #2e2e2e;border-radius:10px;padding:18px;}
   .card a{font-size:20px;font-weight:bold;text-decoration:underline;color:#4f86ff;}
@@ -186,7 +198,11 @@
             <h3>Change the background</h3>
             <label>Your name</label>
             <input type="text" id="who" placeholder="Visitor" required>
-            <div class="grp" id="grpColor">
+            <div class="tabs" role="tablist">
+              <button type="button" class="tab active" id="tabColor" data-pane="paneColor" role="tab">Color</button>
+              <button type="button" class="tab" id="tabImage" data-pane="paneImage" role="tab">Image</button>
+            </div>
+            <div class="tabpane" id="paneColor" role="tabpanel">
               <label>Pick a color</label>
               <div class="cpick">
                 <div class="cpsquare" id="cpsquare" role="application" aria-label="Saturation and brightness picker"><div class="cphandle" id="cphandle"></div></div>
@@ -200,8 +216,7 @@
               <div class="emojigrid" id="emojigrid" hidden></div>
               <input type="hidden" id="emoji">
             </div>
-            <div class="grpdiv">— or —</div>
-            <div class="grp" id="grpImage">
+            <div class="tabpane" id="paneImage" role="tabpanel" hidden>
               <label>Upload an image</label>
               <label class="filebtn" for="imgfile"><span id="filelabel">Choose a photo</span></label>
               <input type="file" id="imgfile" accept="image/*" hidden>
@@ -295,7 +310,11 @@
     var hex="#"+h2(rgb[0])+h2(rgb[1])+h2(rgb[2]);
     hexBox.value=hex.toUpperCase();
     colorInput.value=hex+(a<100?h2(a*255/100):"");
-    document.getElementById('cprev').style.background="rgba("+Math.round(rgb[0])+","+Math.round(rgb[1])+","+Math.round(rgb[2])+","+(a/100)+")";
+    var rr=Math.round(rgb[0]),gg=Math.round(rgb[1]),bb=Math.round(rgb[2]);
+    document.getElementById('cprev').style.background="rgba("+rr+","+gg+","+bb+","+(a/100)+")";
+    // graduated alpha track: transparent -> opaque of current color, over checker stripes
+    ca.style.backgroundImage="linear-gradient(to right,rgba("+rr+","+gg+","+bb+",0),rgba("+rr+","+gg+","+bb+",1)),"+
+      "repeating-linear-gradient(45deg,#3a3a3a 0 5px,#555 5px 10px)";
   }
   function pickAt(e){
     var r=sq.getBoundingClientRect(), x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,
@@ -321,10 +340,13 @@
 
   document.getElementById('bgform').addEventListener('submit',function(e){
     e.preventDefault();
-    var s={ who:document.getElementById('who').value.trim()||"Anonymous",
-      color:document.getElementById('color').value,
-      emoji:document.getElementById('emoji').value.trim(),
-      img:document.getElementById('img').value.trim() };
+    var who=document.getElementById('who').value.trim()||"Anonymous", s;
+    if(activeTab==="image"){
+      s={ who:who, img:document.getElementById('img').value.trim(), color:"", emoji:"" };
+    } else {
+      s={ who:who, color:document.getElementById('color').value,
+        emoji:document.getElementById('emoji').value.trim(), img:"" };
+    }
     var btn=this.querySelector('button[type=submit]'); btn.textContent="Saving…"; btn.disabled=true;
     fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)})
       .then(r=>r.json()).then(function(rec){ applyBg(rec); loadLog(); btn.textContent="Changed!"; })
@@ -367,7 +389,6 @@
         var data=cv.toDataURL('image/jpeg',0.78);
         imgHidden.value=data;
         fileLabel.textContent="✓ "+(f.name.length>22?f.name.slice(0,20)+"…":f.name);
-        useImage();
       };
       im.onerror=function(){ fileLabel.textContent="Couldn't read that image"; };
       im.src=ev.target.result;
@@ -375,15 +396,17 @@
     reader.readAsDataURL(f);
   });
 
-  // ─── either / or : color/emoji XOR uploaded image ───
-  var grpColor=document.getElementById('grpColor'), grpImage=document.getElementById('grpImage');
-  function useColor(){ imgHidden.value=""; fileLabel.textContent="Choose a photo";
-    grpColor.classList.remove('inactive'); grpImage.classList.add('inactive'); }
-  function useImage(){ emojiInput.value=""; emojiSel.textContent="";
-    [].forEach.call(grid.querySelectorAll('button'),function(b){b.classList.remove('sel');});
-    grpImage.classList.remove('inactive'); grpColor.classList.add('inactive'); }
-  grpColor.addEventListener('pointerdown',useColor);
-  grpColor.addEventListener('input',useColor);
+  // ─── either / or tabs: Color XOR Image ───
+  var activeTab="color";
+  var tabColor=document.getElementById('tabColor'), tabImage=document.getElementById('tabImage'),
+      paneColor=document.getElementById('paneColor'), paneImage=document.getElementById('paneImage');
+  function setTab(t){
+    activeTab=t;
+    tabColor.classList.toggle('active',t==="color"); tabImage.classList.toggle('active',t==="image");
+    paneColor.hidden=(t!=="color"); paneImage.hidden=(t!=="image");
+  }
+  tabColor.addEventListener('click',function(){ setTab("color"); });
+  tabImage.addEventListener('click',function(){ setTab("image"); });
 
   // ─── background-change log ───
   var LOG = API + "log";
