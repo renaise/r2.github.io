@@ -9,13 +9,13 @@
   *{box-sizing:border-box;}
   body{margin:0;
     background-color:#0e0e0e;background-image:none;
-    font-family:"Helvetica Now Display","Helvetica Neue",Helvetica,Arial,sans-serif;color:#0058ee;font-size:14px;}
-  a{color:#1a6bff;}
+    font-family:"Helvetica Now Display","Helvetica Neue",Helvetica,Arial,sans-serif;color:#4f86ff;font-size:14px;}
+  a{color:#4f86ff;}
   .layout{display:flex;align-items:flex-start;gap:24px;padding:24px;max-width:1100px;margin:0;min-height:100vh;}
 
   /* XP window chrome */
   .win{background:#26262e;border:1px solid #0a0a14;border-radius:8px 8px 0 0;
-    box-shadow:4px 4px 0 #00000040;overflow:hidden;}
+    overflow:hidden;}
   .titlebar{background:linear-gradient(#0058ee,#3f8cf3 8%,#2a72e8 40%,#1d5fd6 88%,#1750c4);
     color:#fff;font-weight:bold;font-size:14px;padding:5px 8px;
     text-shadow:1px 1px 1px #003;display:flex;justify-content:space-between;align-items:center;}
@@ -41,13 +41,16 @@
   .bgform{margin-top:8px;width:100%;
     background:#fff;border:1px solid #888;border-radius:6px;padding:14px;}
   .bgform[hidden]{display:none;}
-  .bgform h3{margin:0 0 8px;font-size:14px;}
-  .bgform label{display:block;font-size:11px;margin:7px 0 2px;}
-  .bgform input{width:100%;padding:5px;border:1px solid #7f9db9;font-size:13px;}
-  .bgform input[type=color]{height:32px;padding:2px;}
-  .bgform button{margin-top:10px;padding:6px 12px;cursor:pointer;
-    background:linear-gradient(#fdfdfd,#d8d4c0);border:1px solid #888;border-radius:4px;font-size:13px;}
-  .bgform .note{font-size:11px;color:#555;margin-top:6px;}
+  .bgform h3{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:-.01em;}
+  .bgform label{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+    font-weight:600;margin:14px 0 5px;}
+  .bgform input{width:100%;padding:9px 10px;border:1px solid #2a2a2a;border-radius:7px;font-size:13px;}
+  .bgform button{margin-top:14px;padding:10px 12px;cursor:pointer;border-radius:7px;font-size:13px;
+    border:1px solid #2a2a2a;background:#161616;}
+  .bgform .note{font-size:11px;color:#7a7a7a;margin-top:8px;line-height:1.4;}
+  .filebtn{display:block;text-align:center;cursor:pointer;font-size:13px;padding:10px;
+    border:1px dashed #3a3a3a;border-radius:7px;color:#cfcfcf;background:#0d0d0d;}
+  .filebtn:hover{border-color:#555;}
   .bgat{display:block;font-size:11px;color:#666;margin-top:2px;}
 
   /* emoji picker */
@@ -72,46 +75,53 @@
 
   /* ── dark mode: Navigation modal (black) ── */
   aside .win{background:#000;border-color:#222;}
-  aside .body{color:#1a6bff;}
-  aside nav a{color:#1a6bff;}
-  aside nav a.cur::before{color:#1a6bff;}
+  aside .body{color:#4f86ff;}
+  aside nav a{color:#4f86ff;}
+  aside nav a.cur::before{color:#4f86ff;}
   aside .credit{color:#cfcfcf;}
   aside .bgat{color:#888;}
   aside .bgtoggle,aside .emojibtn,aside .logtoggle,aside .bgform button{
-    background:#000;color:#e8e8e8;border:1px solid #333;}
-  aside .bgform{background:#000;border:1px solid #333;}
-  aside .bgform button[type=submit]{background:#1a6bff;color:#fff;border:1px solid #1a6bff;font-weight:bold;}
-  aside .bgform h3,aside .bgform label{color:#e8e8e8;}
-  aside .bgform .note{color:#888;}
-  aside .bgform input{background:#0a0a0a;color:#fff;border:1px solid #333;}
-  aside .emojigrid{background:#000;border:1px solid #333;}
-  aside .emojigrid button:hover{background:#222;border-color:#444;}
+    background:#161616;color:#e8e8e8;border:1px solid #2a2a2a;border-radius:7px;}
+  aside .bgform{background:#0a0a0a;border:1px solid #222;border-radius:10px;}
+  aside .bgform button[type=submit]{margin-top:16px;font-weight:bold;color:#fff;border:1px solid #1d6e0b;
+    text-shadow:1px 1px 1px #0d4a06;
+    background:linear-gradient(#4caf2e,#268a10 50%,#1d6e0b 51%,#2f8f1a);}
+  aside .bgform button[type=submit]:hover{filter:brightness(1.08);}
+  aside .bgform h3{color:#f2f2f2;}
+  aside .bgform label{color:#8a8a8a;}
+  aside .bgform .note{color:#7a7a7a;}
+  aside .bgform input{background:#0d0d0d;color:#fff;border:1px solid #2a2a2a;}
+  aside .emojigrid{background:#0a0a0a;border:1px solid #222;}
+  aside .emojigrid button:hover{background:#1c1c1c;border-color:#333;}
   aside .emojigrid button.sel{background:#1a6bff;}
   aside .loglist{background:#000;border:1px solid #333;}
   /* no blue active/focus outline anywhere */
-  input:focus,button:focus,a:focus,select:focus{outline:none;box-shadow:none;}
+  input:focus,button:focus,a:focus,select:focus{box-shadow:none;}
+  :focus:not(:focus-visible){outline:none;}
+  :focus-visible{outline:2px solid #4f86ff;outline-offset:2px;}
 
   /* freeform color picker */
   .cpick{margin-top:2px;}
-  .cpsquare{position:relative;height:120px;border:1px solid #333;border-radius:4px;
-    cursor:crosshair;touch-action:none;margin-bottom:8px;}
-  .cphandle{position:absolute;width:12px;height:12px;border:2px solid #fff;border-radius:50%;
-    box-shadow:0 0 0 1px rgba(0,0,0,.5);transform:translate(-50%,-50%);pointer-events:none;}
-  .cphue{-webkit-appearance:none;appearance:none;width:100%;height:14px;border-radius:7px;margin:0 0 4px;
+  .cpsquare{position:relative;height:150px;border:1px solid #2a2a2a;border-radius:8px;
+    cursor:crosshair;touch-action:none;margin-bottom:10px;}
+  .cphandle{position:absolute;width:14px;height:14px;border:2px solid #fff;border-radius:50%;
+    outline:1px solid rgba(0,0,0,.55);transform:translate(-50%,-50%);pointer-events:none;}
+  .cphue{-webkit-appearance:none;appearance:none;width:100%;height:12px;border-radius:6px;margin:0 0 8px;
     background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);}
-  .cphue::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;
-    background:#fff;border:1px solid #333;cursor:pointer;}
+  .cphue::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
+  .cphue::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
   .crow{display:flex;align-items:center;gap:8px;margin:3px 0;}
   .crow span{width:14px;font-size:11px;color:#aaa;}
-  .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#1a6bff;}
+  .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#4f86ff;}
   .crow b{width:34px;text-align:right;font-size:11px;color:#ccc;}
-  .cphexrow{display:flex;align-items:center;gap:8px;margin-top:6px;}
-  .cprev{width:34px;height:28px;border:1px solid #333;border-radius:3px;flex:none;overflow:hidden;
-    background-image:linear-gradient(45deg,#555 25%,transparent 25%,transparent 75%,#555 75%),
-      linear-gradient(45deg,#555 25%,transparent 25%,transparent 75%,#555 75%);
+  .cphexrow{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .cprev{display:inline-block;width:40px;height:34px;border:1px solid #2a2a2a;border-radius:6px;flex:none;overflow:hidden;
+    background-image:linear-gradient(45deg,#444 25%,transparent 25%,transparent 75%,#444 75%),
+      linear-gradient(45deg,#444 25%,transparent 25%,transparent 75%,#444 75%);
     background-size:12px 12px;background-position:0 0,6px 6px;}
   .cprev i{display:block;height:100%;}
-  #cphex{flex:1;text-transform:uppercase;}
+  #cphex{flex:1;text-transform:uppercase;font-family:"SF Mono",ui-monospace,Menlo,monospace;letter-spacing:.04em;}
   .loglist .row{margin-bottom:9px;}
   .loglist .nm{font-weight:bold;}
   .loglist .act{color:#c7c7d6;}
@@ -129,17 +139,17 @@
   .shout small{font-size:14px;}
   .clickhere{display:block;width:240px;margin:22px auto 4px;text-decoration:none;text-align:center;
     color:#fff;font-size:22px;font-weight:bold;padding:12px;
-    background:linear-gradient(#8ef06a,#46c41f 50%,#37a814 51%,#5fd62e);
+    background:linear-gradient(#4caf2e,#268a10 50%,#1d6e0b 51%,#2f8f1a);
     border:1px solid #2c7a0c;border-radius:6px;text-shadow:1px 1px 1px #1c5a08;}
   .clickhere u{}
   .clickhere:hover{filter:brightness(1.08);}
 
   .subwin{margin-top:24px;}
-  .shout{color:#1a6bff;}
-  .intro{font-size:18px;line-height:1.4;margin:0 0 4px;color:#1a6bff;}
+  .shout{color:#4f86ff;}
+  .intro{font-size:18px;line-height:1.4;margin:0 0 4px;color:#4f86ff;}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
   .card{background:#1f1f27;border:1px solid #3a3a45;border-radius:4px;padding:18px;}
-  .card a{font-size:20px;font-weight:bold;text-decoration:underline;color:#1a6bff;}
+  .card a{font-size:20px;font-weight:bold;text-decoration:underline;color:#4f86ff;}
   .cardsub{font-size:12px;color:#9a9aa8;margin-top:4px;}
 
   @media(max-width:760px){
@@ -173,18 +183,20 @@
             <input type="text" id="who" placeholder="Visitor" required>
             <label>Pick a color</label>
             <div class="cpick">
-              <div class="cpsquare" id="cpsquare"><div class="cphandle" id="cphandle"></div></div>
-              <input type="range" class="cphue" id="cphue" min="0" max="360" value="150">
-              <div class="crow"><span>A</span><input type="range" id="ca" min="0" max="100" value="100"><b id="cav">100</b></div>
-              <div class="cphexrow"><span class="cprev"><i id="cprev"></i></span><input type="text" id="cphex" value="#3F9C7A" spellcheck="false"></div>
+              <div class="cpsquare" id="cpsquare" role="application" aria-label="Saturation and brightness picker"><div class="cphandle" id="cphandle"></div></div>
+              <input type="range" class="cphue" id="cphue" min="0" max="360" value="150" aria-label="Hue">
+              <div class="crow"><span aria-hidden="true">A</span><input type="range" id="ca" min="0" max="100" value="100" aria-label="Opacity"><b id="cav">100</b></div>
+              <div class="cphexrow"><span class="cprev"><i id="cprev"></i></span><input type="text" id="cphex" value="#3F9C7A" spellcheck="false" aria-label="Hex color value"></div>
             </div>
             <input type="hidden" id="color" value="#3f9c7a">
             <label>…or an emoji (tiles, optional)</label>
             <button type="button" class="emojibtn" id="emojibtn">Choose emoji ▾ <span id="emojisel"></span></button>
             <div class="emojigrid" id="emojigrid" hidden></div>
             <input type="hidden" id="emoji">
-            <label>…or paste an image URL (https, optional)</label>
-            <input type="url" id="img" placeholder="https://…">
+            <label>…or upload an image (optional)</label>
+            <label class="filebtn" for="imgfile"><span id="filelabel">Choose a photo</span></label>
+            <input type="file" id="imgfile" accept="image/*" hidden>
+            <input type="hidden" id="img">
             <button type="submit">Change</button>
             <div class="note">This is global. Whatever you set, every visitor sees.</div>
 
@@ -322,6 +334,30 @@
     grid.appendChild(b);
   });
   emojiBtn.addEventListener('click',function(){ grid.hidden=!grid.hidden; });
+
+  // image upload (local drive / photo gallery) -> downscaled data URL
+  var imgFile=document.getElementById('imgfile'), imgHidden=document.getElementById('img'),
+      fileLabel=document.getElementById('filelabel');
+  imgFile.addEventListener('change',function(){
+    var f=imgFile.files&&imgFile.files[0]; if(!f) return;
+    fileLabel.textContent="Processing…";
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var im=new Image();
+      im.onload=function(){
+        var max=1280, w=im.width, h=im.height;
+        if(w>max||h>max){ var s=Math.min(max/w,max/h); w=Math.round(w*s); h=Math.round(h*s); }
+        var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+        cv.getContext('2d').drawImage(im,0,0,w,h);
+        var data=cv.toDataURL('image/jpeg',0.78);
+        imgHidden.value=data;
+        fileLabel.textContent="✓ "+(f.name.length>22?f.name.slice(0,20)+"…":f.name);
+      };
+      im.onerror=function(){ fileLabel.textContent="Couldn't read that image"; };
+      im.src=ev.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
 
   // ─── background-change log ───
   var LOG = API + "log";
