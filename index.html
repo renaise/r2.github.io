@@ -63,7 +63,7 @@
   .emojigrid button{font-size:20px;line-height:1;padding:5px 0;cursor:pointer;
     background:none;border:1px solid transparent;border-radius:4px;}
   .emojigrid button:hover{background:#dbe7ff;border-color:#0047ab;}
-  .emojigrid button.sel{background:#0047ab;}
+  .emojigrid button.sel{background:#46c41f;}
 
   /* Live log (background changes) — submodal */
   .logtoggle{width:100%;text-align:left;cursor:pointer;font-size:12px;margin-top:12px;padding:6px 8px;
@@ -93,12 +93,16 @@
   aside .bgform input{background:#0d0d0d;color:#fff;border:1px solid #2a2a2a;}
   aside .emojigrid{background:#0a0a0a;border:1px solid #222;}
   aside .emojigrid button:hover{background:#1c1c1c;border-color:#333;}
-  aside .emojigrid button.sel{background:#1a6bff;}
+  aside .emojigrid button.sel{background:#46c41f;}
+  /* either/or groups */
+  .grp.inactive{opacity:.4;filter:grayscale(.5);}
+  .grpdiv{text-align:center;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:#6a6a6a;margin:16px 0 4px;}
   aside .loglist{background:#000;border:1px solid #333;}
   /* no blue active/focus outline anywhere */
   input:focus,button:focus,a:focus,select:focus{box-shadow:none;}
   :focus:not(:focus-visible){outline:none;}
-  :focus-visible{outline:2px solid #4f86ff;outline-offset:2px;}
+  :focus-visible{outline:2px solid #46c41f;outline-offset:2px;}
 
   /* freeform color picker */
   .cpick{margin-top:2px;}
@@ -113,7 +117,7 @@
   .cphue::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
   .crow{display:flex;align-items:center;gap:8px;margin:3px 0;}
   .crow span{width:14px;font-size:11px;color:#aaa;}
-  .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#4f86ff;}
+  .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#46c41f;}
   .crow b{width:34px;text-align:right;font-size:11px;color:#ccc;}
   .cphexrow{display:flex;align-items:center;gap:8px;margin-top:8px;}
   .cprev{display:inline-block;width:40px;height:34px;border:1px solid #2a2a2a;border-radius:6px;flex:none;overflow:hidden;
@@ -146,7 +150,7 @@
 
   .subwin{margin-top:24px;}
   .shout{color:#4f86ff;}
-  .intro{font-size:18px;line-height:1.4;margin:0 0 4px;color:#4f86ff;}
+  .intro{font-size:14px;line-height:1.6;margin:0 0 6px;color:#9a9aa8;max-width:64ch;}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
   .card{background:#202020;border:1px solid #2e2e2e;border-radius:10px;padding:18px;}
   .card a{font-size:20px;font-weight:bold;text-decoration:underline;color:#4f86ff;}
@@ -167,8 +171,8 @@
       <div class="titlebar"><span>Navigation</span><span class="x">✕</span></div>
       <div class="body">
         <nav>
-          <a href="https://renaise.github.io/r2.github.io/">Home</a>
-          <a class="cur" href="https://studioartifice.com" target="_blank" rel="noopener">Work</a>
+          <a class="cur" href="https://renaise.github.io/r2.github.io/">Home</a>
+          <a href="https://studioartifice.com" target="_blank" rel="noopener">Work</a>
           <a href="https://artificenyc.org" target="_blank" rel="noopener">The Artifact Index</a>
           <a href="mailto:krenaise@gmail.com">Contact</a>
         </nav>
@@ -181,22 +185,27 @@
             <h3>Change the background</h3>
             <label>Your name</label>
             <input type="text" id="who" placeholder="Visitor" required>
-            <label>Pick a color</label>
-            <div class="cpick">
-              <div class="cpsquare" id="cpsquare" role="application" aria-label="Saturation and brightness picker"><div class="cphandle" id="cphandle"></div></div>
-              <input type="range" class="cphue" id="cphue" min="0" max="360" value="150" aria-label="Hue">
-              <div class="crow"><span aria-hidden="true">A</span><input type="range" id="ca" min="0" max="100" value="100" aria-label="Opacity"><b id="cav">100</b></div>
-              <div class="cphexrow"><span class="cprev"><i id="cprev"></i></span><input type="text" id="cphex" value="#3F9C7A" spellcheck="false" aria-label="Hex color value"></div>
+            <div class="grp" id="grpColor">
+              <label>Pick a color</label>
+              <div class="cpick">
+                <div class="cpsquare" id="cpsquare" role="application" aria-label="Saturation and brightness picker"><div class="cphandle" id="cphandle"></div></div>
+                <input type="range" class="cphue" id="cphue" min="0" max="360" value="150" aria-label="Hue">
+                <div class="crow"><span aria-hidden="true">A</span><input type="range" id="ca" min="0" max="100" value="100" aria-label="Opacity"><b id="cav">100%</b></div>
+                <div class="cphexrow"><span class="cprev"><i id="cprev"></i></span><input type="text" id="cphex" value="#3F9C7A" spellcheck="false" aria-label="Hex color value"></div>
+              </div>
+              <input type="hidden" id="color" value="#3f9c7a">
+              <label>…or an emoji (tiles)</label>
+              <button type="button" class="emojibtn" id="emojibtn">Choose emoji ▾ <span id="emojisel"></span></button>
+              <div class="emojigrid" id="emojigrid" hidden></div>
+              <input type="hidden" id="emoji">
             </div>
-            <input type="hidden" id="color" value="#3f9c7a">
-            <label>…or an emoji (tiles, optional)</label>
-            <button type="button" class="emojibtn" id="emojibtn">Choose emoji ▾ <span id="emojisel"></span></button>
-            <div class="emojigrid" id="emojigrid" hidden></div>
-            <input type="hidden" id="emoji">
-            <label>…or upload an image (optional)</label>
-            <label class="filebtn" for="imgfile"><span id="filelabel">Choose a photo</span></label>
-            <input type="file" id="imgfile" accept="image/*" hidden>
-            <input type="hidden" id="img">
+            <div class="grpdiv">— or —</div>
+            <div class="grp" id="grpImage">
+              <label>Upload an image</label>
+              <label class="filebtn" for="imgfile"><span id="filelabel">Choose a photo</span></label>
+              <input type="file" id="imgfile" accept="image/*" hidden>
+              <input type="hidden" id="img">
+            </div>
             <button type="submit">Change</button>
             <div class="note">This is global. Whatever you set, every visitor sees.</div>
 
@@ -218,7 +227,7 @@
         <a class="clickhere" href="https://www.zeffy.com/en-US/ticketing/membership-98" target="_blank" rel="noopener"><u>Click here</u></a>
 
         <div class="subwin">
-          <p class="intro">Renaise is a creative director working across culture + venture. Her practice is focused on web-to-world prototyping and applying science + fiction as a proxy for prototyping. Currently working on the Artifact Index; a structured, relational, multimodal dataset that captures the curator's discovery-to-documentation process. After hours, she is on the pursuit to plumbership.</p>
+          <p class="intro">Renaise is a creative director working across culture + venture. Her practice is focused on web-to-world applications via science + fiction (proxy for prototyping). Currently working on the Artifact Index; a structured, relational, multimodal dataset that captures the curator's discovery-to-documentation process. After hours, she is on the pursuit to plumbership.</p>
           <div class="cards">
             <div class="card"><a href="https://artificenyc.org" target="_blank" rel="noopener">Artifice NYC</a><div class="cardsub">Cultural-research nonprofit</div></div>
             <div class="card"><a href="https://studioartifice.com" target="_blank" rel="noopener">Studio Artifice</a><div class="cardsub">Commercial design studio</div></div>
@@ -242,14 +251,19 @@
       "<text x='32' y='44' font-size='34' text-anchor='middle'>"+e+"</text></svg>";
     return "url(\"data:image/svg+xml,"+encodeURIComponent(svg)+"\")";
   }
+  function hexToRgba(h){ h=String(h).replace('#','');
+    var r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),bl=parseInt(h.slice(4,6),16),
+        a=h.length>=8?parseInt(h.slice(6,8),16)/255:1;
+    return "rgba("+(r||0)+","+(g||0)+","+(bl||0)+","+(isNaN(a)?1:a)+")"; }
   function applyBg(s){
     var b=document.body.style;
     if(s.img){ b.backgroundColor="#fff"; b.backgroundImage="url('"+s.img+"')";
       b.backgroundSize="cover"; b.backgroundPosition="center"; }
     else if(s.emoji){ b.backgroundColor="#fff"; b.backgroundImage=emojiBg(s.emoji);
       b.backgroundSize="64px 64px"; b.backgroundPosition="0 0"; }
-    else if(s.color){ b.backgroundColor=s.color;
-      b.backgroundImage="repeating-linear-gradient(135deg,#ffffff14 0 2px,transparent 2px 22px)";
+    else if(s.color){ var rgba=hexToRgba(s.color);
+      b.backgroundColor="#0e0e0e"; // dark base so opacity is truly visible
+      b.backgroundImage="linear-gradient("+rgba+","+rgba+")";
       b.backgroundSize="auto"; b.backgroundPosition="0 0"; }
     else { b.backgroundColor="#0e0e0e"; b.backgroundImage="none";
       b.backgroundSize="auto"; b.backgroundPosition="0 0"; }
@@ -276,7 +290,7 @@
       "linear-gradient(to right,#fff,hsl("+H+",100%,50%))";
     handle.style.left=(S*100)+"%"; handle.style.top=((1-V)*100)+"%";
     var rgb=hsv2rgb(H,S,V), a=+ca.value;
-    document.getElementById('cav').textContent=a;
+    document.getElementById('cav').textContent=a+"%";
     var hex="#"+h2(rgb[0])+h2(rgb[1])+h2(rgb[2]);
     hexBox.value=hex.toUpperCase();
     colorInput.value=hex+(a<100?h2(a*255/100):"");
@@ -352,12 +366,23 @@
         var data=cv.toDataURL('image/jpeg',0.78);
         imgHidden.value=data;
         fileLabel.textContent="✓ "+(f.name.length>22?f.name.slice(0,20)+"…":f.name);
+        useImage();
       };
       im.onerror=function(){ fileLabel.textContent="Couldn't read that image"; };
       im.src=ev.target.result;
     };
     reader.readAsDataURL(f);
   });
+
+  // ─── either / or : color/emoji XOR uploaded image ───
+  var grpColor=document.getElementById('grpColor'), grpImage=document.getElementById('grpImage');
+  function useColor(){ imgHidden.value=""; fileLabel.textContent="Choose a photo";
+    grpColor.classList.remove('inactive'); grpImage.classList.add('inactive'); }
+  function useImage(){ emojiInput.value=""; emojiSel.textContent="";
+    [].forEach.call(grid.querySelectorAll('button'),function(b){b.classList.remove('sel');});
+    grpImage.classList.remove('inactive'); grpColor.classList.add('inactive'); }
+  grpColor.addEventListener('pointerdown',useColor);
+  grpColor.addEventListener('input',useColor);
 
   // ─── background-change log ───
   var LOG = API + "log";
