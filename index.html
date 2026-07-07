@@ -65,7 +65,7 @@
   .media{width:100%;background:var(--tile);overflow:hidden;margin-bottom:.9rem;border-radius:2px;
     transition:box-shadow .3s ease;}
   a.proj:hover .media{box-shadow:0 0 0 1px var(--accent);}
-  .media video,.media img{display:block;width:100%;}
+  .media video,.media img{display:block;width:100%;background:var(--tile);}
   .media .cover{aspect-ratio:3/2;object-fit:cover;}
   .media .contain{aspect-ratio:3/2;object-fit:contain;padding:8%;background:var(--tile);}
   .cols{display:grid;grid-template-columns:1fr 3fr;gap:.5rem;align-items:start;}
@@ -85,6 +85,9 @@
   .cv .row:last-child{border-bottom:0;}
   .cv .row .nm{color:var(--ink);}
   .cv .row .yr{color:var(--sw3);font-family:var(--mono);font-size:.76rem;white-space:nowrap;letter-spacing:.03em;}
+  .cv .row .ctx{color:var(--sw3);font-family:var(--mono);font-size:.76rem;white-space:nowrap;letter-spacing:.03em;}
+  .cv .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
+  .cv .row.prior .nm{color:var(--sw3);}
   @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;} .statement h2{font-size:1.25rem;} .layout{max-width:100%;} }
 
   .foot{position:fixed;bottom:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;
@@ -108,33 +111,29 @@
 
   <section class="page">
     <div class="layout" id="work">
-      <a class="proj" href="https://studioartifice.com/work/sensitive-subjects/" target="_blank" rel="noopener">
-        <div class="media"><img class="cover" src="https://studioartifice.com/stage/sensitive-subjects/cover.png" alt="Sensitive Subjects"></div>
-        <div class="cols"><div class="c0"><b>Sensitive Subjects</b><br>Q1 2026</div><div class="c1"><span class="t">Independent studio practice of Alexa Sparacio</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 001</span><br><br><span class="d">An identity and a site that change shape with every client.</span></div></div>
-      </a>
       <a class="proj" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
-        <div class="media"><video class="cover" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Land Talent. Land Somewhere.</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 002</span><br><br><span class="d">Immigration reframed as a strategic lever for recruiting and keeping the world's top talent. American excellence as a beacon for the people who want to build the future.</span></div></div>
+        <div class="media"><video class="cover" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Land Talent. Land Somewhere.</span><br><span class="m">Lead Designer</span><br><span class="m">Brand + Website</span><br><br><span class="d">Immigration reframed as a strategic lever for recruiting and keeping the world's top talent. American excellence as a beacon for the people who want to build the future.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
-        <div class="media"><video class="cover" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">An identity for forward-deployed reinforcement learning</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 003</span><br><br><span class="d">An identity for intelligence that seeps in.</span></div></div>
+        <div class="media"><video class="cover"  style="object-fit:contain" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/osmosis/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">An identity for forward-deployed reinforcement learning</span><br><span class="m">Design Director</span><br><span class="m">Identity + Website</span><br><br><span class="d">An identity for intelligence that seeps in.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
-        <div class="media"><video class="cover" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><br>2025</div><div class="c1"><span class="t">Global site for industrial cinematic lighting</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 004</span><br><br><span class="d">A global home for industrial light.</span></div></div>
+        <div class="media"><video class="cover" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/industrial-lighting/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><br>2025</div><div class="c1"><span class="t">Global site for industrial cinematic lighting</span><br><span class="m">Designer</span><br><span class="m">Global Website</span><br><br><span class="d">A global home for industrial light.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
-        <div class="media"><video class="cover" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">See Everything, Search Anything, Self-Organize</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 005</span><br><br><span class="d">Self-organizing assets: Liquid Metal + the Z-index.</span></div></div>
+        <div class="media"><video class="cover" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">See Everything, Search Anything, Self-Organize</span><br><span class="m">Lead Product Designer</span><br><span class="m">Product System</span><br><br><span class="d">Self-organizing assets: Liquid Metal + the Z-index.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
-        <div class="media"><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>Flora</b><br>2024</div><div class="c1"><span class="t">A node canvas for image makers</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 006</span><br><br><span class="d">A node canvas for image makers, with AI at the center and no map to copy.</span></div></div>
+        <div class="media"><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>Flora</b><br>2024</div><div class="c1"><span class="t">A node canvas for image makers</span><br><span class="m">Founding Designer</span><br><span class="m">Product Design</span><br><br><span class="d">A node canvas for image makers, with AI at the center and no map to copy.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Studio Artifice</span><br><span class="m">No. 007 · In Progress</span><br><br><span class="d">Creative direction for a pre-release Google AI video model, shifting the narrative from stock-footage replacement to avant-garde medium.</span></div></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><br><span class="m">Brand Narrative · In Progress</span><br><br><span class="d">Creative direction for a pre-release Google AI video model, shifting the narrative from stock-footage replacement to avant-garde medium.</span></div></div>
       </a>
 
       <div class="about" id="about">
@@ -163,12 +162,13 @@
           <div class="sec">
             <div class="lbl">Studios + Roles</div>
             <div class="body">
-              <div class="row"><span class="nm">Studio Artifice, Founding Designer</span><span class="yr">2023–present</span></div>
-              <div class="row"><span class="nm">Codex Foundry, Founder</span><span class="yr">2024–present</span></div>
-              <div class="row"><span class="nm">Artifice NYC, Creative Director</span><span class="yr">2024–present</span></div>
-              <div class="row"><span class="nm">Fictive Kin</span></div>
-              <div class="row"><span class="nm">Vokal Interactive</span></div>
-              <div class="row"><span class="nm">Legion Collective</span></div>
+              <div class="row"><span class="nm">Studio Artifice</span><span class="ctx">Founding Designer · 2023</span></div>
+              <div class="row"><span class="nm">Codex Foundry</span><span class="ctx">Founder · 2024</span></div>
+              <div class="row"><span class="nm">Artifice NYC</span><span class="ctx">Creative Director · 2024</span></div>
+              <div class="sub">Previously</div>
+              <div class="row prior"><span class="nm">Fictive Kin</span></div>
+              <div class="row prior"><span class="nm">Vokal Interactive</span></div>
+              <div class="row prior"><span class="nm">Legion Collective</span></div>
             </div>
           </div>
         </div>
