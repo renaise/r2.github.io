@@ -73,6 +73,8 @@
   /* sharp creative, contained, butted against the bottom over the frost */
   .media .cover{position:absolute;inset:0;z-index:2;width:100%;height:100%;
     object-fit:contain;object-position:center bottom;padding:6% 6% 0;background:transparent;}
+  /* full-bleed exception: native 16:9 compositions fill the plate */
+  .media .cover.fill{object-fit:cover;object-position:center;padding:0;}
   .cols{display:grid;grid-template-columns:1fr 3fr;gap:.5rem;align-items:start;}
   .c0{color:var(--sw2);} .c0 b{font-weight:700;color:var(--ink);}
   .c1 .t{color:var(--ink);font-weight:700;} .c1 .m{color:var(--sw2);} .c1 .d{color:var(--sw4);}
@@ -129,7 +131,7 @@
         <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">Global site for industrial cinematic lighting</span><br><span class="m">Designer</span><br><span class="m">Global Website</span><br><br><span class="d">A global home for industrial light.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
+        <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
         <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">See Everything, Search Anything, Self-Organize</span><br><span class="m">Lead Product Designer</span><br><span class="m">Product System</span><br><br><span class="d">Self-organizing assets: Liquid Metal + the Z-index.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
