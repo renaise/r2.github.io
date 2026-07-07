@@ -28,10 +28,15 @@ Typeface is **Diatype (Dinamo)** — the actual Cargo N690 face, self-hosted 1:1
 
 ## Structure (top → bottom)
 1. Centered statement (full-viewport), reveal animation on load (fade + rise + deblur).
-2. Work — the six live Studio Artifice case studies (No. 001–006), each an `<a>` linking to
-   `studioartifice.com/work/<slug>/`, leading with the real cover video from
-   `studioartifice.com/stage/<slug>/cover.mp4` (sensitive-subjects uses cover.png). Media is
-   pulled hot from studioartifice.com (not copied). Hover = accent outline on media + accent title.
+2. Work — the live Studio Artifice case studies (No. 001–007), each an `<a>` linking to
+   `studioartifice.com/work/<slug>/`, leading with the real cover from
+   `studioartifice.com/stage/<slug>/cover.{mp4|png|jpg}`. Media is pulled hot from studioartifice.com
+   (not copied). Hover = accent outline on media + accent title.
+   **Source of truth = the studioartifice.com CMS `/work` index.** The canonical slug list is whatever
+   `https://studioartifice.com/work/` publishes. When the CMS adds/removes/reorders a case study, mirror
+   it here — do not curate a different set. Current 7 (in No. order): sensitive-subjects (001),
+   lighthouse (002), osmosis (003), industrial-lighting (004), soot (005), flora (006),
+   depictions-of-original-sin / Google Labs Veo3 (007).
 3. CV footer — Information / Recognition / Studios + Roles, under the Redaction wordmark.
 
 ## Wordmark
