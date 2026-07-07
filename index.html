@@ -75,11 +75,17 @@
 
   /* about / CV */
   .about{margin-top:5.5rem;}
-  .cv{display:grid;grid-template-columns:3fr 1fr 3fr 3fr;gap:.5rem;align-items:start;}
-  .cv b{color:var(--ink);font-weight:700;}
-  .cv a{color:var(--sw2);}
-  .cv .info{color:var(--sw2);}
-  @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv{grid-template-columns:1fr;gap:2rem;} h1{font-size:2.4rem;} .statement h2{font-size:1.25rem;} .layout{max-width:100%;} }
+  .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
+    padding:1.5rem 0;border-top:1px solid var(--sw6);align-items:start;}
+  .cv .sec:last-child{border-bottom:1px solid var(--sw6);}
+  .cv .lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
+  .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
+  .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
+  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;border-bottom:1px solid var(--sw6);}
+  .cv .row:last-child{border-bottom:0;}
+  .cv .row .nm{color:var(--ink);}
+  .cv .row .yr{color:var(--sw3);font-family:var(--mono);font-size:.76rem;white-space:nowrap;letter-spacing:.03em;}
+  @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;} .statement h2{font-size:1.25rem;} .layout{max-width:100%;} }
 
   .foot{position:fixed;bottom:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;
     padding:1.1rem;font-family:var(--mono);font-size:0.78rem;color:var(--sw2);}
@@ -131,29 +137,35 @@
         <h1><a href="#top">Renaise</a></h1>
         <div class="spacer"></div>
         <div class="cv">
-          <div class="info">
-            <b>Information</b><br><br>
-            Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech. Founder of Codex Foundry. Creative director of Artifice NYC.<br><br>
-            <a href="mailto:krenaise@gmail.com">krenaise@gmail.com ↗</a><br>
-            <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <div class="sec">
+            <div class="lbl">Information</div>
+            <div class="body">
+              <p>Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech. Founder of Codex Foundry. Creative director of Artifice NYC.</p>
+              <div class="links">
+                <a href="mailto:krenaise@gmail.com">krenaise@gmail.com ↗</a>
+                <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
+              </div>
+            </div>
           </div>
-          <div></div>
-          <div>
-            <b>Recognition</b><br><br>
-            2026 Onassis ONX Fellow<br>
-            New York<br><br>
-            First Designer, Flora AI<br>
-            Design, SOOT<br>
-            Origin, Mythra (pre-agentic protocol)
+          <div class="sec">
+            <div class="lbl">Recognition</div>
+            <div class="body">
+              <div class="row"><span class="nm">Onassis ONX Fellow</span><span class="yr">2026 · New York</span></div>
+              <div class="row"><span class="nm">First Designer, Flora AI</span></div>
+              <div class="row"><span class="nm">Design, SOOT</span></div>
+              <div class="row"><span class="nm">Origin, Mythra (pre-agentic protocol)</span></div>
+            </div>
           </div>
-          <div>
-            <b>Studios + Roles</b><br><br>
-            Studio Artifice, Founding Designer<br>2023 to present<br><br>
-            Codex Foundry, Founder<br>2024 to present<br><br>
-            Artifice NYC, Creative Director<br>2024 to present<br><br>
-            Fictive Kin<br>
-            Vokal Interactive<br>
-            Legion Collective
+          <div class="sec">
+            <div class="lbl">Studios + Roles</div>
+            <div class="body">
+              <div class="row"><span class="nm">Studio Artifice, Founding Designer</span><span class="yr">2023–present</span></div>
+              <div class="row"><span class="nm">Codex Foundry, Founder</span><span class="yr">2024–present</span></div>
+              <div class="row"><span class="nm">Artifice NYC, Creative Director</span><span class="yr">2024–present</span></div>
+              <div class="row"><span class="nm">Fictive Kin</span></div>
+              <div class="row"><span class="nm">Vokal Interactive</span></div>
+              <div class="row"><span class="nm">Legion Collective</span></div>
+            </div>
           </div>
         </div>
       </div>
