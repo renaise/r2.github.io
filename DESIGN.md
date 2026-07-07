@@ -25,9 +25,15 @@ Typeface is **Diatype (Dinamo)** — the actual Cargo N690 face, self-hosted 1:1
 - Pinned header (`Renaise®` / About · Index) and footer (Top ↑ / Email · LinkedIn). Live mono clock, top-center.
 
 ## Structure (top → bottom)
-1. Centered statement (full-viewport).
-2. Stacked project entries — media on top, then `[Name · Year]  [Title · Role · Category · dim description]`.
-3. CV footer — Information / Recognition / Studios + Roles, under the big wordmark.
+1. Centered statement (full-viewport), reveal animation on load (fade + rise + deblur).
+2. Work — the six live Studio Artifice case studies (No. 001–006), each an `<a>` linking to
+   `studioartifice.com/work/<slug>/`, leading with the real cover video from
+   `studioartifice.com/stage/<slug>/cover.mp4` (sensitive-subjects uses cover.png). Media is
+   pulled hot from studioartifice.com (not copied). Hover = accent outline on media + accent title.
+3. CV footer — Information / Recognition / Studios + Roles, under the Redaction wordmark.
+
+## Wordmark
+`h1` "Renaise Kim" is **Redaction** (Kaphar/Betts, MCKL, OFL), self-hosted from `/fonts/`, serif, 3.6rem/400.
 
 ## Voice (house rules — non-negotiable)
 - **No em dashes.** Use periods, commas, or restructure.
