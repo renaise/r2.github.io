@@ -6,11 +6,13 @@ Single self-contained `index.html` (no build step). Source of truth for all visu
 ## Color
 | Token | Value | Use |
 |---|---|---|
-| `--bg1` → `--bg2` | `#171a1f` → `#363b42` | Page background, `linear-gradient(168deg …)`, fixed. Cool dark-to-mid gray. |
-| `--ink` | `#f3f5f8` | Headings, wordmark, emphasized text (cool near-white) |
-| `--sw1…--sw6` | `rgba(243,245,248, .92 / .76 / .54 / .38 / .24 / .13)` | Text tiers (light on dark) |
-| `--accent` | `#FF2A00` | Sparingly: link hover only. Never fills areas. |
-| `--tile` | `#0e1013` | Project media tiles |
+| `--bg1` → `--bg2` | `#1b1a18` → `#3b3835` | Page background, `linear-gradient(168deg …)`, fixed. Neutral stone gray, dark to mid. |
+| `--ink` | `#d6d4d0` | Headings, wordmark, emphasized text (light gray — all type is light gray) |
+| `--sw1…--sw6` | `rgba(214,212,208, .95 / .82 / .60 / .45 / .30 / .16)` | Text tiers, light-gray base |
+| `--accent` | `#ffffff` | Highlight: white on hover (title + media outline). Never fills areas. |
+| `--tile` | `#100f0e` | Project media tiles |
+
+Hero (`.statement`) is `min-height: 52vh` so the first case-study video reveals in the fold — work leads, not the statement.
 
 ## Type
 Typeface is **Diatype (Dinamo)** — the actual Cargo N690 face, self-hosted 1:1 from `/fonts/`. Deliberately small scale.
