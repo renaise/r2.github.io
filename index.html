@@ -119,7 +119,7 @@
   <section class="page">
     <div class="layout" id="work">
       <a class="proj" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video></div>
+        <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video></div>
         <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Land Talent. Land Somewhere.</span><br><span class="m">Lead Designer</span><br><span class="m">Brand + Website</span><br><br><span class="d">Immigration reframed as a strategic lever for recruiting and keeping the world's top talent. American excellence as a beacon for the people who want to build the future.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
@@ -197,6 +197,33 @@
       d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds());
   }catch(e){} }
   tick(); setInterval(tick,1000);
+
+  // Seamless crossfade loop for tagged covers (no hard-cut jolt, no white re-buffer).
+  // Two offset copies fade into each other near the loop point; slowed for a longer read.
+  function smoothLoop(v){
+    var RATE=0.7, FADE=0.7; // seconds of crossfade overlap
+    v.loop=false; v.muted=true; v.playbackRate=RATE;
+    var b=v.cloneNode(false);
+    b.removeAttribute('data-smooth'); b.removeAttribute('poster');
+    b.className=v.className; b.muted=true; b.loop=false; b.playsInline=true;
+    b.preload='auto'; b.style.opacity='0'; b.playbackRate=RATE;
+    v.parentNode.appendChild(b);
+    v.style.transition=b.style.transition='opacity '+FADE+'s linear';
+    function arm(a,other){
+      function h(){
+        if(a.duration && a.currentTime >= a.duration - FADE){
+          a.removeEventListener('timeupdate',h);
+          try{ other.currentTime=0; other.play(); }catch(e){}
+          other.style.opacity='1'; a.style.opacity='0';
+          arm(other,a);
+        }
+      }
+      a.addEventListener('timeupdate',h);
+    }
+    var start=function(){ v.play().catch(function(){}); arm(v,b); };
+    if(v.readyState>=1) start(); else v.addEventListener('loadedmetadata',start,{once:true});
+  }
+  document.querySelectorAll('video[data-smooth]').forEach(smoothLoop);
 </script>
 </body>
 </html>
