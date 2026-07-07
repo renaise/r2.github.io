@@ -13,10 +13,11 @@ Single self-contained `index.html` (no build step). Source of truth for all visu
 | `--tile` | `#0e1013` | Project media tiles |
 
 ## Type
-- **Body / UI + Statement (`h2`)** — Tekio Grotesk (→ Neue Haas Grotesk → Helvetica Neue). Body weight 500 `0.98rem`; statement `2.0rem`, max 24ch, centered.
-- **Wordmark (`h1` "Renaise Kim")** — Helvetica Now Display → Helvetica Neue. `4.4rem`, weight 700, tight `-0.035em`.
-- **Meta / clock / marquee / footer** — Favorit Mono (`ABCFavoritMono-Light-Trial.otf`, self-hosted), uppercase, `0.92rem`.
-- Licensing: NHG and Helvetica Now Display are licensed (Monotype); without the webfonts they render as Helvetica Neue, the same design lineage. Drop licensed webfonts into `/fonts/` and add `@font-face` to make them exact. (Diatype was trialed and removed.)
+Typeface is **Diatype (Dinamo)** — the actual Cargo N690 face, self-hosted 1:1 from `/fonts/`. Deliberately small scale.
+- **Body / UI + Statement (`h2`)** — Diatype Variable. Body weight 500 `0.86rem`; statement `1.5rem`, max 24ch, centered.
+- **Wordmark (`h1` "Renaise Kim")** — Diatype Compressed Variable, `3.4rem`, weight 700, `font-stretch:59%`.
+- **Meta / clock / footer** — Diatype Mono Variable → Favorit Mono (`ABCFavoritMono-Light-Trial.otf`), `0.78rem`.
+- Fonts self-hosted in `/fonts/` (Cargo-DiatypePlusVariable.woff2, CargoDiatypeWidthsVariable.woff2) so they load same-origin, no referrer lock. Helvetica Neue is the fallback.
 
 ## Scale & layout
 - Content column: `max-width: 56%`, left-aligned, centered in viewport. Full-width under 900px.
