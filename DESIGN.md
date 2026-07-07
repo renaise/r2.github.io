@@ -6,16 +6,15 @@ Single self-contained `index.html` (no build step). Source of truth for all visu
 ## Color
 | Token | Value | Use |
 |---|---|---|
-| `--bg1` → `--bg2` | `#fcfaf5` → `#f2ebdd` | Page background, `linear-gradient(168deg …)`, fixed. Matches studioartifice.com cream. |
-| `--ink` | `#151310` | Headings, wordmark, emphasized text |
-| `--sw1…--sw6` | `rgba(21,19,16, .92 / .78 / .56 / .40 / .26 / .13)` | Text tiers (ink on cream, not white on dark) |
-| `--accent` | `#FF2A00` | Sparingly: marquee separators, link hover. Never fills areas. |
-| `--tile` | `#141310` | Project media tiles (dark tiles on cream is deliberate) |
+| `--bg1` → `--bg2` | `#171a1f` → `#363b42` | Page background, `linear-gradient(168deg …)`, fixed. Cool dark-to-mid gray. |
+| `--ink` | `#f3f5f8` | Headings, wordmark, emphasized text (cool near-white) |
+| `--sw1…--sw6` | `rgba(243,245,248, .92 / .76 / .54 / .38 / .24 / .13)` | Text tiers (light on dark) |
+| `--accent` | `#FF2A00` | Sparingly: link hover only. Never fills areas. |
+| `--tile` | `#0e1013` | Project media tiles |
 
 ## Type
-- **Body / UI** — Neue Haas Grotesk (Display Pro → Neue Haas Grotesk → Helvetica Neue). Weight 500, `0.98rem`, line-height 1.12.
+- **Body / UI + Statement (`h2`)** — Tekio Grotesk (→ Neue Haas Grotesk → Helvetica Neue). Body weight 500 `0.98rem`; statement `2.0rem`, max 24ch, centered.
 - **Wordmark (`h1` "Renaise Kim")** — Helvetica Now Display → Helvetica Neue. `4.4rem`, weight 700, tight `-0.035em`.
-- **Statement (`h2`)** — Neue Haas Grotesk, `2.0rem`, max 24ch, centered.
 - **Meta / clock / marquee / footer** — Favorit Mono (`ABCFavoritMono-Light-Trial.otf`, self-hosted), uppercase, `0.92rem`.
 - Licensing: NHG and Helvetica Now Display are licensed (Monotype); without the webfonts they render as Helvetica Neue, the same design lineage. Drop licensed webfonts into `/fonts/` and add `@font-face` to make them exact. (Diatype was trialed and removed.)
 
@@ -25,7 +24,7 @@ Single self-contained `index.html` (no build step). Source of truth for all visu
 - Pinned header (`Renaise®` / About · Index) and footer (Top ↑ / Email · LinkedIn). Live mono clock, top-center.
 
 ## Structure (top → bottom)
-1. Centered statement + marquee (phrases sourced from studioartifice.com: Strategic Visual Studio / Narrative-Sensitive Brands / Strategy / Identity / Design / Production / Worldsite Pipeline / New York).
+1. Centered statement (full-viewport).
 2. Stacked project entries — media on top, then `[Name · Year]  [Title · Role · Category · dim description]`.
 3. CV footer — Information / Recognition / Studios + Roles, under the big wordmark.
 

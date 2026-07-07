@@ -8,11 +8,11 @@
   @font-face { font-family:"Favorit Mono"; src:url("/ABCFavoritMono-Light-Trial.otf") format("opentype"); font-weight:300; font-display:swap; }
 
   :root{
-    --ink:#151310;
-    --sw1:rgba(21,19,16,0.92); --sw2:rgba(21,19,16,0.78); --sw3:rgba(21,19,16,0.56);
-    --sw4:rgba(21,19,16,0.40); --sw5:rgba(21,19,16,0.26); --sw6:rgba(21,19,16,0.13);
-    --accent:#FF2A00; --bg1:#fcfaf5; --bg2:#f2ebdd; --tile:#141310;
-    --sans:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --ink:#f3f5f8;
+    --sw1:rgba(243,245,248,0.92); --sw2:rgba(243,245,248,0.76); --sw3:rgba(243,245,248,0.54);
+    --sw4:rgba(243,245,248,0.38); --sw5:rgba(243,245,248,0.24); --sw6:rgba(243,245,248,0.13);
+    --accent:#FF2A00; --bg1:#171a1f; --bg2:#363b42; --tile:#0e1013;
+    --sans:"Tekio Grotesk","Neue Haas Grotesk Display Pro","Neue Haas Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
     --cond:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk","Helvetica Neue Condensed","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Helvetica Now Display","Helvetica Neue",Helvetica,Arial,sans-serif;
     --mono:"Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
@@ -41,15 +41,6 @@
   /* centered header statement + marquee */
   .statement{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.1rem;}
   .statement h2{font-family:var(--sans);font-weight:500;font-size:2.0rem;line-height:1.16;color:var(--ink);margin:0;max-width:24ch;letter-spacing:-.01em;}
-  .marquee{width:100%;margin-top:2.2rem;overflow:hidden;white-space:nowrap;
-    -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
-    mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);}
-  .marquee .track{display:inline-block;animation:scroll 34s linear infinite;
-    font-family:var(--mono);font-size:0.92rem;letter-spacing:.09em;color:var(--sw3);text-transform:uppercase;}
-  .marquee .track span{margin:0 1.05rem;}
-  .marquee .track .sep{color:var(--accent);}
-  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-  @media(prefers-reduced-motion:reduce){ .marquee .track{animation:none;} }
 
   h1{font-family:var(--display);font-weight:700;font-size:4.4rem;line-height:.82;color:var(--ink);
     letter-spacing:-.035em;margin:0;text-transform:none;}
@@ -90,7 +81,6 @@
     <div>
       <h2>Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech.</h2>
     </div>
-    <div class="marquee" aria-hidden="true"><div class="track" id="mtrack"></div></div>
   </section>
 
   <section class="page">
@@ -188,15 +178,6 @@
       d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds());
   }catch(e){} }
   tick(); setInterval(tick,1000);
-
-  // marquee: phrases sourced from studioartifice.com, duplicated for a seamless loop
-  var PHRASES=["Strategic Visual Studio","Narrative-Sensitive Brands","Strategy","Identity","Design","Production","Worldsite Pipeline","New York"];
-  (function(){
-    var t=document.getElementById('mtrack'); if(!t) return;
-    function block(){ return PHRASES.map(function(p){
-      return '<span>'+p+'</span><span class="sep">/</span>'; }).join(''); }
-    t.innerHTML = block()+block();
-  })();
 </script>
 </body>
 </html>
