@@ -3,435 +3,402 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Renaise</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%F0%9F%9A%BD%3C/text%3E%3C/svg%3E">
+<title>Renaise · Showroom</title>
 <style>
-  *{box-sizing:border-box;}
-  body{margin:0;
-    background-color:#0e0e0e;background-image:none;
-    font-family:"Helvetica Now Display","Helvetica Neue",Helvetica,Arial,sans-serif;color:#4f86ff;font-size:14px;}
-  a{color:#4f86ff;}
-  .layout{display:flex;align-items:flex-start;gap:14px;padding:16px;max-width:1100px;margin:0;min-height:100vh;}
+  :root {
+    --frame: #060606; --line: rgba(255,255,255,0.24);
+    --ink: #f4f4f4; --ink-2: rgba(244,244,244,0.78); --ink-3: rgba(244,244,244,0.5);
+    --glass: rgba(255,255,255,0.12); --glass-hi: rgba(255,255,255,0.24); --accent: #c9a24a;
+    --detail-bg: #3d3d3d;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --body: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --serif: 'Snell Roundhand', 'Apple Chancery', 'Brush Script MT', cursive;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: var(--frame); }
+  body { font-family: var(--body); -webkit-font-smoothing: antialiased; padding: 12px; height: 100vh; }
+  ::selection { background: rgba(255,255,255,0.85); color: #1a1a1a; }
 
-  /* XP window chrome */
-  .win{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;
-    overflow:hidden;}
-  .titlebar{background:linear-gradient(#0058ee,#3f8cf3 8%,#2a72e8 40%,#1d5fd6 88%,#1750c4);
-    color:#fff;font-weight:bold;font-size:14px;padding:5px 8px;
-    text-shadow:1px 1px 1px #003;display:flex;justify-content:space-between;align-items:center;}
-  .titlebar .x{background:linear-gradient(#f5a07a,#d0451f);border:1px solid #fff;border-radius:3px;
-    width:20px;height:18px;line-height:16px;text-align:center;font-size:12px;cursor:pointer;}
-  .body{padding:16px;}
+  .viewport { position: relative; width: 100%; height: 100%; border-radius: 16px; overflow-y: auto; overflow-x: hidden;
+    background-color: #6b6b6b;
+    background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1.4px);
+    background-size: 27px 27px; background-position: 13px 13px; }
+  .viewport::-webkit-scrollbar { width: 10px; }
+  .viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 8px; border: 3px solid transparent; background-clip: content-box; }
 
-  aside{width:210px;flex:0 0 210px;}
-  nav a{display:block;text-decoration:none;color:#0047ab;margin:5px 0;}
-  nav a.cur::before{content:"🧻 ";}
-  nav a:hover{text-decoration:underline;}
+  /* ── Sticky topbar ───────────────────────────────── */
+  .topbar { position: sticky; top: 0; z-index: 8; display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 28px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    background: linear-gradient(rgba(107,107,107,0.7), rgba(107,107,107,0)); }
+  .toggle { display: inline-flex; align-items: center; height: 44px; background: var(--glass); border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 12px; padding: 4px; gap: 2px; box-sizing: border-box; }
+  .toggle button { font-family: var(--body); font-size: 12px; letter-spacing: 0.16em; color: var(--ink-2);
+    background: transparent; border: 0; border-radius: 9px; height: 100%; padding: 0 18px; cursor: pointer; transition: background .25s, color .25s; }
+  .toggle button.active { background: var(--glass-hi); color: var(--ink); }
+  .toggle button:hover:not(.active) { color: var(--ink); }
+  .menu-orb { height: 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.24);
+    background: var(--glass); cursor: pointer; display: grid; place-items: center;
+    color: var(--ink-2); font-size: 15px; letter-spacing: 2px; padding: 0 16px; transition: background .2s, color .2s; }
+  .menu-orb:hover { background: var(--glass-hi); color: #fff; }
 
-  .member{display:block;margin-top:14px;text-decoration:none;text-align:center;
-    color:#fff;font-weight:bold;font-size:16px;padding:12px;
-    background:linear-gradient(#5a5a5a,#222 50%,#000 51%,#1a1a1a);
-    border:1px solid #000;border-radius:6px;text-shadow:1px 1px 1px #000;}
-  .member:hover{filter:brightness(1.08);}
-  .memberlogo{display:block;height:22px;width:auto;max-width:80%;margin:10px auto 2px;}
+  /* ── Hero ────────────────────────────────────────── */
+  .hero { text-align: center; padding: 5vh 24px 1vh; }
+  .hero .mark { font-family: var(--serif); font-size: clamp(72px, 12vw, 184px); line-height: 0.86; color: rgba(255,255,255,0.92); }
+  .hero .tagline { font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink-2); margin-top: 10px; }
 
-  .credit{position:relative;font-size:12px;margin-top:14px;}
-  .bgtoggle{margin-top:8px;width:100%;text-align:center;cursor:pointer;font-size:12px;
-    padding:5px 8px;background:linear-gradient(#fdfdfd,#d8d4c0);border:1px solid #888;border-radius:4px;}
-  .bgform{margin-top:8px;width:100%;
-    background:#fff;border:1px solid #888;border-radius:6px;padding:14px;}
-  .bgform[hidden]{display:none;}
-  .bgform h3{margin:0 0 14px;font-size:15px;font-weight:600;letter-spacing:-.01em;}
-  .bgform label{display:block;font-size:10px;letter-spacing:.07em;text-transform:uppercase;
-    font-weight:600;margin:14px 0 5px;}
-  .bgform input{width:100%;padding:9px 10px;border:1px solid #2a2a2a;border-radius:7px;font-size:13px;}
-  .bgform button{margin-top:14px;padding:10px 12px;cursor:pointer;border-radius:7px;font-size:13px;
-    border:1px solid #2a2a2a;background:#161616;}
-  .bgform .note{font-size:11px;color:#7a7a7a;margin-top:8px;line-height:1.4;}
-  .filebtn{display:block;text-align:center;cursor:pointer;font-size:13px;padding:10px;
-    border:1px dashed #3a3a3a;border-radius:7px;color:#cfcfcf;background:#0d0d0d;}
-  .filebtn:hover{border-color:#555;}
-  .bgat{display:block;font-size:11px;color:#666;margin-top:2px;}
+  /* ── Box section ─────────────────────────────────── */
+  .box { padding: 4vh 4vw 2vh; scroll-margin-top: 70px; }
+  .box-label { display: flex; align-items: baseline; gap: 16px; margin: 0 4px 24px; }
+  .box-label .nm { font-family: var(--serif); font-size: clamp(34px, 5vw, 64px); color: rgba(255,255,255,0.55); line-height: 1; }
+  .box-label .ct { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-3); }
+  .box-label .ln { flex: 1; height: 1px; background: var(--line); }
 
-  /* emoji picker */
-  .emojibtn{width:100%;text-align:left;cursor:pointer;font-size:13px;padding:6px 8px;
-    background:linear-gradient(#fdfdfd,#d8d4c0);border:1px solid #888;border-radius:4px;}
-  #emojisel{font-size:16px;}
-  .emojigrid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:6px;
-    background:#fff;border:1px solid #888;border-radius:4px;padding:6px;max-height:140px;overflow-y:auto;}
-  .emojigrid[hidden]{display:none;}
-  .emojigrid button{font-size:20px;line-height:1;padding:5px 0;cursor:pointer;
-    background:none;border:1px solid transparent;border-radius:4px;}
-  .emojigrid button:hover{background:#dbe7ff;border-color:#0047ab;}
-  .emojigrid button.sel{background:#46c41f;}
+  .xgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .xcard { position: relative; cursor: pointer; border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+    background: rgba(255,255,255,0.03); transition: transform .25s ease, background .25s ease, border-color .25s ease; }
+  .xcard:hover { transform: translateY(-3px); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+  .xcover { position: relative; aspect-ratio: 4/3; overflow: hidden; background: #1c1c1c; }
+  .xbody { padding: 14px 16px 16px; }
+  .xtop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .xno { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-3);
+    border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; width: 24px; height: 24px; display: grid; place-items: center; }
+  .xyear { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-3); }
+  .xname { font-size: clamp(18px, 1.7vw, 24px); font-weight: 600; letter-spacing: -0.005em; text-transform: uppercase;
+    color: var(--ink); margin: 0 0 4px; line-height: 1.05; }
+  .xsub { font-family: var(--body); font-size: 13px; line-height: 1.35; color: var(--ink-3); margin: 0 0 12px; min-height: 35px; }
+  .xtags { display: flex; flex-wrap: wrap; gap: 7px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); align-items: center; }
+  .xtags .dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.6); }
+  .xcard .soon { position: absolute; top: 12px; left: 12px; z-index: 3; font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.8); background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 3px; padding: 3px 7px; }
 
-  /* Live log (background changes) — submodal */
-  .logtoggle{width:100%;text-align:left;cursor:pointer;font-size:12px;margin-top:12px;padding:6px 8px;
-    background:linear-gradient(#fdfdfd,#d8d4c0);border:1px solid #888;border-radius:4px;}
-  .loglist{height:170px;overflow-y:auto;background:#1c1c28;color:#e8e8f0;margin-top:6px;
-    border:1px solid #0047ab;border-radius:4px;padding:10px 12px;font-size:13px;line-height:1.5;
-    font-family:Tahoma,Verdana,sans-serif;}
-  .loglist[hidden]{display:none;}
+  /* generative cover */
+  .gcover { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px 22px; }
+  .gcover::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1.4px); background-size: 22px 22px; opacity: 0.55; }
+  .gcover .gname { position: relative; font-family: var(--body); font-weight: 600; letter-spacing: -0.015em; line-height: 0.96; color: rgba(255,255,255,0.92); font-size: clamp(26px, 3vw, 44px); }
+  .gcover .gmeta { position: relative; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 9px; }
+  .xcover img, .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+  .tone-0 { background: linear-gradient(150deg, #201f1d, #36332d); }
+  .tone-1 { background: linear-gradient(150deg, #12211a, #1f3a2d); }
+  .tone-2 { background: linear-gradient(150deg, #241a12, #3a2a18); }
+  .tone-3 { background: linear-gradient(150deg, #141a24, #1d2a3a); }
+  .tone-4 { background: linear-gradient(150deg, #1f1420, #34203a); }
+  .tone-5 { background: linear-gradient(150deg, #221f12, #39331c); }
 
-  /* ── dark mode: Navigation modal (black) ── */
-  aside .win{background:#1a1a1a;border-color:#2a2a2a;}
-  aside .body{color:#4f86ff;}
-  aside nav a{color:#4f86ff;}
-  aside nav a.cur{color:#fff;font-weight:600;}
-  aside nav a.cur::before{color:#4f86ff;}
-  aside .credit{color:#cfcfcf;}
-  aside .bgat{color:#888;}
-  aside .bgtoggle,aside .emojibtn,aside .logtoggle,aside .bgform button{
-    background:#161616;color:#e8e8e8;border:1px solid #2a2a2a;border-radius:7px;}
-  aside .bgform{background:#0a0a0a;border:1px solid #222;border-radius:10px;}
-  aside .bgform button[type=submit]{margin-top:16px;font-weight:bold;color:#fff;border:1px solid #1d6e0b;
-    text-shadow:1px 1px 1px #0d4a06;
-    background:linear-gradient(#4caf2e,#268a10 50%,#1d6e0b 51%,#2f8f1a);}
-  aside .bgform button[type=submit]:hover{filter:brightness(1.08);}
-  aside .bgform h3{color:#f2f2f2;}
-  aside .bgform label{color:#8a8a8a;}
-  aside .bgform .note{color:#7a7a7a;}
-  aside .bgform input{background:#0d0d0d;color:#fff;border:1px solid #2a2a2a;}
-  aside .emojigrid{background:#0a0a0a;border:1px solid #222;}
-  aside .emojigrid button:hover{background:#1c1c1c;border-color:#333;}
-  aside .emojigrid button.sel{background:#46c41f;}
-  /* either/or tabs */
-  .tabs{display:flex;gap:0;margin:14px 0 12px;border:1px solid #2a2a2a;border-radius:8px;
-    overflow:hidden;background:#0d0d0d;}
-  .tab{flex:1;padding:9px 0;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.08em;
-    text-transform:uppercase;background:transparent;border:0;color:#8a8a8a;}
-  .tab.active{background:#1f1f1f;color:#fff;}
-  .tabpane[hidden]{display:none;}
-  .tabpane>label:first-child{margin-top:0;}
-  aside .loglist{background:#000;border:1px solid #333;}
-  /* no blue active/focus outline anywhere */
-  input:focus,button:focus,a:focus,select:focus{box-shadow:none;}
-  :focus:not(:focus-visible){outline:none;}
-  :focus-visible{outline:2px solid #46c41f;outline-offset:2px;}
+  .colophon { text-align: center; padding: 6vh 24px 7vh; font-family: var(--body); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-3); }
+  .colophon a { color: var(--ink-2); }
 
-  /* freeform color picker */
-  .cpick{margin-top:2px;}
-  .cpsquare{position:relative;height:150px;border:1px solid #2a2a2a;border-radius:8px;
-    cursor:crosshair;touch-action:none;margin-bottom:10px;}
-  .cphandle{position:absolute;width:14px;height:14px;border:2px solid #fff;border-radius:50%;
-    outline:1px solid rgba(0,0,0,.55);transform:translate(-50%,-50%);pointer-events:none;}
-  .cphue{-webkit-appearance:none;appearance:none;width:100%;height:12px;border-radius:6px;margin:0 0 8px;
-    background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00);}
-  .cphue::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
-    background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
-  .cphue::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
-  .crow{display:flex;align-items:center;gap:8px;margin:3px 0;}
-  .crow span{width:14px;font-size:11px;color:#aaa;}
-  .crow input[type=range]{flex:1;width:auto;padding:0;margin:0;height:14px;accent-color:#46c41f;}
-  /* graduated alpha track */
-  #ca{-webkit-appearance:none;appearance:none;height:14px;border-radius:7px;border:1px solid #2a2a2a;
-    accent-color:auto;cursor:pointer;
-    background:repeating-linear-gradient(45deg,#3a3a3a 0 5px,#555 5px 10px);}
-  #ca::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
-    background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
-  #ca::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid #1a1a1a;cursor:pointer;}
-  #ca::-moz-range-track{background:transparent;}
-  .crow b{width:34px;text-align:right;font-size:11px;color:#ccc;}
-  .cphexrow{display:flex;align-items:center;gap:8px;margin-top:8px;}
-  .cprev{display:inline-block;width:40px;height:34px;border:1px solid #2a2a2a;border-radius:6px;flex:none;overflow:hidden;
-    background-image:linear-gradient(45deg,#444 25%,transparent 25%,transparent 75%,#444 75%),
-      linear-gradient(45deg,#444 25%,transparent 25%,transparent 75%,#444 75%);
-    background-size:12px 12px;background-position:0 0,6px 6px;}
-  .cprev i{display:block;height:100%;}
-  #cphex{flex:1;text-transform:uppercase;font-family:"SF Mono",ui-monospace,Menlo,monospace;letter-spacing:.04em;}
-  .loglist .row{margin-bottom:9px;}
-  .loglist .nm{font-weight:bold;}
-  .loglist .act{color:#c7c7d6;}
-  .loglist .sw{display:inline-block;width:11px;height:11px;border:1px solid #fff;
-    vertical-align:middle;border-radius:2px;margin:0 1px;}
-  .loglist .tm{display:block;color:#7f7f95;font-size:10px;margin-top:1px;}
+  /* ── Sheet overlays (detail + profile) ───────────── */
+  .sheet { position: fixed; inset: 12px; z-index: 30; border-radius: 16px; background: var(--detail-bg);
+    font-family: var(--body); color: var(--ink); overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity .3s ease; }
+  .sheet.open { opacity: 1; visibility: visible; }
+  .sheet-bar { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 40px; background: linear-gradient(var(--detail-bg) 70%, transparent); }
+  .back { font-family: var(--body); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2);
+    background: var(--glass); border: 1px solid rgba(255,255,255,0.22); border-radius: 10px; padding: 9px 16px; cursor: pointer; transition: .2s; }
+  .back:hover { color: #fff; background: var(--glass-hi); }
+  .sheet-bar .idx { font-family: var(--body); font-size: 12px; letter-spacing: 0.08em; color: var(--ink-3); }
 
-  /* main message window */
-  main{flex:1;max-width:760px;}
-  .congrats{text-align:center;background:linear-gradient(#1a6bff,#0047ab 55%,#002f78);
-    color:#fff;font-size:34px;font-weight:bold;letter-spacing:1px;padding:8px;
-    text-shadow:1px 1px 2px #001a4d;}
-  .smiley{text-align:center;font-size:96px;line-height:1;margin:18px 0;}
-  .shout{text-align:center;font-size:26px;font-weight:bold;line-height:1.25;text-transform:uppercase;}
-  .shout small{font-size:14px;}
-  .clickhere{display:block;width:240px;margin:22px auto 4px;text-decoration:none;text-align:center;
-    color:#fff;font-size:22px;font-weight:bold;padding:12px;
-    background:linear-gradient(#4caf2e,#268a10 50%,#1d6e0b 51%,#2f8f1a);
-    border:1px solid #2c7a0c;border-radius:6px;text-shadow:1px 1px 1px #1c5a08;}
-  .clickhere u{}
-  .clickhere:hover{filter:brightness(1.08);}
+  .spec { max-width: 1180px; margin: 0 auto; padding: 8px 48px 64px; }
+  .spec dl { display: grid; grid-template-columns: minmax(150px, 22%) 1fr; row-gap: 19px; column-gap: 32px; margin: 0; }
+  .spec dt { font-size: 16px; color: var(--ink-3); font-weight: 400; align-self: start; }
+  .spec dd { margin: 0; font-size: 16px; color: var(--ink); line-height: 1.28; max-width: 640px; }
+  .spec dd.para { line-height: 1.5; color: rgba(244,244,244,0.92); }
+  .spec dd.lg { min-height: 62px; }
+  .spec dd a { color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.4); text-underline-offset: 3px; }
+  .cover-label { font-size: 18px; color: var(--ink-3); margin: 40px 0 14px; }
+  .cover { width: 100%; aspect-ratio: 16/9; border-radius: 4px; overflow: hidden; position: relative; background: #1c1c1c; }
+  .cover .gcover { padding: 36px 40px; }
+  .cover .gcover .gname { font-size: clamp(34px, 5vw, 68px); }
 
-  .subwin{margin-top:24px;}
-  .shout{color:#4f86ff;}
-  .intro{font-size:14px;line-height:1.1;margin:0 0 6px;color:#9a9aa8;width:100%;}
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
-  .card{background:#202020;border:1px solid #2e2e2e;border-radius:10px;padding:18px;}
-  .card a{font-size:20px;font-weight:bold;text-decoration:underline;color:#4f86ff;}
-  .cardsub{font-size:12px;color:#9a9aa8;margin-top:4px;}
+  .profile-body { max-width: 760px; margin: 0 auto; padding: 4vh 48px 64px; }
+  .profile-mark { font-family: var(--mono); font-size: 22px; letter-spacing: 4px; color: var(--ink-3); }
+  .profile-body h1 { font-family: var(--serif); font-size: clamp(54px, 8vw, 104px); font-weight: 400; margin: 6px 0 2px; line-height: 0.9; }
+  .profile-body .role { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 28px; }
+  .profile-body .bio { font-size: 19px; line-height: 1.55; color: rgba(244,244,244,0.94); margin: 0 0 32px; max-width: 620px; }
+  .profile-body .creds { list-style: none; margin: 0 0 32px; padding: 0; }
+  .profile-body .creds li { display: grid; grid-template-columns: minmax(120px,30%) 1fr; gap: 24px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.14); font-size: 15px; }
+  .profile-body .creds li:last-child { border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .profile-body .creds .k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .profile-body .contact { display: flex; flex-wrap: wrap; gap: 10px; }
+  .profile-body .contact a { font-family: var(--body); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink);
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.28); border-radius: 10px; padding: 10px 16px; transition: background .2s; }
+  .profile-body .contact a:hover { background: var(--glass-hi); }
 
-  @media(max-width:760px){
-    .layout{flex-direction:column;align-items:stretch;}
-    aside{width:100%;flex:none;}
-    main{width:100%;max-width:none;flex:none;}
-    .cards{grid-template-columns:1fr;}.congrats{font-size:24px;}}
+  @media (max-width: 900px) { .xgrid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .xgrid { grid-template-columns: 1fr; } .spec dl { grid-template-columns: 1fr; row-gap: 6px; }
+    .spec dt { margin-top: 14px; } .spec { padding: 8px 24px 48px; } }
 </style>
 </head>
 <body>
-<div class="layout">
-
-  <aside>
-    <div class="win">
-      <div class="titlebar"><span>Navigation</span><span class="x">✕</span></div>
-      <div class="body">
-        <nav>
-          <a class="cur" href="https://renaise.github.io/r2.github.io/">Home</a>
-          <a href="https://studioartifice.com" target="_blank" rel="noopener">Work</a>
-          <a href="https://artificenyc.org" target="_blank" rel="noopener">The Artifact Index</a>
-          <a href="mailto:krenaise@gmail.com">Contact</a>
-        </nav>
-        <a class="member" href="https://www.zeffy.com/en-US/ticketing/membership-98" target="_blank" rel="noopener">Become a Member<img class="memberlogo" src="artifice-logo.png" alt="Artifice"></a>
-        <div class="credit">
-          Background changed by: <b id="bgby">Renaise</b><br>
-          <span class="bgat" id="bgat"></span>
-          <button class="bgtoggle" id="bgtoggle">Change background ▾</button>
-          <form class="bgform" id="bgform" hidden>
-            <h3>Change the background</h3>
-            <label>Your name</label>
-            <input type="text" id="who" placeholder="Visitor" required>
-            <div class="tabs" role="tablist">
-              <button type="button" class="tab active" id="tabColor" data-pane="paneColor" role="tab">Color</button>
-              <button type="button" class="tab" id="tabImage" data-pane="paneImage" role="tab">Image</button>
-            </div>
-            <div class="tabpane" id="paneColor" role="tabpanel">
-              <label>Pick a color</label>
-              <div class="cpick">
-                <div class="cpsquare" id="cpsquare" role="application" aria-label="Saturation and brightness picker"><div class="cphandle" id="cphandle"></div></div>
-                <input type="range" class="cphue" id="cphue" min="0" max="360" value="150" aria-label="Hue">
-                <div class="crow"><span aria-hidden="true">A</span><input type="range" id="ca" min="0" max="100" value="100" aria-label="Opacity"><b id="cav">100%</b></div>
-                <div class="cphexrow"><span class="cprev"><i id="cprev"></i></span><input type="text" id="cphex" value="#3F9C7A" spellcheck="false" aria-label="Hex color value"></div>
-              </div>
-              <input type="hidden" id="color" value="#3f9c7a">
-              <label>…or an emoji (tiles)</label>
-              <button type="button" class="emojibtn" id="emojibtn">Choose emoji ▾ <span id="emojisel"></span></button>
-              <div class="emojigrid" id="emojigrid" hidden></div>
-              <input type="hidden" id="emoji">
-            </div>
-            <div class="tabpane" id="paneImage" role="tabpanel" hidden>
-              <label>Upload an image</label>
-              <label class="filebtn" for="imgfile"><span id="filelabel">Choose a photo</span></label>
-              <input type="file" id="imgfile" accept="image/*" hidden>
-              <input type="hidden" id="img">
-            </div>
-            <button type="submit">Change</button>
-            <div class="note">This is global. Whatever you set, every visitor sees.</div>
-
-            <button type="button" class="logtoggle" id="logtoggle">Live log ▾</button>
-            <div class="loglist" id="loglist" hidden>Loading…</div>
-          </form>
-        </div>
+  <div class="viewport" id="viewport">
+    <div class="topbar">
+      <div class="toggle" role="tablist" aria-label="jump to box">
+        <button class="active" data-box="lab" role="tab">LAB</button>
+        <button data-box="stage" role="tab">STAGE</button>
       </div>
+      <button class="menu-orb" aria-label="profile" id="menuOrb">•••</button>
     </div>
-  </aside>
 
-  <main>
-    <div class="win">
-      <div class="titlebar"><span>Message important</span><span class="x">✕</span></div>
-      <div class="body">
-        <div class="congrats">CONGRATULATIONS!</div>
-        <div class="smiley">🚽</div>
-        <div class="shout">This is not a joke!<br>You are the<br>100.000<small>th</small> visitor!</div>
-        <a class="clickhere" href="https://www.zeffy.com/en-US/ticketing/membership-98" target="_blank" rel="noopener"><u>Click here</u></a>
+    <header class="hero">
+      <div class="mark">Renaise</div>
+      <div class="tagline">Selected Work · Lab + Stage · 2026</div>
+    </header>
 
-        <div class="subwin">
-          <p class="intro">Renaise is a creative director working across culture + venture. Her practice is focused on web-to-world applications via science + fiction (proxy for prototyping). Currently working on the Artifact Index; a structured, relational, multimodal dataset that captures the curator's discovery-to-documentation process. After hours, she is on the pursuit to plumbership.</p>
-          <div class="cards">
-            <div class="card"><a href="https://artificenyc.org" target="_blank" rel="noopener">Artifice NYC</a><div class="cardsub">Cultural-research nonprofit</div></div>
-            <div class="card"><a href="https://studioartifice.com" target="_blank" rel="noopener">Studio Artifice</a><div class="cardsub">Commercial design studio</div></div>
-            <div class="card"><a href="https://codexfoundry.com" target="_blank" rel="noopener">Codex Foundry</a><div class="cardsub">Venture holding company</div></div>
-            <div class="card"><a href="/lettucecap">Lettuce Capital</a><div class="cardsub">Speculative venture fund</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+    <main id="index">
+      <section class="box" id="box-lab">
+        <div class="box-label"><span class="nm">Lab</span><span class="ct" id="lab-ct"></span><span class="ln"></span></div>
+        <div class="xgrid" id="lab-grid"></div>
+      </section>
+      <section class="box" id="box-stage">
+        <div class="box-label"><span class="nm">Stage</span><span class="ct" id="stage-ct"></span><span class="ln"></span></div>
+        <div class="xgrid" id="stage-grid"></div>
+      </section>
+      <div class="colophon">Renaise · Founding designer &amp; creative director · <a href="services.html">Services →</a></div>
+    </main>
 
-</div>
+    <section class="sheet" id="detail" aria-hidden="true">
+      <div class="sheet-bar"><button class="back" data-close>← Index</button><span class="idx" id="detailIdx"></span></div>
+      <div class="spec" id="spec"></div>
+    </section>
+    <section class="sheet" id="profile" aria-hidden="true">
+      <div class="sheet-bar"><button class="back" data-close>← Index</button><span class="idx">···  Profile</span></div>
+      <div class="profile-body" id="profileBody"></div>
+    </section>
+  </div>
 
 <script>
-  var API = "https://renaise-bg.polished-flower-1ec2.workers.dev/";
-  var CHECKER="linear-gradient(45deg,#c8c8c8 25%,transparent 25%,transparent 75%,#c8c8c8 75%),"+
-    "linear-gradient(45deg,#c8c8c8 25%,transparent 25%,transparent 75%,#c8c8c8 75%)";
-  function fmt(at){ if(!at) return ""; try{ return new Date(at).toLocaleString(); }catch(e){ return ""; } }
-  function emojiBg(e){
-    var svg="<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'>"+
-      "<text x='32' y='44' font-size='34' text-anchor='middle'>"+e+"</text></svg>";
-    return "url(\"data:image/svg+xml,"+encodeURIComponent(svg)+"\")";
-  }
-  function hexToRgba(h){ h=String(h).replace('#','');
-    var r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),bl=parseInt(h.slice(4,6),16),
-        a=h.length>=8?parseInt(h.slice(6,8),16)/255:1;
-    return "rgba("+(r||0)+","+(g||0)+","+(bl||0)+","+(isNaN(a)?1:a)+")"; }
-  function applyBg(s){
-    var b=document.body.style;
-    if(s.img){ b.backgroundColor="#fff"; b.backgroundImage="url('"+s.img+"')";
-      b.backgroundSize="cover"; b.backgroundPosition="center"; }
-    else if(s.emoji){ b.backgroundColor="#fff"; b.backgroundImage=emojiBg(s.emoji);
-      b.backgroundSize="64px 64px"; b.backgroundPosition="0 0"; }
-    else if(s.color){ var rgba=hexToRgba(s.color);
-      b.backgroundColor="#0e0e0e"; // dark base so opacity is truly visible
-      b.backgroundImage="linear-gradient("+rgba+","+rgba+")";
-      b.backgroundSize="auto"; b.backgroundPosition="0 0"; }
-    else { b.backgroundColor="#0e0e0e"; b.backgroundImage="none";
-      b.backgroundSize="auto"; b.backgroundPosition="0 0"; }
-    document.getElementById('bgby').textContent = s.who || "Anonymous";
-    document.getElementById('bgat').textContent = s.at ? fmt(s.at) : "";
-  }
-  fetch(API).then(r=>r.json()).then(applyBg).catch(()=>{});
+  const PROFILE = {
+    name: "Renaise", role: "Founding designer & creative director",
+    bio: "I design the surfaces where people and AI meet: products, identities, and the systems around them. It started with Mythra, a protocol that let language models summon live websites before agents were a category. Every project since has worked the same problem in a different layer: keep complex, technical things legible to machines without losing the people they were made for.",
+    creds: [
+      ["Now", "Founder, Codex Foundry · Creative director, Artifice NYC"],
+      ["Before", "First designer at Flora AI · Design at SOOT"],
+      ["Fellowship", "2026 Onassis ONX Fellow"],
+      ["Origin", "Mythra, a pre-agentic protocol that anticipated llms.txt"],
+    ],
+    contact: [
+      ["Services", "services.html"], ["Studio", "https://studioartifice.com/"],
+      ["Artifice", "https://artificenyc.org/"], ["Mythra", "https://mythra.vercel.app/"],
+      ["Email", "mailto:jonathan@codexfoundry.com"],
+    ],
+  };
 
-  // freeform HSV color picker
-  var sq=document.getElementById('cpsquare'), handle=document.getElementById('cphandle'),
-      hue=document.getElementById('cphue'), ca=document.getElementById('ca'),
-      hexBox=document.getElementById('cphex'), colorInput=document.getElementById('color');
-  var H=150,S=0.6,V=0.61; // ~ #3f9c7a
-  function h2(n){ n=Math.max(0,Math.min(255,Math.round(n))); return (n<16?"0":"")+n.toString(16); }
-  function hsv2rgb(h,s,v){ var c=v*s,x=c*(1-Math.abs((h/60)%2-1)),m=v-c,r,g,b;
-    if(h<60){r=c;g=x;b=0;}else if(h<120){r=x;g=c;b=0;}else if(h<180){r=0;g=c;b=x;}
-    else if(h<240){r=0;g=x;b=c;}else if(h<300){r=x;g=0;b=c;}else{r=c;g=0;b=x;}
-    return [(r+m)*255,(g+m)*255,(b+m)*255]; }
-  function rgb2hsv(r,g,b){ r/=255;g/=255;b/=255; var mx=Math.max(r,g,b),mn=Math.min(r,g,b),d=mx-mn,h=0;
-    if(d){ if(mx===r)h=((g-b)/d)%6; else if(mx===g)h=(b-r)/d+2; else h=(r-g)/d+4; h*=60; if(h<0)h+=360; }
-    return [h, mx?d/mx:0, mx]; }
-  function render(){
-    sq.style.background="linear-gradient(to top,#000,transparent),"+
-      "linear-gradient(to right,#fff,hsl("+H+",100%,50%))";
-    handle.style.left=(S*100)+"%"; handle.style.top=((1-V)*100)+"%";
-    var rgb=hsv2rgb(H,S,V), a=+ca.value;
-    document.getElementById('cav').textContent=a+"%";
-    var hex="#"+h2(rgb[0])+h2(rgb[1])+h2(rgb[2]);
-    hexBox.value=hex.toUpperCase();
-    colorInput.value=hex+(a<100?h2(a*255/100):"");
-    var rr=Math.round(rgb[0]),gg=Math.round(rgb[1]),bb=Math.round(rgb[2]);
-    document.getElementById('cprev').style.background="rgba("+rr+","+gg+","+bb+","+(a/100)+")";
-    // graduated alpha track: transparent -> opaque of current color, over checker stripes
-    ca.style.backgroundImage="linear-gradient(to right,rgba("+rr+","+gg+","+bb+",0),rgba("+rr+","+gg+","+bb+",1)),"+
-      "repeating-linear-gradient(45deg,#3a3a3a 0 5px,#555 5px 10px)";
-  }
-  function pickAt(e){
-    var r=sq.getBoundingClientRect(), x=(e.touches?e.touches[0].clientX:e.clientX)-r.left,
-        y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
-    S=Math.max(0,Math.min(1,x/r.width)); V=1-Math.max(0,Math.min(1,y/r.height)); render();
-  }
-  var dragging=false;
-  sq.addEventListener('pointerdown',function(e){ dragging=true; sq.setPointerCapture(e.pointerId); pickAt(e); });
-  sq.addEventListener('pointermove',function(e){ if(dragging) pickAt(e); });
-  sq.addEventListener('pointerup',function(){ dragging=false; });
-  hue.addEventListener('input',function(){ H=+hue.value; render(); });
-  ca.addEventListener('input',render);
-  hexBox.addEventListener('change',function(){
-    var v=hexBox.value.trim().replace(/^#/,'');
-    if(/^[0-9a-fA-F]{6}$/.test(v)){ var rgb=[parseInt(v.slice(0,2),16),parseInt(v.slice(2,4),16),parseInt(v.slice(4,6),16)];
-      var hsv=rgb2hsv(rgb[0],rgb[1],rgb[2]); H=hsv[0]; S=hsv[1]; V=hsv[2]; hue.value=Math.round(H); render(); }
+  const BOXES = {
+    lab: { label: "Lab", items: [
+      { slug:"mythra", name:"Mythra", year:"2022–23", tone:3,
+        descriptor:"ai:// an AI-native layer over the World Wide Web",
+        title:"ai://WorldWideWeb: summoning the web into chat",
+        hook:"Letting language models summon live sites, before agents were a category.",
+        client:"Self-authored · with Shovon Hasan", client_url:"https://mythra.vercel.app/",
+        medium:"Protocol", timeline:"2022–23", role:"Co-Designer", services:["Strategy","Design"],
+        context:"Mythra closed two gaps at once. Every website makes you learn its interface from scratch; every LLM can only hand back text. Mythra let a model turn a plain-language request into an HTTP call and pull the live website back, so you could use any site just by asking, without learning it.",
+        outcome:"A protocol a site adopts in minutes. The author drops a /mythra.txt file at the root listing what the site can do (its endpoints, methods, and parameters) and any model can operate it with no custom integration, rendering the live, working page right inside the chat. The bet: models become the front door to the internet, and most online tasks flow through one shared, declared layer instead of a thousand separate interfaces. Built with Shovon Hasan in 2022–23, years before \"agents\" were a category, and close to the llms.txt standard the industry ships today.",
+        cover:"covers/mythra.jpg" },
+      { slug:"biota", name:"Biota", year:"2025–26", tone:1,
+        descriptor:"Composable AI content for the camera-roll maximalist",
+        hook:"Turning camera-roll chaos into one tap of magic.",
+        client:"Codex Foundry", medium:"Mobile App", timeline:"Q4 2025 – 2026", role:"Founder / Designer",
+        services:["Strategy","Brand","Design"],
+        context:"Biota is an AI content app built in-house at Codex Foundry. It targets the \"Aesthetic Hoarder\": people with 10,000+ items in their camera roll and neither the skill nor the patience to edit and publish. The job: turn complex generative pipelines into something that feels like one tap of magic.",
+        outcome:"A mobile-first app that hides the pipeline behind composable templates: pick an aesthetic, get a finished, publishable result. Built around the two most emotionally charged content ecosystems, pets and aesthetics, with a credit system and template marketplace as the growth engine.",
+        cover:"covers/biota.jpg" },
+      { slug:"artifice", name:"Artifice", year:"2024–26", tone:0,
+        descriptor:"Science Fiction platform: shaping + linking",
+        title:"Science Fiction Platform Shaping + Linking", hook:"Science Fiction Platform Shaping + Linking",
+        client:"Artifice", client_url:"https://artificenyc.org/",
+        medium:"Creative Direction", timeline:"2024 – 2026", role:"Designer", services:["Strategy","Brand","Design"],
+        context:"Artifice is a cultural institution Renaise creative-directs, a 501(c)(3) building a structured, consented archive of creative practice. Its brand problem is unusual: it has to hold a sprawling, multi-author, always-growing body of work without flattening any of it. Artifice answers with a container-first method: the space is locked before any spatial creative is made, so the brand works as a frame that artifacts are placed into.",
+        outcome:"An open-curatorial brand: an identity and a programming language to run it. Every cohort splits into WHITEBOX and BLACKBOX, six artifacts per box, staged live as Chapters and archived with full provenance in The Artifact Index. Identity, format, and index operate as one system; keeping a growing body of creative work legible and attributable as it scales toward the future.",
+        cover:"covers/artifice.jpg" },
+      { slug:"hieronymus", name:"Hieronymus", year:"2024", tone:5, forthcoming:true,
+        descriptor:"The design ecosystem of flora + fauna",
+        hook:"A design world after the Garden of Earthly Delights.",
+        client:"Artifice", medium:"Brand System", timeline:"2024", role:"Creative Director", services:["Strategy","Brand","Design"],
+        context:"A design ecosystem of flora and fauna built on Hieronymus Bosch's Garden of Earthly Delights, the living-systems world (mycelium, SCOBY, bio-fashion) that gave an Artifice chapter its spatial language: WHITEBOX as the Garden, BLACKBOX as the Inferno, held in communion.",
+        cover:"covers/hieronymus.jpg" },
+      { slug:"liquid-metal", name:"Liquid Metal", year:"2024–25", tone:4, forthcoming:true,
+        descriptor:"See everything: metadata as a liquid-metal surface",
+        hook:"Make a deep archive legible at a glance.",
+        client:null, medium:"Website", timeline:"2024–25", role:"Designer", services:["Strategy","Brand","Design"],
+        context:"A system rich in metadata but starved of a single view. Everything stored, nothing seeable. The experiment: turn a deep index into one fluid, scannable surface.",
+        cover:"covers/liquid-metal.jpg" },
+      { slug:"rememe", name:"Rememe", year:"2025", tone:4, forthcoming:true,
+        descriptor:"Remixing memes on a composable canvas",
+        hook:"A composable canvas for remix culture.",
+        client:null, medium:"Website", timeline:"2025", role:"Designer", services:["Strategy","Brand","Design"],
+        context:"Meme-making is fast, social, and iterative; the product needed a canvas that invited remixing without sacrificing the speed that makes the format work.",
+        cover:"covers/rememe.jpg" },
+    ]},
+    stage: { label: "Stage", items: [
+      { slug:"flora", name:"Flora", year:"2024", tone:5,
+        descriptor:"A node canvas for image makers",
+        title:"A node canvas for image makers",
+        hook:"A node canvas for image makers.",
+        client:"FLORA Genesis", medium:"Product", timeline:"2024", role:"Designer", services:["Strategy","Brand","Design"],
+        context:"A node-based creative tool with AI at the center, and no map; no competitor to copy, no convention to break. The team had to know what it was before it could say what it did.",
+        outcome:"Zero to one. I shaped the editor around the people making images rather than the ones wiring graphs; community models, generation, and curation on a single canvas that never assumes you can code.",
+        cover:"covers/flora.png" },
+      { slug:"industrial-lighting", name:"Aputure", year:"2025", tone:1,
+        descriptor:"Global site for industrial cinematic lighting",
+        title:"A global home for industrial light.",
+        hook:"A global home for industrial light.",
+        client:"Aputure", medium:"Website", timeline:"Q3 2024 – Q2 2025", role:"Designer", services:["Strategy","Brand","Design","Production"],
+        context:"Aputure lights real productions, but the site still sold fixtures like hardware: spec-led, and identical across a dozen markets that each shoot, read, and buy differently. The direction had to catch up to the work; cinematic, not clinical.",
+        outcome:"A dark, image-forward site where lighting reads as craft. Full-bleed product heroes, families browsable at a glance, benefit-led headlines over spec dumps, and on-set storytelling running alongside the catalog: one visual language that holds for a gaffer pricing a fixture and a DP reading a case study, in any market or language.",
+        cover:"covers/industrial-lighting.png" },
+      { slug:"osmosis", name:"Osmosis", year:"2025", tone:3,
+        descriptor:"Identity for forward-deployed reinforcement learning",
+        title:"An identity for intelligence that seeps in.",
+        hook:"An identity for intelligence that seeps in.",
+        client:"Osmosis", client_url:"https://osmosis.ai/", medium:"Identity + Website", timeline:"2025", role:"Designer", services:["Strategy","Identity","Design"],
+        context:"Osmosis is forward-deployed reinforcement learning that builds task-specific models that beat the frontier foundation models at a fraction of the cost. But the category it lives in (post-training, GRPO, DAPO) reads as jargon to the teams who need it most, and the name's own idea, intelligence absorbed gradually through contact, wasn't yet carrying any weight. The identity had to make a deeply technical practice feel inevitable, not arcane.",
+        outcome:"An identity built on the osmotic principle: intelligence that diffuses across a membrane and stays, rather than software that gets installed. A restrained, technical wordmark and type system that carries from a research note to an enterprise deck; a gradient-as-argument visual language where absorption is the whole story; and positioning that reframes RL from a black box into something that seeps into a company's own data and compounds.",
+        cover:"covers/osmosis.png" },
+      { slug:"lighthouse", name:"Lighthouse", year:"2026", tone:2,
+        descriptor:"Immigration as a talent strategy",
+        title:"Land Talent. Land Somewhere.",
+        hook:"Land Talent. Land Somewhere.",
+        client:"Lighthouse", medium:"Identity + Website", timeline:"Q1 2026", role:"Lead Designer", services:["Strategy","Brand","Design"],
+        context:"Most immigration products sell relief from paperwork. Lighthouse sells the opposite end; immigration as how a company wins the people everyone else is chasing, American excellence pitched as a reason to come build the future here.",
+        outcome:"I directed and designed the identity up from its 1.0; elevated, enterprise-grade, made to be bought by the HR leaders staffing global teams.",
+        cover:"covers/lighthouse.png" },
+      { slug:"sensitive-subjects", name:"Sensitive Subjects", year:"2026", tone:0,
+        descriptor:"Identity + site for a studio of one",
+        title:"Reframing brands at the unstable moment",
+        hook:"Reframing brands at the unstable moment.",
+        client:"Sensitive Subjects Studio by Alexa Sparacio", medium:"Identity + Website", timeline:"Q1 2026 – Ongoing", role:"Lead Designer", contributors:"Chakib Mazouni", services:["Strategy","Design"],
+        context:"A consultancy for brands at their unstable moments; a launch, a reframe, an identity crisis, the move that defines a category, where the work is judgment before production. It runs as a studio of one that pulls together a different cast for every project.",
+        outcome:"An identity, and a site is revelatory and is a mirror to; navigation built from radial dials in place of a menu bar, a layout that reshapes as you move through it. A mutable web for a studio whose shape changes with each client.",
+        cover:"covers/sensitive-subjects.png" },
+      { slug:"soot", name:"SOOT", year:"2024–25", tone:0,
+        descriptor:"Self-organizing assets: Liquid Metal + the Z-index",
+        title:"See Everything, Search Anything, Self-Organize",
+        hook:"See Everything, Search Anything, Self-Organize.",
+        client:"SOOT", client_url:"https://soot.com/", medium:"Product", timeline:"Q3 2024 – Q2 2025", role:"Lead Designer", contributors:"SOOT, UNNAMED, Two.much Studio", services:["Strategy","Design"],
+        context:"Every hard drive is a graveyard of final_v3_REALLY.png. Assets that sort themselves were a category with no precedent; nobody had drawn the primitives yet.",
+        outcome:"The primitive is Liquid Metal, a parts library loose enough to prototype any surface fast; the Z index, a way to stack interface in depth instead of pretending the screen is flat.",
+        cover:"covers/soot.png" },
+    ]},
+  };
+
+  const ORDER = {
+    lab:   ["biota","liquid-metal","hieronymus","mythra","artifice","rememe"],
+    stage: ["sensitive-subjects","lighthouse","osmosis","industrial-lighting","soot","flora"],
+  };
+  const ROMAN = ["","i","ii","iii","iv","v","vi","vii","viii","ix","x"];
+  const roman = n => ROMAN[n] || String(n);
+  const fmtNo = p => p.box === "stage" ? String(p.n).padStart(3, "0") : roman(p.n);
+  const boxTotal = key => key === "stage" ? String(BOXES[key].items.length).padStart(3, "0") : roman(BOXES[key].items.length);
+  Object.entries(BOXES).forEach(([key, box]) => {
+    box.items.sort((a, b) => ORDER[key].indexOf(a.slug) - ORDER[key].indexOf(b.slug));
+    box.items.forEach((p, i) => { p.box = key; p.boxLabel = box.label; p.n = i + 1; });
   });
-  hue.value=Math.round(H); render();
+  const ALL = [...BOXES.lab.items, ...BOXES.stage.items];
 
-  var form=document.getElementById('bgform'), toggle=document.getElementById('bgtoggle');
-  toggle.addEventListener('click',function(){ form.hidden=!form.hidden;
-    toggle.textContent=(form.hidden?"Change background ▾":"Change background ▴"); });
-
-  document.getElementById('bgform').addEventListener('submit',function(e){
-    e.preventDefault();
-    var who=document.getElementById('who').value.trim()||"Anonymous", s;
-    if(activeTab==="image"){
-      s={ who:who, img:document.getElementById('img').value.trim(), color:"", emoji:"" };
-    } else {
-      s={ who:who, color:document.getElementById('color').value,
-        emoji:document.getElementById('emoji').value.trim(), img:"" };
-    }
-    var btn=this.querySelector('button[type=submit]'); btn.textContent="Saving…"; btn.disabled=true;
-    fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(s)})
-      .then(r=>r.json()).then(function(rec){ applyBg(rec); loadLog(); btn.textContent="Changed!"; })
-      .catch(function(){ btn.textContent="Failed — try again"; })
-      .finally(function(){ btn.disabled=false; setTimeout(function(){btn.textContent="Change";},2000); });
-  });
-
-  // ─── emoji picker ───
-  var EMOJIS=["🔮","🪬","🕯️","⚱️","⚰️","🪦","🧿","🧞","🩻","🫀","🫁","🦴",
-    "🧬","🪤","🛐","⚗️","☄️","🌑","🪐","👁️","🦠","🪺","☥","⛤"];
-  var grid=document.getElementById('emojigrid'), emojiInput=document.getElementById('emoji'),
-      emojiBtn=document.getElementById('emojibtn'), emojiSel=document.getElementById('emojisel');
-  var clearBtn=document.createElement('button'); clearBtn.type="button"; clearBtn.textContent="✖";
-  clearBtn.title="none"; clearBtn.onclick=function(){ emojiInput.value=""; emojiSel.textContent="";
-    [].forEach.call(grid.querySelectorAll('button'),function(b){b.classList.remove('sel');}); };
-  grid.appendChild(clearBtn);
-  EMOJIS.forEach(function(e){
-    var b=document.createElement('button'); b.type="button"; b.textContent=e;
-    b.onclick=function(){ emojiInput.value=e; emojiSel.textContent=e;
-      [].forEach.call(grid.querySelectorAll('button'),function(x){x.classList.remove('sel');});
-      b.classList.add('sel'); };
-    grid.appendChild(b);
-  });
-  emojiBtn.addEventListener('click',function(){ grid.hidden=!grid.hidden; });
-
-  // image upload (local drive / photo gallery) -> downscaled data URL
-  var imgFile=document.getElementById('imgfile'), imgHidden=document.getElementById('img'),
-      fileLabel=document.getElementById('filelabel');
-  imgFile.addEventListener('change',function(){
-    var f=imgFile.files&&imgFile.files[0]; if(!f) return;
-    fileLabel.textContent="Processing…";
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      var im=new Image();
-      im.onload=function(){
-        var max=1280, w=im.width, h=im.height;
-        if(w>max||h>max){ var s=Math.min(max/w,max/h); w=Math.round(w*s); h=Math.round(h*s); }
-        var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
-        cv.getContext('2d').drawImage(im,0,0,w,h);
-        var data=cv.toDataURL('image/jpeg',0.78);
-        imgHidden.value=data;
-        fileLabel.textContent="✓ "+(f.name.length>22?f.name.slice(0,20)+"…":f.name);
-      };
-      im.onerror=function(){ fileLabel.textContent="Couldn't read that image"; };
-      im.src=ev.target.result;
-    };
-    reader.readAsDataURL(f);
-  });
-
-  // ─── either / or tabs: Color XOR Image ───
-  var activeTab="color";
-  var tabColor=document.getElementById('tabColor'), tabImage=document.getElementById('tabImage'),
-      paneColor=document.getElementById('paneColor'), paneImage=document.getElementById('paneImage');
-  function setTab(t){
-    activeTab=t;
-    tabColor.classList.toggle('active',t==="color"); tabImage.classList.toggle('active',t==="image");
-    paneColor.hidden=(t!=="color"); paneImage.hidden=(t!=="image");
+  const tags = list => list.map((t,i) => `${i ? '<span class="dot"></span>' : ''}<span>${t}</span>`).join("");
+  function gcover(p) {
+    return `<div class="gcover tone-${p.tone ?? 0}"><div class="gname">${p.name}</div><div class="gmeta">${p.medium} · ${p.year}</div></div>`;
   }
-  tabColor.addEventListener('click',function(){ setTab("color"); });
-  tabImage.addEventListener('click',function(){ setTab("image"); });
-
-  // ─── background-change log ───
-  var LOG = API + "log";
-  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
-  function nameColor(n){ var h=0; for(var i=0;i<n.length;i++){ h=(h*31+n.charCodeAt(i))%360; }
-    return "hsl("+h+",70%,68%)"; }
-  function renderLog(list){
-    var el=document.getElementById('loglist');
-    if(!list.length){ el.innerHTML="<div class='row act'>No changes yet. Be the first.</div>"; return; }
-    el.innerHTML=list.slice().reverse().map(function(m){
-      var t=""; try{ t=new Date(m.at).toLocaleString(); }catch(e){}
-      var what = m.img ? "an image" : (m.emoji ? m.emoji+" emoji"
-        : "<span class='sw' style='background:"+esc(m.color||"#fff")+"'></span> "+esc(m.color||""));
-      return "<div class='row'><span class='nm' style='color:"+nameColor(m.who||"?")+"'>"+esc(m.who||"???")+
-        "</span> <span class='act'>changed the background to "+what+"</span>"+
-        "<span class='tm'>"+t+"</span></div>";
-    }).join("");
+  function coverInner(p) {
+    const img = p.cover ? `<img src="${p.cover}" alt="${p.name} cover" onerror="this.remove()">` : "";
+    return gcover(p) + img;
   }
-  function loadLog(){ fetch(LOG+"?t="+Date.now()).then(r=>r.json()).then(renderLog).catch(function(){}); }
-  loadLog(); setInterval(loadLog, 8000);
 
-  // live-log submodal toggle
-  var logtoggle=document.getElementById('logtoggle'), loglistEl=document.getElementById('loglist');
-  logtoggle.addEventListener('click',function(){ loglistEl.hidden=!loglistEl.hidden;
-    logtoggle.textContent=(loglistEl.hidden?"Live log ▾":"Live log ▴"); });
+  function xcard(p) {
+    return `<article class="xcard" data-slug="${p.slug}" tabindex="0">
+      ${p.forthcoming ? '<span class="soon">◷ Forthcoming</span>' : ''}
+      <div class="xcover">${coverInner(p)}</div>
+      <div class="xbody">
+        <div class="xtop"><span class="xno">${fmtNo(p)}</span><span class="xyear">${p.year}</span></div>
+        <h3 class="xname">${p.name}</h3>
+        <p class="xsub">${p.descriptor}</p>
+        <div class="xtags">${tags(p.services)}</div>
+      </div>
+    </article>`;
+  }
+  function renderIndex() {
+    document.getElementById("lab-ct").textContent = BOXES.lab.items.length + " Artifacts";
+    document.getElementById("stage-ct").textContent = BOXES.stage.items.length + " Artifacts";
+    document.getElementById("lab-grid").innerHTML = BOXES.lab.items.map(xcard).join("");
+    document.getElementById("stage-grid").innerHTML = BOXES.stage.items.map(xcard).join("");
+  }
+  renderIndex();
+
+  // ── Detail / Profile ──
+  const viewport = document.getElementById("viewport");
+  const detail = document.getElementById("detail");
+  const profile = document.getElementById("profile");
+  const spec = document.getElementById("spec");
+  const detailIdx = document.getElementById("detailIdx");
+  const profileBody = document.getElementById("profileBody");
+  const row = (label, value, cls = "") => `<dt>${label}</dt><dd class="${cls}">${value}</dd>`;
+  const clientCell = p => (!p.client)
+    ? '<span style="opacity:.5">Confidential</span>'
+    : (p.client_url ? `<a href="${p.client_url}" target="_blank" rel="noopener">${p.client}</a>` : p.client);
+  function openDetail(slug) {
+    const p = ALL.find(x => x.slug === slug);
+    if (!p) return;
+    closeAll();
+    const dl = [
+      row("No.", fmtNo(p)),
+      row("Title", p.title || p.hook),
+      row("Client", clientCell(p)),
+      row("Medium", p.medium),
+      row("Timeline", p.timeline),
+      row("Role", p.role),
+      ...(p.contributors ? [row("Contributors", p.contributors)] : []),
+      row("Context", p.context || "–", "para lg"),
+      row("Outcome", p.outcome || "–", "para lg"),
+    ].join("");
+    spec.innerHTML = `<dl>${dl}</dl><div class="cover-label">Cover</div><div class="cover">${coverInner(p)}</div>`;
+    detailIdx.textContent = `${p.boxLabel} · ${fmtNo(p)} / ${boxTotal(p.box)}`;
+    detail.classList.add("open"); detail.setAttribute("aria-hidden","false"); detail.scrollTop = 0;
+    if (location.hash !== "#" + slug) history.replaceState(null, "", "#" + slug);
+  }
+  function openProfile() {
+    closeAll();
+    profileBody.innerHTML = `
+      <div class="profile-mark">•••</div>
+      <h1>${PROFILE.name}</h1><p class="role">${PROFILE.role}</p>
+      <p class="bio">${PROFILE.bio}</p>
+      <ul class="creds">${PROFILE.creds.map(([k,v]) => `<li><span class="k">${k}</span><span>${v}</span></li>`).join("")}</ul>
+      <div class="contact">${PROFILE.contact.map(([k,u]) => `<a href="${u}" target="_blank" rel="noopener">${k} ↗</a>`).join("")}</div>`;
+    profile.classList.add("open"); profile.setAttribute("aria-hidden","false"); profile.scrollTop = 0;
+    if (location.hash !== "#profile") history.replaceState(null, "", "#profile");
+  }
+  function closeAll() { [detail, profile].forEach(s => { s.classList.remove("open"); s.setAttribute("aria-hidden","true"); }); }
+  function closeToIndex() { closeAll(); if (location.hash) history.replaceState(null, "", location.pathname); }
+  function syncFromHash() {
+    const h = location.hash.replace(/^#/, "");
+    if (h === "profile") return openProfile();
+    if (ALL.some(x => x.slug === h)) openDetail(h);
+  }
+
+  // ── Toggle = scroll to section + scrollspy ──
+  const tbtns = [...document.querySelectorAll(".toggle button")];
+  function setActive(key) { tbtns.forEach(b => b.classList.toggle("active", b.dataset.box === key)); }
+  tbtns.forEach(b => b.addEventListener("click", () => {
+    const sec = document.getElementById("box-" + b.dataset.box);
+    viewport.scrollTo({ top: sec.offsetTop - 60, behavior: "smooth" });
+    setActive(b.dataset.box);
+  }));
+  viewport.addEventListener("scroll", () => {
+    const stageTop = document.getElementById("box-stage").offsetTop - 120;
+    setActive(viewport.scrollTop >= stageTop ? "stage" : "lab");
+  });
+
+  // ── Wire ──
+  document.getElementById("index").addEventListener("click", e => { const c = e.target.closest(".xcard"); if (c) openDetail(c.dataset.slug); });
+  document.getElementById("index").addEventListener("keydown", e => {
+    const c = e.target.closest(".xcard");
+    if (c && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDetail(c.dataset.slug); }
+  });
+  document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", closeToIndex));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeToIndex(); });
+  document.getElementById("menuOrb").addEventListener("click", openProfile);
+  window.addEventListener("hashchange", syncFromHash);
+  syncFromHash();
 </script>
 </body>
 </html>

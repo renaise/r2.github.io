@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renaise · Services</title>
+<style>
+  :root {
+    --frame: #060606; --line: rgba(255,255,255,0.26);
+    --ink: #f4f4f4; --ink-2: rgba(244,244,244,0.78); --ink-3: rgba(244,244,244,0.5);
+    --glass: rgba(255,255,255,0.12); --glass-hi: rgba(255,255,255,0.24); --accent: #c9a24a;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --body: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --serif: 'Snell Roundhand', 'Apple Chancery', 'Brush Script MT', cursive;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; background: var(--frame); }
+  body { font-family: var(--body); -webkit-font-smoothing: antialiased; padding: 12px; height: 100vh; }
+  ::selection { background: rgba(255,255,255,0.85); color: #1a1a1a; }
+
+  .viewport { position: relative; width: 100%; height: 100%; border-radius: 16px; overflow-y: auto; overflow-x: hidden;
+    background: radial-gradient(120% 80% at 62% 0%, #8f8f8f 0%, #7c7c7c 30%, #5f5f5f 70%, #4a4a4a 100%); }
+  .viewport::before { content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1.4px);
+    background-size: 27px 27px; background-position: 13px 13px; pointer-events: none; z-index: 0; }
+  .wm { position: fixed; left: -2vw; bottom: 2vh; font-family: var(--serif); font-size: clamp(160px, 22vw, 420px);
+    line-height: 0.8; color: rgba(255,255,255,0.045); z-index: 0; user-select: none; pointer-events: none; white-space: nowrap; }
+
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 36px; backdrop-filter: blur(8px); }
+  .bar a.back, .bar .orb { font-family: var(--body); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-2); background: var(--glass); border: 1px solid rgba(255,255,255,0.24); border-radius: 10px;
+    padding: 9px 16px; text-decoration: none; transition: background .2s, color .2s; }
+  .bar a.back:hover { color: #fff; background: var(--glass-hi); }
+  .bar .orb { letter-spacing: 2px; padding: 9px 14px; }
+
+  .wrap { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 4vh 36px 9vh; }
+
+  .lede { max-width: 760px; }
+  .lede .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); }
+  .lede h1 { font-size: clamp(40px, 6.5vw, 92px); font-weight: 600; letter-spacing: -0.02em; line-height: 0.98; margin: 14px 0 18px; color: var(--ink); }
+  .lede p { font-size: clamp(18px, 2vw, 23px); line-height: 1.5; color: var(--ink-2); margin: 0; max-width: 640px; }
+
+  .services { margin: 9vh 0 0; border-top: 1px solid var(--line); }
+  .svc { display: grid; grid-template-columns: 64px 1fr; gap: 0 28px; padding: 34px 0; border-bottom: 1px solid var(--line); }
+  .svc .no { font-family: var(--mono); font-size: 13px; color: var(--ink-3); padding-top: 8px; }
+  .svc h2 { font-size: clamp(24px, 3vw, 40px); font-weight: 600; letter-spacing: -0.01em; margin: 0 0 6px; color: var(--ink); }
+  .svc .for { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); text-transform: uppercase; margin: 0 0 16px; }
+  .svc p { font-size: 17px; line-height: 1.5; color: var(--ink-2); margin: 0 0 14px; max-width: 620px; }
+  .svc .work { display: flex; flex-wrap: wrap; gap: 8px; }
+  .svc .work a { font-family: var(--body); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2);
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.26); border-radius: 20px; padding: 6px 13px; transition: background .2s; }
+  .svc .work a:hover { background: var(--glass-hi); color: #fff; }
+
+  .how { margin: 9vh 0 0; }
+  .how .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 24px; }
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .mode { background: linear-gradient(160deg, rgba(70,70,70,0.6), rgba(50,50,50,0.6)); padding: 26px 24px; }
+  .mode h3 { font-size: 19px; font-weight: 600; margin: 0 0 8px; color: var(--ink); }
+  .mode p { font-size: 14px; line-height: 1.45; color: var(--ink-2); margin: 0; }
+  .mode .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); display: block; margin-top: 12px; }
+
+  .cta { margin: 9vh 0 0; padding: 48px 0 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
+  .cta h2 { font-size: clamp(28px, 4vw, 52px); font-weight: 600; letter-spacing: -0.015em; margin: 0; color: var(--ink); max-width: 14ch; line-height: 1.02; }
+  .cta .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .cta .links a { font-family: var(--body); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink);
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; padding: 12px 18px; transition: background .2s; }
+  .cta .links a.primary { background: var(--ink); color: #141414; border-color: var(--ink); }
+  .cta .links a:hover { background: var(--glass-hi); }
+  .cta .links a.primary:hover { background: #fff; }
+
+  .foot { margin-top: 7vh; font-family: var(--body); font-size: 12px; letter-spacing: 0.04em; color: var(--ink-3); }
+
+  @media (max-width: 720px) {
+    .svc { grid-template-columns: 1fr; gap: 4px; } .svc .no { padding-top: 0; }
+    .modes { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="viewport">
+    <div class="wm">Renaise</div>
+    <div class="bar">
+      <a class="back" href="index.html">← Index</a>
+      <a class="orb" href="index.html#profile">•••</a>
+    </div>
+
+    <div class="wrap">
+      <section class="lede">
+        <div class="eyebrow">Renaise · Services</div>
+        <h1>Design for things that don't exist yet.</h1>
+        <p>I work with technical and AI-native teams to give a product its first form, its identity, and the spaces around it, from founding design through creative direction. Complex on the inside, legible and human on the surface.</p>
+      </section>
+
+      <section class="services">
+        <div class="svc">
+          <div class="no">01</div>
+          <div>
+            <h2>Founding Design</h2>
+            <p class="for">For 0→1 products · pre-launch teams</p>
+            <p>First-designer work: define what a product looks and feels like before it exists: the visual foundation, the core UI, and the system everything built after inherits. The hardest, highest-leverage phase, done with founders.</p>
+            <div class="work"><a href="index.html#flora">Flora ↗</a><a href="index.html#biota">Biota ↗</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <div class="no">02</div>
+          <div>
+            <h2>Identity &amp; Brand Systems</h2>
+            <p class="for">For companies with a hard story to tell</p>
+            <p>Wordmark, type, and the system that carries a technical practice from a research note to an enterprise deck, making a deep idea feel inevitable instead of arcane, and flexible enough to grow.</p>
+            <div class="work"><a href="index.html#osmosis">Osmosis ↗</a><a href="index.html#hieronymus">Hieronymus ↗</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <div class="no">03</div>
+          <div>
+            <h2>Worldsites</h2>
+            <p class="for">For brands that need a space, not a page · with Studio Artifice</p>
+            <p>Spatial brand websites with embedded intelligence: environments rather than templates, where navigation has dimension and the experience responds. Productized through Studio Artifice, designed and directed by me.</p>
+            <div class="work"><a href="index.html#industrial-lighting">Aputure ↗</a><a href="https://studioartifice.com/" target="_blank" rel="noopener">Studio ↗</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <div class="no">04</div>
+          <div>
+            <h2>Creative Direction</h2>
+            <p class="for">For teams building at the frontier</p>
+            <p>Ongoing direction across product, brand, and the cultural surface around the work, holding a coherent point of view as a company scales. Drawn from running the creative practice at Artifice NYC.</p>
+            <div class="work"><a href="index.html#artifice">Artifice ↗</a></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="how">
+        <div class="eyebrow">How we work</div>
+        <div class="modes">
+          <div class="mode">
+            <h3>Sprint</h3>
+            <p>A fixed, fast block to lock a direction (identity, a founding UI, or a site concept) when you need momentum and a clear artifact.</p>
+            <span class="tag">1–3 weeks</span>
+          </div>
+          <div class="mode">
+            <h3>Project</h3>
+            <p>End-to-end on a defined scope: founding design, a full identity, or a worldsite, from brief to shipped.</p>
+            <span class="tag">Scoped</span>
+          </div>
+          <div class="mode">
+            <h3>Embedded</h3>
+            <p>A standing capacity retainer: direction and design alongside your team through a launch and beyond, designed to renew.</p>
+            <span class="tag">Monthly</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta">
+        <h2>Have something that doesn't exist yet?</h2>
+        <div class="links">
+          <a class="primary" href="mailto:jonathan@codexfoundry.com">Start a project →</a>
+          <a href="index.html">See the work</a>
+          <a href="https://studioartifice.com/" target="_blank" rel="noopener">Studio Artifice ↗</a>
+        </div>
+      </section>
+
+      <div class="foot">Renaise · Founding designer &amp; creative director · 2026</div>
+    </div>
+  </div>
+</body>
+</html>
