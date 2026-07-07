@@ -5,72 +5,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Renaise Kim</title>
 <style>
-  /* Attempt Cargo's Diatype (Dinamo, licensed/referrer-locked) — falls back cleanly */
-  @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
-  @font-face { font-family:"Diatype Compressed Variable"; src:url("/fonts/CargoDiatypeWidthsVariable.woff2") format("woff2"); font-weight:100 900; font-stretch:50% 200%; font-display:swap; }
-  @font-face { font-family:"Diatype Mono Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
   @font-face { font-family:"Favorit Mono"; src:url("/ABCFavoritMono-Light-Trial.otf") format("opentype"); font-weight:300; font-display:swap; }
 
   :root{
-    --sw1:rgba(255,255,255,0.85); --sw2:rgba(255,255,255,0.75); --sw3:rgba(255,255,255,0.6);
-    --sw4:rgba(255,255,255,0.4); --sw5:rgba(255,255,255,0.25); --sw6:rgba(255,255,255,0.15);
-    --accent:#FF0000; --bg:#191919;
-    --sans:"Diatype Variable","Neue Haas Grotesk Display Pro","Neue Haas Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --cond:"Diatype Compressed Variable","Neue Haas Grotesk Display Pro","Helvetica Neue Condensed","Arial Narrow","Helvetica Neue",sans-serif;
-    --mono:"Diatype Mono Variable","Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --ink:#151310;
+    --sw1:rgba(21,19,16,0.92); --sw2:rgba(21,19,16,0.78); --sw3:rgba(21,19,16,0.56);
+    --sw4:rgba(21,19,16,0.40); --sw5:rgba(21,19,16,0.26); --sw6:rgba(21,19,16,0.13);
+    --accent:#FF2A00; --bg1:#fcfaf5; --bg2:#f2ebdd; --tile:#141310;
+    --sans:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --cond:"Neue Haas Grotesk Display Pro","Neue Haas Grotesk","Helvetica Neue Condensed","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --display:"Helvetica Now Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box;}
   html{-webkit-font-smoothing:antialiased;}
-  body{margin:0;background:var(--bg);color:var(--sw2);
-    font-family:var(--sans);font-weight:500;font-size:1.1rem;line-height:1.1;letter-spacing:0;}
+  body{margin:0;color:var(--sw2);
+    background:linear-gradient(168deg,var(--bg1) 0%,var(--bg2) 100%);background-attachment:fixed;min-height:100vh;
+    font-family:var(--sans);font-weight:500;font-size:0.98rem;line-height:1.12;letter-spacing:0;}
   a{color:inherit;text-decoration:none;}
   a:active{opacity:.7;}
+  a:hover{color:var(--accent);}
 
-  /* pinned header */
+  /* pinned header + footer (explicit color, no blend on light bg) */
   .bar{position:fixed;top:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;
-    padding:1.2rem;mix-blend-mode:difference;font-family:var(--sans);font-weight:500;}
-  .bar .r{display:flex;gap:1.6rem;}
+    padding:1.1rem;font-family:var(--sans);font-weight:600;color:var(--ink);font-size:0.95rem;}
+  .bar .r{display:flex;gap:1.5rem;}
   .brand sup{font-size:.6em;top:-.5em;}
-  .clock{position:fixed;top:1.2rem;left:50%;transform:translateX(-50%);z-index:9;
-    font-family:var(--mono);font-size:1.05rem;color:var(--sw2);mix-blend-mode:difference;}
+  .clock{position:fixed;top:1.1rem;left:50%;transform:translateX(-50%);z-index:9;
+    font-family:var(--mono);font-size:0.92rem;color:var(--sw3);}
 
-  /* page column model: left aligned, 60% max */
-  .page{display:flex;justify-content:center;padding:1.2rem;}
-  .layout{width:100%;max-width:60%;}
+  .page{display:flex;justify-content:center;padding:1.1rem;}
+  .layout{width:100%;max-width:56%;}
   @media(max-width:900px){ .layout{max-width:100%;} }
 
-  /* centered header statement */
-  .statement{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:1.2rem;}
-  .statement h2{font-family:var(--sans);font-weight:500;font-size:2.4rem;line-height:1.15;color:var(--sw2);margin:0;}
-  .statement .ref{font-family:var(--mono);font-size:1.05rem;color:var(--sw3);margin-top:1.4rem;letter-spacing:.02em;}
+  /* centered header statement + marquee */
+  .statement{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.1rem;}
+  .statement h2{font-family:var(--sans);font-weight:500;font-size:2.0rem;line-height:1.16;color:var(--ink);margin:0;max-width:24ch;letter-spacing:-.01em;}
+  .marquee{width:100%;margin-top:2.2rem;overflow:hidden;white-space:nowrap;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);}
+  .marquee .track{display:inline-block;animation:scroll 34s linear infinite;
+    font-family:var(--mono);font-size:0.92rem;letter-spacing:.09em;color:var(--sw3);text-transform:uppercase;}
+  .marquee .track span{margin:0 1.05rem;}
+  .marquee .track .sep{color:var(--accent);}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media(prefers-reduced-motion:reduce){ .marquee .track{animation:none;} }
 
-  h1{font-family:var(--cond);font-weight:700;font-size:5.2rem;line-height:.75;color:#fff;
-    letter-spacing:-.025em;margin:0;font-stretch:59%;text-transform:none;}
+  h1{font-family:var(--display);font-weight:700;font-size:4.4rem;line-height:.82;color:var(--ink);
+    letter-spacing:-.035em;margin:0;text-transform:none;}
 
   /* project entries */
-  .proj{margin-bottom:5.5rem;}
-  .media{width:100%;background:#0e0e0e;overflow:hidden;margin-bottom:1rem;}
+  .proj{margin-bottom:4.6rem;}
+  .media{width:100%;background:var(--tile);overflow:hidden;margin-bottom:.9rem;border-radius:2px;}
   .media video,.media img{display:block;width:100%;}
   .media .cover{aspect-ratio:3/2;object-fit:cover;}
-  .media .contain{aspect-ratio:3/2;object-fit:contain;padding:8%;background:#111;}
+  .media .contain{aspect-ratio:3/2;object-fit:contain;padding:8%;background:var(--tile);}
   .cols{display:grid;grid-template-columns:1fr 3fr;gap:.5rem;align-items:start;}
-  .c0{color:var(--sw2);} .c0 b{font-weight:700;color:#fff;}
-  .c1 .t{color:#fff;font-weight:700;} .c1 .m{color:var(--sw2);} .c1 .d{color:var(--sw4);}
+  .c0{color:var(--sw2);} .c0 b{font-weight:700;color:var(--ink);}
+  .c1 .t{color:var(--ink);font-weight:700;} .c1 .m{color:var(--sw2);} .c1 .d{color:var(--sw4);}
   .c1 br+span{display:block;}
 
   /* about / CV */
-  .about{margin-top:6rem;}
+  .about{margin-top:5.5rem;}
   .cv{display:grid;grid-template-columns:3fr 1fr 3fr 3fr;gap:.5rem;align-items:start;}
-  .cv b{color:#fff;font-weight:700;}
+  .cv b{color:var(--ink);font-weight:700;}
   .cv a{color:var(--sw2);}
   .cv .info{color:var(--sw2);}
-  .cv .dim{color:var(--sw4);}
-  @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv{grid-template-columns:1fr;gap:2rem;} h1{font-size:3.4rem;} .statement h2{font-size:1.7rem;} }
+  @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv{grid-template-columns:1fr;gap:2rem;} h1{font-size:3rem;} .statement h2{font-size:1.5rem;} .layout{max-width:100%;} }
 
-  /* pinned bottom */
   .foot{position:fixed;bottom:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;
-    padding:1.2rem;mix-blend-mode:difference;font-family:var(--mono);font-size:1.05rem;}
-  .spacer{height:6rem;}
+    padding:1.1rem;font-family:var(--mono);font-size:0.92rem;color:var(--sw2);}
+  .spacer{height:5.5rem;}
 </style>
 </head>
 <body>
@@ -78,30 +83,29 @@
     <div class="brand"><a href="#top">Renaise<sup>®</sup></a></div>
     <div class="r"><a href="#about">About</a><a href="#top">Index</a></div>
   </div>
-  <div class="clock" id="clock">—</div>
+  <div class="clock" id="clock"></div>
 
   <a id="top"></a>
   <section class="statement">
     <div>
-      <h2>Renaise Kim — Brand &amp; Product Design<br>across culture and venture</h2>
-      <div class="ref">AFX 2026 — NEW YORK · ONX FELLOW</div>
+      <h2>Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech.</h2>
     </div>
+    <div class="marquee" aria-hidden="true"><div class="track" id="mtrack"></div></div>
   </section>
 
   <section class="page">
     <div class="layout" id="work">
-      <!-- PROJECTS -->
       <div class="proj">
         <div class="media"><video class="cover" src="https://renaise.codexfoundry.com/platform_soot.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2025</div><div class="c1"><span class="t">The design ecosystem of Liquid Metal</span><br><span class="m">Lead Product Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A self-organizing asset system. Liquid Metal as a parts library loose enough to prototype any surface fast; the Z-index, a way to stack interface in depth instead of pretending the screen is flat.</span></div></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><br>2025</div><div class="c1"><span class="t">The design ecosystem of Liquid Metal</span><br><span class="m">Lead Product Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A self-organizing asset system. Liquid Metal is a parts library loose enough to prototype any surface fast. The Z-index stacks interface in depth instead of pretending the screen is flat.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><video class="cover" src="https://renaise.codexfoundry.com/Aputure_Site.mp4" autoplay muted loop playsinline preload="metadata"></video></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><br>2025</div><div class="c1"><span class="t">Global site for LED lighting and video</span><br><span class="m">Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A dark, image-forward site where lighting reads as craft — cinematic, not clinical — holding for a gaffer pricing a fixture and a DP reading a case study, in any market or language.</span></div></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><br>2025</div><div class="c1"><span class="t">Global site for LED lighting and video</span><br><span class="m">Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A dark, image-forward site where lighting reads as craft, cinematic rather than clinical. It holds for a gaffer pricing a fixture and a DP reading a case study, in any market or language.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="cover" src="https://renaise.codexfoundry.com/flora_still.gif" alt="Hieronymus"></div>
-        <div class="cols"><div class="c0"><b>Hieronymus</b><br>2024</div><div class="c1"><span class="t">The creative's intelligent canvas</span><br><span class="m">Founding Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A node-based creative tool with AI at the center — shaped around the people making images rather than the ones wiring graphs.</span></div></div>
+        <div class="cols"><div class="c0"><b>Hieronymus</b><br>2024</div><div class="c1"><span class="t">The creative's intelligent canvas</span><br><span class="m">Founding Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A node-based creative tool with AI at the center, shaped around the people making images rather than the ones wiring graphs.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/osmosis.png" alt="Osmosis"></div>
@@ -109,62 +113,61 @@
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/lighthouse.png" alt="Lighthouse"></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2024</div><div class="c1"><span class="t">Brand and website for US immigration</span><br><span class="m">Lead Designer</span><br><span class="m">B2B / Legal</span><br><br><span class="d">Immigration as how a company wins the people everyone else is chasing — elevated, enterprise-grade, made to be bought by the HR leaders staffing global teams.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2024</div><div class="c1"><span class="t">Brand and website for US immigration</span><br><span class="m">Lead Designer</span><br><span class="m">B2B / Legal</span><br><br><span class="d">Immigration as how a company wins the people everyone else is chasing. Elevated and enterprise-grade, made to be bought by the HR leaders staffing global teams.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/biota.png" alt="Biota"></div>
-        <div class="cols"><div class="c0"><b>Biota</b><br>2025</div><div class="c1"><span class="t">Making generative AI feel usable</span><br><span class="m">Design Director</span><br><span class="m">Gen AI</span><br><br><span class="d">Composable AI content for the camera-roll maximalist — hiding the pipeline behind templates that feel like one tap of magic.</span></div></div>
+        <div class="cols"><div class="c0"><b>Biota</b><br>2025</div><div class="c1"><span class="t">Making generative AI feel usable</span><br><span class="m">Design Director</span><br><span class="m">Gen AI</span><br><br><span class="d">Composable AI content for the camera-roll maximalist. The pipeline hides behind templates that feel like one tap of magic.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/mythra.png" alt="Thesis"></div>
-        <div class="cols"><div class="c0"><b>Thesis</b><br>2023</div><div class="c1"><span class="t">AI + Internet Protocol</span><br><span class="m">Designer</span><br><span class="m">Archive</span><br><br><span class="d">Letting language models summon live sites before agents were a category — an AI-native layer over the World Wide Web, close to the llms.txt standard the industry ships today.</span></div></div>
+        <div class="cols"><div class="c0"><b>Thesis</b><br>2023</div><div class="c1"><span class="t">AI + Internet Protocol</span><br><span class="m">Designer</span><br><span class="m">Archive</span><br><br><span class="d">Letting language models summon live sites before agents were a category. An AI-native layer over the World Wide Web, close to the llms.txt standard the industry ships today.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/nove.png" alt="Nove"></div>
-        <div class="cols"><div class="c0"><b>Nove</b><br>2024</div><div class="c1"><span class="t">Brand identity system for AI-powered bridal</span><br><span class="m">Design Director</span><br><span class="m">eCommerce</span><br><br><span class="d">Repositioning AI try-on from gimmick to ritual — designing for the moment of seeing yourself, not the feature demonstration.</span></div></div>
+        <div class="cols"><div class="c0"><b>Nove</b><br>2024</div><div class="c1"><span class="t">Brand identity system for AI-powered bridal</span><br><span class="m">Design Director</span><br><span class="m">eCommerce</span><br><br><span class="d">Repositioning AI try-on from gimmick to ritual, designing for the moment of seeing yourself rather than the feature demonstration.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/rememe.png" alt="rememe"></div>
-        <div class="cols"><div class="c0"><b>rememe</b><br>2023</div><div class="c1"><span class="t">Creation-first social platform</span><br><span class="m">Product Designer</span><br><span class="m">Archive</span><br><br><span class="d">A composable canvas for remix culture — inviting remixing without sacrificing the speed that makes the format work.</span></div></div>
+        <div class="cols"><div class="c0"><b>rememe</b><br>2023</div><div class="c1"><span class="t">Creation-first social platform</span><br><span class="m">Product Designer</span><br><span class="m">Archive</span><br><br><span class="d">A composable canvas for remix culture that invites remixing without sacrificing the speed that makes the format work.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/p8.svg" alt="YAP inc."></div>
-        <div class="cols"><div class="c0"><b>YAP inc.</b><br>2025</div><div class="c1"><span class="t">IRL / URL collective</span><br><span class="m">Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A collective operating across the physical and the networked — identity and surface for work that lives in both.</span></div></div>
+        <div class="cols"><div class="c0"><b>YAP inc.</b><br>2025</div><div class="c1"><span class="t">IRL / URL collective</span><br><span class="m">Designer</span><br><span class="m">Showroom</span><br><br><span class="d">A collective operating across the physical and the networked. Identity and surface for work that lives in both.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/lantern.png" alt="Lantern DB"></div>
-        <div class="cols"><div class="c0"><b>Lantern DB</b><br>2023</div><div class="c1"><span class="t">Database for the AI era</span><br><span class="m">Designer</span><br><span class="m">Dev Tools</span><br><br><span class="d">Repositioning and design for a vector database platform — making infrastructure legible to the teams betting on it.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lantern DB</b><br>2023</div><div class="c1"><span class="t">Database for the AI era</span><br><span class="m">Designer</span><br><span class="m">Dev Tools</span><br><br><span class="d">Repositioning and design for a vector database platform, making infrastructure legible to the teams betting on it.</span></div></div>
       </div>
       <div class="proj">
         <div class="media"><img class="contain" src="/assets/projects/silica.svg" alt="Silica"></div>
         <div class="cols"><div class="c0"><b>Silica</b><br>2024</div><div class="c1"><span class="t">Browser-based app capture with LLMs</span><br><span class="m">Designer</span><br><span class="m">Dev Tools</span><br><br><span class="d">A research prototype for capturing and understanding web applications through browser protocols.</span></div></div>
       </div>
 
-      <!-- ABOUT / CV -->
       <div class="about" id="about">
         <h1>Renaise Kim</h1>
         <div class="spacer"></div>
         <div class="cv">
           <div class="info">
             <b>Information</b><br><br>
-            Renaise Kim is a brand and product designer working across culture and venture — building the surfaces where people and AI meet. Founder of Codex Foundry; creative director of Artifice NYC.<br><br>
+            Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech. Founder of Codex Foundry. Creative director of Artifice NYC.<br><br>
             <a href="mailto:krenaise@gmail.com">krenaise@gmail.com</a><br>
-            <a href="https://instagram.com/artifice.nyc" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn</a>
           </div>
           <div></div>
           <div>
             <b>Recognition</b><br><br>
             2026 Onassis ONX Fellow<br>
             New York<br><br>
-            First Designer — Flora AI<br>
-            Design — SOOT<br>
-            Origin — Mythra (pre-agentic protocol)
+            First Designer, Flora AI<br>
+            Design, SOOT<br>
+            Origin, Mythra (pre-agentic protocol)
           </div>
           <div>
-            <b>Studios &amp; Roles</b><br><br>
-            Studio Artifice — Founding Designer<br>2023 — present<br><br>
-            Codex Foundry — Founder<br>2024 — present<br><br>
-            Artifice NYC — Creative Director<br>2024 — present
+            <b>Studios + Roles</b><br><br>
+            Studio Artifice, Founding Designer<br>2023 to present<br><br>
+            Codex Foundry, Founder<br>2024 to present<br><br>
+            Artifice NYC, Creative Director<br>2024 to present
           </div>
         </div>
       </div>
@@ -174,16 +177,26 @@
 
   <div class="foot">
     <a href="#top">Top ↑</a>
-    <div><a href="mailto:krenaise@gmail.com">Email</a> &nbsp; <a href="https://instagram.com/artifice.nyc" target="_blank" rel="noopener">Instagram</a></div>
+    <div><a href="mailto:krenaise@gmail.com">Email</a> &nbsp; <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn</a></div>
   </div>
 
 <script>
+  // running clock
   function tick(){ try{
     var d=new Date(), p=n=>String(n).padStart(2,'0');
     document.getElementById('clock').textContent =
       d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds());
   }catch(e){} }
   tick(); setInterval(tick,1000);
+
+  // marquee: phrases sourced from studioartifice.com, duplicated for a seamless loop
+  var PHRASES=["Strategic Visual Studio","Narrative-Sensitive Brands","Strategy","Identity","Design","Production","Worldsite Pipeline","New York"];
+  (function(){
+    var t=document.getElementById('mtrack'); if(!t) return;
+    function block(){ return PHRASES.map(function(p){
+      return '<span>'+p+'</span><span class="sep">/</span>'; }).join(''); }
+    t.innerHTML = block()+block();
+  })();
 </script>
 </body>
 </html>
