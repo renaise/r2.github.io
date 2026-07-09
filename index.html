@@ -63,8 +63,9 @@
   @keyframes reveal{to{opacity:1;transform:translateY(0);filter:blur(0);}}
   @media(prefers-reduced-motion:reduce){ .statement h2{opacity:1;transform:none;filter:none;animation:none;} }
 
-  h1{font-family:var(--display);font-weight:400;font-size:3.6rem;line-height:.92;color:var(--ink);
-    letter-spacing:-.01em;margin:0;text-transform:none;}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--ink);
+    letter-spacing:-.02em;margin:0;text-transform:none;white-space:nowrap;
+    width:max-content;max-width:none;}
   h1 a{color:inherit;}
   h1 a:hover{color:var(--accent);}
 
