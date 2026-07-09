@@ -66,6 +66,7 @@
     margin-bottom:.9rem;border-radius:4px;transition:box-shadow .3s ease;}
   a.proj:hover .media{box-shadow:0 0 0 1px var(--accent);}
   /* frosted, expanded copy of the creative filling the plate */
+  .media video{background:var(--tile);}
   .media .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
     transform:scale(1.25);filter:blur(34px) saturate(1.15);z-index:0;}
   .media::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
@@ -161,18 +162,18 @@
             <div class="lbl">Milestones</div>
             <div class="body">
               <div class="row"><span class="nm">Onassis ONX Fellow</span><span class="yr">2026 · New York</span></div>
-              <div class="row"><span class="nm">First Designer, Flora AI</span></div>
-              <div class="row"><span class="nm">Design, SOOT</span></div>
-              <div class="row"><span class="nm">Origin, Mythra (pre-agentic protocol)</span></div>
+              <div class="row"><span class="nm">First Designer, Flora AI</span><span class="yr">2024</span></div>
+              <div class="row"><span class="nm">Design, SOOT</span><span class="yr">2024–25</span></div>
+              <div class="row"><span class="nm">Origin, Mythra (pre-agentic protocol)</span><span class="yr">2023</span></div>
             </div>
           </div>
           <div class="sec">
             <div class="lbl">Studios + Roles</div>
             <div class="body">
-              <div class="row"><span class="nm">Studio Artifice</span><span class="ctx">Founding Designer · 2023</span></div>
+              <div class="row"><span class="nm">Fictive Kin</span><span class="ctx">Present</span></div>
               <div class="row"><span class="nm">Codex Foundry</span><span class="ctx">Founder · 2024</span></div>
               <div class="row"><span class="nm">Artifice NYC</span><span class="ctx">Creative Director · 2024</span></div>
-              <div class="row"><span class="nm">Fictive Kin</span><span class="ctx">Present</span></div>
+              <div class="row"><span class="nm">Studio Artifice</span><span class="ctx">Founding Designer · 2023</span></div>
               <div class="sub">Previously</div>
               <div class="row prior"><span class="nm">Vokal Interactive</span></div>
               <div class="row prior"><span class="nm">Legion Collective</span></div>
@@ -200,28 +201,33 @@
 
   // Seamless crossfade loop for tagged covers (no hard-cut jolt, no white re-buffer).
   // Two offset copies fade into each other near the loop point; slowed for a longer read.
+  // Two copies run continuously on native loop, offset by half the clip, and
+  // crossfade at the seam. Neither ever cold-seeks to 0, so no white decode frame.
   function smoothLoop(v){
     var RATE=0.7, FADE=0.7; // seconds of crossfade overlap
-    v.loop=false; v.muted=true; v.playbackRate=RATE;
+    v.muted=true; v.loop=true; v.playbackRate=RATE;
     var b=v.cloneNode(false);
     b.removeAttribute('data-smooth'); b.removeAttribute('poster');
-    b.className=v.className; b.muted=true; b.loop=false; b.playsInline=true;
+    b.className=v.className; b.muted=true; b.loop=true; b.playsInline=true;
     b.preload='auto'; b.style.opacity='0'; b.playbackRate=RATE;
     v.parentNode.appendChild(b);
     v.style.transition=b.style.transition='opacity '+FADE+'s linear';
-    function arm(a,other){
-      function h(){
-        if(a.duration && a.currentTime >= a.duration - FADE){
-          a.removeEventListener('timeupdate',h);
-          try{ other.currentTime=0; other.play(); }catch(e){}
-          other.style.opacity='1'; a.style.opacity='0';
-          arm(other,a);
-        }
+    function begin(){
+      var D=v.duration; if(!D || !isFinite(D)) return;
+      // prime b to the midpoint and keep it playing, hidden, so it's always warm
+      try{ b.currentTime=D/2; }catch(e){}
+      b.play().catch(function(){});
+      v.play().catch(function(){});
+      function fade(a,other){
+        var t=a.currentTime;
+        // near the end of a's clip, reveal the warm copy
+        if(t >= D - FADE){ a.style.opacity='0'; other.style.opacity='1'; }
       }
-      a.addEventListener('timeupdate',h);
+      v.addEventListener('timeupdate',function(){ fade(v,b); });
+      b.addEventListener('timeupdate',function(){ fade(b,v); });
     }
-    var start=function(){ v.play().catch(function(){}); arm(v,b); };
-    if(v.readyState>=1) start(); else v.addEventListener('loadedmetadata',start,{once:true});
+    if(v.readyState>=1 && v.duration) begin();
+    else v.addEventListener('loadedmetadata',begin,{once:true});
   }
   document.querySelectorAll('video[data-smooth]').forEach(smoothLoop);
 </script>
