@@ -185,6 +185,12 @@
   .cv .sec:last-child{border-bottom:1px dotted var(--line);}
   .cv .lbl{font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
+  /* entity marks under the bio — each logo is a mask filled with the ink, so a black
+     source and a white source both land in the theme colour */
+  .ents{display:flex;align-items:center;gap:1.5rem;margin-top:1.1rem;flex-wrap:wrap;}
+  .ent{display:block;height:15px;background-color:var(--sw3);transition:background-color .2s;
+    -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;}
+  .ent:hover{background-color:var(--ink);}
   .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
   .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;
     border-bottom:1px dotted var(--line);}
@@ -288,6 +294,11 @@ document.documentElement.className+=' js';
             <div class="lbl">Information</div>
             <div class="body">
               <p>Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech. Founder of Codex Foundry. Creative director of Artifice NYC. Design partner of Studio Artifice. Renaise's focus is on open curatorial research and showcasing artifice: the artifacts of science fiction.</p>
+              <div class="ents">
+                <a class="ent" style="--m:url(/assets/ent-codex.png);width:15px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a>
+                <a class="ent" style="--m:url(/assets/ent-artifice.png);width:126px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a>
+                <a class="ent" style="--m:url(/assets/ent-studio.png);width:103px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a>
+              </div>
               <div class="links">
                 <a href="mailto:krenaise@gmail.com">Email ↗</a>
                 <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
