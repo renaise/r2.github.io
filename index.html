@@ -155,9 +155,12 @@
   :root[data-theme="dark"] .tsw .knob{left:17px;}
   .tsw:focus-visible{outline:1px dotted var(--accent);outline-offset:3px;}
   @media(prefers-reduced-motion:reduce){ .tsw .knob{transition:none;} }
+  /* clock and switch share the last row; the rule sits on the row, not the clock */
+  .side .foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+    padding-top:.6rem;background-image:var(--rule);background-size:7px 2px;
+    background-repeat:repeat-x;background-position:left top;}
   .side .clock{position:static;font-family:var(--sans);font-size:.68rem;color:var(--sw4);
-    letter-spacing:.03em;padding-top:.6rem;font-variant-numeric:tabular-nums;
-    background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left top;}
+    letter-spacing:.03em;font-variant-numeric:tabular-nums;}
   .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
     padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
   .card{background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left top;padding:clamp(52px,8vw,104px) 0;}
@@ -224,8 +227,7 @@ document.documentElement.className+=' js';
       <div class="acts">
         <a href="mailto:krenaise@gmail.com">Email ↗</a>
         <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button>
-        <div class="clock" id="clock"></div>
+        <div class="foot"><div class="clock" id="clock"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
     </aside>
 
