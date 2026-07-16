@@ -45,6 +45,24 @@
     --display:"Redaction","Times New Roman",Georgia,serif;
     --mono:"Diatype Mono Variable","Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
   }
+  /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
+     Ink #a8a8a8 on #1a1a1a puts body at 6.19:1 and the dotted rules at 4.41:1.
+     --tile is unchanged — the plates are dark in both themes by design. */
+  :root[data-theme="dark"]{
+    --ink:#a8a8a8;
+    --sw1:rgba(168,168,168,0.96); --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72);
+    --sw4:rgba(168,168,168,0.58); --sw5:rgba(168,168,168,0.32); --sw6:rgba(168,168,168,0.16);
+    --accent:#ffffff; --bg1:#1a1a1a; --bg2:#1a1a1a;
+  }
+  /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
+  @media(prefers-color-scheme:dark){
+    :root:not([data-theme]){
+      --ink:#a8a8a8;
+      --sw1:rgba(168,168,168,0.96); --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72);
+      --sw4:rgba(168,168,168,0.58); --sw5:rgba(168,168,168,0.32); --sw6:rgba(168,168,168,0.16);
+      --accent:#ffffff; --bg1:#1a1a1a; --bg2:#1a1a1a;
+    }
+  }
   *{box-sizing:border-box;}
   /* anchor jumps ease instead of cutting; no fixed bar now, so only the mobile rail to clear */
   html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:1rem;}
@@ -124,6 +142,22 @@
   .toc a,.acts a{font-family:var(--mono);font-size:.72rem;color:var(--sw2);
     text-decoration:none;transition:color .2s;}
   .toc a:hover,.acts a:hover{color:var(--ink);}
+  /* Theme switch. Built from a dotted track so it speaks the same language as every other
+     rule on the page — a filled pill would be the only solid shape here. */
+  /* Hidden without JS: the head script is what resolves data-theme, and a switch that
+     can't switch is worse than no switch. */
+  .tsw{display:none;}
+  .js .tsw{display:flex;align-items:center;gap:.55rem;background:none;border:0;padding:0;
+    font-family:var(--mono);font-size:.72rem;color:var(--sw2);cursor:pointer;
+    text-align:left;transition:color .2s;}
+  .tsw:hover{color:var(--ink);}
+  .tsw .track{position:relative;width:30px;height:16px;flex-shrink:0;border-radius:999px;
+    border:1px dotted var(--sw3);}
+  .tsw .knob{position:absolute;top:50%;left:3px;width:8px;height:8px;border-radius:50%;
+    background:currentColor;transform:translateY(-50%);transition:left .22s cubic-bezier(.2,.7,.2,1);}
+  :root[data-theme="dark"] .tsw .knob{left:17px;}
+  .tsw:focus-visible{outline:1px dotted var(--accent);outline-offset:3px;}
+  @media(prefers-reduced-motion:reduce){ .tsw .knob{transition:none;} }
   .side .clock{position:static;font-family:var(--mono);font-size:.68rem;color:var(--sw4);
     letter-spacing:.03em;padding-top:.6rem;border-top:1px dotted var(--sw3);}
   .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
@@ -158,7 +192,20 @@
 
   .spacer{height:2.2rem;}
 </style>
-<script>document.documentElement.className+=' js';</script>
+<script>
+// Runs before first paint: resolves the theme so the page never flashes the wrong one.
+// Always writes an explicit data-theme, so the switch knob can key off the attribute
+// rather than guessing at the OS preference.
+document.documentElement.className+=' js';
+(function(){
+  var t;
+  try{ t=localStorage.getItem('theme'); }catch(e){}
+  if(t!=='dark'&&t!=='light'){
+    t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';
+  }
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
 </head>
 <body>
   <a id="top"></a>
@@ -176,6 +223,7 @@
       <div class="acts">
         <a href="mailto:krenaise@gmail.com">Email ↗</a>
         <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button>
         <div class="clock" id="clock"></div>
       </div>
     </aside>
@@ -273,6 +321,29 @@
   }catch(e){
     document.querySelectorAll('.proj').forEach(function(p){ p.classList.add('in'); });
   }
+
+  // Theme switch. data-theme is already resolved by the head script; this only flips it,
+  // remembers the choice, and keeps the label/aria in sync. Choosing explicitly opts out
+  // of following the OS from then on.
+  (function(){
+    var btn=document.getElementById('tsw');
+    if(!btn) return;
+    var root=document.documentElement, meta=document.querySelector('meta[name="theme-color"]');
+    var PAGE={light:'#ebebeb',dark:'#1a1a1a'};
+    function paint(t){
+      root.setAttribute('data-theme',t);
+      btn.setAttribute('aria-checked',t==='dark'?'true':'false');
+      var lbl=btn.querySelector('.lbl');
+      if(lbl) lbl.textContent = t==='dark'?'Dark':'Light';
+      if(meta) meta.setAttribute('content',PAGE[t]);
+    }
+    paint(root.getAttribute('data-theme')==='dark'?'dark':'light');
+    btn.addEventListener('click',function(){
+      var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+      paint(next);
+      try{ localStorage.setItem('theme',next); }catch(e){}
+    });
+  })();
 
   // running clock
   function tick(){ try{
