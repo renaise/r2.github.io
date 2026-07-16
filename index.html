@@ -56,32 +56,16 @@
 
   /* statement, now in the rail */
   .statement{padding:0;}
-  /* The typewriter keeps fixed line breaks (white-space:pre), so it cannot reflow: the
-     size is bounded by the longest line (32ch) fitting the rail's 280px minus 2.8rem
-     padding = 235px. Measured: Diatype 211px, Helvetica fallback 214px. Do not raise
-     past ~1rem without re-measuring both, or the rail overflows. */
-  .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.4;color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;}
+  /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
+  .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.45;
+    color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;}
   /* typewriter: one line per span, revealed left-to-right in character steps */
-  .statement h2 .ln{display:block;position:relative;width:max-content;max-width:100%;margin:0;}
-  .statement h2 .t{display:inline-block;white-space:pre;clip-path:inset(0 100% 0 0);}
-  .statement h2 .ln::after{content:"";position:absolute;top:.16em;bottom:.08em;left:0;width:1px;
-    background:var(--accent);opacity:0;}
-  @keyframes type{to{clip-path:inset(0 0 0 0);}}
-  @keyframes caret-move{to{left:100%;}}
-  @keyframes caret-on{to{opacity:1;}}
-  @keyframes caret-off{to{opacity:0;}}
-  @keyframes caret-blink{0%,50%{opacity:1;} 50.01%,100%{opacity:0;}}
-  .ln1 .t{animation:type 0.62s steps(31,end) 0.25s forwards;}
-  .ln2 .t{animation:type 0.6s steps(30,end) 0.87s forwards;}
-  .ln3 .t{animation:type 0.56s steps(28,end) 1.47s forwards;}
-  .ln4 .t{animation:type 0.64s steps(32,end) 2.03s forwards;}
-  .ln5 .t{animation:type 0.28s steps(14,end) 2.67s forwards;}
-  .ln1::after{animation:caret-on 0s linear 0.25s forwards, caret-move 0.62s steps(31,end) 0.25s forwards, caret-off 0s linear 0.87s forwards;}
-  .ln2::after{animation:caret-on 0s linear 0.87s forwards, caret-move 0.6s steps(30,end) 0.87s forwards, caret-off 0s linear 1.47s forwards;}
-  .ln3::after{animation:caret-on 0s linear 1.47s forwards, caret-move 0.56s steps(28,end) 1.47s forwards, caret-off 0s linear 2.03s forwards;}
-  .ln4::after{animation:caret-on 0s linear 2.03s forwards, caret-move 0.64s steps(32,end) 2.03s forwards, caret-off 0s linear 2.67s forwards;}
-  .ln5::after{animation:caret-on 0s linear 2.67s forwards, caret-move 0.28s steps(14,end) 2.67s forwards, caret-blink .75s step-end 2.95s infinite;}
-  @media(prefers-reduced-motion:reduce){ .statement h2 .t{clip-path:none;animation:none;} .statement h2 .ln::after{display:none;} }
+  /* Eases up on load, same curve as the project entries. `both` fill means it sits at
+     opacity 0 only while the animation is pending — if animations never run, the text
+     simply stays visible, so the statement can't strand blank. */
+  @keyframes settle{from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:none;}}
+  .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
+  @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
   h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--ink);
     letter-spacing:-.02em;margin:0;text-transform:none;white-space:nowrap;
@@ -121,9 +105,9 @@
   /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
   .app{display:flex;align-items:flex-start;}
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
-    border-right:1px solid var(--sw6);padding:3.4rem 1.4rem 1.5rem;
+    border-right:1px solid var(--sw6);padding:1.5rem 1.4rem;
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
-  .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+  .side .brand{display:flex;align-items:center;justify-content:center;gap:.6rem;text-decoration:none;}
   .side .brand img{height:20px;width:20px;}
   .side .brand .t{font-family:var(--display);font-size:1rem;color:var(--ink);letter-spacing:-.01em;}
   /* nav and the bottom links are one treatment: plain mono, no rules, same rhythm */
@@ -162,11 +146,7 @@
     .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
     .wrap{padding:0 1.1rem 3rem;}
-    /* narrow: natural wrap wins over fixed typewriter lines */
-    .statement h2{font-size:1.1rem;max-width:34ch;text-wrap:balance;}
-    .statement h2 .ln{display:inline;width:auto;margin:0;}
-    .statement h2 .t{display:inline;white-space:normal;clip-path:none;animation:none;}
-    .statement h2 .ln::after{display:none;} }
+    .statement h2{font-size:1.1rem;max-width:34ch;} }
 
   .spacer{height:2.2rem;}
 </style>
@@ -178,7 +158,7 @@
     <aside class="side">
       <a class="brand" href="#top"><img src="/assets/icon-32.png" alt="" width="20" height="20" /><span class="t">Renaise</span></a>
       <section class="statement">
-        <h2><span class="ln ln1"><span class="t">Renaise is a brand and product </span></span><span class="ln ln2"><span class="t">designer in New York, working </span></span><span class="ln ln3"><span class="t">across culture and venture: </span></span><span class="ln ln4"><span class="t">consumer media, creative tools, </span></span><span class="ln ln5"><span class="t">and deep tech.</span></span></h2>
+        <h2>Renaise is a brand and product designer in New York, working across culture and venture: consumer media, creative tools, and deep tech.</h2>
       </section>
       <nav class="toc">
         <a href="#work">Work</a>
