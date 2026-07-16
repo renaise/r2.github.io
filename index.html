@@ -325,5 +325,61 @@
     document.querySelectorAll('.media').forEach(function(m){ io.observe(m); });
   }
 </script>
+
+<!-- ── Showroom order, driven by the Seance CMS ──────────────────────────────
+     The .proj blocks above are authored in a fixed DOM order. This reorders
+     them to match the shared store (D1 kv 'renaise_cms') — the same store the
+     Seance "CMS Renaise" tab and renaise.com/?edit publish to. Drag to reorder
+     there, hit Publish, and this page follows on next load.
+
+     Progressive enhancement: if the fetch fails the authored order simply
+     stands. The last known order is cached in localStorage and applied before
+     the fetch resolves, so the grid doesn't visibly reshuffle on repeat visits.
+     Reordering moves existing nodes, so the IntersectionObservers above (which
+     drive reveal + video play/pause) keep working untouched. -->
+<script>
+(function(){
+  var API='https://seance.pages.dev/api/renaise-cms';
+  var CACHE='renaiseCmsOrder';
+  var layout=document.querySelector('#work .layout');
+  if(!layout) return;
+
+  function slugOf(el){
+    var m=(el.getAttribute('href')||'').match(/\/work\/([^\/]+)\/?/);
+    return m?m[1]:null;
+  }
+  // `order` maps slug -> rank. Unknown slugs sink to the bottom in their
+  // authored order, so a project absent from the store is never dropped.
+  function apply(order){
+    var items=[].slice.call(layout.querySelectorAll('.proj'));
+    if(!items.length) return;
+    var ranked=items.map(function(el,i){
+      var s=slugOf(el);
+      var r=(s && order[s]!=null)?order[s]:1e9+i;
+      return {el:el,r:r,i:i};
+    });
+    ranked.sort(function(a,b){ return a.r-b.r || a.i-b.i; });
+    if(ranked.every(function(x,i){ return x.i===i; })) return;  // already correct
+    var frag=document.createDocumentFragment();
+    ranked.forEach(function(x){ frag.appendChild(x.el); });
+    layout.appendChild(frag);
+  }
+
+  try{ var c=localStorage.getItem(CACHE); if(c) apply(JSON.parse(c)); }catch(e){}
+
+  fetch(API,{cache:'no-store'})
+    .then(function(r){ return r.ok?r.json():null; })
+    .then(function(d){
+      if(!d||!d.projects) return;
+      var order={};
+      d.projects.forEach(function(p){
+        if(p&&p.slug) order[p.slug]=(p.order==null?1e9:p.order);
+      });
+      apply(order);
+      try{ localStorage.setItem(CACHE,JSON.stringify(order)); }catch(e){}
+    })
+    .catch(function(){ /* authored order stands */ });
+})();
+</script>
 </body>
 </html>
