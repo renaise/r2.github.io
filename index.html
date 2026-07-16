@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-<meta name="theme-color" content="#f4f2ee" />
+<meta name="theme-color" content="#f4f4f4" />
 <meta name="description" content="Renaise is a brand + product designer in NYC, working across culture + venture: consumer media, creative tools, and deep tech." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renaise.com/" />
@@ -29,15 +29,16 @@
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
 
-  /* Light theme. Same stone family, inverted: type is the old page color, page is a warm
-     cream-to-stone gradient. The swatch scale keeps its alpha steps, so every text tier
-     holds its relative weight. --tile stays dark on purpose: it backs the project plates,
-     and the covers are composed for a dark ground. */
+  /* Neutral gray theme: light-light-gray page, mid-gray type. The alpha steps are tighter
+     than the old stone scale because mid gray has less room to fade before it stops being
+     legible — body (--sw2) renders #6e6e6e, right at the AA floor. Darkening --ink is the
+     only way to lift the whole scale. --tile stays dark: it backs the project plates, and
+     the covers are composed for a dark ground. */
   :root{
-    --ink:#1b1a18;
-    --sw1:rgba(27,26,24,0.95); --sw2:rgba(27,26,24,0.78); --sw3:rgba(27,26,24,0.56);
-    --sw4:rgba(27,26,24,0.42); --sw5:rgba(27,26,24,0.26); --sw6:rgba(27,26,24,0.14);
-    --accent:#000000; --bg1:#f4f2ee; --bg2:#dcd8d0; --tile:#100f0e; --mat:#d8d6d1;
+    --ink:#5f5f5f;
+    --sw1:rgba(95,95,95,0.96); --sw2:rgba(95,95,95,0.90); --sw3:rgba(95,95,95,0.72);
+    --sw4:rgba(95,95,95,0.58); --sw5:rgba(95,95,95,0.32); --sw6:rgba(95,95,95,0.16);
+    --accent:#2e2e2e; --bg1:#f4f4f4; --bg2:#ededed; --tile:#100f0e; --mat:#d8d6d1;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --cond:"Diatype Compressed Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
@@ -55,7 +56,8 @@
   a:hover{color:var(--accent);}
 
   .brand sup{font-size:.6em;top:-.5em;}
-  .layout{width:100%;}
+  /* work index: two across. The gap carries the rhythm, so .proj drops its own margin. */
+  .layout{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:3.2rem 2rem;align-items:start;}
 
   /* statement, now in the rail */
   .statement{padding:0;}
@@ -76,7 +78,7 @@
   h1 a:hover{color:var(--accent);}
 
   /* project entries */
-  .proj{display:block;margin-bottom:4.6rem;color:inherit;}
+  .proj{display:block;margin-bottom:0;color:inherit;}
   /* ease in on scroll. Scoped to .js so the entries stay visible without JS. */
   .js .proj{opacity:0;transform:translateY(18px);
     transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
@@ -84,9 +86,9 @@
   @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;} }
   a.proj:hover{color:inherit;}
   a.proj:hover .t{color:var(--accent);}
-  /* thumbnails, not hero plates: capped well under the column so the work reads as an
-     index. The 16/9 lock drives the height, so width is the only dial here. */
-  .media{position:relative;width:100%;max-width:360px;aspect-ratio:16/9;background:var(--tile);
+  /* thumbnails, not hero plates — the two-up grid does the shrinking, so the plate fills
+     its column. The 16/9 lock drives height; column width is the only dial. */
+  .media{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);
     overflow:hidden;margin-bottom:.9rem;border-radius:4px;transition:box-shadow .3s ease;}
   a.proj:hover .media{box-shadow:0 0 0 1px var(--accent);}
   /* frosted, expanded copy of the creative filling the plate */
@@ -109,7 +111,7 @@
   /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
   .app{display:flex;align-items:flex-start;}
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
-    border-right:1px solid var(--sw6);padding:1.5rem 1.4rem;
+    border-right:1px dotted var(--sw5);padding:1.5rem 1.4rem;
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp */
@@ -140,7 +142,9 @@
   .cv .row .ctx{color:var(--sw3);font-family:var(--mono);font-size:.76rem;white-space:nowrap;letter-spacing:.03em;}
   .cv .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
   .cv .row.prior .nm{color:var(--sw3);}
-  @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;} .layout{max-width:100%;}
+  @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;}
+    /* one across on narrow — two 16/9 plates side by side would be postage stamps */
+    .layout{max-width:100%;grid-template-columns:1fr;gap:2.6rem;}
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
     .app{flex-direction:column;}
     .side{position:static;width:100%;height:auto;border-right:0;
