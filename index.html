@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-<meta name="theme-color" content="#f4f4f4" />
+<meta name="theme-color" content="#ebebeb" />
 <meta name="description" content="Renaise is a brand + product designer in NYC, working across culture + venture: consumer media, creative tools, and deep tech." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renaise.com/" />
@@ -29,16 +29,17 @@
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
 
-  /* Neutral gray theme: light-light-gray page, mid-gray type. The alpha steps are tighter
+  /* Neutral gray theme: flat light grey page, mid-gray type. The alpha steps are tighter
      than the old stone scale because mid gray has less room to fade before it stops being
-     legible — body (--sw2) renders #6e6e6e, right at the AA floor. Darkening --ink is the
-     only way to lift the whole scale. --tile stays dark: it backs the project plates, and
-     the covers are composed for a dark ground. */
+     legible — body (--sw2) renders #6a6a6a, at the AA floor. Darkening --ink is the only
+     way to lift the whole scale. Every stroke on the page is dotted, on --sw5: dots put
+     less ink down than a solid rule, so they need the heavier tier to register.
+     --tile stays dark: it backs the project plates, composed for a dark ground. */
   :root{
-    --ink:#5f5f5f;
-    --sw1:rgba(95,95,95,0.96); --sw2:rgba(95,95,95,0.90); --sw3:rgba(95,95,95,0.72);
-    --sw4:rgba(95,95,95,0.58); --sw5:rgba(95,95,95,0.32); --sw6:rgba(95,95,95,0.16);
-    --accent:#2e2e2e; --bg1:#f4f4f4; --bg2:#ededed; --tile:#100f0e; --mat:#d8d6d1;
+    --ink:#5c5c5c;
+    --sw1:rgba(92,92,92,0.96); --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72);
+    --sw4:rgba(92,92,92,0.58); --sw5:rgba(92,92,92,0.32); --sw6:rgba(92,92,92,0.16);
+    --accent:#2e2e2e; --bg1:#ebebeb; --bg2:#ebebeb; --tile:#100f0e; --mat:#d8d6d1;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --cond:"Diatype Compressed Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
@@ -49,7 +50,7 @@
   html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:1rem;}
   @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
   body{margin:0;color:var(--sw2);
-    background:linear-gradient(168deg,var(--bg1) 0%,var(--bg2) 100%);background-attachment:fixed;min-height:100vh;
+    background:var(--bg1);min-height:100vh;
     font-family:var(--sans);font-weight:400;font-size:0.86rem;line-height:1.14;letter-spacing:0;}
   a{color:inherit;text-decoration:none;}
   a:active{opacity:.7;}
@@ -71,8 +72,8 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--ink);
-    letter-spacing:-.02em;margin:0;text-transform:none;white-space:nowrap;
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
+    letter-spacing:-.03em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
   h1 a:hover{color:var(--accent);}
@@ -89,8 +90,8 @@
   /* thumbnails, not hero plates — the two-up grid does the shrinking, so the plate fills
      its column. The 16/9 lock drives height; column width is the only dial. */
   .media{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);
-    overflow:hidden;margin-bottom:.9rem;border-radius:4px;transition:box-shadow .3s ease;}
-  a.proj:hover .media{box-shadow:0 0 0 1px var(--accent);}
+    overflow:hidden;margin-bottom:.9rem;border-radius:4px;transition:outline-color .3s ease;}
+  a.proj:hover .media{outline:1px dotted var(--accent);outline-offset:0;}
   /* frosted, expanded copy of the creative filling the plate */
   .media video{background:var(--tile);}
   .media .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
@@ -123,19 +124,19 @@
     text-decoration:none;transition:color .2s;}
   .toc a:hover,.acts a:hover{color:var(--ink);}
   .side .clock{position:static;font-family:var(--mono);font-size:.68rem;color:var(--sw4);
-    letter-spacing:.03em;padding-top:.6rem;border-top:1px solid var(--sw6);}
+    letter-spacing:.03em;padding-top:.6rem;border-top:1px dotted var(--sw5);}
   .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
     padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
-  .card{border-top:1px solid var(--sw6);padding:clamp(52px,8vw,104px) 0;}
-  .card:first-child{border-top:0;}
+  .card{border-top:1px dotted var(--sw5);padding:clamp(52px,8vw,104px) 0;}
+  .card:first-child{border-top:0;padding-top:1.5rem;}  /* level with the mark in the rail */
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
-    padding:1.5rem 0;border-top:1px solid var(--sw6);align-items:start;}
-  .cv .sec:last-child{border-bottom:1px solid var(--sw6);}
+    padding:1.5rem 0;border-top:1px dotted var(--sw5);align-items:start;}
+  .cv .sec:last-child{border-bottom:1px dotted var(--sw5);}
   .cv .lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
   .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
-  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;border-bottom:1px solid var(--sw6);}
+  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;border-bottom:1px dotted var(--sw5);}
   .cv .row:last-child{border-bottom:0;}
   .cv .row .nm{color:var(--ink);}
   .cv .row .yr{color:var(--sw3);font-family:var(--mono);font-size:.76rem;white-space:nowrap;letter-spacing:.03em;}
@@ -148,7 +149,7 @@
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
     .app{flex-direction:column;}
     .side{position:static;width:100%;height:auto;border-right:0;
-      border-bottom:1px solid var(--sw6);padding:1.1rem;gap:1.1rem;}
+      border-bottom:1px dotted var(--sw5);padding:1.1rem;gap:1.1rem;}
     .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
     .wrap{padding:0 1.1rem 3rem;}
