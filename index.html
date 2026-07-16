@@ -116,13 +116,17 @@
     object-fit:contain;object-position:center bottom;padding:6% 6% 0;background:transparent;}
   /* medium as a label ON the plate, out of the text stack. The plate is dark in both
      themes, so the label is light regardless of --ink. */
-  .media .tag{position:absolute;z-index:3;left:.6rem;top:.5rem;font-size:.58rem;
-    letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.78);pointer-events:none;}
+  .media .tag{position:absolute;z-index:3;left:.55rem;top:.5rem;font-size:.55rem;
+    letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92);
+    padding:.22rem .4rem .18rem;border-radius:3px;pointer-events:none;
+    background:rgba(10,10,10,.32);backdrop-filter:blur(10px) saturate(1.2);
+    -webkit-backdrop-filter:blur(10px) saturate(1.2);}
   /* full-bleed exception: native 16:9 compositions fill the plate */
   .media .cover.fill{object-fit:cover;object-position:center;padding:0;}
-  .cols{display:grid;grid-template-columns:1fr;gap:.45rem;align-items:start;}
+  .cols{display:grid;grid-template-columns:1fr;gap:.3rem;align-items:start;}
   .c0{color:var(--sw4);} .c0 b{font-weight:700;color:var(--ink);}
-  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);} .c1 .d{color:var(--sw4);}
+  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);}
+  .c1 .d{color:var(--sw4);margin-top:.5rem;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -232,33 +236,33 @@ document.documentElement.className+=' js';
     <main class="wrap">
     <section class="card" id="work">
       <div class="layout">
-      <a class="proj" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
+      <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Tool</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><br>2026</div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><br><br><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><br>2026</div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><br><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
+      <a class="proj" data-slug="soot" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/soot/cover.png"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><br><br><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><br><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
+      <a class="proj" data-slug="flora" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video><span class="tag">Product Design</span></div>
-        <div class="cols"><div class="c0"><b>FLORA</b><br>2024</div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><br><br><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
+        <div class="cols"><div class="c0"><b>FLORA</b><br>2024</div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><br><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
+      <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/osmosis/cover.png"></video><span class="tag">Identity + Website</span></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">Making Forward-Deployed RL Legible to Its Buyers</span><br><span class="m">Design Director</span><br><br><span class="d">Repositioning post-training from category jargon into something buyers can evaluate and act on.</span></div></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">Making Forward-Deployed RL Legible to Its Buyers</span><br><span class="m">Design Director</span><br><span class="d">Repositioning post-training from category jargon into something buyers can evaluate and act on.</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
+      <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/industrial-lighting/cover.png"></video><span class="tag">Global Website</span></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><br><br><span class="d">From spec sheets to a benefit-led catalog that sells the same way in any market.</span></div></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><br><span class="d">From spec sheets to a benefit-led catalog that sells the same way in any market.</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
+      <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video><span class="tag">Brand + Website</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><br><br><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><br><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
+      <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="" aria-hidden="true"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"><span class="tag">Brand Narrative · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><br><br><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><br><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
       </a>
 
       </div>
@@ -427,6 +431,8 @@ document.documentElement.className+=' js';
   if(!layout) return;
 
   function slugOf(el){
+    var s=el.getAttribute('data-slug');
+    if(s) return s;
     var m=(el.getAttribute('href')||'').match(/\/work\/([^\/]+)\/?/);
     return m?m[1]:null;
   }
@@ -447,7 +453,15 @@ document.documentElement.className+=' js';
     layout.appendChild(frag);
   }
 
-  try{ var c=localStorage.getItem(CACHE); if(c) apply(JSON.parse(c)); }catch(e){}
+  try{
+    var c=localStorage.getItem(CACHE);
+    if(c){
+      var cached=JSON.parse(c);
+      var all=[].slice.call(layout.querySelectorAll('.proj'))
+        .every(function(el){ var s=slugOf(el); return s && cached[s]!=null; });
+      if(all) apply(cached);   // stale cache -> leave the authored order alone
+    }
+  }catch(e){}
 
   fetch(API,{cache:'no-store'})
     .then(function(r){ return r.ok?r.json():null; })
