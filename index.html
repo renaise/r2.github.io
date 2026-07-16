@@ -38,8 +38,8 @@
     --ink:#5c5c5c;
     --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
     --accent:#2e2e2e; --bg1:#ebebeb; --tile:#100f0e;
-    --line:rgba(92,92,92,0.50);
-    --rule:radial-gradient(circle,var(--line) 1px,transparent 1.4px);
+    --line:rgba(92,92,92,0.42);
+    --rule:radial-gradient(circle,var(--line) 0.5px,transparent 1.1px);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
   }
@@ -49,14 +49,14 @@
   :root[data-theme="dark"]{
     --ink:#a8a8a8;
     --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
-    --accent:#ffffff; --bg1:#1a1a1a; --line:rgba(168,168,168,0.50);
+    --accent:#ffffff; --bg1:#1a1a1a; --line:rgba(168,168,168,0.42);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
     :root:not([data-theme]){
       --ink:#a8a8a8;
       --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
-      --accent:#ffffff; --bg1:#1a1a1a; --line:rgba(168,168,168,0.50);
+      --accent:#ffffff; --bg1:#1a1a1a; --line:rgba(168,168,168,0.42);
     }
   }
   *{box-sizing:border-box;}
@@ -234,7 +234,7 @@ document.documentElement.className+=' js';
       <div class="layout">
       <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><br><span class="m">Product</span><br><br><span class="d">See Everything.</span></div></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><br><span class="m">Product</span><br><br><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video></div>
@@ -255,6 +255,10 @@ document.documentElement.className+=' js';
       <a class="proj" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="" aria-hidden="true"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"></div>
         <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><br><span class="m">Brand Narrative · In Progress</span><br><br><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
+      </a>
+      <a class="proj" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
+        <div class="media"><img class="bg" src="https://artifactory.pages.dev/og.png" alt="" aria-hidden="true"><img class="cover" src="https://artifactory.pages.dev/og.png" alt="ARTIFACTORY"></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><br>2026</div><div class="c1"><span class="t">Internal Shader Tool</span><br><span class="m">Design + Build</span><br><span class="m">Tool</span><br><br><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
       </a>
 
       </div>
