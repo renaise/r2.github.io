@@ -35,7 +35,9 @@
     --mono:"Diatype Mono Variable","Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box;}
-  html{-webkit-font-smoothing:antialiased;}
+  /* anchor jumps ease instead of cutting; padding keeps targets clear of the fixed bar + foot */
+  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:4.2rem;scroll-padding-bottom:4.2rem;}
+  @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
   body{margin:0;color:var(--sw2);
     background:linear-gradient(168deg,var(--bg1) 0%,var(--bg2) 100%);background-attachment:fixed;min-height:100vh;
     font-family:var(--sans);font-weight:400;font-size:0.86rem;line-height:1.14;letter-spacing:0;}
@@ -264,6 +266,23 @@
     else v.addEventListener('loadedmetadata',begin,{once:true});
   }
   document.querySelectorAll('video[data-smooth]').forEach(smoothLoop);
+
+  // Only decode what's on screen. Every .media holds a blurred .bg copy plus a .cover,
+  // and a 34px blur re-rasterised each frame across all of them is what makes scrolling
+  // stutter. Pause offscreen, resume just before they enter view. Runs after smoothLoop
+  // so the cloned crossfade copies are already in the DOM and get observed too.
+  // Videos keep their autoplay attribute, so with no JS the page behaves exactly as before.
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        e.target.querySelectorAll('video').forEach(function(v){
+          if(e.isIntersecting) v.play().catch(function(){});
+          else v.pause();
+        });
+      });
+    },{rootMargin:'300px 0px'});
+    document.querySelectorAll('.media').forEach(function(m){ io.observe(m); });
+  }
 </script>
 </body>
 </html>
