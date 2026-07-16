@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-<meta name="theme-color" content="#1b1a18" />
+<meta name="theme-color" content="#f4f2ee" />
 <meta name="description" content="Renaise is a brand + product designer in NYC, working across culture + venture: consumer media, creative tools, and deep tech." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renaise.com/" />
@@ -29,19 +29,22 @@
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
 
+  /* Light theme. Same stone family, inverted: type is the old page color, page is a warm
+     cream-to-stone gradient. The swatch scale keeps its alpha steps, so every text tier
+     holds its relative weight. --tile stays dark on purpose: it backs the project plates,
+     and the covers are composed for a dark ground. */
   :root{
-    --ink:#d6d4d0;
-    --sw1:rgba(214,212,208,0.95); --sw2:rgba(214,212,208,0.82); --sw3:rgba(214,212,208,0.60);
-    --sw4:rgba(214,212,208,0.45); --sw5:rgba(214,212,208,0.30); --sw6:rgba(214,212,208,0.16);
-    --accent:#ffffff; --bg1:#1b1a18; --bg2:#3b3835; --tile:#100f0e; --mat:#d8d6d1;
+    --ink:#1b1a18;
+    --sw1:rgba(27,26,24,0.95); --sw2:rgba(27,26,24,0.78); --sw3:rgba(27,26,24,0.56);
+    --sw4:rgba(27,26,24,0.42); --sw5:rgba(27,26,24,0.26); --sw6:rgba(27,26,24,0.14);
+    --accent:#000000; --bg1:#f4f2ee; --bg2:#dcd8d0; --tile:#100f0e; --mat:#d8d6d1;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --cond:"Diatype Compressed Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
     --mono:"Diatype Mono Variable","Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
   }
   *{box-sizing:border-box;}
-  /* anchor jumps ease instead of cutting; padding keeps targets clear of the fixed bar + foot */
-  /* no fixed bar in the scaffold, so anchors only need to clear the mobile rail */
+  /* anchor jumps ease instead of cutting; no fixed bar now, so only the mobile rail to clear */
   html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:1rem;}
   @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
   body{margin:0;color:var(--sw2);
@@ -59,7 +62,6 @@
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
   .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.45;
     color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;}
-  /* typewriter: one line per span, revealed left-to-right in character steps */
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
      simply stays visible, so the statement can't strand blank. */
@@ -176,9 +178,13 @@
     <section class="card" id="work">
       <div class="lab"><span>Work</span></div>
       <div class="layout">
-      <a class="proj" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Land Talent. Land Somewhere.</span><br><span class="m">Lead Designer</span><br><span class="m">Brand + Website</span><br><br><span class="d">Immigration reframed as a strategic lever for recruiting and keeping the world's top talent. American excellence as a beacon for the people who want to build the future.</span></div></div>
+      <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">See Everything, Search Anything, Self-Organize</span><br><span class="m">Lead Product Designer</span><br><span class="m">Product System</span><br><br><span class="d">Self-organizing assets: Liquid Metal + the Z-index.</span></div></div>
+      </a>
+      <a class="proj" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>Flora</b><br>2024</div><div class="c1"><span class="t">A node canvas for image makers</span><br><span class="m">Founding Designer</span><br><span class="m">Product Design</span><br><br><span class="d">A node canvas for image makers, with AI at the center and no map to copy.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/osmosis/cover.png"></video></div>
@@ -188,13 +194,9 @@
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/industrial-lighting/cover.png"></video></div>
         <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">Global site for industrial cinematic lighting</span><br><span class="m">Designer</span><br><span class="m">Global Website</span><br><br><span class="d">A global home for industrial light.</span></div></div>
       </a>
-      <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">See Everything, Search Anything, Self-Organize</span><br><span class="m">Lead Product Designer</span><br><span class="m">Product System</span><br><br><span class="d">Self-organizing assets: Liquid Metal + the Z-index.</span></div></div>
-      </a>
-      <a class="proj" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video></div>
-        <div class="cols"><div class="c0"><b>Flora</b><br>2024</div><div class="c1"><span class="t">A node canvas for image makers</span><br><span class="m">Founding Designer</span><br><span class="m">Product Design</span><br><br><span class="d">A node canvas for image makers, with AI at the center and no map to copy.</span></div></div>
+      <a class="proj" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Land Talent. Land Somewhere.</span><br><span class="m">Lead Designer</span><br><span class="m">Brand + Website</span><br><br><span class="d">Immigration reframed as a strategic lever for recruiting and keeping the world's top talent. American excellence as a beacon for the people who want to build the future.</span></div></div>
       </a>
       <a class="proj" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="" aria-hidden="true"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"></div>
