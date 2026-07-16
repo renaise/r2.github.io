@@ -91,6 +91,11 @@
 
   /* project entries */
   .proj{display:block;margin-bottom:4.6rem;color:inherit;}
+  /* ease in on scroll. Scoped to .js so the entries stay visible without JS. */
+  .js .proj{opacity:0;transform:translateY(18px);
+    transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
+  .js .proj.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;} }
   a.proj:hover{color:inherit;}
   a.proj:hover .t{color:var(--accent);}
   .media{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);overflow:hidden;
@@ -138,6 +143,7 @@
     padding:1.1rem;font-family:var(--mono);font-size:0.78rem;color:var(--sw2);}
   .spacer{height:5.5rem;}
 </style>
+<script>document.documentElement.className+=' js';</script>
 </head>
 <body>
   <div class="bar">
@@ -227,6 +233,26 @@
   </div>
 
 <script>
+  // Ease each project entry in as it arrives. Runs first and defensively: .proj is
+  // opacity:0 under .js, so any failure here would leave the work section invisible.
+  // Unobserve once shown — this is an entrance, not a scroll-linked effect.
+  try{
+    if('IntersectionObserver' in window){
+      var reveal = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(!e.isIntersecting) return;
+          e.target.classList.add('in');
+          reveal.unobserve(e.target);
+        });
+      },{rootMargin:'0px 0px -12% 0px'});
+      document.querySelectorAll('.proj').forEach(function(p){ reveal.observe(p); });
+    } else {
+      document.querySelectorAll('.proj').forEach(function(p){ p.classList.add('in'); });
+    }
+  }catch(e){
+    document.querySelectorAll('.proj').forEach(function(p){ p.classList.add('in'); });
+  }
+
   // running clock
   function tick(){ try{
     var d=new Date(), p=n=>String(n).padStart(2,'0');
