@@ -32,8 +32,8 @@
   /* Neutral gray theme: flat light grey page, mid-gray type. The alpha steps are tighter
      than the old stone scale because mid gray has less room to fade before it stops being
      legible — body (--sw2) renders #6a6a6a, at the AA floor. Darkening --ink is the only
-     way to lift the whole scale. Every stroke on the page is dotted, on --sw5: dots put
-     less ink down than a solid rule, so they need the heavier tier to register.
+     way to lift the whole scale. Every stroke on the page is dotted, on --sw3: a 1px dotted rule paints only half
+     its length, so it needs a far heavier tier than a solid hairline to register.
      --tile stays dark: it backs the project plates, composed for a dark ground. */
   :root{
     --ink:#5c5c5c;
@@ -64,7 +64,8 @@
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
   .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.1;
-    color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;}
+    color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;
+    padding-bottom:1.4rem;border-bottom:1px dotted var(--sw3);}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
      simply stays visible, so the statement can't strand blank. */
@@ -112,7 +113,7 @@
   /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
   .app{display:flex;align-items:flex-start;}
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
-    border-right:1px dotted var(--sw5);padding:1.5rem 1.4rem;
+    border-right:1px dotted var(--sw3);padding:1.5rem 1.4rem;
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp */
@@ -124,19 +125,19 @@
     text-decoration:none;transition:color .2s;}
   .toc a:hover,.acts a:hover{color:var(--ink);}
   .side .clock{position:static;font-family:var(--mono);font-size:.68rem;color:var(--sw4);
-    letter-spacing:.03em;padding-top:.6rem;border-top:1px dotted var(--sw5);}
+    letter-spacing:.03em;padding-top:.6rem;border-top:1px dotted var(--sw3);}
   .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
     padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
-  .card{border-top:1px dotted var(--sw5);padding:clamp(52px,8vw,104px) 0;}
+  .card{border-top:1px dotted var(--sw3);padding:clamp(52px,8vw,104px) 0;}
   .card:first-child{border-top:0;padding-top:1.5rem;}  /* level with the mark in the rail */
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
-    padding:1.5rem 0;border-top:1px dotted var(--sw5);align-items:start;}
-  .cv .sec:last-child{border-bottom:1px dotted var(--sw5);}
+    padding:1.5rem 0;border-top:1px dotted var(--sw3);align-items:start;}
+  .cv .sec:last-child{border-bottom:1px dotted var(--sw3);}
   .cv .lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
   .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
-  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;border-bottom:1px dotted var(--sw5);}
+  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;border-bottom:1px dotted var(--sw3);}
   .cv .row:last-child{border-bottom:0;}
   .cv .row .nm{color:var(--ink);}
   .cv .row .yr{color:var(--sw3);font-family:var(--mono);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
@@ -149,7 +150,7 @@
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
     .app{flex-direction:column;}
     .side{position:static;width:100%;height:auto;border-right:0;
-      border-bottom:1px dotted var(--sw5);padding:1.1rem;gap:1.1rem;}
+      border-bottom:1px dotted var(--sw3);padding:1.1rem;gap:1.1rem;}
     .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
     .wrap{padding:0 1.1rem 3rem;}
