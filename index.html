@@ -126,17 +126,12 @@
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   .side .brand img{height:20px;width:20px;}
   .side .brand .t{font-family:var(--display);font-size:1rem;color:var(--ink);letter-spacing:-.01em;}
-  .toc{display:flex;flex-direction:column;}
-  .toc a{position:relative;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;
-    text-transform:uppercase;color:var(--sw3);text-decoration:none;padding:.5rem 0;
-    border-bottom:1px solid var(--sw6);transition:color .2s;}
-  .toc a:first-child{border-top:1px solid var(--sw6);}
-  .toc a:hover,.toc a.active{color:var(--ink);}
-  .toc a.active::before{content:"";position:absolute;left:-.9rem;top:50%;width:5px;height:5px;
-    border-radius:50%;background:var(--accent);transform:translateY(-50%);}
-  .acts{margin-top:auto;display:flex;flex-direction:column;gap:.5rem;}
-  .acts a{font-family:var(--mono);font-size:.72rem;color:var(--sw2);text-decoration:none;}
-  .acts a:hover{color:var(--ink);}
+  /* nav and the bottom links are one treatment: plain mono, no rules, same rhythm */
+  .toc,.acts{display:flex;flex-direction:column;gap:.5rem;}
+  .acts{margin-top:auto;}
+  .toc a,.acts a{font-family:var(--mono);font-size:.72rem;color:var(--sw2);
+    text-decoration:none;transition:color .2s;}
+  .toc a:hover,.acts a:hover{color:var(--ink);}
   .side .clock{position:static;font-family:var(--mono);font-size:.68rem;color:var(--sw4);
     letter-spacing:.03em;padding-top:.6rem;border-top:1px solid var(--sw6);}
   .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
@@ -165,8 +160,6 @@
     .side{position:static;width:100%;height:auto;border-right:0;
       border-bottom:1px solid var(--sw6);padding:1.1rem;gap:1.1rem;}
     .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
-    .toc a{border:0;padding:0;}
-    .toc a:first-child{border-top:0;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
     .wrap{padding:0 1.1rem 3rem;}
     /* narrow: natural wrap wins over fixed typewriter lines */
