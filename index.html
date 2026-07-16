@@ -41,7 +41,8 @@
   }
   *{box-sizing:border-box;}
   /* anchor jumps ease instead of cutting; padding keeps targets clear of the fixed bar + foot */
-  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:4.2rem;scroll-padding-bottom:4.2rem;}
+  /* no fixed bar in the scaffold, so anchors only need to clear the mobile rail */
+  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:1rem;}
   @media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
   body{margin:0;color:var(--sw2);
     background:linear-gradient(168deg,var(--bg1) 0%,var(--bg2) 100%);background-attachment:fixed;min-height:100vh;
@@ -50,24 +51,18 @@
   a:active{opacity:.7;}
   a:hover{color:var(--accent);}
 
-  /* pinned header + footer (explicit color, no blend on light bg) */
-  .bar{position:fixed;top:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;
-    padding:1.1rem;font-family:var(--sans);font-weight:400;color:var(--ink);font-size:0.8rem;}
-  .bar .r{display:flex;gap:1.5rem;}
   .brand sup{font-size:.6em;top:-.5em;}
-  .clock{position:fixed;top:1.1rem;left:50%;transform:translateX(-50%);z-index:9;
-    font-family:var(--mono);font-size:0.78rem;color:var(--sw3);}
+  .layout{width:100%;}
 
-  .page{display:flex;justify-content:center;padding:1.1rem;}
-  .layout{width:100%;max-width:66%;}
-  @media(max-width:900px){ .layout{max-width:100%;} }
-
-  /* centered header statement */
-  .statement{min-height:52vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 1.1rem 2.2rem;}
-  /* desktop: explicit line breaks below, so no measure cap (would clip the nowrap lines) */
-  .statement h2{font-family:var(--sans);font-weight:400;font-size:1.25rem;line-height:1.22;color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;}
+  /* statement, now in the rail */
+  .statement{padding:0;}
+  /* The typewriter keeps fixed line breaks (white-space:pre), so it cannot reflow: the
+     size is bounded by the longest line (32ch) fitting the rail's 280px minus 2.8rem
+     padding = 235px. Measured: Diatype 211px, Helvetica fallback 214px. Do not raise
+     past ~1rem without re-measuring both, or the rail overflows. */
+  .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.4;color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;}
   /* typewriter: one line per span, revealed left-to-right in character steps */
-  .statement h2 .ln{display:block;position:relative;width:max-content;max-width:100%;margin:0 auto;}
+  .statement h2 .ln{display:block;position:relative;width:max-content;max-width:100%;margin:0;}
   .statement h2 .t{display:inline-block;white-space:pre;clip-path:inset(0 100% 0 0);}
   .statement h2 .ln::after{content:"";position:absolute;top:.16em;bottom:.08em;left:0;width:1px;
     background:var(--accent);opacity:0;}
@@ -123,7 +118,35 @@
   .c1 br+span{display:block;}
 
   /* about / CV */
-  .about{margin-top:5.5rem;}
+  /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
+  .app{display:flex;align-items:flex-start;}
+  .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
+    border-right:1px solid var(--sw6);padding:1.5rem 1.4rem;
+    display:flex;flex-direction:column;gap:1.5rem;z-index:10;}
+  .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+  .side .brand img{height:20px;width:20px;}
+  .side .brand .t{font-family:var(--display);font-size:1rem;color:var(--ink);letter-spacing:-.01em;}
+  .toc{display:flex;flex-direction:column;}
+  .toc a{position:relative;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--sw3);text-decoration:none;padding:.5rem 0;
+    border-bottom:1px solid var(--sw6);transition:color .2s;}
+  .toc a:first-child{border-top:1px solid var(--sw6);}
+  .toc a:hover,.toc a.active{color:var(--ink);}
+  .toc a.active::before{content:"";position:absolute;left:-.9rem;top:50%;width:5px;height:5px;
+    border-radius:50%;background:var(--accent);transform:translateY(-50%);}
+  .acts{margin-top:auto;display:flex;flex-direction:column;gap:.5rem;}
+  .acts a{font-family:var(--mono);font-size:.72rem;color:var(--sw2);text-decoration:none;}
+  .acts a:hover{color:var(--ink);}
+  .side .clock{position:static;font-family:var(--mono);font-size:.68rem;color:var(--sw4);
+    letter-spacing:.03em;padding-top:.6rem;border-top:1px solid var(--sw6);}
+  .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
+    padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
+  .card{border-top:1px solid var(--sw6);padding:clamp(52px,8vw,104px) 0;}
+  .card:first-child{border-top:0;}
+  .lab{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--sw3);display:flex;gap:.75rem;margin-bottom:1.9rem;}
+  .lab .n{color:var(--sw4);}
+  .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0;border-top:1px solid var(--sw6);align-items:start;}
   .cv .sec:last-child{border-bottom:1px solid var(--sw6);}
@@ -138,34 +161,49 @@
   .cv .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
   .cv .row.prior .nm{color:var(--sw3);}
   @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;} .layout{max-width:100%;}
+    /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
+    .app{flex-direction:column;}
+    .side{position:static;width:100%;height:auto;border-right:0;
+      border-bottom:1px solid var(--sw6);padding:1.1rem;gap:1.1rem;}
+    .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
+    .toc a{border:0;padding:0;}
+    .toc a:first-child{border-top:0;}
+    .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
+    .wrap{padding:0 1.1rem 3rem;}
     /* narrow: natural wrap wins over fixed typewriter lines */
     .statement h2{font-size:1.1rem;max-width:34ch;text-wrap:balance;}
     .statement h2 .ln{display:inline;width:auto;margin:0;}
     .statement h2 .t{display:inline;white-space:normal;clip-path:none;animation:none;}
     .statement h2 .ln::after{display:none;} }
 
-  .foot{position:fixed;bottom:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;
-    padding:1.1rem;font-family:var(--mono);font-size:0.78rem;color:var(--sw2);}
-  .spacer{height:5.5rem;}
+  .spacer{height:2.2rem;}
 </style>
 <script>document.documentElement.className+=' js';</script>
 </head>
 <body>
-  <div class="bar">
-    <div class="brand"><a href="#top">Renaise</a></div>
-    <div class="r"><a href="https://studioartifice.com/work/" target="_blank" rel="noopener">Work</a><a href="#about">About</a></div>
-  </div>
-  <div class="clock" id="clock"></div>
-
   <a id="top"></a>
-  <section class="statement">
-    <div>
-      <h2><span class="ln ln1"><span class="t">Renaise is a brand and product </span></span><span class="ln ln2"><span class="t">designer in New York, working </span></span><span class="ln ln3"><span class="t">across culture and venture: </span></span><span class="ln ln4"><span class="t">consumer media, creative tools, </span></span><span class="ln ln5"><span class="t">and deep tech.</span></span></h2>
-    </div>
-  </section>
+  <div class="app">
+    <aside class="side">
+      <a class="brand" href="#top"><img src="/assets/icon-32.png" alt="" width="20" height="20" /><span class="t">Renaise</span></a>
+      <section class="statement">
+        <h2><span class="ln ln1"><span class="t">Renaise is a brand and product </span></span><span class="ln ln2"><span class="t">designer in New York, working </span></span><span class="ln ln3"><span class="t">across culture and venture: </span></span><span class="ln ln4"><span class="t">consumer media, creative tools, </span></span><span class="ln ln5"><span class="t">and deep tech.</span></span></h2>
+      </section>
+      <nav class="toc">
+        <a href="#work">01 · Work</a>
+        <a href="#about">02 · About</a>
+        <a href="https://studioartifice.com/work/" target="_blank" rel="noopener">03 · Studio Artifice ↗</a>
+      </nav>
+      <div class="acts">
+        <a href="mailto:krenaise@gmail.com">Email ↗</a>
+        <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <div class="clock" id="clock"></div>
+      </div>
+    </aside>
 
-  <section class="page">
-    <div class="layout" id="work">
+    <main class="wrap">
+    <section class="card" id="work">
+      <div class="lab"><span class="n">01</span><span>Work</span></div>
+      <div class="layout">
       <a class="proj" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video></div>
         <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Land Talent. Land Somewhere.</span><br><span class="m">Lead Designer</span><br><span class="m">Brand + Website</span><br><br><span class="d">Immigration reframed as a strategic lever for recruiting and keeping the world's top talent. American excellence as a beacon for the people who want to build the future.</span></div></div>
@@ -191,7 +229,12 @@
         <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><br><span class="m">Brand Narrative · In Progress</span><br><br><span class="d">Creative direction for a pre-release Google AI video model, shifting the narrative from stock-footage replacement to avant-garde medium.</span></div></div>
       </a>
 
-      <div class="about" id="about">
+      </div>
+    </section>
+
+    <section class="card" id="about">
+      <div class="lab"><span class="n">02</span><span>About</span></div>
+      <div class="about">
         <h1><a href="#top">Renaise</a></h1>
         <div class="spacer"></div>
         <div class="cv">
@@ -228,13 +271,8 @@
           </div>
         </div>
       </div>
-      <div class="spacer"></div><div class="spacer"></div>
-    </div>
-  </section>
-
-  <div class="foot">
-    <a href="#top">Top ↑</a>
-    <div><a href="mailto:krenaise@gmail.com">Email ↗</a> &nbsp; <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a></div>
+    </section>
+    </main>
   </div>
 
 <script>
