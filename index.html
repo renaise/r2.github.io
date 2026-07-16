@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Renaise</title>
 <link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" media="(prefers-color-scheme:light)" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" media="(prefers-color-scheme:light)" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-dark-32.png" media="(prefers-color-scheme:dark)" />
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-dark-16.png" media="(prefers-color-scheme:dark)" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 <meta name="theme-color" content="#ebebeb" />
 <meta name="description" content="Renaise is a brand + product designer in NYC, working across culture + venture: consumer media, creative tools, and deep tech." />
@@ -140,8 +142,12 @@
     border-right:1px dotted var(--line);padding:1.5rem 1.4rem;
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
-  /* the mark is the wordmark now — served from the 192px asset so it stays crisp */
+  /* the mark is the wordmark now — served from the 192px asset so it stays crisp.
+     Two artworks, not one tinted: the dark mark is its own file. */
   .side .brand img{height:52px;width:52px;}
+  .side .brand .mk-d{display:none;}
+  :root[data-theme="dark"] .side .brand .mk-l{display:none;}
+  :root[data-theme="dark"] .side .brand .mk-d{display:block;}
   /* nav and the bottom links are one treatment: plain mono, no rules, same rhythm */
   .toc,.acts{display:flex;flex-direction:column;gap:.5rem;}
   .acts{margin-top:auto;}
@@ -221,7 +227,7 @@ document.documentElement.className+=' js';
   <a id="top"></a>
   <div class="app">
     <aside class="side">
-      <a class="brand" href="#top"><img src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /></a>
+      <a class="brand" href="#top"><img class="mk-l" src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="Renaise" width="52" height="52" /></a>
       <nav class="toc">
         <a href="#work">Work</a>
         <a href="#about">About</a>
@@ -233,6 +239,7 @@ document.documentElement.className+=' js';
       <div class="acts">
         <a href="mailto:krenaise@gmail.com">Email ↗</a>
         <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na ↗</a>
         <div class="foot"><div class="clock" id="clock"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
     </aside>
