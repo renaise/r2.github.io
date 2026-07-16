@@ -20,25 +20,27 @@
 <meta name="twitter:description" content="Brand + product designer across culture + venture. NYC." />
 <meta name="twitter:image" content="https://renaise.com/assets/social-cover.jpg" />
 <style>
-  /* Diatype (Dinamo) — the actual Cargo N690 typeface, self-hosted 1:1 */
+  /* One face for everything: Diatype (Dinamo). Redaction is the wordmark alone. */
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
-  @font-face { font-family:"Favorit Mono"; src:url("/ABCFavoritMono-Light-Trial.otf") format("opentype"); font-weight:300; font-display:swap; }
   /* Redaction (Kaphar/Betts, MCKL — OFL), self-hosted — wordmark face */
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
      on the AA floor. The only way to lift the scale is to darken --ink.
-     Every rule on the page is dotted, on --sw3: a dotted border paints ~half its length,
-     so it needs a much heavier tier than a solid hairline to read at all.
+     Every straight rule is a dotted line on --sw3, painted as a repeating radial-gradient
+     rather than a `dotted` border: a border's dot pitch is fixed at ~2px and cannot be
+     spaced. Geometry matches studioartifice.com — 1px dot, 1.4px feather, 7px pitch.
+     Only curves keep a `dotted` border (the switch track, the hover outline): a gradient
+     cannot trace a rounded rect.
      --tile stays dark in both themes: it backs the plates, composed for a dark ground. */
   :root{
     --ink:#5c5c5c;
     --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
     --accent:#2e2e2e; --bg1:#ebebeb; --tile:#100f0e;
+    --rule:radial-gradient(circle,var(--sw3) 1px,transparent 1.4px);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
-    --mono:"Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Ink #a8a8a8 on #1a1a1a puts body at 6.19:1 and the dotted rules at 4.41:1.
@@ -76,7 +78,7 @@
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
   .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.1;
     color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;
-    padding-bottom:1.4rem;border-bottom:1px dotted var(--sw3);}
+    padding-bottom:1.4rem;background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left bottom;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
      simply stays visible, so the statement can't strand blank. */
@@ -125,7 +127,7 @@
   /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
   .app{display:flex;align-items:flex-start;}
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
-    border-right:1px dotted var(--sw3);padding:1.5rem 1.4rem;
+    background-image:var(--rule);background-size:2px 7px;background-repeat:repeat-y;background-position:right top;padding:1.5rem 1.4rem;
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp */
@@ -133,7 +135,7 @@
   /* nav and the bottom links are one treatment: plain mono, no rules, same rhythm */
   .toc,.acts{display:flex;flex-direction:column;gap:.5rem;}
   .acts{margin-top:auto;}
-  .toc a,.acts a{font-family:var(--mono);font-size:.72rem;color:var(--sw2);
+  .toc a,.acts a{font-family:var(--sans);font-size:.72rem;color:var(--sw2);
     text-decoration:none;transition:color .2s;}
   .toc a:hover,.acts a:hover{color:var(--ink);}
   /* Theme switch. Built from a dotted track so it speaks the same language as every other
@@ -142,7 +144,7 @@
      can't switch is worse than no switch. */
   .tsw{display:none;}
   .js .tsw{display:flex;align-items:center;gap:.55rem;background:none;border:0;padding:0;
-    font-family:var(--mono);font-size:.72rem;color:var(--sw2);cursor:pointer;
+    font-family:var(--sans);font-size:.72rem;color:var(--sw2);cursor:pointer;
     text-align:left;transition:color .2s;}
   .tsw:hover{color:var(--ink);}
   .tsw .track{position:relative;width:30px;height:16px;flex-shrink:0;border-radius:999px;
@@ -152,33 +154,37 @@
   :root[data-theme="dark"] .tsw .knob{left:17px;}
   .tsw:focus-visible{outline:1px dotted var(--accent);outline-offset:3px;}
   @media(prefers-reduced-motion:reduce){ .tsw .knob{transition:none;} }
-  .side .clock{position:static;font-family:var(--mono);font-size:.68rem;color:var(--sw4);
-    letter-spacing:.03em;padding-top:.6rem;border-top:1px dotted var(--sw3);}
+  .side .clock{position:static;font-family:var(--sans);font-size:.68rem;color:var(--sw4);
+    letter-spacing:.03em;padding-top:.6rem;font-variant-numeric:tabular-nums;
+    background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left top;}
   .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
     padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
-  .card{border-top:1px dotted var(--sw3);padding:clamp(52px,8vw,104px) 0;}
-  .card:first-child{border-top:0;padding-top:1.5rem;}  /* level with the mark in the rail */
+  .card{background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left top;padding:clamp(52px,8vw,104px) 0;}
+  .card:first-child{background-image:none;padding-top:1.5rem;}  /* level with the mark in the rail */
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
-    padding:1.5rem 0;border-top:1px dotted var(--sw3);align-items:start;}
-  .cv .sec:last-child{border-bottom:1px dotted var(--sw3);}
-  .cv .lbl{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
+    padding:1.5rem 0;background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left top;align-items:start;}
+  .cv .sec:last-child{background-image:var(--rule),var(--rule);background-size:7px 2px,7px 2px;
+    background-repeat:repeat-x,repeat-x;background-position:left top,left bottom;}
+  .cv .lbl{font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
   .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
-  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;border-bottom:1px dotted var(--sw3);}
-  .cv .row:last-child{border-bottom:0;}
+  .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;
+    background-image:var(--rule);background-size:7px 2px;background-repeat:repeat-x;background-position:left bottom;}
+  .cv .row:last-child{background-image:none;}
   .cv .row .nm{color:var(--ink);}
-  .cv .row .yr{color:var(--sw3);font-family:var(--mono);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
-  .cv .row .ctx{color:var(--sw3);font-family:var(--mono);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
-  .cv .sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
+  .cv .row .yr{color:var(--sw3);font-family:var(--sans);font-size:.72rem;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:.03em;}
+  .cv .row .ctx{color:var(--sw3);font-family:var(--sans);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
+  .cv .sub{font-family:var(--sans);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
   .cv .row.prior .nm{color:var(--sw3);}
   @media(max-width:900px){ .cols{grid-template-columns:1fr;} .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;}
     /* one across on narrow — two 16/9 plates side by side would be postage stamps */
     .layout{max-width:100%;grid-template-columns:1fr;gap:2.6rem;}
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
     .app{flex-direction:column;}
-    .side{position:static;width:100%;height:auto;border-right:0;
-      border-bottom:1px dotted var(--sw3);padding:1.1rem;gap:1.1rem;}
+    .side{position:static;width:100%;height:auto;
+      background-size:7px 2px;background-repeat:repeat-x;background-position:left bottom;
+      padding:1.1rem;gap:1.1rem;}
     .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
     .wrap{padding:0 1.1rem 3rem;}
