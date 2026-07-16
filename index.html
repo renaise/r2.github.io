@@ -193,7 +193,10 @@
   .dn:hover{color:var(--ink);border-color:var(--sw3);}
   /* marks marquee above the statement. Track = the run duplicated, so -50% is seamless.
      Decorative only: the real links live at the foot of About. */
-  .mq{overflow:hidden;margin-top:1.1rem;
+  /* The rail is a flex column with a 1.9rem gap, so margin-top alone can never bring this
+     under 30px. The negative margin cancels that gap and parks the run just under the
+     statement's dotted rule. */
+  .mq{overflow:hidden;margin-top:-1.15rem;
     -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
     mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
   .mq-t{display:flex;align-items:center;width:max-content;
