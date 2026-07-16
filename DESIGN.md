@@ -15,22 +15,19 @@ No adjectives of quality. If a line could sit on any designer's site, it does no
 
 ## Type
 
-Two families, opposed jobs. The tension between them *is* the identity: a literary,
-reproduction-degraded serif on the wordmark against an unsentimental grotesk on everything
-else. Cultural register, commercial delivery.
+**One face for everything.** Diatype carries body, nav, labels, years, and the clock —
+there is no mono role and no third family. Redaction appears once, on the wordmark.
 
 | Role | Token | Face | File |
 |---|---|---|---|
-| Display / wordmark | `--display` | Redaction (Kaphar/Betts, MCKL — OFL) | `fonts/Redaction-Regular.woff2` |
-| Body / statement | `--sans` | Diatype Variable (Dinamo) | `fonts/Cargo-DiatypePlusVariable.woff2` |
-| Technical label | `--mono` | Favorit Mono | `ABCFavoritMono-Light-Trial.otf` |
+| Everything | `--sans` | Diatype Variable (Dinamo) | `fonts/Cargo-DiatypePlusVariable.woff2` |
+| Wordmark only | `--display` | Redaction (Kaphar/Betts, MCKL — OFL) | `fonts/Redaction-Regular.woff2` |
 
 Redaction is only ever used at weight 400 — the Bold face is not loaded.
 
-`--mono` must resolve to a **real monospace**; the clock's digits depend on it. It once
-pointed at a `"Diatype Mono Variable"` alias of the *proportional* body binary, which
-shadowed Favorit Mono and made the digits jitter every second. Never alias a proportional
-face into the mono role.
+Diatype's default figures are **proportional** (ten distinct advances), so anything showing
+numbers that change in place needs `font-variant-numeric:tabular-nums` or it jitters. The
+clock and the CV years set it. This is the constraint the old mono role used to absorb.
 
 Sizes: body and rail nav `.72rem` (they match deliberately) · statement `.95rem`/1.1 ·
 h1 `clamp(3.6rem,12vw,11rem)` · clock `.68rem`.
@@ -71,9 +68,18 @@ the OS; choosing opts out permanently. Without JS the switch is hidden and
 - Rail unpins to a stacked header under 900px.
 
 **Every rule on the page is dotted, on `--sw3`.** Zero solid borders, zero box-shadows.
-A dotted border paints roughly half its length, so it reads about half as strong as a solid
-rule of the same colour — it needs a far heavier tier than a hairline would. At `--sw5` the
-dots were effectively invisible (1.58:1).
+
+Straight rules are painted as a repeating radial-gradient, not a `dotted` border — a
+border's dot pitch is fixed at roughly 2px and cannot be spaced. The geometry matches
+studioartifice.com exactly: `radial-gradient(circle, <colour> 1px, transparent 1.4px)` on
+`background-size:7px 2px` (`2px 7px` + `repeat-y` for the vertical rail). It lives in the
+`--rule` token so both themes resolve `--sw3` themselves.
+
+Only **curves** keep a `dotted` border — the switch track and the plate hover outline. A
+gradient cannot trace a rounded rect. Their pitch is the browser's ~2px, not 7px; at 30px
+and 4px radius the difference does not read.
+
+Tier matters: at `--sw5` the dots were effectively invisible (1.58:1). `--sw3` is 3.14:1.
 
 ## The plate
 
@@ -128,15 +134,16 @@ wordmark is the first name alone.
 
 ## Kill-list
 
-No second hue. No filled accent. No solid rule anywhere. No third typeface. No framework,
-build step, or CDN. No scroll-linked motion. No adjective that survives deletion. No case
-study on this site — route to the studio.
+No second hue. No filled accent. No solid rule anywhere. **No second typeface** — Diatype
+carries everything, Redaction is the wordmark alone. No `dotted` border on a straight rule
+(pitch is unspaceable — use `--rule`). No framework, build step, or CDN. No scroll-linked
+motion. No adjective that survives deletion. No case study on this site — route to the
+studio.
 
 ## Open
 
-- `ABCFavoritMono-Light-Trial.otf` is a **trial licence** served publicly from a live
-  commercial domain, and the mono role now depends on it. Needs a purchased licence or a
-  replacement face.
+- `ABCFavoritMono-Light-Trial.otf` is a **trial licence**. Nothing references it any more
+  (the mono role is gone), but the file is still committed and served on request. Delete it.
 - `covers/sensitive-subjects.png` is still in the repo but the project is not in the CMS and
   not on the site. Either it returns to the CMS or the asset goes.
 - Root `CLAUDE.md` still describes a cream page, Neue Haas Grotesk, and a `#FF2A00` accent.
