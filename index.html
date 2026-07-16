@@ -14,11 +14,13 @@
 <meta property="og:url" content="https://renaise.com/" />
 <meta property="og:title" content="Renaise CV" />
 <meta property="og:description" content="Brand + product designer across culture + venture. NYC." />
-<meta property="og:image" content="https://renaise.com/assets/social-cover.jpg" />
+<meta property="og:image" content="https://renaise.com/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Renaise CV" />
 <meta name="twitter:description" content="Brand + product designer across culture + venture. NYC." />
-<meta name="twitter:image" content="https://renaise.com/assets/social-cover.jpg" />
+<meta name="twitter:image" content="https://renaise.com/assets/og.jpg" />
 <style>
   /* One face for everything: Diatype (Dinamo). Redaction is the wordmark alone. */
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
@@ -123,10 +125,12 @@
     -webkit-backdrop-filter:blur(10px) saturate(1.2);}
   /* full-bleed exception: native 16:9 compositions fill the plate */
   .media .cover.fill{object-fit:cover;object-position:center;padding:0;}
-  .cols{display:grid;grid-template-columns:1fr;gap:.3rem;align-items:start;}
+  .cols{display:grid;grid-template-columns:1fr;gap:.25rem;align-items:start;}
   .c0{color:var(--sw4);} .c0 b{font-weight:700;color:var(--ink);}
   .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);}
-  .c1 .d{color:var(--sw4);margin-top:.5rem;}
+  /* block in its own right: it no longer follows a <br>, which used to add a
+     phantom empty line on top of this margin. */
+  .c1 .d{color:var(--sw4);display:block;margin-top:.4rem;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -238,31 +242,31 @@ document.documentElement.className+=' js';
       <div class="layout">
       <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Tool</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><br>2026</div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><br><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><br>2026</div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
       </a>
       <a class="proj" data-slug="soot" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/soot/cover.png"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><br><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
       </a>
       <a class="proj" data-slug="flora" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video><span class="tag">Product Design</span></div>
-        <div class="cols"><div class="c0"><b>FLORA</b><br>2024</div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><br><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
+        <div class="cols"><div class="c0"><b>FLORA</b><br>2024</div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/osmosis/cover.png"></video><span class="tag">Identity + Website</span></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">Making Forward-Deployed RL Legible to Its Buyers</span><br><span class="m">Design Director</span><br><span class="d">Repositioning post-training from category jargon into something buyers can evaluate and act on.</span></div></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">Making Forward-Deployed RL Legible to Its Buyers</span><br><span class="m">Design Director</span><span class="d">Repositioning post-training from category jargon into something buyers can evaluate and act on.</span></div></div>
       </a>
       <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/industrial-lighting/cover.png"></video><span class="tag">Global Website</span></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><br><span class="d">From spec sheets to a benefit-led catalog that sells the same way in any market.</span></div></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><span class="d">From spec sheets to a benefit-led catalog that sells the same way in any market.</span></div></div>
       </a>
       <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video><span class="tag">Brand + Website</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><br><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="" aria-hidden="true"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"><span class="tag">Brand Narrative · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><br><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
       </a>
 
       </div>
