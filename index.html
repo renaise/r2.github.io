@@ -84,8 +84,10 @@
   @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;} }
   a.proj:hover{color:inherit;}
   a.proj:hover .t{color:var(--accent);}
-  .media{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);overflow:hidden;
-    margin-bottom:.9rem;border-radius:4px;transition:box-shadow .3s ease;}
+  /* thumbnails, not hero plates: capped well under the column so the work reads as an
+     index. The 16/9 lock drives the height, so width is the only dial here. */
+  .media{position:relative;width:100%;max-width:360px;aspect-ratio:16/9;background:var(--tile);
+    overflow:hidden;margin-bottom:.9rem;border-radius:4px;transition:box-shadow .3s ease;}
   a.proj:hover .media{box-shadow:0 0 0 1px var(--accent);}
   /* frosted, expanded copy of the creative filling the plate */
   .media video{background:var(--tile);}
@@ -110,8 +112,8 @@
     border-right:1px solid var(--sw6);padding:1.5rem 1.4rem;
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
-  .side .brand img{height:20px;width:20px;}
-  .side .brand .t{font-family:var(--display);font-size:1rem;color:var(--ink);letter-spacing:-.01em;}
+  /* the mark is the wordmark now — served from the 192px asset so it stays crisp */
+  .side .brand img{height:52px;width:52px;}
   /* nav and the bottom links are one treatment: plain mono, no rules, same rhythm */
   .toc,.acts{display:flex;flex-direction:column;gap:.5rem;}
   .acts{margin-top:auto;}
@@ -124,8 +126,6 @@
     padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
   .card{border-top:1px solid var(--sw6);padding:clamp(52px,8vw,104px) 0;}
   .card:first-child{border-top:0;}
-  .lab{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--sw3);display:flex;gap:.75rem;margin-bottom:1.9rem;}
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0;border-top:1px solid var(--sw6);align-items:start;}
@@ -158,7 +158,7 @@
   <a id="top"></a>
   <div class="app">
     <aside class="side">
-      <a class="brand" href="#top"><img src="/assets/icon-32.png" alt="" width="20" height="20" /><span class="t">Renaise</span></a>
+      <a class="brand" href="#top"><img src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /></a>
       <section class="statement">
         <h2>Renaise is a brand and product designer in New York, working across culture and venture: consumer media, creative tools, and deep tech.</h2>
       </section>
@@ -176,7 +176,6 @@
 
     <main class="wrap">
     <section class="card" id="work">
-      <div class="lab"><span>Work</span></div>
       <div class="layout">
       <a class="proj" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="https://studioartifice.com/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/soot/cover.png"></video></div>
@@ -207,7 +206,6 @@
     </section>
 
     <section class="card" id="about">
-      <div class="lab"><span>About</span></div>
       <div class="about">
         <h1><a href="#top">Renaise</a></h1>
         <div class="spacer"></div>
