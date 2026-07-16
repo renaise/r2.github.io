@@ -39,27 +39,26 @@
   :root{
     --ink:#5c5c5c;
     --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
-    --accent:#2e2e2e; --bg1:#ebebeb; --tile:#101011;
+    --accent:#2e2e2e; --bg1:#ebebeb; --tile:#101010;
     --line:rgba(92,92,92,0.42);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
-     Neutral ink #a8a8a8 on charcoal #202022. The bg is 2 points cool (B-(R+G)/2 = +2)
-     — enough that it never reads warm, far short of the navy a real slate gives.
-     Body 5.79:1.
+     Fully neutral: ink #a8a8a8 on charcoal #222222, both R=G=B. Any blue in the bg,
+     even 2 points, reads as navy across a full page — so there is none. Body 5.72:1.
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="dark"]{
     --ink:#a8a8a8;
     --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
-    --accent:#ffffff; --bg1:#202022; --line:rgba(168,168,168,0.42);
+    --accent:#ffffff; --bg1:#222222; --line:rgba(168,168,168,0.42);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
     :root:not([data-theme]){
       --ink:#a8a8a8;
       --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
-      --accent:#ffffff; --bg1:#202022; --line:rgba(168,168,168,0.42);
+      --accent:#ffffff; --bg1:#222222; --line:rgba(168,168,168,0.42);
     }
   }
   *{box-sizing:border-box;}
@@ -390,7 +389,7 @@ document.documentElement.className+=' js';
     var btn=document.getElementById('tsw');
     if(!btn) return;
     var root=document.documentElement, meta=document.querySelector('meta[name="theme-color"]');
-    var PAGE={light:'#ebebeb',dark:'#202022'};
+    var PAGE={light:'#ebebeb',dark:'#222222'};
     function paint(t){
       root.setAttribute('data-theme',t);
       btn.setAttribute('aria-checked',t==='dark'?'true':'false');
