@@ -22,45 +22,38 @@
 <style>
   /* Diatype (Dinamo) — the actual Cargo N690 typeface, self-hosted 1:1 */
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
-  @font-face { font-family:"Diatype Compressed Variable"; src:url("/fonts/CargoDiatypeWidthsVariable.woff2") format("woff2"); font-weight:100 900; font-stretch:50% 200%; font-display:swap; }
-  @font-face { font-family:"Diatype Mono Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
   @font-face { font-family:"Favorit Mono"; src:url("/ABCFavoritMono-Light-Trial.otf") format("opentype"); font-weight:300; font-display:swap; }
   /* Redaction (Kaphar/Betts, MCKL — OFL), self-hosted — wordmark face */
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
-  @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Bold.woff2") format("woff2"); font-weight:700; font-display:swap; }
 
-  /* Neutral gray theme: flat light grey page, mid-gray type. The alpha steps are tighter
-     than the old stone scale because mid gray has less room to fade before it stops being
-     legible — body (--sw2) renders #6a6a6a, at the AA floor. Darkening --ink is the only
-     way to lift the whole scale. Every stroke on the page is dotted, on --sw3: a 1px dotted rule paints only half
-     its length, so it needs a far heavier tier than a solid hairline to register.
-     --tile stays dark: it backs the project plates, composed for a dark ground. */
+  /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
+     fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
+     on the AA floor. The only way to lift the scale is to darken --ink.
+     Every rule on the page is dotted, on --sw3: a dotted border paints ~half its length,
+     so it needs a much heavier tier than a solid hairline to read at all.
+     --tile stays dark in both themes: it backs the plates, composed for a dark ground. */
   :root{
     --ink:#5c5c5c;
-    --sw1:rgba(92,92,92,0.96); --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72);
-    --sw4:rgba(92,92,92,0.58); --sw5:rgba(92,92,92,0.32); --sw6:rgba(92,92,92,0.16);
-    --accent:#2e2e2e; --bg1:#ebebeb; --bg2:#ebebeb; --tile:#100f0e; --mat:#d8d6d1;
+    --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
+    --accent:#2e2e2e; --bg1:#ebebeb; --tile:#100f0e;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --cond:"Diatype Compressed Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
-    --mono:"Diatype Mono Variable","Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --mono:"Favorit Mono",ui-monospace,"SF Mono",Menlo,monospace;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Ink #a8a8a8 on #1a1a1a puts body at 6.19:1 and the dotted rules at 4.41:1.
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="dark"]{
     --ink:#a8a8a8;
-    --sw1:rgba(168,168,168,0.96); --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72);
-    --sw4:rgba(168,168,168,0.58); --sw5:rgba(168,168,168,0.32); --sw6:rgba(168,168,168,0.16);
-    --accent:#ffffff; --bg1:#1a1a1a; --bg2:#1a1a1a;
+    --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
+    --accent:#ffffff; --bg1:#1a1a1a;
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
     :root:not([data-theme]){
       --ink:#a8a8a8;
-      --sw1:rgba(168,168,168,0.96); --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72);
-      --sw4:rgba(168,168,168,0.58); --sw5:rgba(168,168,168,0.32); --sw6:rgba(168,168,168,0.16);
-      --accent:#ffffff; --bg1:#1a1a1a; --bg2:#1a1a1a;
+      --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
+      --accent:#ffffff; --bg1:#1a1a1a;
     }
   }
   *{box-sizing:border-box;}
@@ -109,8 +102,9 @@
   /* thumbnails, not hero plates — the two-up grid does the shrinking, so the plate fills
      its column. The 16/9 lock drives height; column width is the only dial. */
   .media{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);
-    overflow:hidden;margin-bottom:.9rem;border-radius:4px;transition:outline-color .3s ease;}
-  a.proj:hover .media{outline:1px dotted var(--accent);outline-offset:0;}
+    overflow:hidden;margin-bottom:.9rem;border-radius:4px;
+    outline:1px dotted transparent;transition:outline-color .3s ease;}
+  a.proj:hover .media{outline-color:var(--accent);}
   /* frosted, expanded copy of the creative filling the plate */
   .media video{background:var(--tile);}
   .media .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
