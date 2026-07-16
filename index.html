@@ -185,9 +185,19 @@
   .cv .sec:last-child{border-bottom:1px dotted var(--line);}
   .cv .lbl{font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
+  /* marks marquee above the statement. Track = the run duplicated, so -50% is seamless.
+     Decorative only: the real links live at the foot of About. */
+  .mq{overflow:hidden;margin-bottom:1.1rem;
+    -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+    mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+  .mq-t{display:flex;align-items:center;gap:1rem;width:max-content;
+    animation:mq 26s linear infinite;}
+  .mq .ent{pointer-events:none;flex:none;}
+  @keyframes mq{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  @media(prefers-reduced-motion:reduce){ .mq-t{animation:none;} }
   /* entity marks under the bio — each logo is a mask filled with the ink, so a black
      source and a white source both land in the theme colour */
-  .ents{display:flex;align-items:center;gap:1.6rem;margin-top:2.4rem;flex-wrap:wrap;}
+  .ents{display:flex;align-items:center;gap:1rem;margin-top:2.4rem;flex-wrap:wrap;}
   .ent{display:block;height:18px;background-color:var(--sw3);transition:background-color .2s;
     -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;}
   .ent:hover{background-color:var(--ink);}
@@ -239,6 +249,7 @@ document.documentElement.className+=' js';
         <a href="#about">About</a>
         <a href="https://studioartifice.com/work/" target="_blank" rel="noopener">Studio Artifice ↗</a>
       </nav>
+      <div class="mq" aria-hidden="true"><div class="mq-t"><span class="ent" style="--m:url(/assets/ent-codex.png);width:18px"></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:34px"></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:37px"></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:18px"></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:34px"></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:37px"></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:18px"></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:34px"></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:37px"></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:18px"></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:34px"></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:37px"></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:18px"></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:34px"></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:37px"></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:18px"></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:34px"></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:37px"></span></div></div>
       <section class="statement">
         <h2>Renaise is a brand and product designer in New York with 8 years of experience working across culture and venture: consumer media, creative tools, and deep tech.</h2>
       </section>
