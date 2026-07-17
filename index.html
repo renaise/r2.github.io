@@ -153,7 +153,9 @@
   .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.3rem;}
   /* block in its own right: it no longer follows a <br>, which used to add a
      phantom empty line on top of this margin. */
-  .c1 .d{color:var(--sw4);display:block;margin-top:.4rem;}
+  /* .85rem, up from the .72rem it inherited from body — the description carries the most
+     words on the plate and was the one row reading as fine print. */
+  .c1 .d{color:var(--sw4);display:block;margin-top:.4rem;font-size:.85rem;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -260,6 +262,10 @@
     .side{position:static;width:100%;height:auto;border-right:0;
       border-bottom:1px dotted var(--line);padding:var(--gut);gap:1.1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
+    /* .foot lives inside .acts, which turns into a wrapping row here — so the clock row
+       would otherwise sit inline after Are.na at its content width. Force it onto its own
+       line at full width; its space-between then throws clock and switch to the edges. */
+    .acts .foot{flex:1 0 100%;margin-top:.4rem;}
     .wrap{padding:0 var(--gut) 3rem;}
     .statement h2{font-size:1.1rem;max-width:34ch;} }
 
