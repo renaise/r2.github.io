@@ -26,8 +26,13 @@
 <style>
   /* One face for everything: Diatype (Dinamo). Redaction is the wordmark alone. */
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
-  /* Redaction (Kaphar/Betts, MCKL — OFL), self-hosted — wordmark face */
+  /* Redaction (Kaphar/Betts, MCKL — OFL), self-hosted — kept as the wordmark fallback face */
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  /* Times Now (RP Digital Type) — display serif. Light drives the wordmark, SemiLight the
+     card descriptions. Two weights so the huge wordmark stays refined and the small body
+     copy stays legible; a single weight can't serve both ends of that size range. */
+  @font-face { font-family:"Times Now"; src:url("/fonts/TimesNow-Light.woff2") format("woff2"); font-weight:300; font-display:swap; }
+  @font-face { font-family:"Times Now"; src:url("/fonts/TimesNow-SemiLight.woff2") format("woff2"); font-weight:350; font-display:swap; }
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
@@ -45,7 +50,7 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --display:"Redaction","Times New Roman",Georgia,serif;
+    --display:"Times Now","Redaction","Times New Roman",Georgia,serif;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Fully neutral: ink #a8a8a8 on charcoal #222222, both R=G=B. Any blue in the bg,
@@ -84,7 +89,7 @@
   /* statement, now in the rail */
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
-  .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.1;
+  .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.28;
     color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;
     padding-bottom:1.4rem;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
@@ -94,7 +99,7 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
+  h1{font-family:var(--display);font-weight:300;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
     letter-spacing:-.03em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
@@ -140,7 +145,10 @@
     -webkit-backdrop-filter:blur(10px) saturate(1.2);}
   /* full-bleed exception: native 16:9 compositions fill the plate */
   .media .cover.fill{object-fit:cover;object-position:center;padding:0;}
-  .cols{display:grid;grid-template-columns:1fr;gap:.25rem;align-items:start;}
+  /* Grouped, not evenly stepped: the name/year row separates from the title block with real
+     air (.65rem), so the ledger reads as header-then-body rather than one flat stack. The
+     inner rhythm below then does the fine grouping. */
+  .cols{display:grid;grid-template-columns:1fr;gap:.65rem;align-items:start;}
   /* Name and year share one line, year flushed right to the plate edge — the same ledger
      row the CV uses. Baseline-aligned so the bold name and the year sit on one line. */
   .c0{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;color:var(--sw4);}
@@ -150,12 +158,14 @@
   /* Title and role are one block, so .m sits closer to .t than .d does to .m — the
      ladder reads .3 then .4rem. .m is already block-level via the br+span rule below;
      the gap was only ever a missing margin. */
-  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.3rem;}
-  /* block in its own right: it no longer follows a <br>, which used to add a
-     phantom empty line on top of this margin. */
-  /* .85rem, up from the .72rem it inherited from body — the description carries the most
-     words on the plate and was the one row reading as fine print. */
-  .c1 .d{color:var(--sw4);display:block;margin-top:.4rem;font-size:.85rem;}
+  /* Non-uniform on purpose: title and role are a pair, so role hugs the title (.14rem),
+     then the description breaks to its own register with a wider gap (.7rem). Tight-then-
+     open beats the old even .3/.4 ladder, which read as three equal rows. */
+  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.14rem;}
+  /* Description in Times Now SemiLight — the display serif carries the sentence copy while
+     Diatype holds the labels above it. .85rem keeps the serif's smaller x-height legible. */
+  .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:.85rem;
+    font-family:var(--display);font-weight:350;letter-spacing:.005em;line-height:1.32;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -349,7 +359,7 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video><span class="tag">Brand + Website</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">Enterprise Identity, Built to Be Bought</span><br><span class="m">Lead Designer</span><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="" aria-hidden="true"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"><span class="tag">Creative Production · In Progress</span></div>
