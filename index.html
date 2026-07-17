@@ -167,7 +167,7 @@
   :root[data-theme="dark"] .side .brand .mk-l{display:none;}
   :root[data-theme="dark"] .side .brand .mk-d{display:block;}
   /* The rail's only links. No rules, no underline — colour is the whole affordance. */
-  .acts{display:flex;flex-direction:column;gap:.5rem;margin-top:auto;}
+  .acts{display:flex;flex-direction:column;gap:.7rem;margin-top:auto;}
   .acts a{font-family:var(--sans);font-size:.72rem;color:var(--sw2);
     text-decoration:none;transition:color .2s;}
   .acts a:hover{color:var(--ink);}
@@ -188,8 +188,11 @@
   .tsw:focus-visible{outline:1px dotted var(--accent);outline-offset:3px;}
   @media(prefers-reduced-motion:reduce){ .tsw .knob{transition:none;} }
   /* clock and switch share the last row; the rule sits on the row, not the clock */
+  /* The rule is this row's top border, so the gap above it is .foot's margin, not the
+     links' own spacing. Kept well clear of Are.na: margin-top:auto on .acts already
+     shoves the block to the rail's floor, and without this the rule crowds the last link. */
   .side .foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-    padding-top:.6rem;border-top:1px dotted var(--line);}
+    margin-top:1.6rem;padding-top:.9rem;border-top:1px dotted var(--line);}
   .side .clock{position:static;font-family:var(--sans);font-size:.62rem;color:var(--sw4);
     letter-spacing:.03em;font-variant-numeric:tabular-nums;}
   /* Side buffer matches the rail's own 1.4rem gutter exactly, so the card spread and the
@@ -203,7 +206,9 @@
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0;border-top:1px dotted var(--line);align-items:start;}
   .cv .sec:last-child{border-bottom:1px dotted var(--line);}
-  .cv .lbl{font-family:var(--sans);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sw3);}
+  /* Same caption role as the card plate's .tag, so it takes the same size + tracking.
+     Only the colour differs: the tag reads white on artwork, this reads on the page. */
+  .cv .lbl{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw3);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
   .dn{display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
