@@ -211,9 +211,15 @@
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0;border-top:1px dotted var(--line);align-items:start;}
   .cv .sec:last-child{border-bottom:1px dotted var(--line);}
-  /* Same caption role as the card plate's .tag, so it takes the same size + tracking.
-     Only the colour differs: the tag reads white on artwork, this reads on the page. */
-  .cv .lbl{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw3);}
+  /* The card plate's .tag, brought to the CV: same size, tracking, padding, radius. The
+     tag is translucent dark glass because it floats over artwork — here there is nothing
+     behind it to blur, so the fill goes opaque --tile. That token is the plate ground in
+     both themes already, which is what keeps this reading as the same chip and not a
+     second invention. justify-self, not inline-block: grid blockifies its items, so
+     inline-block silently becomes block and the chip stretches the whole column. */
+  .cv .lbl{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    justify-self:start;padding:.22rem .4rem .18rem;border-radius:3px;
+    background:var(--tile);color:rgba(255,255,255,.92);}
   .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
   .dn{display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
@@ -372,6 +378,7 @@ document.documentElement.className+=' js';
               <div class="links">
                 <a href="mailto:krenaise@gmail.com">Email ↗</a>
                 <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
+                <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na ↗</a>
               </div>
             </div>
           </div>
