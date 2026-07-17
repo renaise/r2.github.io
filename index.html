@@ -264,11 +264,18 @@
     .app{flex-direction:column;}
     .side{position:static;width:100%;height:auto;border-right:0;
       border-bottom:1px dotted var(--line);padding:var(--gut);gap:1.1rem;}
-    .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
-    /* .foot lives inside .acts, which turns into a wrapping row here — so the clock row
-       would otherwise sit inline after Are.na at its content width. Force it onto its own
-       line at full width; its space-between then throws clock and switch to the edges. */
-    .acts .foot{flex:1 0 100%;margin-top:.4rem;}
+    /* Donate and the three links share one row here. .dn is a sibling of .acts, so it can
+       never join their line while they're nested — display:contents promotes the links and
+       .foot into the rail's own flex flow, where order can interleave them with .dn. It
+       also keeps .foot spanning the rail rather than only .acts' share of the row. */
+    .side{flex-flow:row wrap;align-items:center;}
+    .side .brand,.dn{flex:0 0 auto;}
+    .statement,.mq{flex:1 0 100%;}
+    .dn{order:1;}
+    .acts{display:contents;}
+    .acts a{order:2;}
+    /* Its own full-width line; space-between then throws clock and switch to the edges. */
+    .acts .foot{order:3;flex:1 0 100%;margin-top:.4rem;}
     .wrap{padding:0 var(--gut) 3rem;}
     .statement h2{font-size:1.1rem;max-width:34ch;} }
 
@@ -445,12 +452,15 @@ document.documentElement.className+=' js';
   })();
 
   // running clock
+  // Date + HH:MM, no seconds. Six ticking units read as a readout; the rail wants ambient
+  // time, and the seconds were the only part that twitched every frame while saying nothing.
+  // 15s beat is enough to land the minute flip without a per-second repaint.
   function tick(){ try{
     var d=new Date(), p=n=>String(n).padStart(2,'0');
     document.getElementById('clock').textContent =
-      d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds());
+      d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes());
   }catch(e){} }
-  tick(); setInterval(tick,1000);
+  tick(); setInterval(tick,15000);
 
   // Seamless crossfade loop for tagged covers (no hard-cut jolt, no white re-buffer).
   // Two offset copies fade into each other near the loop point; slowed for a longer read.
