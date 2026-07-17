@@ -86,7 +86,7 @@
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
   .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.1;
     color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;
-    padding-bottom:1.4rem;border-bottom:1px dotted var(--line);}
+    padding-bottom:1.4rem;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
      simply stays visible, so the statement can't strand blank. */
@@ -226,7 +226,10 @@
   /* The rail is a flex column with a 1.9rem gap, so margin-top alone can never bring this
      under 30px. The negative margin cancels that gap and parks the run just under the
      statement's dotted rule. */
-  .mq{overflow:hidden;margin-top:-1.15rem;
+  /* The rule rides the marquee, not the statement above it: the mask below fades the whole
+     element, border included, so the line dies out exactly where the marks do. On the
+     statement it was a hard-ended border under a fading track, which read as a mismatch. */
+  .mq{overflow:hidden;margin-top:-1.9rem;border-top:1px dotted var(--line);padding-top:12px;
     -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
     mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
   .mq-t{display:flex;align-items:center;width:max-content;
