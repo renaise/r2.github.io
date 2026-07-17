@@ -11,17 +11,17 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-dark-16.png" media="(prefers-color-scheme:dark)" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 <meta name="theme-color" content="#ebebeb" />
-<meta name="description" content="Renaise is a brand + product designer in NYC, working across culture + venture: consumer media, creative tools, and deep tech." />
+<meta name="description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renaise.com/" />
 <meta property="og:title" content="Renaise CV" />
-<meta property="og:description" content="Brand + product designer across culture + venture. NYC." />
+<meta property="og:description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
 <meta property="og:image" content="https://renaise.com/assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Renaise CV" />
-<meta name="twitter:description" content="Brand + product designer across culture + venture. NYC." />
+<meta name="twitter:description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
 <meta name="twitter:image" content="https://renaise.com/assets/og.jpg" />
 <style>
   /* One face for everything: Diatype (Dinamo). Redaction is the wordmark alone. */
@@ -73,8 +73,8 @@
   a:hover{color:var(--accent);}
 
   .brand sup{font-size:.6em;top:-.5em;}
-  /* work index: two across. The gap carries the rhythm, so .proj drops its own margin. */
-  .layout{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:3.2rem 2rem;align-items:start;}
+  /* work index: three across. The gap carries the rhythm, so .proj drops its own margin. */
+  .layout{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:3.2rem 2rem;align-items:start;}
 
   /* statement, now in the rail */
   .statement{padding:0;}
@@ -94,6 +94,12 @@
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
   h1 a:hover{color:var(--accent);}
+  /* Wordmark + pronoun. Shares the wordmark's baseline: h1 is a clamp() from 3.6rem to
+     11rem, so any hand-set offset would drift across that range. The baseline tracks it
+     for free and sits the caption on the same line the display face stands on. */
+  .wm{display:flex;align-items:baseline;gap:.7rem;}
+  .wm .pn{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--sw3);white-space:nowrap;}
 
   /* project entries */
   .proj{display:block;margin-bottom:0;color:inherit;}
@@ -130,7 +136,12 @@
   /* full-bleed exception: native 16:9 compositions fill the plate */
   .media .cover.fill{object-fit:cover;object-position:center;padding:0;}
   .cols{display:grid;grid-template-columns:1fr;gap:.25rem;align-items:start;}
-  .c0{color:var(--sw4);} .c0 b{font-weight:700;color:var(--ink);}
+  /* Name and year share one line, year flushed right to the plate edge — the same ledger
+     row the CV uses. Baseline-aligned so the bold name and the year sit on one line. */
+  .c0{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;color:var(--sw4);}
+  .c0 b{font-weight:700;color:var(--ink);}
+  /* Diatype's figures are proportional; tabular keeps the right-flushed years in a column. */
+  .c0 .yr{font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
   .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);}
   /* block in its own right: it no longer follows a <br>, which used to add a
      phantom empty line on top of this margin. */
@@ -150,12 +161,11 @@
   .side .brand .mk-d{display:none;}
   :root[data-theme="dark"] .side .brand .mk-l{display:none;}
   :root[data-theme="dark"] .side .brand .mk-d{display:block;}
-  /* nav and the bottom links are one treatment: plain mono, no rules, same rhythm */
-  .toc,.acts{display:flex;flex-direction:column;gap:.5rem;}
-  .acts{margin-top:auto;}
-  .toc a,.acts a{font-family:var(--sans);font-size:.72rem;color:var(--sw2);
+  /* The rail's only links. No rules, no underline — colour is the whole affordance. */
+  .acts{display:flex;flex-direction:column;gap:.5rem;margin-top:auto;}
+  .acts a{font-family:var(--sans);font-size:.72rem;color:var(--sw2);
     text-decoration:none;transition:color .2s;}
-  .toc a:hover,.acts a:hover{color:var(--ink);}
+  .acts a:hover{color:var(--ink);}
   /* Theme switch. Built from a dotted track so it speaks the same language as every other
      rule on the page — a filled pill would be the only solid shape here. */
   /* Hidden without JS: the head script is what resolves data-theme, and a switch that
@@ -177,8 +187,11 @@
     padding-top:.6rem;border-top:1px dotted var(--line);}
   .side .clock{position:static;font-family:var(--sans);font-size:.62rem;color:var(--sw4);
     letter-spacing:.03em;font-variant-numeric:tabular-nums;}
-  .wrap{flex:1;min-width:0;max-width:1040px;margin:0 auto;
-    padding:0 clamp(20px,4vw,64px) 5rem;display:flex;flex-direction:column;}
+  /* Side buffer matches the rail's own 1.4rem gutter exactly, so the card spread and the
+     rail contents sit on the same margin. No max-width or auto margins: a centred cap
+     would put an arbitrary gap on the right that the rail doesn't have. */
+  .wrap{flex:1;min-width:0;max-width:none;margin:0;
+    padding:0 1.4rem 5rem;display:flex;flex-direction:column;}
   .card{border-top:1px dotted var(--line);padding:clamp(52px,8vw,104px) 0;}
   .card:first-child{border-top:0;padding-top:1.5rem;}  /* level with the mark in the rail */
   .about{margin-top:0;}
@@ -223,6 +236,9 @@
   .cv .row .ctx{color:var(--sw3);font-family:var(--sans);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
   .cv .sub{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
   .cv .row.prior .nm{color:var(--sw3);}
+  /* The rail eats a fixed 280px, so three columns run out of room long before the phone
+     breakpoint. Step down to two while the plates can still read. */
+  @media(max-width:1240px){ .layout{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:900px){ .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;}
     /* one across on narrow — two 16/9 plates side by side would be postage stamps */
     .layout{max-width:100%;grid-template-columns:1fr;gap:2.6rem;}
@@ -230,7 +246,6 @@
     .app{flex-direction:column;}
     .side{position:static;width:100%;height:auto;border-right:0;
       border-bottom:1px dotted var(--line);padding:1.1rem;gap:1.1rem;}
-    .toc{flex-direction:row;flex-wrap:wrap;gap:1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
     .wrap{padding:0 1.1rem 3rem;}
     .statement h2{font-size:1.1rem;max-width:34ch;} }
@@ -257,11 +272,6 @@ document.documentElement.className+=' js';
   <div class="app">
     <aside class="side">
       <a class="brand" href="#top"><img class="mk-l" src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="Renaise" width="52" height="52" /></a>
-      <nav class="toc">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="https://studioartifice.com/work/" target="_blank" rel="noopener">Studio Artifice ↗</a>
-      </nav>
       <section class="statement">
         <h2>Renaise is a brand and product designer in New York with 8 years of experience working across culture and venture: consumer media, creative tools, and deep tech.</h2>
       </section>
@@ -280,35 +290,35 @@ document.documentElement.className+=' js';
       <div class="layout">
       <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><br>2026</div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
       </a>
       <a class="proj" data-slug="soot" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/soot/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><br>2024–25</div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Dimensional Vector Search for Creative Teams</span><br><span class="m">Lead Product Designer</span><span class="d">See Everything. Search Anything. Self-Organize</span></div></div>
       </a>
       <a class="proj" data-slug="the-artifact-index" href="https://index.artificenyc.org" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="/stage/the-artifact-index/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/the-artifact-index/cover.jpg" alt="The Artifact Index"><span class="tag">Archive</span></div>
-        <div class="cols"><div class="c0"><b>The Artifact Index</b><br>2026</div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Discover, connect, locate, archive. Connected through the work.</span></div></div>
+        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Discover, connect, locate, archive. Connected through the work.</span></div></div>
       </a>
       <a class="proj" data-slug="flora" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/flora/cover.png"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>FLORA</b><br>2024</div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
+        <div class="cols"><div class="c0"><b>FLORA</b><span class="yr">2024</span></div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/osmosis/cover.png"></video><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><br>2025</div><div class="c1"><span class="t">An Identity for Intelligence That Seeps In</span><br><span class="m">Design Director</span><span class="d">A brush-and-wash lineage after Huang Gongwang's Fuchun Mountains: mist, water, and stone as one porous system.</span></div></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">An Identity for Intelligence That Seeps In</span><br><span class="m">Design Director</span><span class="d">A brush-and-wash lineage after Huang Gongwang's Fuchun Mountains: mist, water, and stone as one porous system.</span></div></div>
       </a>
       <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/industrial-lighting/cover.png"></video><span class="tag">Global Website</span></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><br>2024</div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><span class="d">From spec sheets to a benefit-led catalog that sells the same way in any market.</span></div></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><span class="d">From spec sheets to a benefit-led catalog that sells the same way in any market.</span></div></div>
       </a>
       <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" data-smooth src="https://studioartifice.com/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="https://studioartifice.com/stage/lighthouse/cover.png"></video><span class="tag">Brand + Website</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><br>2026</div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">Enterprise Identity Built to Be Bought</span><br><span class="m">Lead Designer</span><span class="d">Immigration repositioned from paperwork relief to recruiting advantage, designed for the enterprise buyer.</span></div></div>
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="" aria-hidden="true"><img class="cover" src="https://studioartifice.com/stage/depictions-of-original-sin/cover.jpg" alt="Google Labs (Veo3)"><span class="tag">Creative Production · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><br>2026</div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2026</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3.</span></div></div>
       </a>
 
       </div>
@@ -316,7 +326,10 @@ document.documentElement.className+=' js';
 
     <section class="card" id="about">
       <div class="about">
-        <h1><a href="https://rencap.pages.dev" target="_blank" rel="noopener">Renaise</a></h1>
+        <div class="wm">
+          <h1><a href="https://rencap.pages.dev" target="_blank" rel="noopener">Renaise</a></h1>
+          <span class="pn">She/Her</span>
+        </div>
         <div class="spacer"></div>
         <div class="cv">
           <div class="sec">
