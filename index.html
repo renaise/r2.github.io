@@ -41,6 +41,9 @@
     --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
     --accent:#2e2e2e; --bg1:#ebebeb; --tile:#101010;
     --line:rgba(92,92,92,0.42);
+    /* One gutter for the whole frame: rail padding, card spread, and the first
+       card's top all read from this, so the buffer is identical on every side. */
+    --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --display:"Redaction","Times New Roman",Georgia,serif;
   }
@@ -152,7 +155,7 @@
   /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
   .app{display:flex;align-items:flex-start;}
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
-    border-right:1px dotted var(--line);padding:1.5rem 1.4rem;
+    border-right:1px dotted var(--line);padding:var(--gut) var(--gut);
     display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp.
@@ -191,9 +194,9 @@
      rail contents sit on the same margin. No max-width or auto margins: a centred cap
      would put an arbitrary gap on the right that the rail doesn't have. */
   .wrap{flex:1;min-width:0;max-width:none;margin:0;
-    padding:0 1.4rem 5rem;display:flex;flex-direction:column;}
+    padding:0 var(--gut) 5rem;display:flex;flex-direction:column;}
   .card{border-top:1px dotted var(--line);padding:clamp(52px,8vw,104px) 0;}
-  .card:first-child{border-top:0;padding-top:1.5rem;}  /* level with the mark in the rail */
+  .card:first-child{border-top:0;padding-top:var(--gut);}  /* level with the mark in the rail */
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0;border-top:1px dotted var(--line);align-items:start;}
@@ -245,9 +248,9 @@
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
     .app{flex-direction:column;}
     .side{position:static;width:100%;height:auto;border-right:0;
-      border-bottom:1px dotted var(--line);padding:1.1rem;gap:1.1rem;}
+      border-bottom:1px dotted var(--line);padding:var(--gut);gap:1.1rem;}
     .acts{margin-top:0;flex-direction:row;flex-wrap:wrap;gap:1rem;align-items:center;}
-    .wrap{padding:0 1.1rem 3rem;}
+    .wrap{padding:0 var(--gut) 3rem;}
     .statement h2{font-size:1.1rem;max-width:34ch;} }
 
   .spacer{height:2.2rem;}
