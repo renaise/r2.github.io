@@ -147,7 +147,10 @@
   .c0 b{font-weight:700;color:var(--ink);}
   /* Diatype's figures are proportional; tabular keeps the right-flushed years in a column. */
   .c0 .yr{font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
-  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);}
+  /* Title and role are one block, so .m sits closer to .t than .d does to .m — the
+     ladder reads .3 then .4rem. .m is already block-level via the br+span rule below;
+     the gap was only ever a missing margin. */
+  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.3rem;}
   /* block in its own right: it no longer follows a <br>, which used to add a
      phantom empty line on top of this margin. */
   .c1 .d{color:var(--sw4);display:block;margin-top:.4rem;}
