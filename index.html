@@ -89,8 +89,12 @@
   /* statement, now in the rail */
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
-  .statement h2{font-family:var(--sans);font-weight:400;font-size:.95rem;line-height:1.28;
-    color:var(--ink);margin:0;max-width:none;letter-spacing:-.01em;text-wrap:pretty;
+  /* Times Now, same SemiLight as the card descriptions, so the bio and the ledger copy
+     read as one editorial voice and the sans is left to labels alone. Serif sets optically
+     smaller than the sans did, so the size goes up and the negative tracking comes off
+     (tight tracking is a grotesk move; it closes up a serif's counters). */
+  .statement h2{font-family:var(--display);font-weight:350;font-size:1.06rem;line-height:1.34;
+    color:var(--ink);margin:0;max-width:none;letter-spacing:0;text-wrap:pretty;
     padding-bottom:1.4rem;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
@@ -293,7 +297,7 @@
     /* Its own full-width line; space-between then throws clock and switch to the edges. */
     .acts .foot{order:3;flex:1 0 100%;margin-top:.4rem;}
     .wrap{padding:0 var(--gut) 3rem;}
-    .statement h2{font-size:1.1rem;max-width:34ch;} }
+    .statement h2{font-size:1.24rem;max-width:34ch;} }
 
   .spacer{height:2.2rem;}
 </style>
