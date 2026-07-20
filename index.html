@@ -32,10 +32,13 @@
      drawn for 11rem has strokes too thin to survive at 13px; a text face drawn for 13px
      looks blunt and undramatic at 11rem. Times Now was doing both and failing at the
      small end, which is what made the ledger read awkward.
-     Instrument Serif (OFL) — high-contrast display, wordmark only.
+     Fraunces (OFL) — wordmark only. Flared stems and a genuinely idiosyncratic drawing,
+     which is the point: the previous display face was another competent Times variant, and
+     a competent Times variant is exactly what a wordmark cannot be. Variable on opsz and
+     wght, plus a WONK axis that swaps in the more eccentric letterforms.
      Newsreader (Production Type, OFL) — text serif with a real optical-size axis, so the
      browser thins the strokes as the size climbs. All running copy. */
-  @font-face { font-family:"Instrument Serif"; src:url("/fonts/InstrumentSerif-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  @font-face { font-family:"Fraunces"; src:url("/fonts/Fraunces-Variable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
   @font-face { font-family:"Newsreader"; src:url("/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight:200 800; font-display:swap; }
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
@@ -54,7 +57,7 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --display:"Instrument Serif","Redaction","Times New Roman",Georgia,serif;
+    --display:"Fraunces","Redaction","Times New Roman",Georgia,serif;
     --serif:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
@@ -112,11 +115,14 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  /* 400 is Instrument Serif's only weight — asking for 300 would make the browser
-     synthesize a lighter face and smear the strokes. It is already a narrow, high-contrast
-     drawing, so the tracking eases from -.03 to -.015em; any tighter and the thin
-     hairlines start colliding at 11rem. */
-  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
+  /* opsz is pinned to 144 rather than left on auto: the clamp means the wordmark can render
+     anywhere from 3.6 to 11rem, and auto would hand the small end a chunkier text cut, so
+     the mark would change shape between phone and desktop. A wordmark holds one drawing.
+     WONK 1 keeps the flared, eccentric alternates — the whole reason for this face. 300
+     because Fraunces at display opsz is already generous; 400 closes the counters up. */
+  h1{font-family:var(--display);font-weight:300;
+    font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
+    font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
     letter-spacing:-.015em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
