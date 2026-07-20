@@ -28,11 +28,15 @@
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
   /* Redaction (Kaphar/Betts, MCKL — OFL), self-hosted — kept as the wordmark fallback face */
   @font-face { font-family:"Redaction"; src:url("/fonts/Redaction-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
-  /* Times Now (RP Digital Type) — display serif. Light drives the wordmark, SemiLight the
-     card descriptions. Two weights so the huge wordmark stays refined and the small body
-     copy stays legible; a single weight can't serve both ends of that size range. */
-  @font-face { font-family:"Times Now"; src:url("/fonts/TimesNow-Light.woff2") format("woff2"); font-weight:300; font-display:swap; }
-  @font-face { font-family:"Times Now"; src:url("/fonts/TimesNow-SemiLight.woff2") format("woff2"); font-weight:350; font-display:swap; }
+  /* Two serifs, not one, because the two jobs are genuinely different. A display face
+     drawn for 11rem has strokes too thin to survive at 13px; a text face drawn for 13px
+     looks blunt and undramatic at 11rem. Times Now was doing both and failing at the
+     small end, which is what made the ledger read awkward.
+     Instrument Serif (OFL) — high-contrast display, wordmark only.
+     Newsreader (Production Type, OFL) — text serif with a real optical-size axis, so the
+     browser thins the strokes as the size climbs. All running copy. */
+  @font-face { font-family:"Instrument Serif"; src:url("/fonts/InstrumentSerif-Regular.woff2") format("woff2"); font-weight:400; font-display:swap; }
+  @font-face { font-family:"Newsreader"; src:url("/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight:200 800; font-display:swap; }
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
@@ -50,23 +54,27 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --display:"Times Now","Redaction","Times New Roman",Georgia,serif;
+    --display:"Instrument Serif","Redaction","Times New Roman",Georgia,serif;
+    --serif:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
-     Fully neutral: ink #a8a8a8 on charcoal #222222, both R=G=B. Any blue in the bg,
-     even 2 points, reads as navy across a full page — so there is none. Body 5.72:1.
+     Fully neutral: ink #b0b0b0 on grey #303030, both R=G=B. Any blue in the bg, even 2
+     points, reads as navy across a full page — so there is none. #222 was neutral too but
+     sat close enough to black that it read as an absence rather than a colour; #303030 is
+     far enough up the ramp to read as grey. Ink lifts to #b0b0b0 to hold the contrast the
+     lighter ground gives away — body lands at 5.2:1, still clear of AA.
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="dark"]{
-    --ink:#a8a8a8;
-    --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
-    --accent:#ffffff; --bg1:#222222; --line:rgba(168,168,168,0.42);
+    --ink:#b0b0b0;
+    --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
+    --accent:#ffffff; --bg1:#303030; --line:rgba(176,176,176,0.42);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
     :root:not([data-theme]){
-      --ink:#a8a8a8;
-      --sw2:rgba(168,168,168,0.90); --sw3:rgba(168,168,168,0.72); --sw4:rgba(168,168,168,0.58);
-      --accent:#ffffff; --bg1:#222222; --line:rgba(168,168,168,0.42);
+      --ink:#b0b0b0;
+      --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
+      --accent:#ffffff; --bg1:#303030; --line:rgba(176,176,176,0.42);
     }
   }
   *{box-sizing:border-box;}
@@ -89,12 +97,12 @@
   /* statement, now in the rail */
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
-  /* Times Now, same SemiLight as the card descriptions, so the bio and the ledger copy
-     read as one editorial voice and the sans is left to labels alone. Serif sets optically
-     smaller than the sans did, so the size goes up and the negative tracking comes off
-     (tight tracking is a grotesk move; it closes up a serif's counters). */
-  .statement h2{font-family:var(--display);font-weight:350;font-size:1.06rem;line-height:1.34;
-    color:var(--ink);margin:0;max-width:none;letter-spacing:0;text-wrap:pretty;
+  /* Newsreader at text weight, the same face as the card descriptions, so the bio and the
+     ledger copy read as one voice and the sans is left to labels alone. Leading runs at
+     1.46: serifs carry more stroke detail per line than a grotesk, and the tight 1.28 the
+     sans was set at packed that detail into a grey mass. */
+  .statement h2{font-family:var(--serif);font-weight:400;font-size:1.02rem;line-height:1.46;
+    color:var(--ink);margin:0;max-width:38ch;letter-spacing:0;text-wrap:pretty;
     padding-bottom:1.4rem;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
@@ -103,8 +111,12 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  h1{font-family:var(--display);font-weight:300;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
-    letter-spacing:-.03em;margin:0;text-transform:none;white-space:nowrap;
+  /* 400 is Instrument Serif's only weight — asking for 300 would make the browser
+     synthesize a lighter face and smear the strokes. It is already a narrow, high-contrast
+     drawing, so the tracking eases from -.03 to -.015em; any tighter and the thin
+     hairlines start colliding at 11rem. */
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(3.6rem,12vw,11rem);line-height:.92;color:var(--sw4);
+    letter-spacing:-.015em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
   h1 a:hover{color:var(--accent);}
@@ -166,10 +178,12 @@
      then the description breaks to its own register with a wider gap (.7rem). Tight-then-
      open beats the old even .3/.4 ladder, which read as three equal rows. */
   .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.14rem;}
-  /* Description in Times Now SemiLight — the display serif carries the sentence copy while
-     Diatype holds the labels above it. .85rem keeps the serif's smaller x-height legible. */
+  /* Description in Newsreader — the text serif carries the sentence copy while Diatype
+     holds the labels above it. Newsreader's x-height is large for a serif, so .85rem
+     holds; the leading opens to 1.46 to match the statement and the tracking goes to
+     zero (the .005em was propping up a display face that had no business at this size). */
   .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:.85rem;
-    font-family:var(--display);font-weight:350;letter-spacing:.005em;line-height:1.32;}
+    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.46;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -234,7 +248,14 @@
   .cv .lbl{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
     justify-self:start;padding:.22rem .4rem .18rem;border-radius:3px;
     background:var(--tile);color:rgba(255,255,255,.92);}
-  .cv .body p{margin:0 0 1rem;max-width:54ch;line-height:1.45;color:var(--sw2);}
+  /* The CV bio is running prose, so it follows the statement and the card descriptions into
+     Newsreader. Leaving it in the sans was the last split in the system: two paragraphs of
+     the same kind of writing set in two different voices. Sans now means label, serif means
+     sentence, with no exceptions.
+     Slight size bump for the same reason the statement got one, and the measure drops from
+     54ch to 46ch — serif at this leading is comfortable well short of where a grotesk is. */
+  .cv .body p{margin:0 0 1rem;max-width:46ch;font-family:var(--serif);font-size:.88rem;
+    line-height:1.5;color:var(--sw2);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
   .dn{display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
     padding:.5rem .75rem;border-radius:999px;border:1px dotted var(--line);
