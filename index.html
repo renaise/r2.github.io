@@ -58,23 +58,24 @@
     --serif:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
-     Fully neutral: ink #b0b0b0 on grey #303030, both R=G=B. Any blue in the bg, even 2
-     points, reads as navy across a full page — so there is none. #222 was neutral too but
-     sat close enough to black that it read as an absence rather than a colour; #303030 is
-     far enough up the ramp to read as grey. Ink lifts to #b0b0b0 to hold the contrast the
-     lighter ground gives away — body lands at 5.2:1, still clear of AA.
+     Fully neutral: ink #b0b0b0 on grey #272727, both R=G=B. Any blue in the bg, even 2
+     points, reads as navy across a full page — so there is none. The ground has been walked
+     down twice: #222 read as an absence rather than a colour, #303030 overcorrected and went
+     milky under the plates, #272727 sits between them and still reads as grey rather than
+     black. Ink holds at #b0b0b0, so the darker ground only buys contrast back — body sits
+     at 5.9:1.
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="dark"]{
     --ink:#b0b0b0;
     --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
-    --accent:#ffffff; --bg1:#303030; --line:rgba(176,176,176,0.42);
+    --accent:#ffffff; --bg1:#272727; --line:rgba(176,176,176,0.42);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
     :root:not([data-theme]){
       --ink:#b0b0b0;
       --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
-      --accent:#ffffff; --bg1:#303030; --line:rgba(176,176,176,0.42);
+      --accent:#ffffff; --bg1:#272727; --line:rgba(176,176,176,0.42);
     }
   }
   *{box-sizing:border-box;}
