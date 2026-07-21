@@ -162,6 +162,14 @@
     -webkit-backdrop-filter:blur(10px) saturate(1.2);}
   /* full-bleed exception: native 16:9 compositions fill the plate */
   .media .cover.fill{object-fit:cover;object-position:center;padding:0;}
+  /* hover reveal: a second full-bleed layer that cross-fades in over the cover on hover.
+     Used on the Artifice Brand card to turn the projected mark into the design system it
+     specifies. z-index 2 sits it level with the cover but later in source, so it wins the
+     stack; the tag at z-index 3 stays on top of both. */
+  .media .sys{position:absolute;inset:0;z-index:2;width:100%;height:100%;object-fit:cover;
+    object-position:center;opacity:0;transition:opacity .4s ease;}
+  a.proj:hover .media .sys{opacity:1;}
+  @media(prefers-reduced-motion:reduce){ .media .sys{transition:none;} }
   /* Grouped, not evenly stepped: the name/year row separates from the title block with real
      air (.65rem), so the ledger reads as header-then-body rather than one flat stack. The
      inner rhythm below then does the fine grouping. */
@@ -360,7 +368,7 @@ document.documentElement.className+=' js';
     <section class="card" id="work">
       <div class="layout">
       <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="/stage/artifactory/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifactory/cover.jpg" alt="Artifactory"><span class="tag">Product</span></div>
+        <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Primitive Design Environment</span><br><span class="m">Design + Build</span><span class="d">Preset library, live tuning, self-contained embed export.</span></div></div>
       </a>
       <a class="proj" data-slug="soot" href="https://studioartifice.com/work/soot/" target="_blank" rel="noopener">
@@ -372,11 +380,11 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Discover, connect, locate, archive. Connected through the work.</span></div></div>
       </a>
       <a class="proj" data-slug="flora" href="https://studioartifice.com/work/flora/" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="/stage/flora/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/flora/cover.jpg" alt="FLORA"><span class="tag">Product</span></div>
+        <div class="media"><video class="bg" src="/stage/flora/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/flora/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/flora/cover.jpg"></video><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><b>FLORA</b><span class="yr">2024</span></div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><span class="d">A node-based canvas for creatives and beyond.</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover" src="https://studioartifice.com/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata" poster="https://studioartifice.com/stage/osmosis/cover.png"></video><span class="tag">Identity + Site</span></div>
+        <div class="media"><video class="bg" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/osmosis/cover.jpg"></video><span class="tag">Identity + Site</span></div>
         <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="d">A brush-and-wash lineage after Huang Gongwang's Fuchun Mountains: mist, water, and stone as one porous system.</span></div></div>
       </a>
       <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
@@ -392,8 +400,12 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2026</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Direction</span><span class="d">An Artifice × Google Labs immersive projection via AI film festival with 6 select creative directors built on Veo 3. Cover art image by Cass Yao.</span></div></div>
       </a>
       <a class="proj" data-slug="artifice-brand" href="https://brand.artificenyc.org" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><span class="tag">Identity</span></div>
-        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">Marks, boxes, and the four systems in one document. Carbon, chalk, one accent.</span></div></div>
+        <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
+        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">Marks, boxes, and the four systems in one document. Carbon, chalk, one accent. Hover for the spec.</span></div></div>
+      </a>
+      <a class="proj" data-slug="studio-artifice" href="https://studioartifice.com" target="_blank" rel="noopener">
+        <div class="media"><img class="bg" src="/stage/studio-artifice/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/studio-artifice/cover.jpg" alt="Studio Artifice"><span class="tag">Studio + Site</span></div>
+        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="d">The studio's own worldsite: a connected-systems mark for a practice that builds identities end to end.</span></div></div>
       </a>
 
       </div>
