@@ -34,7 +34,9 @@
      The serif is Times New Roman — system-resident, no webfont request. It ships Regular
      and Bold only, so there is no light cut to reach for: a lighter Times would have to be
      a different face under licence, and that is not a trade this page makes for one weight.
-     Weight stays 400, which is the only text weight the family has. All running copy. */
+     Weight is declared 300 so a system that does carry a light Times uses it, but on the
+     common case that resolves to Regular and the lightening is done by --prose-ink and by
+     the smaller size instead. All running copy. */
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
@@ -59,7 +61,17 @@
        container; the voice does not. The sans keeps its own two steps (.72rem for ledger
        rows and links, .62rem for the uppercase micro-labels) and never sets a sentence. */
     --prose:clamp(.8rem,.72rem + .22vw,.92rem);
-    --prose-lh:1.52;
+    --prose-lh:1.38;
+    /* The gap below any block of prose, so the three serif blocks sit off their neighbours
+       by the same amount instead of 1.4 / .7 / 1.1 as before. */
+    --prose-gap:.8rem;
+    /* One prose ink. The three serif blocks were on --ink, --sw4 and --sw2 — 5.61:1, 2.42:1
+       and 4.54:1 — which is three different greys doing one job. This is the single value,
+       set lighter than the two heavy ones because Times ships no light cut: weight cannot
+       be taken out of the face, so it comes out of the ink. Lands at 3.55:1 on the light
+       ground and 5.48:1 on the dark. Below the 4.5:1 AA floor in light mode; the card
+       descriptions were already at 2.42:1, so this raises them and lightens the other two. */
+    --prose-ink:rgba(92,92,92,0.78);
     /* The CV chip follows the theme rather than sitting at one fixed value: light plate
        and dark label here, dark plate and light label in dark mode. The dotted rule on it
        is what separates the chip from the page in both directions, since a light chip on a
@@ -79,6 +91,7 @@
     --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
     --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
     --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
+    --prose-ink:rgba(176,176,176,0.78);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
@@ -87,6 +100,7 @@
       --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
       --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
       --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
+      --prose-ink:rgba(176,176,176,0.78);
     }
   }
   *{box-sizing:border-box;}
@@ -109,13 +123,13 @@
   /* statement, now in the rail */
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
-  /* Serif at text weight on the shared prose ladder, the same face and size as the card
-     descriptions and the CV bio, so the sans is left to labels alone. Leading runs at 1.5:
-     serifs carry more stroke detail per line than a grotesk, and the tight 1.28 the sans
-     was set at packed that detail into a grey mass. */
-  .statement h2{font-family:var(--serif);font-weight:400;font-size:var(--prose);line-height:var(--prose-lh);
-    color:var(--ink);margin:0;max-width:38ch;letter-spacing:0;text-wrap:pretty;
-    padding-bottom:1.4rem;}
+  /* Serif on the shared prose ladder — same face, size, leading, ink and trailing gap as
+     the card descriptions and the CV bio, so the sans is left to labels alone. Leading is
+     tight at 1.38; the smaller size took enough grey out of the block that it no longer
+     needs the open 1.5 to stay readable. */
+  .statement h2{font-family:var(--serif);font-weight:300;font-size:var(--prose);line-height:var(--prose-lh);
+    color:var(--prose-ink);margin:0;max-width:38ch;letter-spacing:0;text-wrap:pretty;
+    padding-bottom:var(--prose-gap);}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
      simply stays visible, so the statement can't strand blank. */
@@ -215,8 +229,8 @@
      holds the labels above it. Same size and leading as the rail bio and the CV bio, so all
      three read as one voice; only the column width changes. Tracking goes to zero (the
      .005em was propping up a display face that had no business at this size). */
-  .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:var(--prose);
-    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:var(--prose-lh);}
+  .c1 .d{color:var(--prose-ink);display:block;margin-top:var(--prose-gap);font-size:var(--prose);
+    font-family:var(--serif);font-weight:300;letter-spacing:0;line-height:var(--prose-lh);}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -265,9 +279,13 @@
      rail contents sit on the same margin. No max-width or auto margins: a centred cap
      would put an arbitrary gap on the right that the rail doesn't have. */
   .wrap{flex:1;min-width:0;max-width:none;margin:0;
-    padding:0 var(--gut) 5rem;display:flex;flex-direction:column;}
+    padding:0 var(--gut) clamp(1.2rem,2vw,2rem);display:flex;flex-direction:column;}
   .card{border-top:1px dotted var(--line);padding:clamp(52px,8vw,104px) 0;}
   .card:first-child{border-top:0;padding-top:var(--gut);}  /* level with the mark in the rail */
+  /* The last card's bottom padding is a tail, not a separator — nothing follows it, so the
+     8vw that spaces one card off the next only opens a hole under the entity marks. Clamped
+     to its own much shorter ramp, and .wrap's bottom padding comes in to match. */
+  .card:last-child{padding-bottom:clamp(24px,2.4vw,40px);}
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0;border-top:1px dotted var(--line);align-items:start;}
@@ -291,8 +309,8 @@
      The measure is uncapped so the bio fills its column instead of stranding half the panel
      empty, and the size comes off the shared prose ladder rather than a local value — same
      face, same size, same leading as the rail bio and the card descriptions. */
-  .cv .body p{margin:0 0 1.1rem;max-width:none;font-family:var(--serif);font-weight:400;
-    font-size:var(--prose);line-height:var(--prose-lh);color:var(--sw2);}
+  .cv .body p{margin:0 0 var(--prose-gap);max-width:none;font-family:var(--serif);font-weight:300;
+    font-size:var(--prose);line-height:var(--prose-lh);color:var(--prose-ink);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
   .dn{display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
     padding:.5rem .75rem;border-radius:999px;border:1px dotted var(--line);
@@ -319,7 +337,7 @@
   @media(prefers-reduced-motion:reduce){ .mq-t{animation:none;} }
   /* entity marks under the bio — each logo is a mask filled with the ink, so a black
      source and a white source both land in the theme colour */
-  .ents{display:flex;align-items:center;gap:1rem;margin-top:2.4rem;flex-wrap:wrap;}
+  .ents{display:flex;align-items:center;gap:1rem;margin-top:clamp(1.1rem,1.8vw,1.6rem);flex-wrap:wrap;}
   .ent{display:block;height:18px;background-color:var(--sw3);transition:background-color .2s;
     -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;}
   .ent:hover{background-color:var(--ink);}
@@ -354,7 +372,7 @@
     .acts a{order:2;}
     /* Its own full-width line; space-between then throws clock and switch to the edges. */
     .acts .foot{order:3;flex:1 0 100%;margin-top:.4rem;}
-    .wrap{padding:0 var(--gut) 3rem;}
+    .wrap{padding:0 var(--gut) clamp(1rem,3vw,1.6rem);}
     /* Measure only. The size stays on the shared prose ladder — bumping it here was the
        one place the rail bio drifted off the other two serif blocks. */
     .statement h2{max-width:34ch;} }
