@@ -31,12 +31,10 @@
      display cut. Instrument and Fraunces both read as a costume on top of a grotesk system;
      dropping the second serif lets one face carry the name and the sentences, which is the
      actual two-voice split the page wanted.
-     The serif is Times Now Light (Jan Henrik Arnold) — a light cut of the Times lineage.
-     Real Times New Roman ships Regular and Bold only, so a light Times has to be a
-     different metal; this is the closest one that keeps the lineage. Self-hosted and
-     subset to Latin, 22KB. Weight declared 300 so the fallback does not synthesize.
-     Falls back to real Times New Roman, which sets a touch heavier. All running copy. */
-  @font-face { font-family:"Times Now"; src:url("/fonts/TimesNow-Light.woff2") format("woff2"); font-weight:300; font-style:normal; font-display:swap; }
+     The serif is Times New Roman — system-resident, no webfont request. It ships Regular
+     and Bold only, so there is no light cut to reach for: a lighter Times would have to be
+     a different face under licence, and that is not a trade this page makes for one weight.
+     Weight stays 400, which is the only text weight the family has. All running copy. */
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
@@ -54,7 +52,7 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --serif:"Times Now","Times New Roman",Times,serif;
+    --serif:"Times New Roman",Times,serif;
     /* One prose ladder. Every block of running sentences on the page — the rail bio, the
        card descriptions, the CV bio — reads from these two, so the serif has a single size
        and a single leading no matter which column it lands in. The measure varies by
@@ -110,7 +108,7 @@
      descriptions and the CV bio, so the sans is left to labels alone. Leading runs at 1.5:
      serifs carry more stroke detail per line than a grotesk, and the tight 1.28 the sans
      was set at packed that detail into a grey mass. */
-  .statement h2{font-family:var(--serif);font-weight:300;font-size:var(--prose);line-height:var(--prose-lh);
+  .statement h2{font-family:var(--serif);font-weight:400;font-size:var(--prose);line-height:var(--prose-lh);
     color:var(--ink);margin:0;max-width:38ch;letter-spacing:0;text-wrap:pretty;
     padding-bottom:1.4rem;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
@@ -120,13 +118,13 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  /* Wordmark in Times Now Light — the same serif as the running copy, set at display size.
-     A light Times is a display cut by temperament: the thin strokes and the high contrast
-     are what the name wants at 11rem. Tracking eases to -.01em: a serif at
+  /* Wordmark in Times — the same serif as the running copy, set at display size. There is
+     no light or display cut to reach for, so this is the text cut scaled up; weight 400
+     keeps it from going spindly at 11rem. Tracking eases to -.01em: a serif at
      display size needs almost none, and the -.03em the sans wanted would jam the serifs
      into each other. The name now shares one face with every sentence on the page — the
      serif is the whole voice, the sans is only labels. */
-  h1{font-family:var(--serif);font-weight:300;
+  h1{font-family:var(--serif);font-weight:400;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
     letter-spacing:-.01em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
@@ -203,7 +201,7 @@
      three read as one voice; only the column width changes. Tracking goes to zero (the
      .005em was propping up a display face that had no business at this size). */
   .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:var(--prose);
-    font-family:var(--serif);font-weight:300;letter-spacing:0;line-height:var(--prose-lh);}
+    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:var(--prose-lh);}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -278,7 +276,7 @@
      The measure is uncapped so the bio fills its column instead of stranding half the panel
      empty, and the size comes off the shared prose ladder rather than a local value — same
      face, same size, same leading as the rail bio and the card descriptions. */
-  .cv .body p{margin:0 0 1.1rem;max-width:none;font-family:var(--serif);font-weight:300;
+  .cv .body p{margin:0 0 1.1rem;max-width:none;font-family:var(--serif);font-weight:400;
     font-size:var(--prose);line-height:var(--prose-lh);color:var(--sw2);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
   .dn{display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
