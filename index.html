@@ -31,9 +31,8 @@
      display cut. Every display-serif experiment (Times Now, Instrument, Fraunces) read as
      a costume on top of a grotesk system; dropping it lets the sans carry the name and the
      serif carry the sentences, which is the actual two-voice split the page wanted.
-     Newsreader (Production Type, OFL) — text serif with a real optical-size axis, so the
-     browser thins the strokes as the size climbs. All running copy. */
-  @font-face { font-family:"Newsreader"; src:url("/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight:200 800; font-display:swap; }
+     The serif is Times New Roman — system-resident, no webfont request, no optical-size
+     axis. All running copy. */
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
@@ -51,7 +50,7 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --serif:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;
+    --serif:"Times New Roman",Times,serif;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Ink #b0b0b0 on grey #252627. The ground carries one point of blue over red (R=37 G=38
@@ -94,7 +93,7 @@
   /* statement, now in the rail */
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
-  /* Newsreader at text weight, the same face as the card descriptions, so the bio and the
+  /* Times at text weight, the same face as the card descriptions, so the bio and the
      ledger copy read as one voice and the sans is left to labels alone. Leading runs at
      1.46: serifs carry more stroke detail per line than a grotesk, and the tight 1.28 the
      sans was set at packed that detail into a grey mass. */
@@ -108,14 +107,13 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  /* Wordmark in Newsreader — the same serif as the running copy, pushed to its display end.
-     opsz pinned to 72 (the axis maximum) so the browser hands over the high-contrast cut
-     drawn for large sizes, not the sturdy text cut; weight 400 keeps it from going spindly
-     at 11rem. Tracking eases to -.01em: a serif at display size needs almost none, and the
-     -.03em the sans wanted would jam the serifs into each other. The name now shares one
-     face with every sentence on the page — the serif is the whole voice, the sans is only
-     labels. */
-  h1{font-family:var(--serif);font-weight:400;font-variation-settings:"opsz" 72;
+  /* Wordmark in Times — the same serif as the running copy, set at display size. There is
+     no optical-size axis to lean on, so the display cut is just the text cut scaled up;
+     weight 400 keeps it from going spindly at 11rem. Tracking eases to -.01em: a serif at
+     display size needs almost none, and the -.03em the sans wanted would jam the serifs
+     into each other. The name now shares one face with every sentence on the page — the
+     serif is the whole voice, the sans is only labels. */
+  h1{font-family:var(--serif);font-weight:400;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
     letter-spacing:-.01em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
@@ -187,10 +185,10 @@
      then the description breaks to its own register with a wider gap (.7rem). Tight-then-
      open beats the old even .3/.4 ladder, which read as three equal rows. */
   .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.14rem;}
-  /* Description in Newsreader — the text serif carries the sentence copy while Diatype
-     holds the labels above it. Newsreader's x-height is large for a serif, so .85rem
-     holds; the leading opens to 1.46 to match the statement and the tracking goes to
-     zero (the .005em was propping up a display face that had no business at this size). */
+  /* Description in Times — the text serif carries the sentence copy while Diatype
+     holds the labels above it. Times runs a small x-height, so .85rem sits at the low end
+     of comfortable; the leading opens to 1.46 to match the statement and the tracking goes
+     to zero (the .005em was propping up a display face that had no business at this size). */
   .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:.85rem;
     font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.46;}
   .c1 br+span{display:block;}
@@ -258,7 +256,7 @@
     justify-self:start;padding:.22rem .4rem .18rem;border-radius:3px;
     background:var(--tile);color:rgba(255,255,255,.92);}
   /* The CV bio is running prose, so it follows the statement and the card descriptions into
-     Newsreader. Leaving it in the sans was the last split in the system: two paragraphs of
+     Times. Leaving it in the sans was the last split in the system: two paragraphs of
      the same kind of writing set in two different voices. Sans now means label, serif means
      sentence, with no exceptions.
      Slight size bump for the same reason the statement got one, and the measure drops from
