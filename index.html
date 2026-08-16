@@ -28,11 +28,15 @@
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
   /* One serif, one job. The wordmark is now set in Diatype — the same sans as the labels —
      so the only serif left on the page is the running copy, and it does not need a second
-     display cut. Every display-serif experiment (Times Now, Instrument, Fraunces) read as
-     a costume on top of a grotesk system; dropping it lets the sans carry the name and the
-     serif carry the sentences, which is the actual two-voice split the page wanted.
-     The serif is Times New Roman — system-resident, no webfont request, no optical-size
-     axis. All running copy. */
+     display cut. Instrument and Fraunces both read as a costume on top of a grotesk system;
+     dropping the second serif lets one face carry the name and the sentences, which is the
+     actual two-voice split the page wanted.
+     The serif is Times Now Light (Jan Henrik Arnold) — a light cut of the Times lineage.
+     Real Times New Roman ships Regular and Bold only, so a light Times has to be a
+     different metal; this is the closest one that keeps the lineage. Self-hosted and
+     subset to Latin, 22KB. Weight declared 300 so the fallback does not synthesize.
+     Falls back to real Times New Roman, which sets a touch heavier. All running copy. */
+  @font-face { font-family:"Times Now"; src:url("/fonts/TimesNow-Light.woff2") format("woff2"); font-weight:300; font-style:normal; font-display:swap; }
 
   /* Flat grey page, mid-grey type. One ink, three alphas — mid grey has little room to
      fade before it stops being legible, so body (--sw2) lands at #6a6a6a / 4.54:1, right
@@ -50,27 +54,36 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --serif:"Times New Roman",Times,serif;
+    --serif:"Times Now","Times New Roman",Times,serif;
+    /* One prose ladder. Every block of running sentences on the page — the rail bio, the
+       card descriptions, the CV bio — reads from these two, so the serif has a single size
+       and a single leading no matter which column it lands in. The measure varies by
+       container; the voice does not. The sans keeps its own two steps (.72rem for ledger
+       rows and links, .62rem for the uppercase micro-labels) and never sets a sentence. */
+    --prose:clamp(.9rem,.8rem + .3vw,1.04rem);
+    --prose-lh:1.5;
+    /* The CV chip: light plate, dark label, in both themes. */
+    --chip:#f6f6f6; --chip-ink:#1a1a1a;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
-     Ink #b0b0b0 on grey #252627. The ground carries one point of blue over red (R=37 G=38
-     B=39) — chosen deliberately at that hex; a single point stays below the threshold where
-     a flat field tips into navy, so it still reads as neutral grey while sitting a hair
-     cooler than a pure R=G=B. Walked down from #303030 (which went milky under the plates)
-     past #272727 to here. Ink holds at #b0b0b0, so the dark ground only buys contrast back —
-     body sits at ~5.9:1.
+     Ink #b0b0b0 on near-black #161718. The ground carries one point of blue over red (R=22
+     G=23 B=24) — the same single-point tilt held from the lighter grey it replaces; a point
+     stays below the threshold where a flat field tips into navy, so it still reads as
+     neutral while sitting a hair cooler than a pure R=G=B. Walked down from #303030 (milky
+     under the plates) through #272727 and #252627 to here. Ink holds at #b0b0b0, so going
+     darker only buys contrast back — body now sits at ~9.6:1.
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="dark"]{
     --ink:#b0b0b0;
     --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
-    --accent:#ffffff; --bg1:#252627; --line:rgba(176,176,176,0.42);
+    --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
     :root:not([data-theme]){
       --ink:#b0b0b0;
       --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
-      --accent:#ffffff; --bg1:#252627; --line:rgba(176,176,176,0.42);
+      --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
     }
   }
   *{box-sizing:border-box;}
@@ -93,11 +106,11 @@
   /* statement, now in the rail */
   .statement{padding:0;}
   /* Wraps naturally now, so the size is free — no fixed line breaks to overflow the rail. */
-  /* Times at text weight, the same face as the card descriptions, so the bio and the
-     ledger copy read as one voice and the sans is left to labels alone. Leading runs at
-     1.46: serifs carry more stroke detail per line than a grotesk, and the tight 1.28 the
-     sans was set at packed that detail into a grey mass. */
-  .statement h2{font-family:var(--serif);font-weight:400;font-size:1.02rem;line-height:1.46;
+  /* Serif at text weight on the shared prose ladder, the same face and size as the card
+     descriptions and the CV bio, so the sans is left to labels alone. Leading runs at 1.5:
+     serifs carry more stroke detail per line than a grotesk, and the tight 1.28 the sans
+     was set at packed that detail into a grey mass. */
+  .statement h2{font-family:var(--serif);font-weight:300;font-size:var(--prose);line-height:var(--prose-lh);
     color:var(--ink);margin:0;max-width:38ch;letter-spacing:0;text-wrap:pretty;
     padding-bottom:1.4rem;}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
@@ -107,13 +120,13 @@
   .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
   @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
 
-  /* Wordmark in Times — the same serif as the running copy, set at display size. There is
-     no optical-size axis to lean on, so the display cut is just the text cut scaled up;
-     weight 400 keeps it from going spindly at 11rem. Tracking eases to -.01em: a serif at
+  /* Wordmark in Times Now Light — the same serif as the running copy, set at display size.
+     A light Times is a display cut by temperament: the thin strokes and the high contrast
+     are what the name wants at 11rem. Tracking eases to -.01em: a serif at
      display size needs almost none, and the -.03em the sans wanted would jam the serifs
      into each other. The name now shares one face with every sentence on the page — the
      serif is the whole voice, the sans is only labels. */
-  h1{font-family:var(--serif);font-weight:400;
+  h1{font-family:var(--serif);font-weight:300;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
     letter-spacing:-.01em;margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
@@ -185,12 +198,12 @@
      then the description breaks to its own register with a wider gap (.7rem). Tight-then-
      open beats the old even .3/.4 ladder, which read as three equal rows. */
   .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.14rem;}
-  /* Description in Times — the text serif carries the sentence copy while Diatype
-     holds the labels above it. Times runs a small x-height, so .85rem sits at the low end
-     of comfortable; the leading opens to 1.46 to match the statement and the tracking goes
-     to zero (the .005em was propping up a display face that had no business at this size). */
-  .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:.85rem;
-    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.46;}
+  /* Description on the prose ladder — the text serif carries the sentence copy while Diatype
+     holds the labels above it. Same size and leading as the rail bio and the CV bio, so all
+     three read as one voice; only the column width changes. Tracking goes to zero (the
+     .005em was propping up a display face that had no business at this size). */
+  .c1 .d{color:var(--sw4);display:block;margin-top:.7rem;font-size:var(--prose);
+    font-family:var(--serif);font-weight:300;letter-spacing:0;line-height:var(--prose-lh);}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -247,22 +260,26 @@
     padding:1.5rem 0;border-top:1px dotted var(--line);align-items:start;}
   .cv .sec:last-child{border-bottom:1px dotted var(--line);}
   /* The card plate's .tag, brought to the CV: same size, tracking, padding, radius. The
-     tag is translucent dark glass because it floats over artwork — here there is nothing
-     behind it to blur, so the fill goes opaque --tile. That token is the plate ground in
-     both themes already, which is what keeps this reading as the same chip and not a
-     second invention. justify-self, not inline-block: grid blockifies its items, so
-     inline-block silently becomes block and the chip stretches the whole column. */
+     rule is the same in both places — the chip inverts whatever it sits on. Over artwork
+     the ground is always dark, so .tag is a light label on dark glass. Here the ground is
+     the page, so the chip is the light plate and the label is the dark ink, and it holds
+     that reading in both themes rather than going invisible against a dark page. The
+     dotted 1px is the page's one border idiom, doing the separating work in light mode
+     where a light chip on a light ground has little of its own.
+     justify-self, not inline-block: grid blockifies its items, so inline-block silently
+     becomes block and the chip stretches the whole column. */
   .cv .lbl{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
     justify-self:start;padding:.22rem .4rem .18rem;border-radius:3px;
-    background:var(--tile);color:rgba(255,255,255,.92);}
+    background:var(--chip);color:var(--chip-ink);border:1px dotted var(--line);}
   /* The CV bio is running prose, so it follows the statement and the card descriptions into
      Times. Leaving it in the sans was the last split in the system: two paragraphs of
      the same kind of writing set in two different voices. Sans now means label, serif means
      sentence, with no exceptions.
-     Slight size bump for the same reason the statement got one, and the measure drops from
-     54ch to 46ch — serif at this leading is comfortable well short of where a grotesk is. */
-  .cv .body p{margin:0 0 1rem;max-width:46ch;font-family:var(--serif);font-size:.88rem;
-    line-height:1.5;color:var(--sw2);}
+     The measure is uncapped so the bio fills its column instead of stranding half the panel
+     empty, and the size comes off the shared prose ladder rather than a local value — same
+     face, same size, same leading as the rail bio and the card descriptions. */
+  .cv .body p{margin:0 0 1.1rem;max-width:none;font-family:var(--serif);font-weight:300;
+    font-size:var(--prose);line-height:var(--prose-lh);color:var(--sw2);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
   .dn{display:inline-flex;align-items:center;gap:.35rem;align-self:flex-start;
     padding:.5rem .75rem;border-radius:999px;border:1px dotted var(--line);
@@ -325,7 +342,9 @@
     /* Its own full-width line; space-between then throws clock and switch to the edges. */
     .acts .foot{order:3;flex:1 0 100%;margin-top:.4rem;}
     .wrap{padding:0 var(--gut) 3rem;}
-    .statement h2{font-size:1.24rem;max-width:34ch;} }
+    /* Measure only. The size stays on the shared prose ladder — bumping it here was the
+       one place the rail bio drifted off the other two serif blocks. */
+    .statement h2{max-width:34ch;} }
 
   .spacer{height:2.2rem;}
 </style>
@@ -366,7 +385,7 @@ document.documentElement.className+=' js';
     <section class="card" id="work">
       <div class="layout">
       <a class="proj" data-slug="idler" href="https://studioartifice.com/work/idler/" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="https://studioartifice.com/stage/idler/cover.png" alt="" aria-hidden="true"><img class="cover fill" src="https://studioartifice.com/stage/idler/cover.png" alt="Idler AI, the generative cube mark on the launch worldsite at idler.ai"><span class="tag">Brand + Website</span></div>
+        <div class="media"><video class="bg" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" data-smooth src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><span class="tag">Brand + Website</span></div>
         <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Creative Director</span><span class="d">A cube resolved out of a field of primitives: one object at distance, thousands of individually graded units up close.</span></div></div>
       </a>
       <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
@@ -488,7 +507,7 @@ document.documentElement.className+=' js';
     var btn=document.getElementById('tsw');
     if(!btn) return;
     var root=document.documentElement, meta=document.querySelector('meta[name="theme-color"]');
-    var PAGE={light:'#ebebeb',dark:'#222222'};
+    var PAGE={light:'#ebebeb',dark:'#161718'};  // keep in sync with --bg1
     function paint(t){
       root.setAttribute('data-theme',t);
       btn.setAttribute('aria-checked',t==='dark'?'true':'false');
