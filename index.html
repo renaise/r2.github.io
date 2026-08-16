@@ -58,9 +58,12 @@
        and a single leading no matter which column it lands in. The measure varies by
        container; the voice does not. The sans keeps its own two steps (.72rem for ledger
        rows and links, .62rem for the uppercase micro-labels) and never sets a sentence. */
-    --prose:clamp(.9rem,.8rem + .3vw,1.04rem);
-    --prose-lh:1.5;
-    /* The CV chip: light plate, dark label, in both themes. */
+    --prose:clamp(.8rem,.72rem + .22vw,.92rem);
+    --prose-lh:1.52;
+    /* The CV chip follows the theme rather than sitting at one fixed value: light plate
+       and dark label here, dark plate and light label in dark mode. The dotted rule on it
+       is what separates the chip from the page in both directions, since a light chip on a
+       light ground and a dark chip on a dark ground both need the edge drawn for them. */
     --chip:#f6f6f6; --chip-ink:#1a1a1a;
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
@@ -75,6 +78,7 @@
     --ink:#b0b0b0;
     --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
     --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
+    --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
@@ -82,6 +86,7 @@
       --ink:#b0b0b0;
       --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
       --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
+      --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
     }
   }
   *{box-sizing:border-box;}
@@ -120,15 +125,25 @@
 
   /* Wordmark in Times — the same serif as the running copy, set at display size. There is
      no light or display cut to reach for, so this is the text cut scaled up; weight 400
-     keeps it from going spindly at 11rem. Tracking eases to -.01em: a serif at
-     display size needs almost none, and the -.03em the sans wanted would jam the serifs
-     into each other. The name now shares one face with every sentence on the page — the
-     serif is the whole voice, the sans is only labels. */
+     keeps it from going spindly at 11rem. Times is spaced for a book, so at display size
+     the fit has to come in: font-kerning is asked for explicitly rather than left to the
+     UA, and tracking goes to -.022em, which closes the general looseness without jamming
+     the serifs into each other.
+     Global tracking cannot fix a single pair, though, and two here are wrong in opposite
+     directions. R|e is the loose one — the R's leg swings out under the e and leaves a
+     hole that reads as a word space at this size. a|i is the tight one, because the a's
+     finial and the i's stem meet with nothing between them. Both are corrected on the
+     pair rather than by moving everything, so the rest of the name keeps its fit. */
   h1{font-family:var(--serif);font-weight:400;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
-    letter-spacing:-.01em;margin:0;text-transform:none;white-space:nowrap;
+    letter-spacing:-.022em;font-kerning:normal;font-feature-settings:"kern" 1;
+    margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
+  /* The pair corrections. Applied to the letter that follows the gap, so each value reads
+     as "close this pair by n", and in em so they scale with the clamp. */
+  h1 .k-re{margin-left:-.028em;}
+  h1 .k-ai{margin-left:.014em;}
   h1 a:hover{color:var(--accent);}
   /* Wordmark + pronoun. Shares the wordmark's baseline: h1 is a clamp() from 3.6rem to
      11rem, so any hand-set offset would drift across that range. The baseline tracks it
@@ -429,7 +444,7 @@ document.documentElement.className+=' js';
     <section class="card" id="about">
       <div class="about">
         <div class="wm">
-          <h1><a href="https://rencap.pages.dev" target="_blank" rel="noopener">Renaise</a></h1>
+          <h1><a href="https://rencap.pages.dev" target="_blank" rel="noopener">R<span class="k-re">e</span>na<span class="k-ai">i</span>se</a></h1>
           <span class="pn">She/Her</span>
         </div>
         <div class="spacer"></div>
