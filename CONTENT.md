@@ -56,17 +56,56 @@ Doing both means maintaining two versions of one story.
 split. A Project may carry entries of either kind, or none. Nothing in this repo
 models them yet.
 
-## Open before building
+## Decided 2026-08-24
 
-1. **Does renaise.com host case studies, or link to them?** This decides whether
-   Project is a full page type or a richer card that still hands off.
-2. **What is the source of truth?** Studio Artifice's `projects.ts` already holds
-   overview, outcome, role and contributors for the overlapping engagements.
-   Duplicating that here creates a second record to keep in sync; the alternative
-   is pulling from it at build time.
-3. **Which projects get the full tree?** ARTIFACTORY, the Artifact Index and the
-   Artifice identity are Renaise's own work with no studio case study behind them,
-   so they need authoring here regardless of what happens to the other seven.
+**Case study lives once, on studioartifice.com, for the six engagements that
+have one.** renaise.com carries Overview, Selected outcomes and Role +
+collaborators, then hands off. Those three nodes are the personal claim, which
+the studio site does not make and cannot: on studioartifice.com the actor is the
+studio, here it is Renaise, in a named role, with named collaborators. The long
+read is the same story either way, and two copies of one story is the drift this
+repo keeps paying for.
+
+**Three projects need full authoring here, case study included**, because
+nothing upstream exists: ARTIFACTORY, the Artifact Index, and the Artifice brand
+identity. The `studio-artifice` card is the studio's own site, which is the
+artifact; it links to itself and needs no case study.
+
+### Should studioartifice.com and renaise.com share one CMS? No.
+
+The overlap is smaller than it looks, and the non-overlap is the reason.
+
+| | Projects |
+|---|---|
+| Both sites | idler, soot, osmosis, industrial-lighting, lighthouse, depictions-of-original-sin |
+| renaise.com only | artifactory, the-artifact-index, artifice-brand, studio-artifice |
+| studioartifice.com only | sensitive-subjects, flora |
+
+Three reasons a shared record is wrong here.
+
+**The entity wall.** renaise.com's four exclusives span three entities: Codex
+(ARTIFACTORY), Artifice NYC 501(c)(3) (the Artifact Index, the brand identity),
+and the LLC itself. That is correct for a person's portfolio and illegitimate for
+the LLC's, which may only carry commercial work. A shared record set would put
+nonprofit programme work one tag away from the studio's sales surface, and a tag
+is not a wall.
+
+**The two sites make different claims about the same project.** SOOT credits
+`SOOT (Jake Harper, Noa Chazan), UNNAMED, Two.much Studio` and does not list
+Studio Artifice at all; here it is Renaise as Lead Product Designer. One record
+cannot hold both without per-site views, at which point it is two records with
+extra machinery.
+
+**This repo has no build step, by design.** `CLAUDE.md` states it: self-contained,
+hand-edit, push. Pulling from `projects.ts` means giving renaise.com a build,
+which trades a documented simplicity for a coupling that only serves six rows.
+
+### What to share instead
+
+The facts that must not drift, not the record: client name, year, collaborators,
+links. `projects.ts` is upstream for those six; this repo copies them
+deliberately. A check that diffs the shared fields across both and reports
+divergence buys the drift detection without the coupling.
 
 ## Copy rules for this tree
 
