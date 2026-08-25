@@ -87,13 +87,16 @@ Behind every cover sits a blurred `scale(1.25)` copy of the same asset — the f
 non-16:9 covers never sit on dead space. Covers are `object-fit:contain`, 6% padding,
 butted bottom.
 
-**Exception:** native 16:9 compositions take `.fill` (`object-fit:cover`, no padding) and
-go edge to edge. SOOT's cover is 1920×1080 and is the only `.fill` user. Check the source
-dimensions before assuming a cover should be contained.
+**As of 2026-08-25 every cover is `.fill`** (`object-fit:cover`, no padding), edge to edge,
+and every cover is a 5.000s video recorded or cut to close its own loop. The contained
+treatment and its frost remain in the CSS for any future non-16:9 asset, but nothing uses
+them. Check source dimensions before assuming a cover should be contained.
 
 `data-smooth` opts a video into `smoothLoop`, which clones it and crossfades the loop seam.
-The clone copies `className`, so `.fill` carries across — without that, the two copies would
-render at different sizes and the loop would jump. SOOT and Lighthouse use it.
+**No card uses it any more.** It existed to hide hard cuts and white re-buffer frames in
+covers that could not close their own loops; on a seamless clip it adds an unnecessary jump
+to the clip midpoint and plays the whole thing at 0.7x. The function stays for assets that
+need it.
 
 ## Motion
 
@@ -119,9 +122,11 @@ on load. Slugs are immutable (citations + provenance).
 Current order: soot · flora · osmosis · industrial-lighting · lighthouse ·
 depictions-of-original-sin.
 
-The CMS carries `problem`, `solution`, `impact`, and `process` for every project. The site
-renders **only `hook`**. That withholding is deliberate: the case study lives on
-studioartifice.com. renaise.com establishes standing and routes to the studio.
+The CMS carries `problem`, `solution`, `impact`, and `process` for every project. The card
+renders **only `hook`**. The card is still a hook rather than a summary, but the withholding
+no longer routes offsite: **case studies live here now**, at `/work/<slug>/`, per Renaise
+2026-08-25 and the model in `CMS.md`. SOOT is the first. Cards for projects with a page here
+link to it; the rest still link out.
 
 Card fields map `name · year · title · role · medium · hook`, with `status` appended to
 medium only when it is not `Live`.
@@ -137,8 +142,10 @@ wordmark is the first name alone.
 No second hue. No filled accent. No solid rule anywhere. **No second typeface** — Diatype
 carries everything, Redaction is the wordmark alone. No `dotted` border on a straight rule
 (pitch is unspaceable — use `--rule`). No framework, build step, or CDN. No scroll-linked
-motion. No adjective that survives deletion. No case study on this site — route to the
-studio.
+motion. No adjective that survives deletion.
+
+Struck 2026-08-25: *"No case study on this site — route to the studio."* Reversed by
+Renaise. Case studies live here now, at `/work/<slug>/`.
 
 ## Open
 

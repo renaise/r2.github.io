@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SOOT · Renaise</title>
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" media="(prefers-color-scheme:light)" />
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-dark-32.png" media="(prefers-color-scheme:dark)" />
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+<meta name="theme-color" content="#ebebeb" />
+<meta name="description" content="SOOT: browsing a library that organizes itself. Lead Product Designer, 2024 to 2025." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://renaise.com/work/soot/" />
+<meta property="og:title" content="SOOT · Browsing a Library That Organizes Itself" />
+<meta property="og:description" content="Vector search sorts thousands of files by what they contain, so the interface had to retire the folder." />
+<meta property="og:image" content="https://renaise.com/stage/soot/cover.jpg" />
+<style>
+  @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
+
+  /* Same ink, same three alphas, same flat page as the index. A case study that
+     invented its own scale would read as a different site. */
+  :root{
+    --ink:#5c5c5c;
+    --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
+    --accent:#2e2e2e; --bg1:#ebebeb; --tile:#101010;
+    --line:rgba(92,92,92,0.42);
+    --gut:1.4rem;
+    --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --serif:"Times New Roman",Times,serif;
+    --prose:clamp(.8rem,.72rem + .22vw,.92rem);
+    --prose-lh:1.38;
+    --prose-ink:rgba(92,92,92,0.78);
+  }
+  :root[data-theme="dark"]{
+    --ink:#b0b0b0;
+    --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
+    --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
+    --prose-ink:rgba(176,176,176,0.78);
+  }
+  @media(prefers-color-scheme:dark){
+    :root:not([data-theme]){
+      --ink:#b0b0b0;
+      --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
+      --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
+      --prose-ink:rgba(176,176,176,0.78);
+    }
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{margin:0;color:var(--sw2);background:var(--bg1);min-height:100vh;
+    font-family:var(--sans);font-weight:400;font-size:.72rem;line-height:1.14;}
+  a{color:inherit;text-decoration:none;}
+  a:hover{color:var(--accent);}
+  a:active{opacity:.7;}
+
+  .wrap{max-width:1040px;margin:0 auto;padding:var(--gut) var(--gut) 5rem;}
+
+  /* Back to the index, in the same register as the rail links it replaces. */
+  .top{display:flex;justify-content:space-between;align-items:baseline;
+    padding-bottom:.8rem;border-bottom:1px dotted var(--line);}
+  .top .yr{font-variant-numeric:tabular-nums;color:var(--sw4);}
+
+  /* Masthead. The name is the subject; the line under it is the claim. */
+  .mast{padding:2.6rem 0 1.4rem;}
+  .mast h1{margin:0;font-size:clamp(2.2rem,7vw,4.4rem);font-weight:400;
+    letter-spacing:-.01em;line-height:1;color:var(--ink);}
+  .mast .claim{margin:.9rem 0 0;font-size:clamp(1rem,2.4vw,1.35rem);
+    font-weight:400;line-height:1.2;color:var(--sw2);}
+
+  /* Ledger: the facts a portfolio is actually asked for, in one row of columns. */
+  .ledger{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+    padding:1.1rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);
+    margin-bottom:2.4rem;}
+  .ledger dt{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);margin:0 0 .4rem;}
+  .ledger dd{margin:0;color:var(--sw2);}
+  @media(max-width:700px){ .ledger{grid-template-columns:repeat(2,1fr);gap:1.2rem 1rem;} }
+
+  /* The plate, carried over from the index so the artifact reads the same in both places. */
+  .plate{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);
+    overflow:hidden;border-radius:4px;margin-bottom:2.6rem;}
+  .plate video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--tile);}
+  .plate::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(rgba(255,255,255,0.02),rgba(0,0,0,0.14));}
+
+  section{padding:0 0 2.6rem;}
+  .lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);
+    padding-bottom:.7rem;margin-bottom:1.1rem;border-bottom:1px dotted var(--line);}
+  /* One prose ladder, one measure. Running sentences are the serif's only job. */
+  .body p{font-family:var(--serif);font-weight:300;font-size:var(--prose);
+    line-height:var(--prose-lh);color:var(--prose-ink);max-width:64ch;margin:0 0 .8rem;}
+  .body p:last-child{margin-bottom:0;}
+
+  .foot{padding-top:1.2rem;border-top:1px dotted var(--line);
+    display:flex;justify-content:space-between;gap:1rem;color:var(--sw4);}
+</style>
+<script>
+// Same pre-paint resolve as the index, so moving between them never flashes a theme.
+(function(){
+  var t;
+  try{ t=localStorage.getItem('theme'); }catch(e){}
+  if(t!=='dark'&&t!=='light'){
+    t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';
+  }
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a href="/">Renaise</a>
+      <span class="yr">2024–25</span>
+    </div>
+
+    <header class="mast">
+      <h1>SOOT</h1>
+      <p class="claim">Browsing a Library That Organizes Itself</p>
+    </header>
+
+    <dl class="ledger">
+      <div><dt>Role</dt><dd>Lead Product Designer</dd></div>
+      <div><dt>Practice</dt><dd>Studio Artifice</dd></div>
+      <div><dt>Year</dt><dd>2024–25</dd></div>
+      <div><dt>Medium</dt><dd>Product</dd></div>
+    </dl>
+
+    <div class="plate">
+      <video src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto"
+             poster="/stage/soot/cover.jpg" aria-label="SOOT, the vector search interface"></video>
+    </div>
+
+    <section>
+      <div class="lbl">Overview</div>
+      <div class="body">
+        <p>Creative work accumulates faster than filesystems can organize. SOOT is a consumer-grade visual vector database for thousands of images, videos, references and files, but the interaction primitives for a self-organizing filesystem did not yet exist.</p>
+        <p>Traditional digital asset management organizes assets through folders and metadata. SOOT uses multimodal vector search to organize them by what they contain. That landed the opportunity: how do you browse a library that organizes itself?</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="lbl">Selected outcomes</div>
+      <div class="body">
+        <p>Defined the product grammar for mapping information visually: Spaces, Views, search, focus, metadata, upload, selection and sharing.</p>
+        <p>The system turns an archive from a hierarchy of folders into a spatial field users can navigate, reorganize and publish, making complex ML infrastructure behave as simply as copy, paste, zoom and drag.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="lbl">Role</div>
+      <div class="body">
+        <p>Lead Product Designer across the interaction model: the primitives above, and the decision to retire the folder as the unit of organization.</p>
+      </div>
+    </section>
+
+    <div class="foot">
+      <a href="/">Index</a>
+      <span>Renaise Kim</span>
+    </div>
+  </div>
+</body>
+</html>
