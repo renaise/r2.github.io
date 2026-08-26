@@ -170,15 +170,27 @@
 
   /* Search. One dotted rule, the page's only border idiom, and type on the shared
      .72rem step so the field reads as a line in the rail rather than a widget in it. */
-  .find{display:none;}
+  .find{display:none;margin-top:-.35rem;}
   .js .find{display:block;}
-  .find input{width:100%;box-sizing:border-box;appearance:none;-webkit-appearance:none;
-    background:transparent;border:0;border-bottom:1px dotted var(--line);
-    font-family:var(--sans);font-size:.72rem;line-height:1.14;color:var(--sw2);
-    padding:.45rem 0;margin:0;border-radius:0;}
+  .find-in{display:flex;align-items:center;gap:.4rem;
+    border-bottom:1px dotted var(--line);}
+  .find input{flex:1;min-width:0;box-sizing:border-box;appearance:none;-webkit-appearance:none;
+    background:transparent;border:0;font-family:var(--sans);font-size:.72rem;line-height:1.14;
+    color:var(--sw2);padding:.32rem 0;margin:0;border-radius:0;}
   .find input::placeholder{color:var(--sw4);}
-  .find input:focus{outline:0;border-bottom-color:var(--accent);}
+  /* Focus lands on the rule, not in it: accent at full strength read as a lit wire in
+     dark mode, where --accent is pure white. */
+  .find input:focus{outline:0;}
+  .find-in:focus-within{border-bottom-color:var(--sw2);}
   .find input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
+  .qx{appearance:none;background:transparent;border:0;cursor:pointer;padding:0 .1rem;
+    font-family:var(--sans);font-size:.8rem;line-height:1;color:var(--sw4);}
+  .qx:hover{color:var(--accent);}
+  .qx:focus-visible{outline:1px dotted var(--accent);outline-offset:2px;}
+  /* Result count, on the micro-label step the rest of the page uses for meta. */
+  .qn{margin:.4rem 0 0;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--sw4);font-variant-numeric:tabular-nums;}
+  .none{font-family:var(--serif);font-size:var(--prose);color:var(--prose-ink);margin:0;}
   /* .proj sets display:block, which would otherwise beat the hidden attribute */
   .proj[hidden]{display:none;}
   /* find-in-page mark: the accent is ink only, never a fill */
@@ -256,7 +268,7 @@
   .app{display:flex;align-items:flex-start;}
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
     border-right:1px dotted var(--line);padding:var(--gut) var(--gut);
-    display:flex;flex-direction:column;gap:1.9rem;z-index:10;}
+    display:flex;flex-direction:column;gap:1.25rem;z-index:10;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp.
      Two artworks, not one tinted: the dark mark is its own file. */
@@ -354,7 +366,7 @@
   /* The rule rides the marquee, not the statement above it: the mask below fades the whole
      element, border included, so the line dies out exactly where the marks do. On the
      statement it was a hard-ended border under a fading track, which read as a mismatch. */
-  .mq{overflow:hidden;margin-top:.6rem;padding-top:12px;
+  .mq{overflow:hidden;margin-top:.15rem;padding-top:10px;
     -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
     mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
   .mq-t{display:flex;align-items:center;width:max-content;
@@ -439,9 +451,13 @@ document.documentElement.className+=' js';
       </section>
       <!-- Filters the work grid in place. Hidden without JS, since a search field that
            cannot search is worse than no field. -->
-      <form class="find" role="search" onsubmit="return false"><input id="q" type="search"
-        placeholder="Search work" autocomplete="off" spellcheck="false" aria-label="Search work"
-        aria-controls="work" /></form>
+      <form class="find" role="search" onsubmit="return false">
+        <div class="find-in"><input id="q" type="search" placeholder="Search work"
+          autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
+          <button id="qx" class="qx" type="button" aria-label="Clear search" hidden>&times;</button>
+        </div>
+        <p class="qn" id="qn" role="status" aria-live="polite" hidden></p>
+      </form>
       <div class="mq"><div class="mq-t"><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a></div></div>
       <a class="dn" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate to Artifice ↗</a>
       <div class="acts">
@@ -463,11 +479,11 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser-based tool for composing objects, tuning materials and scenes live, and exporting portable embeds.</span></div></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Objects composed in the browser, materials and scenes tuned live. The scene leaves as a portable embed.</span></div></div>
       </a>
       <a class="proj" data-slug="soot" href="/work/soot/">
         <div class="media"><video class="bg" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/soot/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Vector search sorts thousands of files by what they contain, so the interface had to retire the folder and give people a space to move through instead.</span></div></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Vector search sorts thousands of files by what they contain, so the interface retires the folder for a space you move through.</span></div></div>
       </a>
       <a class="proj" data-slug="the-artifact-index" href="https://index.artificenyc.org" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/the-artifact-index/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/the-artifact-index/cover.jpg"></video><span class="tag">Product</span></div>
@@ -487,7 +503,7 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><span class="tag">Creative Production · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3. Cover art by Cass Yao.</span></div></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
       </a>
       <a class="proj" data-slug="artifice-brand" href="https://brand.artificenyc.org" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
@@ -499,6 +515,7 @@ document.documentElement.className+=' js';
       </a>
 
       </div>
+      <p class="none" id="none" hidden>Nothing matches that.</p>
     </section>
 
     <section class="card" id="about">
@@ -678,18 +695,26 @@ document.documentElement.className+=' js';
         el.textContent=''; el.appendChild(frag);
       });
     }
+    var qx=document.getElementById('qx'), qn=document.getElementById('qn'),
+        none=document.getElementById('none');
     function run(){
-      var v=q.value.trim().toLowerCase();
+      var v=q.value.trim().toLowerCase(), n=0;
       for(var i=0;i<cards.length;i++){
         var hit = !v || index[i].indexOf(v)>-1;
         cards[i].hidden = !hit;
-        if(hit){ cards[i].classList.add('in'); paint(cards[i], hit && v ? q.value.trim() : ''); }
+        if(hit){ n++; cards[i].classList.add('in'); paint(cards[i], v ? q.value.trim() : ''); }
         else paint(cards[i], '');
       }
+      // Say what happened. A grid that silently empties reads as a broken page.
+      if(qx) qx.hidden = !v;
+      if(qn){ qn.hidden = !v; qn.textContent = v ? n + ' of ' + cards.length : ''; }
+      if(none) none.hidden = !(v && n===0);
     }
+    function clear(){ q.value=''; run(); }
     q.addEventListener('input',run);
+    if(qx) qx.addEventListener('click',function(){ clear(); q.focus(); });
     q.addEventListener('keydown',function(e){
-      if(e.key==='Escape'){ q.value=''; run(); q.blur(); }
+      if(e.key==='Escape'){ clear(); q.blur(); }
     });
   })();
 
