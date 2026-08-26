@@ -1,0 +1,3 @@
+# local tool artifacts, never part of the published site
+.gstack/
+.DS_Store
