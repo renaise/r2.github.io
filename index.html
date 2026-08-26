@@ -272,7 +272,8 @@
      links' own spacing. Kept well clear of Are.na: margin-top:auto on .acts already
      shoves the block to the rail's floor, and without this the rule crowds the last link. */
   .side .foot{display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-    margin-top:1.6rem;padding-top:.9rem;border-top:1px dotted var(--line);}
+    margin-top:1.6rem;padding:.9rem var(--gut) 0 0;border-top:1px dotted var(--line);
+    margin-right:calc(-1 * var(--gut));}
   .side .clock{position:static;font-family:var(--sans);font-size:.62rem;color:var(--sw4);
     letter-spacing:.03em;font-variant-numeric:tabular-nums;}
   /* Side buffer matches the rail's own 1.4rem gutter exactly, so the card spread and the
@@ -280,7 +281,10 @@
      would put an arbitrary gap on the right that the rail doesn't have. */
   .wrap{flex:1;min-width:0;max-width:none;margin:0;
     padding:0 var(--gut) clamp(1.2rem,2vw,2rem);display:flex;flex-direction:column;}
-  .card{border-top:1px dotted var(--line);padding:clamp(52px,8vw,104px) 0;}
+  /* Dividers meet the rail's vertical rule rather than stopping one gutter short of it:
+     the border box reaches back over the gutter, the padding puts the content back. */
+  .card{border-top:1px dotted var(--line);padding:clamp(52px,8vw,104px) 0 clamp(52px,8vw,104px) var(--gut);
+    margin-left:calc(-1 * var(--gut));}
   .card:first-child{border-top:0;padding-top:var(--gut);}  /* level with the mark in the rail */
   /* The last card's bottom padding is a tail, not a separator — nothing follows it, so the
      8vw that spaces one card off the next only opens a hole under the entity marks. Clamped
@@ -288,7 +292,8 @@
   .card:last-child{padding-bottom:clamp(24px,2.4vw,40px);}
   .about{margin-top:0;}
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
-    padding:1.5rem 0;border-top:1px dotted var(--line);align-items:start;}
+    padding:1.5rem 0 1.5rem var(--gut);border-top:1px dotted var(--line);align-items:start;
+    margin-left:calc(-1 * var(--gut));}
   .cv .sec:last-child{border-bottom:1px dotted var(--line);}
   /* The card plate's .tag, brought to the CV: same size, tracking, padding, radius. The
      rule is the same in both places — the chip inverts whatever it sits on. Over artwork
@@ -373,6 +378,11 @@
     /* Its own full-width line; space-between then throws clock and switch to the edges. */
     .acts .foot{order:3;flex:1 0 100%;margin-top:.4rem;}
     .wrap{padding:0 var(--gut) clamp(1rem,3vw,1.6rem);}
+    /* The rail is a stacked header here with no vertical rule to meet, so the dividers
+       stop reaching for it. */
+    .card{padding-left:0;margin-left:0;}
+    .cv .sec{padding-left:0;margin-left:0;}
+    .side .foot{padding-right:0;margin-right:0;}
     /* Measure only. The size stays on the shared prose ladder — bumping it here was the
        one place the rail bio drifted off the other two serif blocks. */
     .statement h2{max-width:34ch;} }
@@ -409,6 +419,7 @@ document.documentElement.className+=' js';
         <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
         <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na ↗</a>
         <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
+        <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub ↗</a>
         <div class="foot"><div class="clock" id="clock"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
     </aside>
@@ -433,7 +444,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Every artifact carries its provenance, so the archive can be cited rather than only browsed.</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="/stage/osmosis/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/osmosis/cover.jpg" alt="Osmosis, forward deployed reinforcement learning"><span class="tag">Identity + Site</span></div>
+        <div class="media"><video class="bg" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><span class="tag">Identity + Site</span></div>
         <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="d">A brush-and-wash lineage after Huang Gongwang's Fuchun Mountains: mist, water, and stone as one porous system.</span></div></div>
       </a>
       <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
@@ -477,6 +488,7 @@ document.documentElement.className+=' js';
                 <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
                 <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na ↗</a>
                 <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
+                <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub ↗</a>
               </div>
             </div>
           </div>
