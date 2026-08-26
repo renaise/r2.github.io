@@ -26,6 +26,7 @@
 <style>
   /* Diatype (Dinamo) carries the wordmark, the labels, and the whole UI. */
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
+  @font-face { font-family:"Newsreader Variable"; src:url("/fonts/Newsreader-Variable.woff2") format("woff2"); font-weight:200 800; font-display:swap; }
   /* One serif, one job. The wordmark is now set in Diatype — the same sans as the labels —
      so the only serif left on the page is the running copy, and it does not need a second
      display cut. Instrument and Fraunces both read as a costume on top of a grotesk system;
@@ -55,6 +56,7 @@
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --serif:"Times New Roman",Times,serif;
+    --display:"Newsreader Variable","Times New Roman",Times,serif;
     /* One prose ladder. Every block of running sentences on the page — the rail bio, the
        card descriptions, the CV bio — reads from these two, so the serif has a single size
        and a single leading no matter which column it lands in. The measure varies by
@@ -148,16 +150,16 @@
      hole that reads as a word space at this size. a|i is the tight one, because the a's
      finial and the i's stem meet with nothing between them. Both are corrected on the
      pair rather than by moving everything, so the rest of the name keeps its fit. */
-  h1{font-family:var(--serif);font-weight:400;
+  h1{font-family:var(--display);font-weight:300;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
-    letter-spacing:-.022em;font-kerning:normal;font-feature-settings:"kern" 1;
+    letter-spacing:-.042em;font-kerning:normal;font-feature-settings:"kern" 1;
     margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   h1 a{color:inherit;}
   /* The pair corrections. Applied to the letter that follows the gap, so each value reads
      as "close this pair by n", and in em so they scale with the clamp. */
-  h1 .k-re{margin-left:-.028em;}
-  h1 .k-ai{margin-left:.014em;}
+  h1 .k-re{margin-left:0;}
+  h1 .k-ai{margin-left:0;}
   h1 a:hover{color:var(--accent);}
   /* Wordmark + pronoun. Shares the wordmark's baseline: h1 is a clamp() from 3.6rem to
      11rem, so any hand-set offset would drift across that range. The baseline tracks it
@@ -165,6 +167,20 @@
   .wm{display:flex;align-items:baseline;gap:.7rem;}
   .wm .pn{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;
     text-transform:uppercase;color:var(--sw3);white-space:nowrap;}
+
+  /* Search. One dotted rule, the page's only border idiom, and type on the shared
+     .72rem step so the field reads as a line in the rail rather than a widget in it. */
+  .find{display:none;}
+  .js .find{display:block;}
+  .find input{width:100%;box-sizing:border-box;appearance:none;-webkit-appearance:none;
+    background:transparent;border:0;border-bottom:1px dotted var(--line);
+    font-family:var(--sans);font-size:.72rem;line-height:1.14;color:var(--sw2);
+    padding:.45rem 0;margin:0;border-radius:0;}
+  .find input::placeholder{color:var(--sw4);}
+  .find input:focus{outline:0;border-bottom-color:var(--accent);}
+  .find input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
+  /* .proj sets display:block, which would otherwise beat the hidden attribute */
+  .proj[hidden]{display:none;}
 
   /* project entries */
   .proj{display:block;margin-bottom:0;color:inherit;}
@@ -412,6 +428,11 @@ document.documentElement.className+=' js';
       <section class="statement">
         <h2>Renaise is a brand + product designer in New York, eight years across culture + venture: consumer media, creative tools, deep tech.</h2>
       </section>
+      <!-- Filters the work grid in place. Hidden without JS, since a search field that
+           cannot search is worse than no field. -->
+      <form class="find" role="search" onsubmit="return false"><input id="q" type="search"
+        placeholder="Search work" autocomplete="off" spellcheck="false" aria-label="Search work"
+        aria-controls="work" /></form>
       <div class="mq"><div class="mq-t"><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a></div></div>
       <a class="dn" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate to Artifice ↗</a>
       <div class="acts">
@@ -610,6 +631,28 @@ document.documentElement.className+=' js';
     else v.addEventListener('loadedmetadata',begin,{once:true});
   }
   document.querySelectorAll('video[data-smooth]').forEach(smoothLoop);
+
+  // Search. Matches the whole card text, so a query hits the client, the title, the role,
+  // the medium tag or the blurb without needing a field-by-field index. Cards carry .in
+  // back on reveal because the IntersectionObserver has already unobserved them.
+  (function(){
+    var q=document.getElementById('q'); if(!q) return;
+    var cards=[].slice.call(document.querySelectorAll('#work .proj'));
+    var text=cards.map(function(c){ return (c.textContent||'').toLowerCase().replace(/\s+/g,' '); });
+    function run(){
+      var v=q.value.trim().toLowerCase();
+      for(var i=0;i<cards.length;i++){
+        var hit = !v || text[i].indexOf(v)>-1;
+        cards[i].hidden = !hit;
+        if(hit) cards[i].classList.add('in');
+      }
+    }
+    q.addEventListener('input',run);
+    // Escape clears, the one key people expect a search field to answer
+    q.addEventListener('keydown',function(e){
+      if(e.key==='Escape'){ q.value=''; run(); }
+    });
+  })();
 
   // Only decode what's on screen. Every .media holds a blurred .bg copy plus a .cover,
   // and a 34px blur re-rasterised each frame across all of them is what makes scrolling
