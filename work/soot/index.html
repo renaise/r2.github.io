@@ -59,6 +59,13 @@
   /* Back to the index, in the same register as the rail links it replaces. */
   .top{display:flex;justify-content:space-between;align-items:baseline;
     padding-bottom:.8rem;border-bottom:1px dotted var(--line);}
+  /* Breadcrumb. The separator is generated, so it never lands after the last item and
+     never gets read out as content. */
+  .crumb{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;margin:0;padding:0;}
+  .crumb li{display:flex;align-items:baseline;gap:.5rem;color:var(--sw4);}
+  .crumb li + li::before{content:"/";color:var(--sw4);}
+  .crumb a{color:var(--sw2);}
+  .crumb [aria-current="page"]{color:var(--sw4);}
   .top .yr{font-variant-numeric:tabular-nums;color:var(--sw4);}
 
   /* Masthead. The name is the subject; the line under it is the claim. */
@@ -108,10 +115,14 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="top">
-      <a href="/">Renaise</a>
+    <nav class="top" aria-label="Breadcrumb">
+      <ol class="crumb">
+        <li><a href="/">Renaise</a></li>
+        <li><a href="/#work">Work</a></li>
+        <li aria-current="page">SOOT</li>
+      </ol>
       <span class="yr">2024–25</span>
-    </div>
+    </nav>
 
     <header class="mast">
       <h1>SOOT</h1>

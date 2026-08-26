@@ -181,6 +181,8 @@
   .find input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
   /* .proj sets display:block, which would otherwise beat the hidden attribute */
   .proj[hidden]{display:none;}
+  /* find-in-page mark: the accent is ink only, never a fill */
+  mark{background:transparent;color:var(--accent);}
 
   /* project entries */
   .proj{display:block;margin-bottom:0;color:inherit;}
@@ -263,9 +265,15 @@
   :root[data-theme="dark"] .side .brand .mk-l{display:none;}
   :root[data-theme="dark"] .side .brand .mk-d{display:block;}
   /* The rail's only links. No rules, no underline — colour is the whole affordance. */
-  .acts{display:flex;flex-direction:column;gap:.7rem;margin-top:auto;}
-  .acts a{font-family:var(--sans);font-size:.72rem;color:var(--sw2);
-    text-decoration:none;transition:color .2s;}
+  .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
+    align-items:baseline;}
+  /* clock + switch are a row of their own, not a cell beside the last link */
+  .acts .foot{grid-column:1 / -1;}
+  .acts a .ar{opacity:0;transition:opacity .25s ease;font-size:.62em;}
+  .acts a:hover .ar{opacity:1;}
+  @media(prefers-reduced-motion:reduce){ .acts a .ar{transition:none;} }
+  .acts a{font-family:var(--sans);font-size:1.44rem;line-height:1.05;letter-spacing:-.02em;
+    color:var(--sw2);text-decoration:none;transition:color .2s;}
   .acts a:hover{color:var(--ink);}
   /* Theme switch. Built from a dotted track so it speaks the same language as every other
      rule on the page — a filled pill would be the only solid shape here. */
@@ -346,11 +354,11 @@
   /* The rule rides the marquee, not the statement above it: the mask below fades the whole
      element, border included, so the line dies out exactly where the marks do. On the
      statement it was a hard-ended border under a fading track, which read as a mismatch. */
-  .mq{overflow:hidden;margin-top:-1.9rem;border-top:1px dotted var(--line);padding-top:12px;
+  .mq{overflow:hidden;margin-top:.6rem;padding-top:12px;
     -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
     mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
   .mq-t{display:flex;align-items:center;width:max-content;
-    animation:mq 64s linear infinite;}
+    animation:mq 110s linear infinite;}
   /* margin, not gap: every cell is width+margin, so half the track is a whole number of
      pattern periods and -50% lands copy 2 exactly on copy 1. */
   .mq .ent{flex:none;height:12px;margin-right:12px;}
@@ -390,6 +398,7 @@
     .statement,.mq{flex:1 0 100%;}
     .dn{order:1;}
     .acts{display:contents;}
+    .acts a{font-size:.72rem;letter-spacing:0;}
     .acts a{order:2;}
     /* Its own full-width line; space-between then throws clock and switch to the edges. */
     .acts .foot{order:3;flex:1 0 100%;margin-top:.4rem;}
@@ -436,11 +445,11 @@ document.documentElement.className+=' js';
       <div class="mq"><div class="mq-t"><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a></div></div>
       <a class="dn" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate to Artifice ↗</a>
       <div class="acts">
-        <a href="mailto:krenaise@gmail.com">Email ↗</a>
-        <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na ↗</a>
-        <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
-        <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub ↗</a>
+        <a href="mailto:krenaise@gmail.com">Email <span class="ar">↗</span></a>
+        <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar">↗</span></a>
+        <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar">↗</span></a>
+        <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar">↗</span></a>
+        <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar">↗</span></a>
         <div class="foot"><div class="clock" id="clock"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
     </aside>
@@ -505,11 +514,11 @@ document.documentElement.className+=' js';
             <div class="body">
               <p>Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech. Founder of Codex Foundry. Creative director of Artifice NYC. Design partner of Studio Artifice. Renaise's focus is on open curatorial research and showcasing artifice: the artifacts of science fiction. Her practice is focused on web-to-world applications via science + fiction (proxy for prototyping).</p>
               <div class="links">
-                <a href="mailto:krenaise@gmail.com">Email ↗</a>
-                <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn ↗</a>
-                <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na ↗</a>
-                <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack ↗</a>
-                <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub ↗</a>
+                <a href="mailto:krenaise@gmail.com">Email <span class="ar">↗</span></a>
+                <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar">↗</span></a>
+                <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar">↗</span></a>
+                <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar">↗</span></a>
+                <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar">↗</span></a>
               </div>
             </div>
           </div>
@@ -632,25 +641,55 @@ document.documentElement.className+=' js';
   }
   document.querySelectorAll('video[data-smooth]').forEach(smoothLoop);
 
-  // Search. Matches the whole card text, so a query hits the client, the title, the role,
-  // the medium tag or the blurb without needing a field-by-field index. Cards carry .in
-  // back on reveal because the IntersectionObserver has already unobserved them.
+  // Search. Scoped to the work grid and nothing else on the page, and it marks the hit
+  // the way find-in-page does rather than only filtering. Fields are cached on first run
+  // so repainting never compounds, and the tag is included because "product" is a real query.
   (function(){
     var q=document.getElementById('q'); if(!q) return;
+    var FIELDS='.c0 b, .c1 .t, .c1 .m, .c1 .d, .tag';
     var cards=[].slice.call(document.querySelectorAll('#work .proj'));
-    var text=cards.map(function(c){ return (c.textContent||'').toLowerCase().replace(/\s+/g,' '); });
+    cards.forEach(function(c){
+      c.querySelectorAll(FIELDS).forEach(function(el){
+        if(el.getAttribute('data-o')===null) el.setAttribute('data-o', el.textContent);
+      });
+    });
+    function text(c){
+      var out='';
+      c.querySelectorAll(FIELDS).forEach(function(el){ out += ' ' + (el.getAttribute('data-o')||''); });
+      return out.toLowerCase();
+    }
+    var index=cards.map(text);
+    function esc(t){ return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+    function paint(card,v){
+      card.querySelectorAll(FIELDS).forEach(function(el){
+        var o=el.getAttribute('data-o'); if(o===null) return;
+        if(!v){ el.textContent=o; return; }
+        var rx=new RegExp(esc(v),'gi'), last=0, m, hit=false;
+        var frag=document.createDocumentFragment();
+        while((m=rx.exec(o))!==null){
+          hit=true;
+          frag.appendChild(document.createTextNode(o.slice(last,m.index)));
+          var mk=document.createElement('mark'); mk.textContent=m[0]; frag.appendChild(mk);
+          last=m.index+m[0].length;
+          if(rx.lastIndex===m.index) rx.lastIndex++;
+        }
+        if(!hit){ el.textContent=o; return; }
+        frag.appendChild(document.createTextNode(o.slice(last)));
+        el.textContent=''; el.appendChild(frag);
+      });
+    }
     function run(){
       var v=q.value.trim().toLowerCase();
       for(var i=0;i<cards.length;i++){
-        var hit = !v || text[i].indexOf(v)>-1;
+        var hit = !v || index[i].indexOf(v)>-1;
         cards[i].hidden = !hit;
-        if(hit) cards[i].classList.add('in');
+        if(hit){ cards[i].classList.add('in'); paint(cards[i], hit && v ? q.value.trim() : ''); }
+        else paint(cards[i], '');
       }
     }
     q.addEventListener('input',run);
-    // Escape clears, the one key people expect a search field to answer
     q.addEventListener('keydown',function(e){
-      if(e.key==='Escape'){ q.value=''; run(); }
+      if(e.key==='Escape'){ q.value=''; run(); q.blur(); }
     });
   })();
 
