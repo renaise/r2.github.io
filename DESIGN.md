@@ -15,22 +15,30 @@ No adjectives of quality. If a line could sit on any designer's site, it does no
 
 ## Type
 
-**One face for everything.** Diatype carries body, nav, labels, years, and the clock —
-there is no mono role and no third family. Redaction appears once, on the wordmark.
+**Diatype carries the interface** — body, nav, labels, years, the clock. Times sets running
+copy. Newsreader sets the wordmark alone. There is no mono role.
 
 | Role | Token | Face | File |
 |---|---|---|---|
 | Everything | `--sans` | Diatype Variable (Dinamo) | `fonts/Cargo-DiatypePlusVariable.woff2` |
-| Wordmark only | `--display` | Redaction (Kaphar/Betts, MCKL — OFL) | `fonts/Redaction-Regular.woff2` |
+| Wordmark only | `--display` | Newsreader Variable (OFL) | `fonts/Newsreader-Variable.woff2` |
+| Running copy | `--serif` | Times New Roman | system, no request |
 
-Redaction is only ever used at weight 400 — the Bold face is not loaded.
+**Redaction is no longer loaded.** The wordmark ran in Times until 2026-08-26, when it moved
+to Newsreader at **weight 300** with `letter-spacing:-.042em`. Times ships Regular and Bold
+only, so a lighter wordmark was impossible in it: `font-weight` had nowhere to go. Newsreader
+carries 200–800 and was already sitting in `fonts/`, referenced by nothing.
+
+The two hand-kerned pairs on the wordmark (`.k-re`, `.k-ai`) are now **zero**. They were
+tuned against Times; Newsreader carries its own kern tables and the hand values fought it.
 
 Diatype's default figures are **proportional** (ten distinct advances), so anything showing
 numbers that change in place needs `font-variant-numeric:tabular-nums` or it jitters. The
 clock and the CV years set it. This is the constraint the old mono role used to absorb.
 
-Sizes: body and rail nav `.72rem` (they match deliberately) · statement `.95rem`/1.1 ·
-h1 `clamp(3.6rem,12vw,11rem)` · clock `.68rem`.
+Sizes: body `.72rem` · statement `.95rem`/1.1 · h1 `clamp(3.6rem,12vw,11rem)` ·
+clock `.68rem` · **rail links `1.44rem`** (doubled 2026-08-26, two columns, the trailing
+arrow held in flow at `opacity:0` and revealed on hover so nothing reflows under the pointer).
 
 ## Color
 
@@ -61,25 +69,32 @@ the OS; choosing opts out permanently. Without JS the switch is hidden and
 
 ## Layout
 
-- Sticky rail, `280px`, `100vh`: mark → statement → nav → links, switch, clock pinned bottom.
+- Sticky rail, `280px`, `100vh`: mark → statement → **search** → marquee → donate → links,
+  switch, clock pinned bottom. Rail children sit on a `1.25rem` gap (was `1.9rem`).
+- **Search** filters the work grid and nothing else on the page. It reports a count, offers a
+  clear control, answers Escape, and renders "Nothing matches that." at zero results, because
+  a grid that silently empties reads as broken. Matches are wrapped in `<mark>`, which is
+  accent **ink only** — never a fill. Hidden without JS.
+- **Rules meet the rail.** Every horizontal divider used to stop at x=302.4 while the rail's
+  vertical rule sat at x=280, one gutter short. `.card` and `.cv .sec` now reach back over the
+  gutter with a negative margin and put the content back with matching padding; `.side .foot`
+  does the same rightward. Reset at the mobile breakpoint, where the rail has no vertical rule.
+- Case study pages (`/work/<slug>/`) carry a breadcrumb: Renaise / Work / <name>, separator
+  generated in CSS so it never trails the last item.
 - Main column `max-width:1040px`. First card `padding-top:1.5rem` to sit level with the mark.
 - Work index is a **2-up grid** (`gap:3.2rem 2rem`), collapsing to one column under 900px.
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
 
-**Every rule on the page is dotted, on `--sw3`.** Zero solid borders, zero box-shadows.
+**Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
+box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
+the page dividers all render with the same UA dot algorithm, which is what makes them read as
+one family.
 
-Straight rules are painted as a repeating radial-gradient, not a `dotted` border — a
-border's dot pitch is fixed at roughly 2px and cannot be spaced. The geometry matches
-studioartifice.com exactly: `radial-gradient(circle, <colour> 1px, transparent 1.4px)` on
-`background-size:7px 2px` (`2px 7px` + `repeat-y` for the vertical rail). It lives in the
-`--rule` token so both themes resolve `--sw3` themselves.
-
-Only **curves** keep a `dotted` border — the switch track and the plate hover outline. A
-gradient cannot trace a rounded rect. Their pitch is the browser's ~2px, not 7px; at 30px
-and 4px radius the difference does not read.
-
-Tier matters: at `--sw5` the dots were effectively invisible (1.58:1). `--sw3` is 3.14:1.
+Corrected 2026-08-31: this section used to describe a repeating radial-gradient painted from
+a `--rule` token, chosen so the dot pitch could be spaced to 7px. **No such token exists and
+`index.html` contains zero `radial-gradient`.** The build has always used dotted borders on
+`--line`; the pitch is the browser's and cannot be spaced. That is the trade.
 
 ## The plate
 
@@ -106,6 +121,8 @@ entries ease in once, then unobserve. Plates fade a dotted outline on hover — 
 present but `transparent` at rest, because `outline-style` none→dotted is discrete and would
 otherwise pop.
 
+The marquee runs `110s` (was `64s`).
+
 Exactly one living element: **a clock that serves no function.** It is proof the page is
 running. One dynamic element is charisma; three is a dashboard.
 
@@ -119,8 +136,9 @@ the DOM to match. The authored HTML is the fallback when that fetch fails and **
 in CMS order** — so the script's "already correct" early-return fires and nothing reshuffles
 on load. Slugs are immutable (citations + provenance).
 
-Current order: soot · flora · osmosis · industrial-lighting · lighthouse ·
-depictions-of-original-sin.
+Authored order as of 2026-08-31: idler · artifactory · soot · the-artifact-index · osmosis ·
+industrial-lighting · lighthouse · depictions-of-original-sin · artifice-brand ·
+studio-artifice. Ten cards. `flora` and `sensitive-subjects` are not on the site.
 
 The CMS carries `problem`, `solution`, `impact`, and `process` for every project. The card
 renders **only `hook`**. The card is still a hook rather than a summary, but the withholding
@@ -149,9 +167,13 @@ Renaise. Case studies live here now, at `/work/<slug>/`.
 
 ## Open
 
-- `ABCFavoritMono-Light-Trial.otf` is a **trial licence**. Nothing references it any more
-  (the mono role is gone), but the file is still committed and served on request. Delete it.
-- `covers/sensitive-subjects.png` is still in the repo but the project is not in the CMS and
-  not on the site. Either it returns to the CMS or the asset goes.
+- The trial mono is gone — that path now 404s. Item closed 2026-08-31.
+- **`covers/` is 9.5MB of dead weight.** All six PNGs (flora, industrial-lighting, lighthouse,
+  osmosis, sensitive-subjects, soot) are referenced by nothing; `stage/<slug>/cover.jpg`
+  superseded them. Served publicly on every deploy.
+- **Five of the seven font files are unreferenced**: both Diatype Widths variables, Diatype
+  Italic, and Redaction Regular + Bold. The Diatype files are licensed commercial faces being
+  served publicly for no reason. Worth pruning; kept for now because deleting licensed
+  originals is Renaise's call, not mine.
 - Root `CLAUDE.md` still describes a cream page, Neue Haas Grotesk, and a `#FF2A00` accent.
   None have ever existed in this build.
