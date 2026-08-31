@@ -168,12 +168,9 @@ Renaise. Case studies live here now, at `/work/<slug>/`.
 ## Open
 
 - The trial mono is gone — that path now 404s. Item closed 2026-08-31.
-- **`covers/` is 9.5MB of dead weight.** All six PNGs (flora, industrial-lighting, lighthouse,
-  osmosis, sensitive-subjects, soot) are referenced by nothing; `stage/<slug>/cover.jpg`
-  superseded them. Served publicly on every deploy.
-- **Five of the seven font files are unreferenced**: both Diatype Widths variables, Diatype
-  Italic, and Redaction Regular + Bold. The Diatype files are licensed commercial faces being
-  served publicly for no reason. Worth pruning; kept for now because deleting licensed
-  originals is Renaise's call, not mine.
+- Unreferenced assets **stay**, by Renaise 2026-08-31. `covers/` (six superseded PNGs, 9.5MB)
+  and five unused font files (both Diatype Widths variables, Diatype Italic, Redaction Regular
+  + Bold) are committed and served but referenced by nothing. This is a decision, not an
+  oversight: do not raise it again or prune them.
 - Root `CLAUDE.md` still describes a cream page, Neue Haas Grotesk, and a `#FF2A00` accent.
   None have ever existed in this build.
