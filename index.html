@@ -160,7 +160,7 @@
   /* Footnote marker rides the wordmark's cap line rather than its baseline, and stays
      small enough that it reads as an annotation on the name, not part of it. */
   .fnref{color:var(--sw4);text-decoration:none;}
-  .fnref sup{font-size:.16em;top:-1.9em;left:.1em;letter-spacing:.02em;
+  .fnref sup{font-size:.15em;top:-1.15em;left:.12em;letter-spacing:.02em;
     font-family:var(--sans);font-weight:400;}
   .fnref:hover{color:var(--accent);}
   /* The reference, set quietly at the foot of the page. */
@@ -405,7 +405,7 @@
   .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
     padding:1.5rem 0 1.5rem var(--gut);border-top:1px dotted var(--line);align-items:start;
     margin-left:calc(-1 * var(--gut));}
-  .cv .sec:last-child{border-bottom:1px dotted var(--line);}
+
   /* The card plate's .tag, brought to the CV: same size, tracking, padding, radius. The
      rule is the same in both places — the chip inverts whatever it sits on. Over artwork
      the ground is always dark, so .tag is a light label on dark glass. Here the ground is
@@ -427,10 +427,8 @@
      face, same size, same leading as the rail bio and the card descriptions. */
   .cv .body p{margin:0 0 var(--prose-gap);max-width:none;font-family:var(--serif);font-weight:300;
     font-size:var(--prose);line-height:var(--prose-lh);color:var(--prose-ink);}
-  /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
-  .dn:hover{color:var(--ink);border-color:var(--sw3);}
   /* marks marquee above the statement. Track = the run duplicated, so -50% is seamless.
-     Decorative only: the real links live at the foot of About. */
+     Decorative only, and out of the keyboard order entirely. */
   /* The rail is a flex column with a 1.9rem gap, so margin-top alone can never bring this
      under 30px. The negative margin cancels that gap and parks the run just under the
      statement's dotted rule. */
@@ -457,9 +455,6 @@
     border-bottom:1px dotted var(--line-soft);}
   .cv .row:last-child{border-bottom:0;}
   .cv .row .nm{color:var(--ink);}
-  .cv .donate{margin-left:.6rem;font-family:var(--sans);font-size:.68rem;color:var(--sw3);border-bottom:1px dotted var(--line);}
-  .cv .donate:hover{color:var(--accent);}
-  .cv .donate .ext{font-size:0;}
   .cv .row .yr{color:var(--sw3);font-family:var(--sans);font-size:.72rem;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:.03em;}
   .cv .row .ctx{color:var(--sw3);font-family:var(--sans);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
   .cv .sub{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
@@ -568,7 +563,7 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="lighthouse" data-cat="url" href="https://studioartifice.com/work/lighthouse/">
         <div class="media" style="--poster:url(/stage/lighthouse/cover.jpg)"><video class="cover fill" src="/stage/lighthouse/cover.mp4" muted loop playsinline preload="none" poster="/stage/lighthouse/cover.jpg"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="The talent side of the product, landing engineers and founders" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Designed two sides of one system: a talent-facing visa application, and the enterprise stack the hiring company runs it through.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Designed one system with two entrances: the individual applying for a visa, and the employer hiring them.</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" data-cat="url" href="https://studioartifice.com/work/osmosis/">
         <div class="media" style="--poster:url(/stage/osmosis/cover.jpg)"><video class="cover fill" src="/stage/osmosis/cover.mp4" muted loop playsinline preload="none" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><img class="sys" src="/stage/osmosis/system.jpg" alt="The platform sections below the hero" loading="lazy"><span class="tag">Identity + Site</span></div>
@@ -630,7 +625,7 @@ document.documentElement.className+=' js';
             <div class="body">
               <div class="row"><span class="nm">Fictive Kin</span><span class="ctx">Present</span></div>
               <div class="row"><span class="nm">Codex Foundry</span><span class="ctx">Founder · 2024</span></div>
-              <div class="row"><span class="nm">Artifice NYC <a class="donate" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate<span class="ext"> Opens artificenyc.org</span></a></span><span class="ctx">Creative Director · 2024</span></div>
+              <div class="row"><span class="nm">Artifice NYC</span><span class="ctx">Creative Director · 2024</span></div>
               <div class="row"><span class="nm">Studio Artifice</span><span class="ctx">Founding Designer · 2023</span></div>
               <div class="sub">Previously</div>
               <div class="row prior"><span class="nm">Vokal Interactive</span></div>
