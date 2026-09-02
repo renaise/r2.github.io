@@ -161,13 +161,15 @@
      small enough that it reads as an annotation on the name, not part of it. */
   /* Its own inline-block box, so the focus ring hugs the marker instead of inheriting the
      wordmark's 172px line box and drawing a tall rectangle beside the name. */
+  .fnref.sm{vertical-align:super;margin-left:.06em;}
+  .fnref.sm sup{display:inline;font-size:.62em;font-family:var(--sans);}
   .fnref{display:inline-block;line-height:1;vertical-align:top;color:var(--sw4);
     text-decoration:none;margin-left:.055em;}
   .fnref sup{display:block;top:0;font-size:.13em;letter-spacing:.02em;
     font-family:var(--display);font-weight:400;}
   .fnref:hover{color:var(--accent);}
   /* The reference, set quietly at the foot of the page. */
-  .notes{margin-top:clamp(2.4rem,6vw,4rem);padding-top:1.1rem;
+  .notes{display:grid;gap:.9rem;margin-top:clamp(2.4rem,6vw,4rem);padding-top:1.1rem;
     border-top:1px dotted var(--line-soft);}
   /* Marker in its own column, the sentence beside it, the CTA on its own line — the same
      ledger shape the CV rows use, rather than one run-on line with links buried in it. */
@@ -527,13 +529,13 @@ document.documentElement.className+=' js';
     <aside class="side">
       <h1 class="brand-h1"><a class="brand" href="/" aria-label="Renaise Kim, home"><img class="mk-l" src="/assets/icon-192.png" alt="" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="" width="52" height="52" /><span class="sr">Renaise Kim · Visual Systems</span></a></h1>
       <section class="statement">
-        <p>Renaise is a brand + product designer and industrial knowledge worker based in NYC. Practice is focused on web to world; bespoke data visualization and cultural production.</p>
+        <p>Renaise is a brand + product designer and industrial knowledge worker based in NYC. Practice is focused on web to world<a class="fnref sm" id="fnref1" href="#fn1" aria-describedby="fn1"><sup>[&#8202;1&#8202;]</sup></a>; bespoke data visualization and cultural production.</p>
       </section>
       <!-- Filters the work grid in place. Hidden without JS, since a search field that
            cannot search is worse than no field. -->
       <form class="find" role="search" onsubmit="return false">
-        <div class="find-in"><input id="q" type="search" placeholder="Search work" maxlength="24"
-          autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
+        <div class="find-in"><input id="q" type="search" placeholder="Search across site" maxlength="24"
+          autocomplete="off" spellcheck="false" aria-label="Search across site" aria-controls="work" />
         </div>
       </form>
       <div class="filters" role="group" aria-label="Filter work by kind">
@@ -606,7 +608,7 @@ document.documentElement.className+=' js';
     <section class="card" id="about">
       <div class="about">
         <div class="wm">
-          <p class="wmname">R<span class="k-re">e</span>na<span class="k-ai">i</span>se<a class="fnref" id="fnref1" href="#fn1" aria-describedby="fn1"><sup>[&#8202;1&#8202;]</sup></a></p>
+          <p class="wmname">R<span class="k-re">e</span>na<span class="k-ai">i</span>se<a class="fnref" id="fnref2" href="#fn2" aria-describedby="fn2"><sup>[&#8202;2&#8202;]</sup></a></p>
         </div>
         <div class="spacer"></div>
         <div class="cv">
@@ -650,7 +652,13 @@ document.documentElement.className+=' js';
     </section>
       <footer class="notes">
         <div class="note" id="fn1">
-          <a class="mk" href="#fnref1" aria-label="Back to the wordmark">[&#8202;1&#8202;]</a>
+          <a class="mk" href="#fnref1" aria-label="Back to the statement">[&#8202;1&#8202;]</a>
+          <div class="note-b">
+            <p>Web to world: applications via science + fiction, a proxy for prototyping. Work begins on screen and ends up as something an audience stands in front of.</p>
+          </div>
+        </div>
+        <div class="note" id="fn2">
+          <a class="mk" href="#fnref2" aria-label="Back to the wordmark">[&#8202;2&#8202;]</a>
           <div class="note-b">
             <p>Redaction is by Titus Kaphar and Reginald Dwayne Betts with MCKL, drawn for a project about mass incarceration. <a class="more" href="https://www.moma.org/calendar/exhibitions/5056" target="_blank" rel="noopener">Learn more <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a></p>
           </div>
