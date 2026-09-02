@@ -435,7 +435,6 @@
   @media(prefers-reduced-motion:reduce){ .mq-t{animation:none;} }
   /* entity marks under the bio — each logo is a mask filled with the ink, so a black
      source and a white source both land in the theme colour */
-  .ents{display:flex;align-items:center;gap:1rem;margin-top:clamp(1.1rem,1.8vw,1.6rem);flex-wrap:wrap;}
   .ent{display:block;height:18px;background-color:var(--sw3);transition:background-color .2s;
     -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;}
   .ent:hover{background-color:var(--ink);}
@@ -625,11 +624,6 @@ document.documentElement.className+=' js';
             </div>
           </div>
         </div>
-      </div>
-      <div class="ents">
-        <a class="ent" style="--m:url(/assets/ent-codex.png);width:18px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a>
-        <a class="ent" style="--m:url(/assets/ent-artifice.png);width:34px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a>
-        <a class="ent" style="--m:url(/assets/ent-studio.png);width:37px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a>
       </div>
     </section>
     </main>
