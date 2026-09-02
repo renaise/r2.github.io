@@ -165,8 +165,13 @@
      small enough that it reads as an annotation on the name, not part of it. */
   /* Its own inline-block box, so the focus ring hugs the marker instead of inheriting the
      wordmark's 172px line box and drawing a tall rectangle beside the name. */
-  .fnref.sm{vertical-align:super;margin-left:.06em;}
-  .fnref.sm sup{display:inline;font-size:.62em;font-family:var(--sans);}
+  /* Raised by position, not by vertical-align: super grows the line box and left one
+     line of the statement taller than its neighbours. line-height:0 keeps the marker
+     out of the line's height calculation entirely. */
+  .fnref.sm{vertical-align:baseline;position:relative;top:-.42em;line-height:0;
+    margin-left:.08em;}
+  .fnref.sm sup{display:inline;vertical-align:baseline;line-height:0;
+    font-size:.6em;font-family:var(--sans);}
   .fnref{display:inline-block;line-height:1;vertical-align:top;color:var(--sw4);
     text-decoration:none;margin-left:.055em;}
   .fnref sup{display:block;top:0;font-size:.13em;letter-spacing:.02em;
@@ -581,7 +586,7 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="soot" data-cat="url" href="/work/soot/">
         <div class="media" style="--poster:url(/stage/soot/cover.jpg)"><video class="cover fill" src="/stage/soot/cover.mp4" muted loop playsinline preload="none" poster="/stage/soot/cover.jpg"></video><img class="sys" src="/stage/soot/system.jpg" alt="The library mid-search, reorganising by content" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Designed the interaction model that retired the folder, so vector search over thousands of files reads as a spatial field you move through.</span></div></div>
+        <div class="cols"><div class="c0"><span class="nmw"><b>SOOT</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/soot.svg);--r:3.88"></span></span><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Designed the interaction model that retired the folder, so vector search over thousands of files reads as a spatial field you move through.</span></div></div>
       </a>
       <a class="proj" data-slug="lighthouse" data-cat="url" href="https://studioartifice.com/work/lighthouse/">
         <div class="media" style="--poster:url(/stage/lighthouse/cover.jpg)"><img class="cover fill" src="/stage/lighthouse/cover.jpg" alt="Lighthouse, land talent land somewhere"><img class="sys" src="/stage/lighthouse/system.jpg" alt="The talent side of the product, landing engineers and founders" loading="lazy"><span class="tag">Identity + Site</span></div>
