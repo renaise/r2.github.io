@@ -131,15 +131,15 @@
      the card descriptions and the CV bio, so the sans is left to labels alone. Leading is
      tight at 1.38; the smaller size took enough grey out of the block that it no longer
      needs the open 1.5 to stay readable. */
-  .statement h2{font-family:var(--serif);font-weight:300;font-size:var(--prose);line-height:var(--prose-lh);
+  .statement p{font-family:var(--serif);font-weight:400;font-size:clamp(.94rem,.86rem + .3vw,1.08rem);line-height:1.42;
     color:var(--prose-ink);margin:0;max-width:38ch;letter-spacing:0;text-wrap:pretty;
     padding-bottom:var(--prose-gap);}
   /* Eases up on load, same curve as the project entries. `both` fill means it sits at
      opacity 0 only while the animation is pending — if animations never run, the text
      simply stays visible, so the statement can't strand blank. */
   @keyframes settle{from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:none;}}
-  .statement h2{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
-  @media(prefers-reduced-motion:reduce){ .statement h2{animation:none;} }
+  .statement p{animation:settle .9s cubic-bezier(.2,.7,.2,1) .15s both;}
+  @media(prefers-reduced-motion:reduce){ .statement p{animation:none;} }
 
   /* Wordmark in Times — the same serif as the running copy, set at display size. There is
      no light or display cut to reach for, so this is the text cut scaled up; weight 400
@@ -313,7 +313,7 @@
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
   .acts .foot{grid-column:1 / -1;}
-  .acts .dn{justify-self:start;}
+  .acts .dn{justify-self:stretch;margin-left:-.5em;}
   /* the entity strip sits under the links, spanning the pair of columns */
   .acts .mq{grid-column:1 / -1;margin-top:1.1rem;}
   /* Drawn, not set. The glyph was falling out of Diatype to whatever face had it, and a
@@ -322,16 +322,19 @@
   /* One arrow component. It is used in the rail and again in the CV list, and scoping
      the size to .acts left the CV copies unstyled: an svg with no width/height falls back
      to its default intrinsic box, which is why they rendered huge and always visible. */
-  .ar{opacity:.55;transition:opacity .25s ease;display:inline-block;
-    width:.62em;height:.62em;vertical-align:-.02em;}
+  .ar{opacity:.55;transition:opacity .25s ease;display:block;flex:0 0 auto;
+    width:.6em;height:.6em;}
   /* fill + stroke are presentation attributes on the paths themselves: fill's initial
      value is black, and relying on inheritance from the svg let it paint a solid wedge
      in light mode (invisible on the dark ground, which is how it passed the first check). */
   .ar svg{width:100%;height:100%;display:block;overflow:visible;}
   a:hover .ar{opacity:1;}
   @media(prefers-reduced-motion:reduce){ .ar{transition:none;} }
-  .acts a{font-family:var(--sans);font-size:1.44rem;line-height:1.05;letter-spacing:-.02em;white-space:nowrap;
-    color:var(--sw2);text-decoration:none;transition:color .2s;}
+  /* Label left, arrow right, one row per link — so the arrows stack into a column
+     instead of floating at a different x behind every word length. */
+  .acts a{display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+    font-family:var(--sans);font-size:1.44rem;line-height:1.15;letter-spacing:-.02em;
+    white-space:nowrap;color:var(--sw2);text-decoration:none;transition:color .2s;}
   .acts a:hover{color:var(--ink);}
   /* Theme switch. Built from a dotted track so it speaks the same language as every other
      rule on the page — a filled pill would be the only solid shape here. */
@@ -399,9 +402,11 @@
   .cv .body p{margin:0 0 var(--prose-gap);max-width:none;font-family:var(--serif);font-weight:300;
     font-size:var(--prose);line-height:var(--prose-lh);color:var(--prose-ink);}
   /* donate CTA — borrows the switch track's stroke exactly: 1px dotted --line on a pill */
-  .dn{display:inline-flex;align-items:baseline;gap:.35rem;align-self:baseline;
-    padding:.06em .5em .12em;border-radius:999px;border:1px dotted var(--line);
-    font-family:var(--sans);font-size:1.44rem;line-height:1.05;letter-spacing:-.02em;
+  /* Contact is the same row, wearing the capsule. Stretching it to the cell keeps its
+     right edge on the same column as the arrows beside it. */
+  .dn{display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+    padding:.02em .5em .08em;border-radius:999px;border:1px dotted var(--line);
+    font-family:var(--sans);font-size:1.44rem;line-height:1.15;letter-spacing:-.02em;
     color:var(--sw2);text-decoration:none;transition:color .2s,border-color .2s;}
   .dn:hover{color:var(--ink);border-color:var(--sw3);}
   /* marks marquee above the statement. Track = the run duplicated, so -50% is seamless.
@@ -472,7 +477,7 @@
     .side .foot{padding-right:0;margin-right:0;}
     /* Measure only. The size stays on the shared prose ladder — bumping it here was the
        one place the rail bio drifted off the other two serif blocks. */
-    .statement h2{max-width:34ch;} }
+    .statement p{max-width:34ch;} }
 
   .spacer{height:2.2rem;}
 </style>
@@ -507,21 +512,17 @@ document.documentElement.className+=' js';
       </form>
       <div class="filters" role="group" aria-label="Filter work by kind">
         <button type="button" data-cat="all" aria-pressed="true">All<span class="n">10</span></button>
-        <button type="button" data-cat="identity" aria-pressed="false">Identity<span class="n">6</span></button>
-        <button type="button" data-cat="product" aria-pressed="false">Product<span class="n">4</span></button>
-        <button type="button" data-cat="web" aria-pressed="false">Web<span class="n">6</span></button>
-        <button type="button" data-cat="tools" aria-pressed="false">Tools<span class="n">1</span></button>
-        <button type="button" data-cat="physical" aria-pressed="false">Physical<span class="n">1</span></button>
-        <button type="button" data-cat="research" aria-pressed="false">Research<span class="n">2</span></button>
+        <button type="button" data-cat="url" aria-pressed="false">URL<span class="n">9</span></button>
+        <button type="button" data-cat="irl" aria-pressed="false">IRL<span class="n">1</span></button>
       </div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="acts">
-        <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-        <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-        <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-        <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-        <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-        <a class="dn" href="mailto:krenaise@gmail.com">Contact</a>
+        <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a class="dn" href="mailto:krenaise@gmail.com">Contact <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <div class="mq" aria-hidden="true"><div class="mq-t"><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span></div></div>
         <div class="foot"><div class="clock" id="clock" aria-label="Current time in New York"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
@@ -532,45 +533,45 @@ document.documentElement.className+=' js';
       <div class="layout">
       
 
-      <a class="proj" data-slug="studio-artifice" data-cat="identity web" href="https://studioartifice.com">
+      <a class="proj" data-slug="studio-artifice" data-cat="url" href="https://studioartifice.com">
         <div class="media" style="--poster:url(/stage/studio-artifice/cover.jpg)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><img class="sys" src="/stage/studio-artifice/system.jpg" alt="The studio site further in, the mark recombined on another surface" loading="lazy"><span class="tag">Studio + Site</span></div>
-        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="ext">Opens studioartifice.com</span><span class="d">The studio's own worldsite, built on the system it sells. One mark recombines across every surface the practice appears on.</span></div></div>
+        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="d">The studio's own worldsite, built on the system it sells. One mark recombines across every surface the practice appears on.</span></div></div>
       </a>
-      <a class="proj" data-slug="the-artifact-index" data-cat="research web product" href="https://index.artificenyc.org">
+      <a class="proj" data-slug="the-artifact-index" data-cat="url" href="https://index.artificenyc.org">
         <div class="media" style="--poster:url(/stage/the-artifact-index/cover.jpg)"><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" muted loop playsinline preload="none" poster="/stage/the-artifact-index/cover.jpg"></video><img class="sys" src="/stage/the-artifact-index/system.jpg" alt="The Artifact Index filtered to BLACKBOX, the grid regrouped" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="ext">Opens index.artificenyc.org</span><span class="d">Every artifact keeps its people, materials + revisions attached to the record, and an open intake means anyone can send work in.</span></div></div>
+        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Every artifact keeps its people, materials + revisions attached to the record, and an open intake means anyone can send work in.</span></div></div>
       </a>
-      <a class="proj" data-slug="idler" data-cat="identity web" href="https://studioartifice.com/work/idler/">
+      <a class="proj" data-slug="idler" data-cat="url" href="https://studioartifice.com/work/idler/">
         <div class="media" style="--poster:url(/stage/idler/cover.jpg)"><video class="cover fill" src="/stage/idler/cover.mp4" muted loop playsinline preload="none" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><img class="sys" src="/stage/idler/system.jpg" alt="The cube resolved to a different arrangement" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="ext">Opens studioartifice.com</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
+        <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
       </a>
-      <a class="proj" data-slug="soot" data-cat="product" href="/work/soot/">
+      <a class="proj" data-slug="soot" data-cat="url" href="/work/soot/">
         <div class="media" style="--poster:url(/stage/soot/cover.jpg)"><video class="cover fill" src="/stage/soot/cover.mp4" muted loop playsinline preload="none" poster="/stage/soot/cover.jpg"></video><img class="sys" src="/stage/soot/system.jpg" alt="The library mid-search, reorganising by content" loading="lazy"><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Folders gave way to a spatial field. Vector search sorts thousands of files by what they contain, and the interface had to make that legible.</span></div></div>
       </a>
-      <a class="proj" data-slug="lighthouse" data-cat="product web identity" href="https://studioartifice.com/work/lighthouse/">
+      <a class="proj" data-slug="lighthouse" data-cat="url" href="https://studioartifice.com/work/lighthouse/">
         <div class="media" style="--poster:url(/stage/lighthouse/cover.jpg)"><video class="cover fill" src="/stage/lighthouse/cover.mp4" muted loop playsinline preload="none" poster="/stage/lighthouse/cover.jpg"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="The talent side of the product, landing engineers and founders" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="ext">Opens studioartifice.com</span><span class="d">Two audiences, one system: a talent-facing visa application, and the enterprise stack the hiring company runs it through.</span></div></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Two audiences, one system: a talent-facing visa application, and the enterprise stack the hiring company runs it through.</span></div></div>
       </a>
-      <a class="proj" data-slug="osmosis" data-cat="identity web" href="https://studioartifice.com/work/osmosis/">
+      <a class="proj" data-slug="osmosis" data-cat="url" href="https://studioartifice.com/work/osmosis/">
         <div class="media" style="--poster:url(/stage/osmosis/cover.jpg)"><video class="cover fill" src="/stage/osmosis/cover.mp4" muted loop playsinline preload="none" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><img class="sys" src="/stage/osmosis/system.jpg" alt="The platform sections below the hero" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="ext">Opens studioartifice.com</span><span class="d">Huang Gongwang's Fuchun Mountains, carried into a brush-and-wash identity where mist, water + stone read as one porous system.</span></div></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="d">Huang Gongwang's Fuchun Mountains, carried into a brush-and-wash identity where mist, water + stone read as one porous system.</span></div></div>
       </a>
-      <a class="proj" data-slug="industrial-lighting" data-cat="identity web" href="https://studioartifice.com/work/industrial-lighting/">
+      <a class="proj" data-slug="industrial-lighting" data-cat="url" href="https://studioartifice.com/work/industrial-lighting/">
         <div class="media" style="--poster:url(/stage/industrial-lighting/cover.jpg)"><video class="cover fill" src="/stage/industrial-lighting/cover.mp4" muted loop playsinline preload="none" poster="/stage/industrial-lighting/cover.jpg"></video><span class="tag">Global Site</span></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Designer</span><span class="ext">Opens studioartifice.com</span><span class="d">Designed the system the catalog is built from: components, page templates + the type and colour rules every market page assembles out of.</span></div></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Designer</span><span class="d">Designed the system the catalog is built from: components, page templates + the type and colour rules every market page assembles out of.</span></div></div>
       </a>
-      <a class="proj" data-slug="depictions-of-original-sin" data-cat="physical" href="https://studioartifice.com/work/depictions-of-original-sin/">
+      <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl" href="https://studioartifice.com/work/depictions-of-original-sin/">
         <div class="media" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="Further into the Veo site" loading="lazy"><span class="tag">Creative Production · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="ext">Opens studioartifice.com</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
       </a>
-      <a class="proj" data-slug="artifice-brand" data-cat="identity research" href="https://brand.artificenyc.org">
+      <a class="proj" data-slug="artifice-brand" data-cat="url" href="https://brand.artificenyc.org">
         <div class="media" style="--poster:url(/stage/artifice-brand/cover.jpg)"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
-        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="ext">Opens brand.artificenyc.org</span><span class="d">A living spec for a curatorial research organization. Carbon + chalk, a single accent, one document that updates as the work does.</span></div></div>
+        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">A living spec for a curatorial research organization. Carbon + chalk, a single accent, one document that updates as the work does.</span></div></div>
       </a>
-      <a class="proj" data-slug="artifactory" data-cat="tools product" href="https://artifactory.pages.dev">
+      <a class="proj" data-slug="artifactory" data-cat="url" href="https://artifactory.pages.dev">
         <div class="media" style="--poster:url(/stage/artifactory/cover.jpg)"><video class="cover fill" src="/stage/artifactory/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="A different primitive loaded on the same scene" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="ext">Opens artifactory.pages.dev</span><span class="d">Compose objects, tune materials and scenes live, then export a self-contained embed. A browser tool for people who art-direct in 3D.</span></div></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Compose objects, tune materials and scenes live, then export a self-contained embed. A browser tool for people who art-direct in 3D.</span></div></div>
       </a>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
@@ -589,11 +590,11 @@ document.documentElement.className+=' js';
             <div class="body">
               <p>Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech. Founder of Codex Foundry. Creative director of Artifice NYC. Design partner of Studio Artifice. Renaise's focus is on open curatorial research and showcasing artifice: the artifacts of science fiction. Her practice is focused on web-to-world applications via science + fiction (proxy for prototyping).</p>
               <div class="links">
-                <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-                <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-                <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-                <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-                <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
+                <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+                <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+                <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+                <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+                <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
               </div>
             </div>
           </div>
