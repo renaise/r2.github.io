@@ -328,12 +328,18 @@
   /* One container for every mark: same height, same baseline, artwork trimmed to its own
      bounding box so a shared height means a shared cap height. --s is the optical nudge
      for caps-only marks, which fill their box where mixed-case marks do not. */
-  .c0 .cl{display:block;height:1.02em;width:calc(1.02em * var(--r) * var(--s,1));
+  /* The wrapper holds one fixed height for every mark and centres whatever sits in it,
+     so the optical scale changes the artwork without moving the baseline.
+     mask-size is `contain`, not a calc(): Safari drops -webkit-mask-size when it contains
+     a custom property, falls back to the SVG's intrinsic width, and crops the mark. */
+  .c0 .nmw{height:1.02em;}
+  .c0 .cl{display:block;height:calc(1.02em * var(--s,1));
+    width:calc(1.02em * var(--s,1) * var(--r));
     background:currentColor;color:var(--ink);pointer-events:none;
     -webkit-mask-image:var(--m);mask-image:var(--m);
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
     -webkit-mask-position:left center;mask-position:left center;
-    -webkit-mask-size:auto calc(var(--s,1) * 100%);mask-size:auto calc(var(--s,1) * 100%);}
+    -webkit-mask-size:contain;mask-size:contain;}
   /* Where a mark exists it replaces the set name; the name itself stays in the document
      so search still indexes it and a screen reader still announces it. */
   .c0 .nmw:has(.cl) b{position:absolute;width:1px;height:1px;overflow:hidden;
