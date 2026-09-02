@@ -157,6 +157,20 @@
      pair rather than by moving everything, so the rest of the name keeps its fit. */
   /* The wordmark reads dark on the light page and stays recessive on the dark one, so it
      is the only element whose ink does not simply invert with the theme. */
+  /* Footnote marker rides the wordmark's cap line rather than its baseline, and stays
+     small enough that it reads as an annotation on the name, not part of it. */
+  .fnref{color:var(--sw4);text-decoration:none;}
+  .fnref sup{font-size:.16em;top:-1.9em;left:.1em;letter-spacing:.02em;
+    font-family:var(--sans);font-weight:400;}
+  .fnref:hover{color:var(--accent);}
+  /* The reference, set quietly at the foot of the page. */
+  .notes{margin-top:clamp(2.4rem,6vw,4rem);padding-top:1.1rem;
+    border-top:1px dotted var(--line-soft);}
+  .notes p{margin:0;max-width:70ch;font-family:var(--sans);font-size:.7rem;
+    line-height:1.5;color:var(--sw4);}
+  .notes .mk{font-variant-numeric:tabular-nums;}
+  .notes a{color:var(--sw3);}
+  .notes a:hover{color:var(--accent);}
   .wmname{margin:0;font-family:var(--display);font-weight:300;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
     letter-spacing:-.042em;font-kerning:normal;font-feature-settings:"kern" 1;
@@ -537,7 +551,7 @@ document.documentElement.className+=' js';
       
 
       <a class="proj" data-slug="studio-artifice" data-cat="url" href="https://studioartifice.com">
-        <div class="media" style="--poster:url(/stage/studio-artifice/cover.jpg)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><img class="sys" src="/stage/studio-artifice/system.jpg" alt="The studio site further in, the mark recombined on another surface" loading="lazy"><span class="tag">Studio + Site</span></div>
+        <div class="media" style="--poster:url(/stage/studio-artifice/cover.jpg)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><img class="sys" src="/stage/studio-artifice/system.jpg" alt="The studio site further in, the mark recombined on another surface" loading="lazy"><span class="tag">Identity + Site</span></div>
         <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">The Studio's Own Worldsite</span><br><span class="m">Founder + Creative Director</span><span class="d">Directed the studio's own worldsite: projects run as one index, each opening into a case study, and the connected mark recombines across every surface it appears on.</span></div></div>
       </a>
       <a class="proj" data-slug="the-artifact-index" data-cat="url" href="https://index.artificenyc.org">
@@ -565,7 +579,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Designer</span><span class="d">Designed the system the catalog is built from: components, page templates + the type and colour rules every market page assembles out of.</span></div></div>
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl" href="https://studioartifice.com/work/depictions-of-original-sin/">
-        <div class="media" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="Further into the Veo site" loading="lazy"><span class="tag">Creative Production · In Progress</span></div>
+        <div class="media" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="Further into the Veo site" loading="lazy"><span class="tag">Activation</span></div>
         <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">Directed an immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
       </a>
       <a class="proj" data-slug="artifice-brand" data-cat="url" href="https://brand.artificenyc.org">
@@ -583,7 +597,7 @@ document.documentElement.className+=' js';
     <section class="card" id="about">
       <div class="about">
         <div class="wm">
-          <p class="wmname">R<span class="k-re">e</span>na<span class="k-ai">i</span>se</p>
+          <p class="wmname">R<span class="k-re">e</span>na<span class="k-ai">i</span>se<a class="fnref" id="fnref1" href="#fn1" aria-describedby="fn1"><sup>[1]</sup></a></p>
           <span class="pn">She/Her</span>
         </div>
         <div class="spacer"></div>
@@ -626,6 +640,9 @@ document.documentElement.className+=' js';
         </div>
       </div>
     </section>
+      <footer class="notes">
+        <p id="fn1"><span class="mk">[1]</span> Redaction is by Titus Kaphar and Reginald Dwayne Betts with MCKL, drawn for a project about mass incarceration. <a href="#fnref1" aria-label="Back to the wordmark">&#8617;</a></p>
+      </footer>
     </main>
   </div>
 
