@@ -61,7 +61,7 @@
      dark, and the switch is the only thing that changes it. */
   :root{
     --ink:#b0b0b0;
-    --sw2:rgba(176,176,176,0.98); --sw3:rgba(176,176,176,0.86); --sw4:rgba(176,176,176,0.74);
+    --sw2:rgba(176,176,176,0.96); --sw3:rgba(176,176,176,0.86); --sw4:rgba(176,176,176,0.80);
     --accent:#ffffff; --bg1:#161718; --tile:#101010;
     --line:rgba(176,176,176,0.42);
     /* One gutter for the whole frame: rail padding, card spread, and the first
@@ -93,6 +93,8 @@
     /* Sub-rules — the per-row dividers in the CV — sit at half the weight of a section
        rule. At full --line, a ledger of twenty rows reads as a grid rather than a list. */
     --line-soft:rgba(176,176,176,0.18);
+    --sw5:rgba(176,176,176,0.74);
+    --card-body:rgba(176,176,176,0.88);
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Ink #b0b0b0 on near-black #161718. The ground carries one point of blue over red (R=22
@@ -104,10 +106,12 @@
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="light"]{
     --ink:#4a4a4a;
-    --sw2:rgba(76,76,76,0.98); --sw3:rgba(76,76,76,0.88); --sw4:rgba(76,76,76,0.78);
+    --sw2:rgba(76,76,76,0.98); --sw3:rgba(76,76,76,0.92); --sw4:rgba(76,76,76,0.86);
     --accent:#2e2e2e; --bg1:#e9e9e9; --line:rgba(92,92,92,0.42);
     --chip:#f6f6f6; --chip-ink:#1a1a1a;
     --line-soft:rgba(92,92,92,0.18);
+    --sw5:rgba(76,76,76,0.82);
+    --card-body:rgba(70,70,70,0.90);
     --prose-ink:rgba(70,70,70,0.94);
   }
   *{box-sizing:border-box;}
@@ -314,7 +318,7 @@
      six different logos still read as one grayscale system. The pair is stacked, so the
      row never changes height and nothing reflows under the pointer. */
   .c0 .nmw{position:relative;display:inline-flex;align-items:center;}
-  .c0 b{font-weight:500;font-size:1.06rem;line-height:1.15;letter-spacing:-.015em;color:var(--ink);
+  .c0 b{font-weight:500;font-size:1.14rem;line-height:1.12;letter-spacing:-.018em;color:var(--ink);
     transition:opacity .28s ease;}
   .c0 .cl{position:absolute;left:0;top:50%;transform:translateY(-50%);
     height:.86em;width:calc(.86em * var(--r));
@@ -325,22 +329,23 @@
   a.proj:hover .c0 .cl{opacity:1;}
   @media(prefers-reduced-motion:reduce){ .c0 b,.c0 .cl{transition:none;} }
   /* Diatype's figures are proportional; tabular keeps the right-flushed years in a column. */
-  .c0 .yr{font-size:.74rem;color:var(--sw4);font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
+  .c0 .yr{font-size:.72rem;color:var(--sw5);font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
   /* Title and role are one block, so .m sits closer to .t than .d does to .m — the
      ladder reads .3 then .4rem. .m is already block-level via the br+span rule below;
      the gap was only ever a missing margin. */
   /* Non-uniform on purpose: title and role are a pair, so role hugs the title (.14rem),
      then the description breaks to its own register with a wider gap (.7rem). Tight-then-
      open beats the old even .3/.4 ladder, which read as three equal rows. */
-  .c1 .t{color:var(--sw2);font-weight:400;font-size:.92rem;line-height:1.28;letter-spacing:-.005em;}
-  .c1 .m{color:var(--sw4);margin-top:.22rem;font-size:.74rem;}
+  .c1 .t{color:var(--sw2);font-weight:450;font-size:.96rem;line-height:1.26;letter-spacing:-.008em;}
+  .c1 .m{color:var(--sw4);margin-top:.24rem;font-size:.72rem;letter-spacing:.012em;}
   /* Description on the prose ladder — the text serif carries the sentence copy while Diatype
      holds the labels above it. Same size and leading as the rail bio and the CV bio, so all
      three read as one voice; only the column width changes. Tracking goes to zero (the
      .005em was propping up a display face that had no business at this size). */
   .c1 .d{color:var(--prose-ink);display:block;margin-top:var(--prose-gap);
-    font-size:clamp(.84rem,.78rem + .18vw,.93rem);
-    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.46;}
+    font-size:clamp(.83rem,.77rem + .17vw,.9rem);
+    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.5;
+    color:var(--card-body);}
   .c1 br+span{display:block;}
 
   /* about / CV */
