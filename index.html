@@ -88,6 +88,7 @@
      under the plates) through #272727 and #252627 to here. Ink holds at #b0b0b0, so going
      darker only buys contrast back — body now sits at ~9.6:1.
      --tile is unchanged — the plates are dark in both themes by design. */
+  :root[data-theme="dark"] h1{color:var(--sw4);}
   :root[data-theme="dark"]{
     --ink:#b0b0b0;
     --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
@@ -97,6 +98,7 @@
   }
   /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
   @media(prefers-color-scheme:dark){
+    :root:not([data-theme]) h1{color:var(--sw4);}
     :root:not([data-theme]){
       --ink:#b0b0b0;
       --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
@@ -150,8 +152,10 @@
      hole that reads as a word space at this size. a|i is the tight one, because the a's
      finial and the i's stem meet with nothing between them. Both are corrected on the
      pair rather than by moving everything, so the rest of the name keeps its fit. */
+  /* The wordmark reads dark on the light page and stays recessive on the dark one, so it
+     is the only element whose ink does not simply invert with the theme. */
   h1{font-family:var(--display);font-weight:300;
-    font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
+    font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--accent);
     letter-spacing:-.042em;font-kerning:normal;font-feature-settings:"kern" 1;
     margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
@@ -473,13 +477,9 @@ document.documentElement.className+=' js';
     <main class="wrap">
     <section class="card" id="work">
       <div class="layout">
-      <a class="proj" data-slug="idler" href="https://studioartifice.com/work/idler/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
-      </a>
       <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Objects composed in the browser, materials and scenes tuned live. The scene leaves as a portable embed.</span></div></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser tool for composing objects, tuning materials and scenes live, and exporting a self-contained embed.</span></div></div>
       </a>
       <a class="proj" data-slug="soot" href="/work/soot/">
         <div class="media"><video class="bg" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/soot/cover.jpg"></video><span class="tag">Product</span></div>
@@ -505,6 +505,8 @@ document.documentElement.className+=' js';
         <div class="media"><video class="bg" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><span class="tag">Creative Production · In Progress</span></div>
         <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
       </a>
+      
+
       <a class="proj" data-slug="artifice-brand" href="https://brand.artificenyc.org" target="_blank" rel="noopener">
         <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
         <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">Carbon + chalk against a single accent, with the whole system stated in one document that changes as the work does.</span></div></div>
@@ -513,7 +515,10 @@ document.documentElement.className+=' js';
         <div class="media"><video class="bg" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><span class="tag">Studio + Site</span></div>
         <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="d">The studio's own worldsite, built on the system it sells: one mark that recombines across every surface it has to sit on.</span></div></div>
       </a>
-
+      <a class="proj" data-slug="idler" href="https://studioartifice.com/work/idler/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><span class="tag">Identity + Site</span></div>
+        <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
+      </a>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
     </section>
