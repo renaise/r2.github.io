@@ -330,7 +330,7 @@
      mask-size is `contain`, not a calc(): Safari drops -webkit-mask-size when it contains
      a custom property, falls back to the SVG's intrinsic width, and crops the mark. */
   .c0 .nmw{height:1.02em;}
-  .c0 .cl{display:block;height:1.02em;width:calc(1.02em * var(--r));
+  .c0 .cl{display:block;height:calc(1.02em * var(--s,1));width:calc(1.02em * var(--s,1) * var(--r));
     background:currentColor;color:var(--ink);pointer-events:none;
     -webkit-mask-image:var(--m);mask-image:var(--m);
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
@@ -601,7 +601,7 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="lighthouse" data-cat="url" href="https://studioartifice.com/work/lighthouse/">
         <div class="media" style="--poster:url(/stage/lighthouse/cover.jpg)"><img class="cover fill" src="/stage/lighthouse/cover.jpg" alt="Lighthouse, land talent land somewhere"><img class="sys" src="/stage/lighthouse/system.jpg" alt="The talent side of the product, landing engineers and founders" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><span class="nmw"><span class="nmw"><b>Lighthouse</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/lighthouse.svg);--r:5.087"></span></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Designed one system with two entrances: the individual applying for a visa, and the employer hiring them.</span></div></div>
+        <div class="cols"><div class="c0"><span class="nmw"><span class="nmw"><b>Lighthouse</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/lighthouse.svg);--r:5.087;--s:1.18"></span></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Designed one system with two entrances: the individual applying for a visa, and the employer hiring them.</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" data-cat="url" href="https://studioartifice.com/work/osmosis/">
         <div class="media" style="--poster:url(/stage/osmosis/cover.jpg)"><video class="cover fill" src="/stage/osmosis/cover.mp4" muted loop playsinline preload="none" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><img class="sys" src="/stage/osmosis/system.jpg" alt="The platform sections below the hero" loading="lazy"><span class="tag">Identity + Site</span></div>
