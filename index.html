@@ -65,7 +65,7 @@
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --serif:"Times New Roman",Times,serif;
+    --serif:"Newsreader Variable","Times New Roman",Times,serif;
     --display:"Newsreader Variable","Times New Roman",Times,serif;
     /* One prose ladder. Every block of running sentences on the page — the rail bio, the
        card descriptions, the CV bio — reads from these two, so the serif has a single size
@@ -277,24 +277,24 @@
   /* Name and year share one line, year flushed right to the plate edge — the same ledger
      row the CV uses. Baseline-aligned so the bold name and the year sit on one line. */
   .c0{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;color:var(--sw4);}
-  .c0 b{font-weight:700;color:var(--ink);}
+  .c0 b{font-weight:500;font-size:1.06rem;line-height:1.15;letter-spacing:-.015em;color:var(--ink);}
   /* Diatype's figures are proportional; tabular keeps the right-flushed years in a column. */
-  .c0 .yr{font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
+  .c0 .yr{font-size:.74rem;color:var(--sw4);font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
   /* Title and role are one block, so .m sits closer to .t than .d does to .m — the
      ladder reads .3 then .4rem. .m is already block-level via the br+span rule below;
      the gap was only ever a missing margin. */
   /* Non-uniform on purpose: title and role are a pair, so role hugs the title (.14rem),
      then the description breaks to its own register with a wider gap (.7rem). Tight-then-
      open beats the old even .3/.4 ladder, which read as three equal rows. */
-  .c1 .t{color:var(--ink);font-weight:400;font-size:.88rem;line-height:1.24;}
-  .c1 .m{color:var(--sw3);margin-top:.2rem;font-size:.76rem;}
+  .c1 .t{color:var(--sw2);font-weight:400;font-size:.92rem;line-height:1.28;letter-spacing:-.005em;}
+  .c1 .m{color:var(--sw4);margin-top:.22rem;font-size:.74rem;}
   /* Description on the prose ladder — the text serif carries the sentence copy while Diatype
      holds the labels above it. Same size and leading as the rail bio and the CV bio, so all
      three read as one voice; only the column width changes. Tracking goes to zero (the
      .005em was propping up a display face that had no business at this size). */
   .c1 .d{color:var(--prose-ink);display:block;margin-top:var(--prose-gap);
-    font-size:clamp(.86rem,.78rem + .24vw,.99rem);
-    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.4;}
+    font-size:clamp(.84rem,.78rem + .18vw,.93rem);
+    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.46;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -341,10 +341,10 @@
   /* The capsule is a hover state, not a resting one. Padding is always present and
      cancelled by an equal negative margin, so the link sits on the same column as its
      neighbours at rest and the stroke simply appears around it. */
-  .acts a.cap{border:1px dotted transparent;border-radius:999px;
+  .acts a{border:1px dotted transparent;border-radius:999px;
     padding:.06em .5em .1em;margin:-.06em -.5em -.1em;
     transition:color .2s,border-color .2s;}
-  .acts a.cap:hover{border-color:var(--line);}
+  .acts a:hover{border-color:var(--line);}
   /* Theme switch. Built from a dotted track so it speaks the same language as every other
      rule on the page — a filled pill would be the only solid shape here. */
   /* Hidden without JS: the head script is what resolves data-theme, and a switch that
@@ -523,7 +523,7 @@ document.documentElement.className+=' js';
         <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
-        <a class="cap" href="https://www.figma.com/design/XMjbHq7OsxQTjdlMJBrMzQ/RENAISE---LAB---STAGE--Public-?node-id=12-5349&amp;t=sKzy4CnPkO0pWFA3-1" target="_blank" rel="noopener">Figma <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a href="https://www.figma.com/design/XMjbHq7OsxQTjdlMJBrMzQ/RENAISE---LAB---STAGE--Public-?node-id=12-5349&amp;t=sKzy4CnPkO0pWFA3-1" target="_blank" rel="noopener">Figma <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <div class="mq" aria-hidden="true"><div class="mq-t"><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span></div></div>
         <div class="foot"><div class="clock" id="clock" aria-label="Current time in New York"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
