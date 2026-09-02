@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Renaise</title>
+<title>Renaise Kim · Visual Systems</title>
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" media="(prefers-color-scheme:light)" />
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-16.png" media="(prefers-color-scheme:light)" />
@@ -11,18 +11,25 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-dark-16.png" media="(prefers-color-scheme:dark)" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
 <meta name="theme-color" content="#161718" />
-<meta name="description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
+<meta name="description" content="Renaise gives form to the knowledge inside a brand through identity, digital products, websites, tools, and physical experiences." />
+<link rel="canonical" href="https://renaise.com/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renaise.com/" />
-<meta property="og:title" content="Renaise CV" />
-<meta property="og:description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
+<meta property="og:title" content="Renaise Kim · Visual Systems" />
+<meta property="og:description" content="Renaise gives form to the knowledge inside a brand through identity, digital products, websites, tools, and physical experiences." />
 <meta property="og:image" content="https://renaise.com/assets/og.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Renaise CV" />
-<meta name="twitter:description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
+<meta name="twitter:title" content="Renaise Kim · Visual Systems" />
+<meta name="twitter:description" content="Renaise gives form to the knowledge inside a brand through identity, digital products, websites, tools, and physical experiences." />
 <meta name="twitter:image" content="https://renaise.com/assets/og.jpg" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Renaise Kim","url":"https://renaise.com/",
+ "jobTitle":"Designer","email":"mailto:krenaise@gmail.com",
+ "sameAs":["https://www.linkedin.com/in/renaisekim","https://www.are.na/renaise/channels",
+           "https://renaise.substack.com/","https://github.com/renaise"]}
+</script>
 <style>
   /* Diatype (Dinamo) carries the wordmark, the labels, and the whole UI. */
   @font-face { font-family:"Diatype Variable"; src:url("/fonts/Cargo-DiatypePlusVariable.woff2") format("woff2"); font-weight:100 900; font-display:swap; }
@@ -51,7 +58,7 @@
      dark, and the switch is the only thing that changes it. */
   :root{
     --ink:#b0b0b0;
-    --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
+    --sw2:rgba(176,176,176,0.98); --sw3:rgba(176,176,176,0.86); --sw4:rgba(176,176,176,0.74);
     --accent:#ffffff; --bg1:#161718; --tile:#101010;
     --line:rgba(176,176,176,0.42);
     /* One gutter for the whole frame: rail padding, card spread, and the first
@@ -76,7 +83,7 @@
        be taken out of the face, so it comes out of the ink. Lands at 3.55:1 on the light
        ground and 5.48:1 on the dark. Below the 4.5:1 AA floor in light mode; the card
        descriptions were already at 2.42:1, so this raises them and lightens the other two. */
-    --prose-ink:rgba(176,176,176,0.78);
+    --prose-ink:rgba(176,176,176,0.92);
     /* The CV chip follows the theme: dark plate + light label on the dark page, inverted
        on the light one. The dotted rule is what separates it from the ground either way. */
     --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
@@ -93,12 +100,12 @@
      darker only buys contrast back — body now sits at ~9.6:1.
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="light"]{
-    --ink:#5c5c5c;
-    --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
+    --ink:#4a4a4a;
+    --sw2:rgba(76,76,76,0.98); --sw3:rgba(76,76,76,0.88); --sw4:rgba(76,76,76,0.78);
     --accent:#2e2e2e; --bg1:#e9e9e9; --line:rgba(92,92,92,0.42);
     --chip:#f6f6f6; --chip-ink:#1a1a1a;
     --line-soft:rgba(92,92,92,0.18);
-    --prose-ink:rgba(92,92,92,0.78);
+    --prose-ink:rgba(70,70,70,0.94);
   }
   *{box-sizing:border-box;}
   /* anchor jumps ease instead of cutting; no fixed bar now, so only the mobile rail to clear */
@@ -147,19 +154,19 @@
      pair rather than by moving everything, so the rest of the name keeps its fit. */
   /* The wordmark reads dark on the light page and stays recessive on the dark one, so it
      is the only element whose ink does not simply invert with the theme. */
-  h1{font-family:var(--display);font-weight:300;
+  .wmname{margin:0;font-family:var(--display);font-weight:300;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
     letter-spacing:-.042em;font-kerning:normal;font-feature-settings:"kern" 1;
     margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
   /* recessive on the dark page it now defaults to, dark on the light one */
-  :root[data-theme="light"] h1{color:var(--accent);}
-  h1 a{color:inherit;}
+  :root[data-theme="light"] .wmname{color:var(--accent);}
+
   /* The pair corrections. Applied to the letter that follows the gap, so each value reads
      as "close this pair by n", and in em so they scale with the clamp. */
-  h1 .k-re{margin-left:0;}
-  h1 .k-ai{margin-left:0;}
-  h1 a:hover{color:var(--accent);}
+  .wmname .k-re{margin-left:0;}
+  .wmname .k-ai{margin-left:0;}
+
   /* Wordmark + pronoun. Shares the wordmark's baseline: h1 is a clamp() from 3.6rem to
      11rem, so any hand-set offset would drift across that range. The baseline tracks it
      for free and sits the caption on the same line the display face stands on. */
@@ -188,6 +195,30 @@
   /* find-in-page mark: the accent is ink only, never a fill */
   mark{background:transparent;color:var(--accent);}
 
+
+  /* ── Filters ─────────────────────────────────────────────────────────────
+     The primary way into the work; search is the fallback under it. */
+  .filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 2rem;padding:0 0 1.1rem;
+    border-bottom:1px dotted var(--line);}
+  .filters button{appearance:none;background:transparent;cursor:pointer;
+    font-family:var(--sans);font-size:.72rem;letter-spacing:.02em;color:var(--sw3);
+    border:1px dotted transparent;border-radius:999px;padding:.34rem .7rem;
+    transition:color .2s,border-color .2s;}
+  .filters button:hover{color:var(--accent);}
+  .filters button[aria-pressed="true"]{color:var(--accent);border-color:var(--line);}
+  .filters .n{font-variant-numeric:tabular-nums;opacity:.6;margin-left:.35rem;}
+
+  /* One visible focus treatment, everywhere. */
+  a:focus-visible,button:focus-visible,input:focus-visible{
+    outline:2px dotted var(--accent);outline-offset:3px;border-radius:2px;}
+
+  .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0;}
+
+  /* Where a card leaves renaise.com, name the destination rather than only arrowing at it. */
+  .proj .ext{font-family:var(--sans);font-size:.62rem;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--sw4);}
+
   /* project entries */
   .proj{display:block;margin-bottom:0;color:inherit;}
   /* ease in on scroll. Scoped to .js so the entries stay visible without JS. */
@@ -205,9 +236,14 @@
   /* hover stroke: static dotted, same as the switch track */
   a.proj:hover .media{outline-color:var(--accent);}
   /* frosted, expanded copy of the creative filling the plate */
-  .media video{background:var(--tile);}
-  .media .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-    transform:scale(1.25);filter:blur(34px) saturate(1.15);z-index:0;}
+  .media video{background:transparent;}
+  /* Cards must read before any media arrives. */
+  .media{isolation:isolate;}
+  /* The frost was a second <video> of the same file — two downloads per card. It is now
+     the poster the card already loads, painted once as a background. */
+  .media::before{content:"";position:absolute;inset:0;z-index:0;
+    background-image:var(--poster);background-size:cover;background-position:center;
+    transform:scale(1.25);filter:blur(34px) saturate(1.15);}
   .media::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
     background:linear-gradient(rgba(255,255,255,0.02),rgba(0,0,0,0.14));}
   /* sharp creative, contained, butted against the bottom over the frost */
@@ -246,13 +282,15 @@
   /* Non-uniform on purpose: title and role are a pair, so role hugs the title (.14rem),
      then the description breaks to its own register with a wider gap (.7rem). Tight-then-
      open beats the old even .3/.4 ladder, which read as three equal rows. */
-  .c1 .t{color:var(--ink);font-weight:400;} .c1 .m{color:var(--sw3);margin-top:.14rem;}
+  .c1 .t{color:var(--ink);font-weight:400;font-size:.88rem;line-height:1.24;}
+  .c1 .m{color:var(--sw3);margin-top:.2rem;font-size:.76rem;}
   /* Description on the prose ladder — the text serif carries the sentence copy while Diatype
      holds the labels above it. Same size and leading as the rail bio and the CV bio, so all
      three read as one voice; only the column width changes. Tracking goes to zero (the
      .005em was propping up a display face that had no business at this size). */
-  .c1 .d{color:var(--prose-ink);display:block;margin-top:var(--prose-gap);font-size:var(--prose);
-    font-family:var(--serif);font-weight:300;letter-spacing:0;line-height:var(--prose-lh);}
+  .c1 .d{color:var(--prose-ink);display:block;margin-top:var(--prose-gap);
+    font-size:clamp(.86rem,.78rem + .24vw,.99rem);
+    font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.4;}
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -261,6 +299,7 @@
   .side{position:sticky;top:0;height:100vh;width:280px;flex-shrink:0;
     border-right:1px dotted var(--line);padding:var(--gut) var(--gut);
     display:flex;flex-direction:column;gap:1.25rem;z-index:10;}
+  .brand-h1{margin:0;font-size:inherit;font-weight:inherit;line-height:0;}
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp.
      Two artworks, not one tinted: the dark mark is its own file. */
@@ -390,6 +429,9 @@
     border-bottom:1px dotted var(--line-soft);}
   .cv .row:last-child{border-bottom:0;}
   .cv .row .nm{color:var(--ink);}
+  .cv .donate{margin-left:.6rem;font-family:var(--sans);font-size:.68rem;color:var(--sw3);border-bottom:1px dotted var(--line);}
+  .cv .donate:hover{color:var(--accent);}
+  .cv .donate .ext{font-size:0;}
   .cv .row .yr{color:var(--sw3);font-family:var(--sans);font-size:.72rem;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:.03em;}
   .cv .row .ctx{color:var(--sw3);font-family:var(--sans);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
   .cv .sub{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
@@ -397,7 +439,7 @@
   /* The rail eats a fixed 280px, so three columns run out of room long before the phone
      breakpoint. Step down to two while the plates can still read. */
   @media(max-width:1240px){ .layout{grid-template-columns:repeat(2,1fr);} }
-  @media(max-width:900px){ .cv .sec{grid-template-columns:1fr;gap:.7rem;} h1{font-size:2.4rem;}
+  @media(max-width:900px){ .cv .sec{grid-template-columns:1fr;gap:.7rem;} .wmname{font-size:2.4rem;}
     /* one across on narrow — two 16/9 plates side by side would be postage stamps */
     .layout{max-width:100%;grid-template-columns:1fr;gap:2.6rem;}
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
@@ -448,9 +490,9 @@ document.documentElement.className+=' js';
 <body>
   <div class="app">
     <aside class="side">
-      <a class="brand" href="/"><img class="mk-l" src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="Renaise" width="52" height="52" /></a>
+      <h1 class="brand-h1"><a class="brand" href="/" aria-label="Renaise Kim, home"><img class="mk-l" src="/assets/icon-192.png" alt="" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="" width="52" height="52" /><span class="sr">Renaise Kim · Visual Systems</span></a></h1>
       <section class="statement">
-        <h2>Renaise is a brand + product designer in New York, eight years across culture + venture: consumer media, creative tools, deep tech.</h2>
+        <p>Renaise gives form to the knowledge inside a brand, turning its ideas, processes, and points of view into visual systems. Her practice shapes individual artifacts, then links them so the same thinking carries across identity, product, web, and physical experience.</p>
       </section>
       <!-- Filters the work grid in place. Hidden without JS, since a search field that
            cannot search is worse than no field. -->
@@ -459,62 +501,72 @@ document.documentElement.className+=' js';
           autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
         </div>
       </form>
-      <div class="mq"><div class="mq-t"><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a></div></div>
-      <a class="dn" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate to Artifice ↗</a>
+      <div class="mq" aria-hidden="true"><div class="mq-t"><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span></div></div>
+      <a class="dn" href="mailto:krenaise@gmail.com?subject=Starting%20a%20project">Start a project</a>
       <div class="acts">
         <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
         <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
         <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
         <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
         <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
-        <div class="foot"><div class="clock" id="clock"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
+        <div class="foot"><div class="clock" id="clock" aria-label="Current time in New York"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
     </aside>
 
     <main class="wrap">
     <section class="card" id="work">
+      <div class="filters" role="group" aria-label="Filter work by kind">
+        <button type="button" data-cat="all" aria-pressed="true">All<span class="n">10</span></button>
+        <button type="button" data-cat="identity" aria-pressed="false">Identity<span class="n">6</span></button>
+        <button type="button" data-cat="product" aria-pressed="false">Product<span class="n">4</span></button>
+        <button type="button" data-cat="web" aria-pressed="false">Web<span class="n">6</span></button>
+        <button type="button" data-cat="tools" aria-pressed="false">Tools<span class="n">1</span></button>
+        <button type="button" data-cat="physical" aria-pressed="false">Physical<span class="n">1</span></button>
+        <button type="button" data-cat="research" aria-pressed="false">Research<span class="n">2</span></button>
+      </div>
+      <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="layout">
       
 
-      <a class="proj" data-slug="studio-artifice" href="https://studioartifice.com" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><img class="sys" src="/stage/studio-artifice/system.jpg" alt="The studio site further in, the mark recombined on another surface" loading="lazy"><span class="tag">Studio + Site</span></div>
-        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="d">Built the studio's own worldsite on the system it sells, with one mark that recombines across every surface the practice appears on.</span></div></div>
+      <a class="proj" data-slug="studio-artifice" data-cat="identity web" href="https://studioartifice.com">
+        <div class="media" style="--poster:url(/stage/studio-artifice/cover.jpg)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><img class="sys" src="/stage/studio-artifice/system.jpg" alt="The studio site further in, the mark recombined on another surface" loading="lazy"><span class="tag">Studio + Site</span></div>
+        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="ext">Opens studioartifice.com</span><span class="d">The studio's own worldsite, built on the system it sells. One mark recombines across every surface the practice appears on.</span></div></div>
       </a>
-      <a class="proj" data-slug="the-artifact-index" href="https://index.artificenyc.org" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/the-artifact-index/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/the-artifact-index/cover.jpg"></video><img class="sys" src="/stage/the-artifact-index/system.jpg" alt="The Artifact Index filtered to BLACKBOX, the grid regrouped" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Designed a public archive that keeps every artifact's people, materials + revisions attached to the record, and an open intake anyone can send work to.</span></div></div>
+      <a class="proj" data-slug="the-artifact-index" data-cat="research web product" href="https://index.artificenyc.org">
+        <div class="media" style="--poster:url(/stage/the-artifact-index/cover.jpg)"><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" muted loop playsinline preload="none" poster="/stage/the-artifact-index/cover.jpg"></video><img class="sys" src="/stage/the-artifact-index/system.jpg" alt="The Artifact Index filtered to BLACKBOX, the grid regrouped" loading="lazy"><span class="tag">Product</span></div>
+        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="ext">Opens index.artificenyc.org</span><span class="d">Every artifact keeps its people, materials + revisions attached to the record, and an open intake means anyone can send work in.</span></div></div>
       </a>
-      <a class="proj" data-slug="idler" href="https://studioartifice.com/work/idler/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><img class="sys" src="/stage/idler/system.jpg" alt="The cube resolved to a different arrangement" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
+      <a class="proj" data-slug="idler" data-cat="identity web" href="https://studioartifice.com/work/idler/">
+        <div class="media" style="--poster:url(/stage/idler/cover.jpg)"><video class="cover fill" src="/stage/idler/cover.mp4" muted loop playsinline preload="none" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><img class="sys" src="/stage/idler/system.jpg" alt="The cube resolved to a different arrangement" loading="lazy"><span class="tag">Identity + Site</span></div>
+        <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="ext">Opens studioartifice.com</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
       </a>
-      <a class="proj" data-slug="soot" href="/work/soot/">
-        <div class="media"><video class="bg" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/soot/cover.jpg"></video><img class="sys" src="/stage/soot/system.jpg" alt="The library mid-search, reorganising by content" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Designed the interaction model for a visual vector database, replacing folders with a spatial field you search, group + publish from.</span></div></div>
+      <a class="proj" data-slug="soot" data-cat="product" href="/work/soot/">
+        <div class="media" style="--poster:url(/stage/soot/cover.jpg)"><video class="cover fill" src="/stage/soot/cover.mp4" muted loop playsinline preload="none" poster="/stage/soot/cover.jpg"></video><img class="sys" src="/stage/soot/system.jpg" alt="The library mid-search, reorganising by content" loading="lazy"><span class="tag">Product</span></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Folders gave way to a spatial field. Vector search sorts thousands of files by what they contain, and the interface had to make that legible.</span></div></div>
       </a>
-      <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/lighthouse/cover.jpg"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="The talent side of the product, landing engineers and founders" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Designed a two-sided visa product: a talent-facing application + the enterprise stack the hiring company runs it through.</span></div></div>
+      <a class="proj" data-slug="lighthouse" data-cat="product web identity" href="https://studioartifice.com/work/lighthouse/">
+        <div class="media" style="--poster:url(/stage/lighthouse/cover.jpg)"><video class="cover fill" src="/stage/lighthouse/cover.mp4" muted loop playsinline preload="none" poster="/stage/lighthouse/cover.jpg"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="The talent side of the product, landing engineers and founders" loading="lazy"><span class="tag">Identity + Site</span></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="ext">Opens studioartifice.com</span><span class="d">Two audiences, one system: a talent-facing visa application, and the enterprise stack the hiring company runs it through.</span></div></div>
       </a>
-      <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><img class="sys" src="/stage/osmosis/system.jpg" alt="The platform sections below the hero" loading="lazy"><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="d">Directed an identity drawn from Huang Gongwang's Fuchun Mountains, carrying mist, water + stone into one brush-and-wash system.</span></div></div>
+      <a class="proj" data-slug="osmosis" data-cat="identity web" href="https://studioartifice.com/work/osmosis/">
+        <div class="media" style="--poster:url(/stage/osmosis/cover.jpg)"><video class="cover fill" src="/stage/osmosis/cover.mp4" muted loop playsinline preload="none" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><img class="sys" src="/stage/osmosis/system.jpg" alt="The platform sections below the hero" loading="lazy"><span class="tag">Identity + Site</span></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="ext">Opens studioartifice.com</span><span class="d">Huang Gongwang's Fuchun Mountains, carried into a brush-and-wash identity where mist, water + stone read as one porous system.</span></div></div>
       </a>
-      <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/industrial-lighting/cover.jpg"></video><span class="tag">Global Site</span></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Designer</span><span class="d">Designed the system the catalog is built from: components, page templates + the type and colour rules every market page assembles out of.</span></div></div>
+      <a class="proj" data-slug="industrial-lighting" data-cat="identity web" href="https://studioartifice.com/work/industrial-lighting/">
+        <div class="media" style="--poster:url(/stage/industrial-lighting/cover.jpg)"><video class="cover fill" src="/stage/industrial-lighting/cover.mp4" muted loop playsinline preload="none" poster="/stage/industrial-lighting/cover.jpg"></video><span class="tag">Global Site</span></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Designer</span><span class="ext">Opens studioartifice.com</span><span class="d">Designed the system the catalog is built from: components, page templates + the type and colour rules every market page assembles out of.</span></div></div>
       </a>
-      <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="Further into the Veo site" loading="lazy"><span class="tag">Creative Production · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">Directed an immersive projection for an AI film festival, working with six invited creative directors on Veo 3.</span></div></div>
+      <a class="proj" data-slug="depictions-of-original-sin" data-cat="physical" href="https://studioartifice.com/work/depictions-of-original-sin/">
+        <div class="media" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="Further into the Veo site" loading="lazy"><span class="tag">Creative Production · In Progress</span></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="ext">Opens studioartifice.com</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
       </a>
-      <a class="proj" data-slug="artifice-brand" href="https://brand.artificenyc.org" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
-        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">Wrote the identity for a curatorial research organization as a living spec: carbon + chalk, a single accent, one document that updates as the work does.</span></div></div>
+      <a class="proj" data-slug="artifice-brand" data-cat="identity research" href="https://brand.artificenyc.org">
+        <div class="media" style="--poster:url(/stage/artifice-brand/cover.jpg)"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
+        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="ext">Opens brand.artificenyc.org</span><span class="d">A living spec for a curatorial research organization. Carbon + chalk, a single accent, one document that updates as the work does.</span></div></div>
       </a>
-      <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="A different primitive loaded on the same scene" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser tool for composing objects, tuning materials and scenes live, and exporting a self-contained embed.</span></div></div>
+      <a class="proj" data-slug="artifactory" data-cat="tools product" href="https://artifactory.pages.dev">
+        <div class="media" style="--poster:url(/stage/artifactory/cover.jpg)"><video class="cover fill" src="/stage/artifactory/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="A different primitive loaded on the same scene" loading="lazy"><span class="tag">Product</span></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="ext">Opens artifactory.pages.dev</span><span class="d">Compose objects, tune materials and scenes live, then export a self-contained embed. A browser tool for people who art-direct in 3D.</span></div></div>
       </a>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
@@ -523,7 +575,7 @@ document.documentElement.className+=' js';
     <section class="card" id="about">
       <div class="about">
         <div class="wm">
-          <h1><a href="https://rencap.pages.dev" target="_blank" rel="noopener">R<span class="k-re">e</span>na<span class="k-ai">i</span>se</a></h1>
+          <p class="wmname">R<span class="k-re">e</span>na<span class="k-ai">i</span>se</p>
           <span class="pn">She/Her</span>
         </div>
         <div class="spacer"></div>
@@ -555,7 +607,7 @@ document.documentElement.className+=' js';
             <div class="body">
               <div class="row"><span class="nm">Fictive Kin</span><span class="ctx">Present</span></div>
               <div class="row"><span class="nm">Codex Foundry</span><span class="ctx">Founder · 2024</span></div>
-              <div class="row"><span class="nm">Artifice NYC</span><span class="ctx">Creative Director · 2024</span></div>
+              <div class="row"><span class="nm">Artifice NYC <a class="donate" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate<span class="ext"> Opens artificenyc.org</span></a></span><span class="ctx">Creative Director · 2024</span></div>
               <div class="row"><span class="nm">Studio Artifice</span><span class="ctx">Founding Designer · 2023</span></div>
               <div class="sub">Previously</div>
               <div class="row prior"><span class="nm">Vokal Interactive</span></div>
@@ -624,7 +676,7 @@ document.documentElement.className+=' js';
   function tick(){ try{
     var d=new Date(), p=n=>String(n).padStart(2,'0');
     document.getElementById('clock').textContent =
-      d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes());
+      d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate())+" "+p(d.getHours())+":"+p(d.getMinutes())+" NY";
   }catch(e){} }
   tick(); setInterval(tick,15000);
 
@@ -702,7 +754,11 @@ document.documentElement.className+=' js';
       for(var t=0;t<tokens.length;t++){
         var tok=tokens[t];
         for(var j=0;j<index[i].length;j++){
-          if(index[i][j].indexOf(tok)===0 || tok.indexOf(index[i][j])===0 && index[i][j].length>3){ n++; break; }
+          var idx=index[i][j];
+          // idx starts with the query (brand -> branding), or the query is that token plus
+          // a short suffix (markets -> market). A longer tail is a different word, not a stem:
+          // without the bound, "osmosiszzz" matched "osmosis".
+          if(idx.indexOf(tok)===0 || (tok.indexOf(idx)===0 && idx.length>3 && tok.length-idx.length<=3)){ n++; break; }
         }
       }
       return n;
@@ -731,11 +787,10 @@ document.documentElement.className+=' js';
       var raw=q.value.trim(), tokens=norm(raw), n=0;
       for(var i=0;i<cards.length;i++){
         var hit = !tokens.length || hits(tokens,i)===tokens.length;
-        cards[i].hidden = !hit;
-        if(hit){ n++; cards[i].classList.add('in'); paint(cards[i], raw); }
-        else paint(cards[i], '');
+        cards[i].setAttribute('data-q', hit ? '1' : '0');
+        paint(cards[i], hit ? raw : '');
       }
-      if(none) none.hidden = !(raw && n===0);
+      if(window.__applyWork) window.__applyWork();
     }
     function clear(){ q.value=''; run(); }
     q.addEventListener('input',run);
@@ -744,22 +799,76 @@ document.documentElement.className+=' js';
     });
   })();
 
-  // Only decode what's on screen. Every .media holds a blurred .bg copy plus a .cover,
-  // and a 34px blur re-rasterised each frame across all of them is what makes scrolling
-  // stutter. Pause offscreen, resume just before they enter view. Runs after smoothLoop
-  // so the cloned crossfade copies are already in the DOM and get observed too.
-  // Videos keep their autoplay attribute, so with no JS the page behaves exactly as before.
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        e.target.querySelectorAll('video').forEach(function(v){
-          if(e.isIntersecting) v.play().catch(function(){});
-          else v.pause();
+  // ── Media policy ────────────────────────────────────────────────────────
+  // One video per card, nothing preloaded, poster showing until playback is allowed.
+  // Playback is allowed when the card is on screen AND the viewport is not small AND
+  // the reader has not asked for reduced motion. Small screens and reduced-motion
+  // sessions stay on the poster unless the reader hovers or taps the card.
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var small  = window.matchMedia && window.matchMedia('(max-width:900px)').matches;
+    var autoOK = !reduce && !small;
+
+    function play(v){
+      if(!v) return;
+      if(v.preload==='none'){ v.preload='auto'; v.load(); }
+      var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){});
+    }
+    function stop(v){ if(v && !v.paused) v.pause(); }
+
+    document.querySelectorAll('#work .proj').forEach(function(card){
+      var v=card.querySelector('video'); if(!v) return;
+      // hover or touch is an explicit request, honoured at any size
+      card.addEventListener('pointerenter',function(){ if(!reduce) play(v); });
+      card.addEventListener('pointerleave',function(){ if(!autoOK) stop(v); });
+    });
+
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          var v=e.target.querySelector('video'); if(!v) return;
+          if(e.isIntersecting){ if(autoOK) play(v); }
+          else stop(v);
         });
+      },{rootMargin:'200px 0px'});
+      document.querySelectorAll('#work .proj').forEach(function(c){ io.observe(c); });
+    } else if(autoOK){
+      document.querySelectorAll('#work .proj video').forEach(play);
+    }
+  })();
+
+  // ── Filters ─────────────────────────────────────────────────────────────
+  // Filter and search compose: the grid shows what satisfies both.
+  (function(){
+    var bar=document.querySelector('.filters'); if(!bar) return;
+    var cards=[].slice.call(document.querySelectorAll('#work .proj'));
+    var status=document.getElementById('status');
+    var none=document.getElementById('none');
+    window.__cat='all';
+    window.__applyWork=function(){
+      var cat=window.__cat, n=0;
+      cards.forEach(function(c){
+        var inCat = cat==='all' || (' '+(c.getAttribute('data-cat')||'')+' ').indexOf(' '+cat+' ')>-1;
+        var inQuery = c.getAttribute('data-q')!=='0';
+        var show = inCat && inQuery;
+        c.hidden=!show; if(show){ n++; c.classList.add('in'); }
       });
-    },{rootMargin:'300px 0px'});
-    document.querySelectorAll('.media').forEach(function(m){ io.observe(m); });
-  }
+      if(none) none.hidden = n!==0;
+      if(status) status.textContent = n===0
+        ? 'No projects match.'
+        : n+' of '+cards.length+' projects shown.';
+      return n;
+    };
+    bar.addEventListener('click',function(e){
+      var btn=e.target.closest('button'); if(!btn) return;
+      window.__cat=btn.getAttribute('data-cat');
+      bar.querySelectorAll('button').forEach(function(b){
+        b.setAttribute('aria-pressed', String(b===btn));
+      });
+      window.__applyWork();
+    });
+    window.__applyWork();
+  })();
 </script>
 
 <!-- ── Showroom order, driven by the Seance CMS ──────────────────────────────
