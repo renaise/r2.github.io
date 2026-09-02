@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-dark-32.png" media="(prefers-color-scheme:dark)" />
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon-dark-16.png" media="(prefers-color-scheme:dark)" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-<meta name="theme-color" content="#ebebeb" />
+<meta name="theme-color" content="#161718" />
 <meta name="description" content="Brand + product designer in New York with 8 years across culture + venture: consumer media, creative tools, deep tech." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://renaise.com/" />
@@ -46,11 +46,14 @@
      render with the same UA dot algorithm and read as one family. Pitch is the browser's
      and cannot be spaced — that is the trade for matching the track exactly.
      --tile stays dark in both themes: it backs the plates, composed for a dark ground. */
+  /* Dark is the page. Light is a choice the reader makes, not a preference the OS makes
+     for them, so there is no prefers-color-scheme branch any more: without JS the page is
+     dark, and the switch is the only thing that changes it. */
   :root{
-    --ink:#5c5c5c;
-    --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
-    --accent:#2e2e2e; --bg1:#e9e9e9; --tile:#101010;
-    --line:rgba(92,92,92,0.42);
+    --ink:#b0b0b0;
+    --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
+    --accent:#ffffff; --bg1:#161718; --tile:#101010;
+    --line:rgba(176,176,176,0.42);
     /* One gutter for the whole frame: rail padding, card spread, and the first
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
@@ -88,24 +91,12 @@
      under the plates) through #272727 and #252627 to here. Ink holds at #b0b0b0, so going
      darker only buys contrast back — body now sits at ~9.6:1.
      --tile is unchanged — the plates are dark in both themes by design. */
-  :root[data-theme="dark"] h1{color:var(--sw4);}
-  :root[data-theme="dark"]{
-    --ink:#b0b0b0;
-    --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
-    --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
-    --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
-    --prose-ink:rgba(176,176,176,0.78);
-  }
-  /* No stored choice: follow the OS. An explicit [data-theme] always wins over this. */
-  @media(prefers-color-scheme:dark){
-    :root:not([data-theme]) h1{color:var(--sw4);}
-    :root:not([data-theme]){
-      --ink:#b0b0b0;
-      --sw2:rgba(176,176,176,0.90); --sw3:rgba(176,176,176,0.72); --sw4:rgba(176,176,176,0.58);
-      --accent:#ffffff; --bg1:#161718; --line:rgba(176,176,176,0.42);
-      --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
-      --prose-ink:rgba(176,176,176,0.78);
-    }
+  :root[data-theme="light"]{
+    --ink:#5c5c5c;
+    --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
+    --accent:#2e2e2e; --bg1:#e9e9e9; --line:rgba(92,92,92,0.42);
+    --chip:#f6f6f6; --chip-ink:#1a1a1a;
+    --prose-ink:rgba(92,92,92,0.78);
   }
   *{box-sizing:border-box;}
   /* anchor jumps ease instead of cutting; no fixed bar now, so only the mobile rail to clear */
@@ -155,10 +146,12 @@
   /* The wordmark reads dark on the light page and stays recessive on the dark one, so it
      is the only element whose ink does not simply invert with the theme. */
   h1{font-family:var(--display);font-weight:300;
-    font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--accent);
+    font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
     letter-spacing:-.042em;font-kerning:normal;font-feature-settings:"kern" 1;
     margin:0;text-transform:none;white-space:nowrap;
     width:max-content;max-width:none;}
+  /* recessive on the dark page it now defaults to, dark on the light one */
+  :root[data-theme="light"] h1{color:var(--accent);}
   h1 a{color:inherit;}
   /* The pair corrections. Applied to the letter that follows the gap, so each value reads
      as "close this pair by n", and in em so they scale with the clamp. */
@@ -187,13 +180,6 @@
   .find input:focus{outline:0;}
   .find-in:focus-within{border-bottom-color:var(--sw2);}
   .find input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;}
-  .qx{appearance:none;background:transparent;border:0;cursor:pointer;padding:0 .1rem;
-    font-family:var(--sans);font-size:.8rem;line-height:1;color:var(--sw4);}
-  .qx:hover{color:var(--accent);}
-  .qx:focus-visible{outline:1px dotted var(--accent);outline-offset:2px;}
-  /* Result count, on the micro-label step the rest of the page uses for meta. */
-  .qn{margin:.4rem 0 0;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--sw4);font-variant-numeric:tabular-nums;}
   .none{font-family:var(--serif);font-size:var(--prose);color:var(--prose-ink);margin:0;}
   /* .proj sets display:block, which would otherwise beat the hidden attribute */
   .proj[hidden]{display:none;}
@@ -451,7 +437,7 @@ document.documentElement.className+=' js';
   var t;
   try{ t=localStorage.getItem('theme'); }catch(e){}
   if(t!=='dark'&&t!=='light'){
-    t=(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';
+    t='dark';   // dark is the default; light is chosen, never inferred
   }
   document.documentElement.setAttribute('data-theme',t);
 })();
@@ -469,9 +455,7 @@ document.documentElement.className+=' js';
       <form class="find" role="search" onsubmit="return false">
         <div class="find-in"><input id="q" type="search" placeholder="Search work" maxlength="24"
           autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
-          <button id="qx" class="qx" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
-        <p class="qn" id="qn" role="status" aria-live="polite" hidden></p>
       </form>
       <div class="mq"><div class="mq-t"><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a><a class="ent" style="--m:url(/assets/ent-codex.png);width:12px" href="https://codexfoundry.com" target="_blank" rel="noopener" aria-label="Codex Foundry"></a><a class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" href="https://artificenyc.org" target="_blank" rel="noopener" aria-label="Artifice NYC"></a><a class="ent" style="--m:url(/assets/ent-studio.png);width:24px" href="https://studioartifice.com" target="_blank" rel="noopener" aria-label="Studio Artifice"></a></div></div>
       <a class="dn" href="https://artificenyc.org/?donate=1" target="_blank" rel="noopener">Donate to Artifice ↗</a>
@@ -740,8 +724,7 @@ document.documentElement.className+=' js';
         el.textContent=''; el.appendChild(frag);
       });
     }
-    var qx=document.getElementById('qx'), qn=document.getElementById('qn'),
-        none=document.getElementById('none');
+    var none=document.getElementById('none');
     function run(){
       var raw=q.value.trim(), tokens=norm(raw), n=0;
       for(var i=0;i<cards.length;i++){
@@ -750,13 +733,10 @@ document.documentElement.className+=' js';
         if(hit){ n++; cards[i].classList.add('in'); paint(cards[i], raw); }
         else paint(cards[i], '');
       }
-      if(qx) qx.hidden = !raw;
-      if(qn){ qn.hidden = !raw; qn.textContent = raw ? n + ' of ' + cards.length : ''; }
       if(none) none.hidden = !(raw && n===0);
     }
     function clear(){ q.value=''; run(); }
     q.addEventListener('input',run);
-    if(qx) qx.addEventListener('click',function(){ clear(); q.focus(); });
     q.addEventListener('keydown',function(e){
       if(e.key==='Escape'){ clear(); q.blur(); }
     });
