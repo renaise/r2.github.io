@@ -362,10 +362,6 @@
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
   .acts .foot{grid-column:1 / -1;}
-  /* The strip now runs the main column. Its track is width:max-content, and in the
-     stacked (column-flex) layout the cross axis has no min-width:auto to stop it, so main
-     sized itself to the track and the page scrolled sideways. Clamp both. */
-  main > .mq{margin-top:clamp(2rem,5vw,3.2rem);width:100%;max-width:100%;overflow:hidden;}
   /* Drawn, not set. The glyph was falling out of Diatype to whatever face had it, and a
      font arrow puts its terminals square to the diagonal. These are cut on the axes.
      Centred on the text's optical middle rather than its baseline. */
@@ -458,28 +454,17 @@
      face, same size, same leading as the rail bio and the card descriptions. */
   .cv .body p{margin:0 0 var(--prose-gap);max-width:none;font-family:var(--serif);font-weight:300;
     font-size:var(--prose);line-height:var(--prose-lh);color:var(--prose-ink);}
-  /* marks marquee above the statement. Track = the run duplicated, so -50% is seamless.
-     Decorative only, and out of the keyboard order entirely. */
   /* The rail is a flex column with a 1.9rem gap, so margin-top alone can never bring this
      under 30px. The negative margin cancels that gap and parks the run just under the
      statement's dotted rule. */
   /* The rule rides the marquee, not the statement above it: the mask below fades the whole
      element, border included, so the line dies out exactly where the marks do. On the
      statement it was a hard-ended border under a fading track, which read as a mismatch. */
-  .mq{overflow:hidden;margin-top:.15rem;padding-top:10px;
-    -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-    mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
-  .mq-t{display:flex;align-items:center;width:max-content;
-    animation:mq 110s linear infinite;}
   /* margin, not gap: every cell is width+margin, so half the track is a whole number of
      pattern periods and -50% lands copy 2 exactly on copy 1. */
-  .mq .ent{flex:none;height:12px;margin-right:12px;}
-  @keyframes mq{from{transform:translateX(0);} to{transform:translateX(-50%);}}
-  @media(prefers-reduced-motion:reduce){ .mq-t{animation:none;} }
+  .mq .ent{flex:none;height:12px;margin-right:12px;} to{transform:translateX(-50%);}}
   /* entity marks under the bio — each logo is a mask filled with the ink, so a black
      source and a white source both land in the theme colour */
-  .ent{display:block;height:18px;background-color:var(--sw3);transition:background-color .2s;
-    -webkit-mask:var(--m) no-repeat center/contain;mask:var(--m) no-repeat center/contain;}
   .ent:hover{background-color:var(--ink);}
   .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
   .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;
@@ -494,6 +479,7 @@
      breakpoint. Step down to two while the plates can still read. */
   @media(max-width:1240px){ .layout{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:900px){ .cv .sec{grid-template-columns:1fr;gap:.7rem;} .wmname{font-size:2.4rem;}
+    .wm .fnref sup{font-size:.6rem;}
     /* one across on narrow — two 16/9 plates side by side would be postage stamps */
     .layout{max-width:100%;grid-template-columns:1fr;gap:2.6rem;}
     /* rail unpins and becomes a stacked header; it can't be 100vh tall on a phone */
@@ -505,7 +491,7 @@
        .foot into the rail's own flex flow, where order can interleave them with .dn. It
        also keeps .foot spanning the rail rather than only .acts' share of the row. */
     .side{flex-flow:row wrap;align-items:center;}
-    .statement,.mq,.find,.filters{flex:1 0 100%;}
+    .statement,.find,.filters{flex:1 0 100%;}
     .acts{display:contents;}
     .acts a{font-size:.72rem;letter-spacing:0;}
     .acts a{order:2;}
@@ -664,7 +650,6 @@ document.documentElement.className+=' js';
         </div>
       </div>
     </section>
-      <div class="mq" aria-hidden="true"><div class="mq-t"><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span></div></div>
       <footer class="notes">
         <div class="note" id="fn1">
           <a class="mk" href="#fnref1" aria-label="Back to the statement">[&#8202;1&#8202;]</a>
