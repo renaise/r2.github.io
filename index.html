@@ -76,12 +76,13 @@
        be taken out of the face, so it comes out of the ink. Lands at 3.55:1 on the light
        ground and 5.48:1 on the dark. Below the 4.5:1 AA floor in light mode; the card
        descriptions were already at 2.42:1, so this raises them and lightens the other two. */
-    --prose-ink:rgba(92,92,92,0.78);
-    /* The CV chip follows the theme rather than sitting at one fixed value: light plate
-       and dark label here, dark plate and light label in dark mode. The dotted rule on it
-       is what separates the chip from the page in both directions, since a light chip on a
-       light ground and a dark chip on a dark ground both need the edge drawn for them. */
-    --chip:#f6f6f6; --chip-ink:#1a1a1a;
+    --prose-ink:rgba(176,176,176,0.78);
+    /* The CV chip follows the theme: dark plate + light label on the dark page, inverted
+       on the light one. The dotted rule is what separates it from the ground either way. */
+    --chip:#0e0e0f; --chip-ink:rgba(255,255,255,0.92);
+    /* Sub-rules — the per-row dividers in the CV — sit at half the weight of a section
+       rule. At full --line, a ledger of twenty rows reads as a grid rather than a list. */
+    --line-soft:rgba(176,176,176,0.18);
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Ink #b0b0b0 on near-black #161718. The ground carries one point of blue over red (R=22
@@ -96,6 +97,7 @@
     --sw2:rgba(92,92,92,0.90); --sw3:rgba(92,92,92,0.72); --sw4:rgba(92,92,92,0.58);
     --accent:#2e2e2e; --bg1:#e9e9e9; --line:rgba(92,92,92,0.42);
     --chip:#f6f6f6; --chip-ink:#1a1a1a;
+    --line-soft:rgba(92,92,92,0.18);
     --prose-ink:rgba(92,92,92,0.78);
   }
   *{box-sizing:border-box;}
@@ -385,7 +387,7 @@
   .ent:hover{background-color:var(--ink);}
   .cv .links{display:flex;flex-wrap:wrap;gap:1.6rem;}
   .cv .row{display:flex;justify-content:space-between;gap:1.4rem;padding:.5rem 0;
-    border-bottom:1px dotted var(--line);}
+    border-bottom:1px dotted var(--line-soft);}
   .cv .row:last-child{border-bottom:0;}
   .cv .row .nm{color:var(--ink);}
   .cv .row .yr{color:var(--sw3);font-family:var(--sans);font-size:.72rem;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:.03em;}
