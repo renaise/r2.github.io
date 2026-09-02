@@ -227,7 +227,7 @@
     object-fit:contain;object-position:center bottom;padding:6% 6% 0;background:transparent;}
   /* medium as a label ON the plate, out of the text stack. The plate is dark in both
      themes, so the label is light regardless of --ink. */
-  .media .tag{position:absolute;z-index:3;left:.55rem;top:.5rem;font-size:.62rem;
+  .media .tag{position:absolute;z-index:3;left:.55rem;bottom:.5rem;font-size:.62rem;
     letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92);
     padding:.22rem .4rem .18rem;border-radius:3px;pointer-events:none;
     background:rgba(10,10,10,.32);backdrop-filter:blur(10px) saturate(1.2);
@@ -288,7 +288,7 @@
   .acts a .ar{opacity:0;transition:opacity .25s ease;font-size:1em;}
   .acts a:hover .ar{opacity:1;}
   @media(prefers-reduced-motion:reduce){ .acts a .ar{transition:none;} }
-  .acts a{font-family:var(--sans);font-size:1.44rem;line-height:1.05;letter-spacing:-.02em;
+  .acts a{font-family:var(--sans);font-size:1.44rem;line-height:1.05;letter-spacing:-.02em;white-space:nowrap;
     color:var(--sw2);text-decoration:none;transition:color .2s;}
   .acts a:hover{color:var(--ink);}
   /* Theme switch. Built from a dotted track so it speaks the same language as every other
@@ -446,10 +446,9 @@ document.documentElement.className+=' js';
 </script>
 </head>
 <body>
-  <a id="top"></a>
   <div class="app">
     <aside class="side">
-      <a class="brand" href="#top"><img class="mk-l" src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="Renaise" width="52" height="52" /></a>
+      <a class="brand" href="/"><img class="mk-l" src="/assets/icon-192.png" alt="Renaise" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="Renaise" width="52" height="52" /></a>
       <section class="statement">
         <h2>Renaise is a brand + product designer in New York, eight years across culture + venture: consumer media, creative tools, deep tech.</h2>
       </section>
@@ -477,47 +476,47 @@ document.documentElement.className+=' js';
     <main class="wrap">
     <section class="card" id="work">
       <div class="layout">
-      <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser tool for composing objects, tuning materials and scenes live, and exporting a self-contained embed.</span></div></div>
-      </a>
-      <a class="proj" data-slug="soot" href="/work/soot/">
-        <div class="media"><video class="bg" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/soot/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Vector search sorts thousands of files by what they contain, so the interface retires the folder for a space you move through.</span></div></div>
+      
+
+      <a class="proj" data-slug="studio-artifice" href="https://studioartifice.com" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><span class="tag">Studio + Site</span></div>
+        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="d">Built the studio's own worldsite on the system it sells, with one mark that recombines across every surface the practice appears on.</span></div></div>
       </a>
       <a class="proj" data-slug="the-artifact-index" href="https://index.artificenyc.org" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/the-artifact-index/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/the-artifact-index/cover.jpg"></video><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Every artifact carries its provenance, so the archive can be cited rather than only browsed.</span></div></div>
-      </a>
-      <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="d">A brush-and-wash lineage after Huang Gongwang's Fuchun Mountains: mist, water, and stone as one porous system.</span></div></div>
-      </a>
-      <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/industrial-lighting/cover.jpg"></video><span class="tag">Global Site</span></div>
-        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><span class="d">Spec sheets rewritten as a catalog that sells on what the light does.</span></div></div>
-      </a>
-      <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/lighthouse/cover.jpg"></video><span class="tag">Identity + Site</span></div>
-        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">A visa product for the person moving + an enterprise stack for the company hiring them. The pitch is recruiting, not compliance.</span></div></div>
-      </a>
-      <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><span class="tag">Creative Production · In Progress</span></div>
-        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">An immersive projection for an AI film festival, made with six invited creative directors on Veo 3.</span></div></div>
-      </a>
-      
-
-      <a class="proj" data-slug="artifice-brand" href="https://brand.artificenyc.org" target="_blank" rel="noopener">
-        <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
-        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">Carbon + chalk against a single accent, with the whole system stated in one document that changes as the work does.</span></div></div>
-      </a>
-      <a class="proj" data-slug="studio-artifice" href="https://studioartifice.com" target="_blank" rel="noopener">
-        <div class="media"><video class="bg" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/studio-artifice/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><span class="tag">Studio + Site</span></div>
-        <div class="cols"><div class="c0"><b>Studio Artifice</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Strategic Visual Studio, Self-Presented</span><br><span class="m">Founder + Creative Director</span><span class="d">The studio's own worldsite, built on the system it sells: one mark that recombines across every surface it has to sit on.</span></div></div>
+        <div class="cols"><div class="c0"><b>The Artifact Index</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span><span class="d">Designed a public archive that records provenance with every artifact, so the work stays citable long after the show closes.</span></div></div>
       </a>
       <a class="proj" data-slug="idler" href="https://studioartifice.com/work/idler/" target="_blank" rel="noopener">
         <div class="media"><video class="bg" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/idler/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/idler/cover.jpg" aria-label="Idler AI, the generative cube mark resolving on the launch worldsite at idler.ai"></video><span class="tag">Identity + Site</span></div>
         <div class="cols"><div class="c0"><b>Idler</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Worldsite for Reinforcement Learning Environments</span><br><span class="m">Design Director</span><span class="d">Developed the identity and launch system for Idler, translating its agent-training environments into a visual language across brand, motion, and web.</span></div></div>
+      </a>
+      <a class="proj" data-slug="soot" href="/work/soot/">
+        <div class="media"><video class="bg" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/soot/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/soot/cover.jpg"></video><span class="tag">Product</span></div>
+        <div class="cols"><div class="c0"><b>SOOT</b><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Designed the interaction model for a visual vector database, replacing folders with a spatial field you search, group + publish from.</span></div></div>
+      </a>
+      <a class="proj" data-slug="lighthouse" href="https://studioartifice.com/work/lighthouse/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/lighthouse/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/lighthouse/cover.jpg"></video><span class="tag">Identity + Site</span></div>
+        <div class="cols"><div class="c0"><b>Lighthouse</b><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span><span class="d">Designed a two-sided visa product: a talent-facing application + the enterprise stack the hiring company runs it through.</span></div></div>
+      </a>
+      <a class="proj" data-slug="osmosis" href="https://studioartifice.com/work/osmosis/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/osmosis/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/osmosis/cover.jpg" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><span class="tag">Identity + Site</span></div>
+        <div class="cols"><div class="c0"><b>Osmosis</b><span class="yr">2025</span></div><div class="c1"><span class="t">Mist Permeation for RL/ML Identity</span><br><span class="m">Design Director</span><span class="d">Directed an identity drawn from Huang Gongwang's Fuchun Mountains, carrying mist, water + stone into one brush-and-wash system.</span></div></div>
+      </a>
+      <a class="proj" data-slug="industrial-lighting" href="https://studioartifice.com/work/industrial-lighting/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/industrial-lighting/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/industrial-lighting/cover.jpg"></video><span class="tag">Global Site</span></div>
+        <div class="cols"><div class="c0"><b>Aputure</b><span class="yr">2024</span></div><div class="c1"><span class="t">One Conversion System Across a Dozen Markets</span><br><span class="m">Designer</span><span class="d">Rewrote a spec-driven catalog into pages that sell on what the light does on set, on one template system that carries every market.</span></div></div>
+      </a>
+      <a class="proj" data-slug="depictions-of-original-sin" href="https://studioartifice.com/work/depictions-of-original-sin/" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><span class="tag">Creative Production · In Progress</span></div>
+        <div class="cols"><div class="c0"><b>Google Labs (Veo3)</b><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span><span class="d">Directed an immersive projection for an AI film festival, working with six invited creative directors on Veo 3.</span></div></div>
+      </a>
+      <a class="proj" data-slug="artifice-brand" href="https://brand.artificenyc.org" target="_blank" rel="noopener">
+        <div class="media"><img class="bg" src="/stage/artifice-brand/cover.jpg" alt="" aria-hidden="true"><img class="cover fill" src="/stage/artifice-brand/cover.jpg" alt="Artifice Brand Identity"><img class="sys" src="/stage/artifice-brand/system.jpg" alt="Artifice brand system: the mark family" loading="lazy"><span class="tag">Identity</span></div>
+        <div class="cols"><div class="c0"><b>Artifice Brand Identity</b><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span><span class="d">Wrote the identity for a curatorial research organization as a living spec: carbon + chalk, a single accent, one document that updates as the work does.</span></div></div>
+      </a>
+      <a class="proj" data-slug="artifactory" href="https://artifactory.pages.dev" target="_blank" rel="noopener">
+        <div class="media"><video class="bg" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="metadata"></video><video class="cover fill" src="/stage/artifactory/cover.mp4" autoplay muted loop playsinline preload="auto" poster="/stage/artifactory/cover.jpg"></video><span class="tag">Product</span></div>
+        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser tool for composing objects, tuning materials and scenes live, and exporting a self-contained embed.</span></div></div>
       </a>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
@@ -800,6 +799,13 @@ document.documentElement.className+=' js';
       d.projects.forEach(function(p){
         if(p&&p.slug) order[p.slug]=(p.order==null?1e9:p.order);
       });
+      // Only let the store reorder when it accounts for every card on the page. It
+      // currently carries neither studio-artifice, artifice-brand nor idler, and a
+      // partial order would sort those three to the end and undo the authored sequence.
+      var known=[].slice.call(layout.querySelectorAll('.proj')).every(function(el){
+        var sl=slugOf(el); return sl && order[sl]!=null;
+      });
+      if(!known) return;
       apply(order);
       try{ localStorage.setItem(CACHE,JSON.stringify(order)); }catch(e){}
     })
