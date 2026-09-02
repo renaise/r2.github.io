@@ -422,7 +422,7 @@
        also keeps .foot spanning the rail rather than only .acts' share of the row. */
     .side{flex-flow:row wrap;align-items:center;}
     .side .brand,.dn{flex:0 0 auto;}
-    .statement,.mq{flex:1 0 100%;}
+    .statement,.mq,.find{flex:1 0 100%;}
     .dn{order:1;}
     .acts{display:contents;}
     .acts a{font-size:.72rem;letter-spacing:0;}
@@ -432,6 +432,7 @@
     .wrap{padding:0 var(--gut) clamp(1rem,3vw,1.6rem);}
     /* The rail is a stacked header here with no vertical rule to meet, so the dividers
        stop reaching for it. */
+    .find{width:100%;margin-top:0;}
     .card{padding-left:0;margin-left:0;}
     .cv .sec{padding-left:0;margin-left:0;}
     .side .foot{padding-right:0;margin-right:0;}
@@ -466,7 +467,7 @@ document.documentElement.className+=' js';
       <!-- Filters the work grid in place. Hidden without JS, since a search field that
            cannot search is worse than no field. -->
       <form class="find" role="search" onsubmit="return false">
-        <div class="find-in"><input id="q" type="search" placeholder="Search work"
+        <div class="find-in"><input id="q" type="search" placeholder="Search work" maxlength="24"
           autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
           <button id="qx" class="qx" type="button" aria-label="Clear search" hidden>&times;</button>
         </div>
@@ -673,24 +674,53 @@ document.documentElement.className+=' js';
   }
   document.querySelectorAll('video[data-smooth]').forEach(smoothLoop);
 
-  // Search. Scoped to the work grid and nothing else on the page, and it marks the hit
-  // the way find-in-page does rather than only filtering. Fields are cached on first run
-  // so repainting never compounds, and the tag is included because "product" is a real query.
+  // Search. Scoped to the work grid, and semantic rather than substring: each project
+  // carries a concept list alongside its own copy, so "immigration", "ecommerce" or "3d"
+  // find the right work even though none of those words appear on the card.
+  //
+  // Not a vector index. Real embeddings need a model to encode the query at runtime, and
+  // this page has no build step, no bundler and no backend to call — the three things the
+  // kill-list rules out. This is the honest offline equivalent: a hand-built concept map
+  // plus prefix matching, which covers stems and plurals without a stemmer.
   (function(){
     var q=document.getElementById('q'); if(!q) return;
     var FIELDS='.c0 b, .c1 .t, .c1 .m, .c1 .d, .tag';
+    var CONCEPTS={
+      'studio-artifice':'studio practice brand identity website worldsite mark system self presented founder',
+      'the-artifact-index':'archive dataset database provenance index records curatorial research nonprofit intake radar signals citation whitebox blackbox',
+      'idler':'identity launch brand motion web reinforcement learning rl agents training environments ai frontier',
+      'soot':'search vector database assets files images library organize spatial folders dam machine learning ml product interface',
+      'lighthouse':'immigration visa talent enterprise legal recruiting hiring saas product o1 eb1 relocation',
+      'osmosis':'identity brand rl ml machine learning ai painting landscape ink chinese mist deep tech',
+      'industrial-lighting':'aputure lighting ecommerce catalog global markets localization film cinema hardware conversion commerce',
+      'depictions-of-original-sin':'google veo film festival projection ai video installation creative production immersive',
+      'artifice-brand':'identity brand guidelines nonprofit curatorial system spec marks typography colour',
+      'artifactory':'3d three dimensional tool browser webgl primitives materials shader embed product design environment render'
+    };
+    function norm(t){ return (t||'').toLowerCase().replace(/[^a-z0-9+ ]+/g,' ').split(/\s+/).filter(Boolean); }
     var cards=[].slice.call(document.querySelectorAll('#work .proj'));
     cards.forEach(function(c){
       c.querySelectorAll(FIELDS).forEach(function(el){
         if(el.getAttribute('data-o')===null) el.setAttribute('data-o', el.textContent);
       });
     });
-    function text(c){
-      var out='';
-      c.querySelectorAll(FIELDS).forEach(function(el){ out += ' ' + (el.getAttribute('data-o')||''); });
-      return out.toLowerCase();
+    var index=cards.map(function(c){
+      var own='';
+      c.querySelectorAll(FIELDS).forEach(function(el){ own += ' ' + (el.getAttribute('data-o')||''); });
+      return norm(own + ' ' + (CONCEPTS[c.getAttribute('data-slug')]||''));
+    });
+    // a query token counts when it prefixes any indexed token, so "brand" catches
+    // "branding" and "market" catches "markets"
+    function hits(tokens,i){
+      var n=0;
+      for(var t=0;t<tokens.length;t++){
+        var tok=tokens[t];
+        for(var j=0;j<index[i].length;j++){
+          if(index[i][j].indexOf(tok)===0 || tok.indexOf(index[i][j])===0 && index[i][j].length>3){ n++; break; }
+        }
+      }
+      return n;
     }
-    var index=cards.map(text);
     function esc(t){ return t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
     function paint(card,v){
       card.querySelectorAll(FIELDS).forEach(function(el){
@@ -713,17 +743,16 @@ document.documentElement.className+=' js';
     var qx=document.getElementById('qx'), qn=document.getElementById('qn'),
         none=document.getElementById('none');
     function run(){
-      var v=q.value.trim().toLowerCase(), n=0;
+      var raw=q.value.trim(), tokens=norm(raw), n=0;
       for(var i=0;i<cards.length;i++){
-        var hit = !v || index[i].indexOf(v)>-1;
+        var hit = !tokens.length || hits(tokens,i)===tokens.length;
         cards[i].hidden = !hit;
-        if(hit){ n++; cards[i].classList.add('in'); paint(cards[i], v ? q.value.trim() : ''); }
+        if(hit){ n++; cards[i].classList.add('in'); paint(cards[i], raw); }
         else paint(cards[i], '');
       }
-      // Say what happened. A grid that silently empties reads as a broken page.
-      if(qx) qx.hidden = !v;
-      if(qn){ qn.hidden = !v; qn.textContent = v ? n + ' of ' + cards.length : ''; }
-      if(none) none.hidden = !(v && n===0);
+      if(qx) qx.hidden = !raw;
+      if(qn){ qn.hidden = !raw; qn.textContent = raw ? n + ' of ' + cards.length : ''; }
+      if(none) none.hidden = !(raw && n===0);
     }
     function clear(){ q.value=''; run(); }
     q.addEventListener('input',run);
