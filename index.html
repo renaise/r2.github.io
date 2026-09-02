@@ -362,8 +362,10 @@
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
   .acts .foot{grid-column:1 / -1;}
-  /* the entity strip now runs the full main column, above the notes */
-  main > .mq{margin-top:clamp(2rem,5vw,3.2rem);}
+  /* The strip now runs the main column. Its track is width:max-content, and in the
+     stacked (column-flex) layout the cross axis has no min-width:auto to stop it, so main
+     sized itself to the track and the page scrolled sideways. Clamp both. */
+  main > .mq{margin-top:clamp(2rem,5vw,3.2rem);width:100%;max-width:100%;overflow:hidden;}
   /* Drawn, not set. The glyph was falling out of Diatype to whatever face had it, and a
      font arrow puts its terminals square to the diagonal. These are cut on the axes.
      Centred on the text's optical middle rather than its baseline. */
@@ -419,7 +421,7 @@
   /* Side buffer matches the rail's own 1.4rem gutter exactly, so the card spread and the
      rail contents sit on the same margin. No max-width or auto margins: a centred cap
      would put an arbitrary gap on the right that the rail doesn't have. */
-  .wrap{flex:1;min-width:0;max-width:none;margin:0;
+  .wrap{flex:1;min-width:0;max-width:100%;margin:0;
     padding:0 var(--gut) clamp(1.2rem,2vw,2rem);display:flex;flex-direction:column;}
   /* Dividers meet the rail's vertical rule rather than stopping one gutter short of it:
      the border box reaches back over the gutter, the padding puts the content back. */
