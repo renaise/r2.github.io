@@ -198,8 +198,9 @@
 
   /* ── Filters ─────────────────────────────────────────────────────────────
      The primary way into the work; search is the fallback under it. */
-  .filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 2rem;padding:0 0 1.1rem;
-    border-bottom:1px dotted var(--line);}
+  /* Under the search in the rail, so the two ways into the work sit together. At 280px
+     the row wraps into a list rather than scrolling sideways. */
+  .filters{display:flex;flex-wrap:wrap;gap:.3rem;margin:.7rem 0 0;padding:0;border:0;}
   .filters button{appearance:none;background:transparent;cursor:pointer;
     font-family:var(--sans);font-size:.72rem;letter-spacing:.02em;color:var(--sw3);
     border:1px dotted transparent;border-radius:999px;padding:.34rem .7rem;
@@ -312,7 +313,7 @@
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
   .acts .foot{grid-column:1 / -1;}
-  .acts .dn{grid-column:1 / -1;justify-self:start;margin-top:.5rem;}
+  .acts .dn{justify-self:start;align-self:center;}
   /* Drawn, not set. The glyph was falling out of Diatype to whatever face had it, and a
      font arrow puts its terminals square to the diagonal. These are cut on the axes.
      Centred on the text's optical middle rather than its baseline. */
@@ -453,7 +454,7 @@
        also keeps .foot spanning the rail rather than only .acts' share of the row. */
     .side{flex-flow:row wrap;align-items:center;}
     .side .brand,.dn{flex:0 0 auto;}
-    .statement,.mq,.find{flex:1 0 100%;}
+    .statement,.mq,.find,.filters{flex:1 0 100%;}
     .dn{order:1;}
     .acts{display:contents;}
     .acts a{font-size:.72rem;letter-spacing:0;}
@@ -502,6 +503,16 @@ document.documentElement.className+=' js';
           autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
         </div>
       </form>
+      <div class="filters" role="group" aria-label="Filter work by kind">
+        <button type="button" data-cat="all" aria-pressed="true">All<span class="n">10</span></button>
+        <button type="button" data-cat="identity" aria-pressed="false">Identity<span class="n">6</span></button>
+        <button type="button" data-cat="product" aria-pressed="false">Product<span class="n">4</span></button>
+        <button type="button" data-cat="web" aria-pressed="false">Web<span class="n">6</span></button>
+        <button type="button" data-cat="tools" aria-pressed="false">Tools<span class="n">1</span></button>
+        <button type="button" data-cat="physical" aria-pressed="false">Physical<span class="n">1</span></button>
+        <button type="button" data-cat="research" aria-pressed="false">Research<span class="n">2</span></button>
+      </div>
+      <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="mq" aria-hidden="true"><div class="mq-t"><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span><span class="ent" style="--m:url(/assets/ent-codex.png);width:12px" ></span><span class="ent" style="--m:url(/assets/ent-artifice.png);width:23px" ></span><span class="ent" style="--m:url(/assets/ent-studio.png);width:24px" ></span></div></div>
       <div class="acts">
         <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M4.8 11.2 11.2 4.8" /><path d="M6.6 4.8H11.2V9.4" /></svg></span></a>
@@ -516,16 +527,6 @@ document.documentElement.className+=' js';
 
     <main class="wrap">
     <section class="card" id="work">
-      <div class="filters" role="group" aria-label="Filter work by kind">
-        <button type="button" data-cat="all" aria-pressed="true">All<span class="n">10</span></button>
-        <button type="button" data-cat="identity" aria-pressed="false">Identity<span class="n">6</span></button>
-        <button type="button" data-cat="product" aria-pressed="false">Product<span class="n">4</span></button>
-        <button type="button" data-cat="web" aria-pressed="false">Web<span class="n">6</span></button>
-        <button type="button" data-cat="tools" aria-pressed="false">Tools<span class="n">1</span></button>
-        <button type="button" data-cat="physical" aria-pressed="false">Physical<span class="n">1</span></button>
-        <button type="button" data-cat="research" aria-pressed="false">Research<span class="n">2</span></button>
-      </div>
-      <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="layout">
       
 
