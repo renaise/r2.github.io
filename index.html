@@ -72,7 +72,8 @@
     --rail:280px;
     /* The panel's timing, read by the CSS that runs it and by the JS that waits
        on it. A duration written twice is a duration that drifts. */
-    --cs-dur:.52s;
+    --cs-dur:.42s;
+    --cs-slide:28px;
     --ease:cubic-bezier(.2,.7,.2,1);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --serif:"Redaction","Times New Roman",Times,serif;
@@ -548,12 +549,17 @@
      then the case study composes inside it. One curve, the site's. */
   .cs{position:fixed;top:0;right:0;left:var(--rail);z-index:61;height:100%;
     display:flex;flex-direction:column;background:var(--bg1);
-    border-left:1px dotted var(--line);
-    transform:translateX(100%);opacity:.4;
-    transition:transform var(--cs-dur) var(--ease),opacity var(--cs-dur) var(--ease);
-    will-change:transform;}
+    transform:translateX(var(--cs-slide));opacity:0;
+    transition:transform var(--cs-dur) var(--ease),
+               opacity var(--cs-dur) linear;
+    will-change:transform,opacity;}
   .cs[hidden]{display:none;}
   .cs-open .cs{transform:translateX(0);opacity:1;}
+  /* The other half of the exchange. Only the main column moves: the rail is the
+     frame and holds still through it. */
+  .wrap{transition:transform var(--cs-dur) var(--ease),
+                   opacity var(--cs-dur) linear;}
+  .cs-open .wrap{transform:translateX(calc(var(--cs-slide) * -1));opacity:0;}
   /* The page behind it stops scrolling; the panel scrolls instead. */
   .cs-open,.cs-open body{overflow:hidden;}
 
@@ -572,10 +578,7 @@
   .cs-crumb [aria-current="page"]{color:var(--sw4);}
 
   .cs-body{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
-    padding:0 max(var(--gut),calc((100% - 1040px)/2)) 5rem;
-    opacity:0;transform:translateY(10px);
-    transition:opacity .34s var(--ease) .14s,transform .34s var(--ease) .14s;}
-  .cs-open .cs-body{opacity:1;transform:none;}
+    padding:0 max(var(--gut),calc((100% - 1040px)/2)) 5rem;}
   /* Focused on open so Tab and Escape land inside. The ring would be the only solid
      outline on a page whose every rule is dotted. */
   .cs-body:focus{outline:none;}
@@ -659,7 +662,7 @@
   /* Full-bleed on a phone: a 94vw drawer with a 6vw sliver of grid behind it is
      neither one thing nor the other. */
   @media(max-width:900px){
-    .cs{left:0;border-left:0;}
+    .cs{left:0;}
   }
   @media(max-width:700px){
     .cs-ledger{grid-template-columns:repeat(2,1fr);}
@@ -667,8 +670,7 @@
 
   /* Entrances only, and every one of them has an escape. */
   @media(prefers-reduced-motion:reduce){
-    .cs,.cs-body{transition:none;}
-    .cs-body{transform:none;}
+    .cs,.wrap{transition:none;}
   }
 </style>
 <script>
