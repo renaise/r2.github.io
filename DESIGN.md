@@ -176,8 +176,15 @@ panel is shareable, Back closes it, and a shared link opens straight into it. `.
 
 A project may carry `shots`: extra plates that render under the prose, each with its own
 `ratio` and caption. A 1508/600 diagram cropped into a 16:9 hole loses both its ends, and a
-plate with no line under it makes the reader guess what they are looking at. FLORA carries two,
-the empty canvas and the chained workflow.
+plate with no line under it makes the reader guess what they are looking at. FLORA carries
+three — the brand film, the empty canvas, the chained workflow.
+
+A shot whose `src` ends `.mp4` renders as a film. **It does not loop.** The card covers are cut
+to close their own loop; FLORA's film runs bright to dark and ends on the lockup, so looping it
+flashes on every seam and throws the ending away. It carries no audio track at all, is
+`preload="none"` so 3.2MB does not download because a panel opened, and starts on an
+IntersectionObserver at .25 when it reaches the viewport — an entrance, like the cards, then
+unobserved. Click the plate to run it again.
 
 Copy comes from the store, with a baked `#cs-data` block as the fallback, the same
 arrangement the card order uses. Four sections where the store has the four-part text;
