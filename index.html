@@ -669,6 +669,9 @@
     border-bottom:1px dotted var(--line);}
   .cs-type td{padding:.55rem .8rem .55rem 0;color:var(--sw2);
     border-bottom:1px dotted var(--line);font-variant-numeric:tabular-nums;}
+  /* The last row's rule and the footer's sat as two parallel dotted lines with the
+     section's padding between them. The footer already closes the block. */
+  .cs-type tbody tr:last-child td{border-bottom:0;}
 
   .cs-foot{display:flex;flex-wrap:wrap;gap:1.2rem;
     padding-top:1.2rem;border-top:1px dotted var(--line);}

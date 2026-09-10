@@ -296,6 +296,10 @@ colour is chosen from its own swatch by asking which of ink or paper wins on it 
 luminance threshold left the crossover step at 2.3:1, and `mix-blend-mode:difference` went
 invisible across six of the twelve. Every step now measures 4.6:1 or better.
 
+The type table's last row carries no bottom rule. It and the footer's top rule sat as two
+parallel dotted lines with the section's padding between them, and the footer already closes
+the block.
+
 **The type ladder is not pulled.** It is split across several grouped `.ttable`s with a Preview
 column, and a naive parse of that returns garbage rather than nothing, which is worse than a
 copy. It stays baked until id-idler publishes the scale as data.
