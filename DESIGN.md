@@ -102,8 +102,11 @@ Behind every cover sits a blurred `scale(1.25)` copy of the same asset — the f
 non-16:9 covers never sit on dead space. Covers are `object-fit:contain`, 6% padding,
 butted bottom.
 
-**As of 2026-08-25 every cover is `.fill`** (`object-fit:cover`, no padding), edge to edge,
-and every cover is a 5.000s video recorded or cut to close its own loop. The contained
+**As of 2026-08-25 every cover is `.fill`** (`object-fit:cover`, no padding), edge to edge.
+Most are a 5.000s video recorded or cut to close its own loop; `lighthouse`, `artifice-brand`
+and — from 2026-09-10 — `flora` are stills, so check the element before assuming a card has a
+video to drive. FLORA's cover changed that day from Flora's marketing site to the product's own
+home screen; `stage/flora/cover.mp4` stays on disk, referenced by nothing. The contained
 treatment and its frost remain in the CSS for any future non-16:9 asset, but nothing uses
 them. Check source dimensions before assuming a cover should be contained.
 
@@ -146,13 +149,21 @@ no longer routes offsite: **case studies live here now**, at `/work/<slug>/`, pe
 2026-08-25 and the model in `CMS.md`. SOOT is the first.
 
 **Every card opens the case study panel** (2026-09-10). A click transitions the case study in
-from the right and it takes the **whole window** — full-bleed, end to end, no veil and nothing
-of the index showing beside it. It shipped as a 720px drawer that morning and was corrected the
-same day: a drawer is a floating card on a grey page. Inside, the header and the body sit on the
-index's own 1040px measure, so the case study is that column arriving in a different frame.
-Nothing navigates and nothing on the index moves. It replaces the eight cards that routed to
+from the right, and it takes **the right pane entirely**: `left:var(--rail)` to `right:0`, full
+height, butted against the rail's own vertical rule. The rail stays; the work grid does not.
+It took two corrections the same day — it shipped as a 720px drawer over the grid, went
+full-bleed over the rail as well, and landed here. A drawer is a floating card on a grey page;
+covering the rail loses the frame. Below 900px the rail unpins into a stacked header and has no
+column to sit beside, so the panel takes the width.
+
+Inside, the header and body sit on the index's own 1040px measure, taken off the **pane** and not
+the viewport, so the case study is that column arriving in a different frame. Nothing navigates
+and nothing on the index moves. It replaces the eight cards that routed to
 `studioartifice.com/work/<slug>/`, and the panel never offers that route back — the footer links
 the live surface or the guidelines, never the subpage it replaced.
+
+`--rail` (280px) is read by the rail and by the panel that meets it. Two hardcoded 280s drift the
+first time one of them moves.
 
 Close is the Close control or Escape. Reopening inside the 420ms close transition cancels the
 pending hide; without that the stale timeout fires over the panel that just arrived and leaves
@@ -162,6 +173,11 @@ The hrefs stay on the anchors, so the panel is an enhancement: no JS, a middle-c
 modified click still goes where the card always went. State is a `#case=<slug>` hash, so a
 panel is shareable, Back closes it, and a shared link opens straight into it. `.app` goes
 `inert` while it is open — `aria-modal` is a claim, `inert` is the enforcement.
+
+A project may carry `shots`: extra plates that render under the prose, each with its own
+`ratio` and caption. A 1508/600 diagram cropped into a 16:9 hole loses both its ends, and a
+plate with no line under it makes the reader guess what they are looking at. FLORA carries two,
+the empty canvas and the chained workflow.
 
 Copy comes from the store, with a baked `#cs-data` block as the fallback, the same
 arrangement the card order uses. Four sections where the store has the four-part text;
