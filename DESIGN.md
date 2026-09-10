@@ -302,6 +302,20 @@ modified click still goes where the card always went. State is a `#case=<slug>` 
 panel is shareable, Back closes it, and a shared link opens straight into it. `.app` goes
 `inert` while it is open — `aria-modal` is a claim, `inert` is the enforcement.
 
+**A project may carry a `plate`** — a larger source used only inside the case study. One file was
+serving two jobs at very different sizes: the card thumbnail at roughly 450 CSS px on the grid,
+and the case study plate at 1403. Sizing that single file for the plate makes every index visit
+pay for it. Where no `plate` is declared the case study lifts the card's media as before, so this
+is opt-in per project, not a migration.
+
+**The plate needs 2806px on a 2x display and most sources cannot reach it.** Measured 2026-09-10:
+`idler` was 960 and `the-artifact-index` 1280, both re-recorded from their live sites at 2560;
+`biota` went 1440 to 1920 and FLORA's brand film 1440 to 1920, both re-encoded from originals that
+were always 1920. The remaining eight sit at 1280–1600 because that is what their source files
+are. `flora`'s cover is the tightest case: it is cut from a 1296-wide GIF and the 1440 on disk is
+already an upscale — `floraaidemov0.mp4` holds the same screen at 3800x2160 but without the
+ambient glow the designed cover has, so it is a composition change, not a re-encode.
+
 A project may carry `shots`: extra plates that render under the prose, each with its own
 `ratio` and caption. A 1508/600 diagram cropped into a 16:9 hole loses both its ends, and a
 plate with no line under it makes the reader guess what they are looking at. FLORA carries
