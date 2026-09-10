@@ -103,10 +103,15 @@ non-16:9 covers never sit on dead space. Covers are `object-fit:contain`, 6% pad
 butted bottom.
 
 **As of 2026-08-25 every cover is `.fill`** (`object-fit:cover`, no padding), edge to edge.
-Most are a 5.000s video recorded or cut to close its own loop; `lighthouse`, `artifice-brand`
-and — from 2026-09-10 — `flora` are stills, so check the element before assuming a card has a
-video to drive. FLORA's cover changed that day from Flora's marketing site to the product's own
-home screen; `stage/flora/cover.mp4` stays on disk, referenced by nothing. The contained
+Most are a video recorded or cut to close its own loop; `lighthouse` and `artifice-brand` are
+stills, so check the element before assuming a card has a video to drive. Durations are no
+longer all 5.000s: FLORA's is 14.4s.
+
+FLORA's cover changed on 2026-09-10 from Flora's marketing site to the product's own home
+screen. It went still for an hour and is a video again, cut from `floragif01.gif` — the same
+1296x720 source as the still, frame 0 identical — so the thumbnail moves. 25MB of GIF is 1.4MB
+of h264. First and last frames both sit dark (luma 19 and 14), so it closes its own loop. The
+contained
 treatment and its frost remain in the CSS for any future non-16:9 asset, but nothing uses
 them. Check source dimensions before assuming a cover should be contained.
 
@@ -147,6 +152,13 @@ The CMS carries `problem`, `solution`, `impact`, and `process` for every project
 renders **only `hook`**. The card is still a hook rather than a summary, but the withholding
 no longer routes offsite: **case studies live here now**, at `/work/<slug>/`, per Renaise
 2026-08-25 and the model in `CMS.md`. SOOT is the first.
+
+**Marks are lockups, except one.** Every `.cl` mark is a horizontal lockup with the name drawn
+into it, which is why `.c0 .nmw:has(.cl) b` hides the set name as redundant. Codex Foundry has
+no such file: every asset on disk is a square glyph or a portrait stack whose wordmark would
+render about four pixels tall at `1.02em`. So ARTIFACTORY's row carries the glyph *beside* the
+name, and `.glyph` on the wrapper opts that one row out of the hide. If a horizontal Codex
+lockup is ever drawn, drop the class and the row rejoins the rule.
 
 **Every card opens the case study panel** (2026-09-10). A click transitions the case study in
 from the right, and it takes **the right pane entirely**: `left:var(--rail)` to `right:0`, full

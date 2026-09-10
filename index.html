@@ -346,8 +346,10 @@
     -webkit-mask-size:contain;mask-size:contain;}
   /* Where a mark exists it replaces the set name; the name itself stays in the document
      so search still indexes it and a screen reader still announces it. */
-  .c0 .nmw:has(.cl) b{position:absolute;width:1px;height:1px;overflow:hidden;
+  .c0 .nmw:has(.cl):not(.glyph) b{position:absolute;width:1px;height:1px;overflow:hidden;
     clip:rect(0 0 0 0);white-space:nowrap;}
+  /* A glyph mark carries no wordmark, so the name stays and the two sit together. */
+  .c0 .nmw.glyph{gap:.42em;}
   @media(prefers-reduced-motion:reduce){ .c0 b,.c0 .cl{transition:none;} }
   /* Diatype's figures are proportional; tabular keeps the right-flushed years in a column. */
   .c0 .yr{font-size:.72rem;color:var(--sw5);font-variant-numeric:tabular-nums;letter-spacing:.03em;white-space:nowrap;}
@@ -731,7 +733,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>SOOT</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/soot.png);--r:3.926"></span></span><span class="yr">2024–25</span></div><div class="c1"><span class="t">Browsing a Library That Organizes Itself</span><br><span class="m">Lead Product Designer</span><span class="d">Designed the interaction model that retired the folder, so vector search over thousands of files reads as a spatial field you move through.</span></div></div>
       </a>
       <a class="proj" data-slug="flora" data-cat="url" href="https://studioartifice.com/work/flora/">
-        <div class="media" style="--poster:url(/stage/flora/cover.jpg)"><img class="cover fill" src="/stage/flora/cover.jpg" alt="FLORA, the home screen: popular models across the top, a community feed under them"><img class="sys" src="/stage/flora/system.jpg" alt="Flora, the canvas mid-flow" loading="lazy"><span class="tag">Product</span></div>
+        <div class="media" style="--poster:url(/stage/flora/cover.jpg)"><video class="cover fill" src="/stage/flora/cover.mp4" muted loop playsinline preload="none" poster="/stage/flora/cover.jpg" aria-label="FLORA, the home screen moving into the canvas"></video><img class="sys" src="/stage/flora/system.jpg" alt="Flora, the canvas mid-flow" loading="lazy"><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><span class="nmw"><b>FLORA</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/flora.svg);--r:6.292"></span></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">Connecting Creative Systems</span><br><span class="m">Founding Designer</span><span class="d">Designed a node-based canvas that connects creative tools into one process, so a project moves between them without leaving the environment.</span></div></div>
       </a>
       <a class="proj" data-slug="idler" data-cat="url" href="https://studioartifice.com/work/idler/">
@@ -768,7 +770,7 @@ document.documentElement.className+=' js';
       </a>
       <a class="proj" data-slug="artifactory" data-cat="url" href="https://artifactory.pages.dev">
         <div class="media" style="--poster:url(/stage/artifactory/cover.jpg)"><video class="cover fill" src="/stage/artifactory/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="A different primitive loaded on the same scene" loading="lazy"><span class="tag">Product</span></div>
-        <div class="cols"><div class="c0"><b>ARTIFACTORY</b><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser tool for art-directing in 3D: swap the primitive, tune the material, export the scene as a self-contained embed.</span></div></div>
+        <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:1"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D design environment</span><br><span class="m">Designer + Developer</span><span class="d">Designed and built a browser tool for art-directing in 3D: swap the primitive, tune the material, export the scene as a self-contained embed.</span></div></div>
       </a>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
