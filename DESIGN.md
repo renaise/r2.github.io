@@ -153,7 +153,8 @@ from the right, and it takes **the right pane entirely**: `left:var(--rail)` to 
 height, butted against the rail's own vertical rule. The rail stays; the work grid does not.
 It took two corrections the same day — it shipped as a 720px drawer over the grid, went
 full-bleed over the rail as well, and landed here. A drawer is a floating card on a grey page;
-covering the rail loses the frame. Below 900px the rail unpins into a stacked header and has no
+covering the rail loses the frame. **The seam carries one rule, the rail's own `border-right`.**
+The panel drew a second dotted rule a pixel away from it, which read as a double divider. Below 900px the rail unpins into a stacked header and has no
 column to sit beside, so the panel takes the width.
 
 Inside, the header and body sit on the index's own 1040px measure, taken off the **pane** and not
@@ -175,10 +176,21 @@ crumb the `/work/<slug>/` pages carry — `Renaise / Work / <Name>`, separator g
 current item not a link — so moving between a panel and a page never changes how you get back.
 Renaise closes to the top of the index; Work closes to the grid. Escape still closes.
 
-**Motion.** The panel travels its own width, which is most of the screen. Moved alone it read as
-an opaque wall shoved across the grid, so the leading edge is softened with opacity (`.4` → `1`)
-and the body composes a beat behind the frame — `.14s` delay, a `10px` rise — so the frame
-arrives and the case study settles inside it. One curve, the site's, on `--cs-dur` (`.52s`).
+**Motion: a translation, not a push.** It travelled its own width across the grid, which is a
+shove — an opaque block crossing 1160px while the thing underneath sits still. The two states
+cross instead. The grid steps `--cs-slide` (28px) left and dissolves out; the case study arrives
+from 28px right and dissolves in. **The rail never moves**, so the frame holds while its contents
+change. The distance is small on purpose: a translation is legible at 28px, and anything further
+starts reading as travel again.
+
+Both opacities run the same window on `linear`, so they always sum to about one — measured at
+1.00 across every sampled frame. Staggering them (grid out fast, panel in delayed) left the pane
+empty for ~140ms, which reads as a blink; overlapping them at full strength puts two live layers
+on screen at once. A symmetric cross-dissolve is the only version with neither. Transform keeps
+the site's one curve; only opacity is `linear`, because a cross-dissolve on an eased curve dips.
+
+`--cs-dur` is `.42s`. The body no longer carries its own delayed settle: at 28px the panel is not
+travelling far enough for the content to arrive ahead of its frame.
 
 Three defects fixed the same day, all of them things that only show up in motion:
 
