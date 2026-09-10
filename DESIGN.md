@@ -107,6 +107,15 @@ Most are a video recorded or cut to close its own loop; `lighthouse` and `artifi
 stills, so check the element before assuming a card has a video to drive. Durations are no
 longer all 5.000s: FLORA's is 14.4s.
 
+`the-artifact-index`'s cover was re-recorded on 2026-09-10 off the live
+`index.artificenyc.org`. The old clip opened mid-scroll with the intro paragraph sitting over
+the masthead, and its copy was two revisions stale — the site now says the Index "documents how
+experimental work gets made," not "is the record of work made." Recorded at 1280x720, 150 frames
+at 30fps, held at the top, eased down 560px and back, held again: 5.000s that starts and ends on
+the same frame (seam diff 0.09 of 255) and whose every frame is a settled composition. The
+poster is frame 0. **A cover cut from a live site carries that site's copy; re-shoot it when the
+copy moves.**
+
 FLORA's cover changed on 2026-09-10 from Flora's marketing site to the product's own home
 screen. It went still for an hour and is a video again, cut from `floragif01.gif` — the same
 1296x720 source as the still, frame 0 identical — so the thumbnail moves. 25MB of GIF is 1.4MB
