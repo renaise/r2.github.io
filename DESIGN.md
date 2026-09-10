@@ -209,7 +209,22 @@ Plates keep the full measure and their captions join the prose column, so every 
 copy in the panel starts on the same edge as every other. Under 900px the rail unpins and the
 whole thing collapses to one column: a 120px gutter is a quarter of a phone.
 
-The accent swatches are a fixed four across, not `auto-fill`. Seven never divides evenly, and in
+**The ledger is on the same template**: `var(--cs-col) 1fr 1fr`, so ROLE lands on the label
+column and YEAR lands on the prose column. It was three equal columns and started at a different
+x from everything under it.
+
+**The case study fills the pane, gutter to gutter.** It ran inside the index's 1040 measure until
+2026-09-10, which left most of the pane empty to the right of copy whose rules already spanned the
+width, and the prose was capped at `62ch` inside that. Both caps are gone. **The consequence is a
+long measure: 114 characters a line at 1440, 144 at 1728**, against the 45–75 that reads
+comfortably. That is the trade for end to end; a `max-width` around `90ch` would still fill at
+1440 and stop the very wide screens, if the measure ever wins over the fill.
+
+Every neutral step carries its hex as well as its number, as the Grayscale section does. Twelve
+across needs about 50px a cell, so under 1200px the strip wraps to two bands of six rather than
+truncating four of the values it exists to publish. The seven accents sit in one row.
+
+Superseded: the accent swatches were a fixed four across, not `auto-fill`. Seven never divides evenly, and in
 the narrower column auto-fill landed on 6+1, which reads as an accident where 4+3 reads as a
 decision. Nothing navigates
 and nothing on the index moves. It replaces the eight cards that routed to
@@ -224,10 +239,19 @@ it carries nothing, and renders no rule.
 `--rail` (280px) is read by the rail and by the panel that meets it. Two hardcoded 280s drift the
 first time one of them moves.
 
-**The way out is the breadcrumb**, not a Close control (2026-09-10). It is the same three-item
-crumb the `/work/<slug>/` pages carry — `Renaise / Work / <Name>`, separator generated, the
-current item not a link — so moving between a panel and a page never changes how you get back.
-Renaise closes to the top of the index; Work closes to the grid. Escape still closes.
+**The way out is the breadcrumb**, not a Close control (2026-09-10):
+`Renaise / <URL|IRL> / <Name>`, separator generated, the current item not a link. The middle item
+names the project's own `data-cat` rather than the section, and clicking it closes the panel and
+filters the grid to that kind — the same control the rail offers, so the crumb can never disagree
+with what it hands you. Renaise closes to the top of the index. Escape still closes.
+
+**The panel's URL is a path, not a hash**: `renaise.com/idler`, not `#case=idler`. GitHub Pages
+cannot rewrite, so `404.html` forwards the path as `?p=` and the index puts the clean URL back
+with `replaceState` before first paint. It forwards whatever it is given and the index decides
+whether the path names a project, so **adding a card needs no new file there**. A path is only a
+slug if the store knows it; `/work/soot/`, `/services.html` and `/lettucecap/` are real files and
+never reach the forwarder. Links shared as `#case=` still open and quietly upgrade themselves to
+the path.
 
 **Motion: a translation, not a push.** It travelled its own width across the grid, which is a
 shove — an opaque block crossing 1160px while the thing underneath sits still. The two states

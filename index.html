@@ -577,12 +577,12 @@
   .cs-open,.cs-open body{overflow:hidden;}
 
   /* Header pins. The body under it is the only thing that moves. */
-  /* The header and the body read on the site's own measure, not stretched to the
-     viewport: the index caps its main column at 1040 and the case study is that
-     same column arriving in a different frame. */
+  /* End to end: the case study fills the pane it was given, gutter to gutter.
+     It ran inside the index's 1040 measure until 2026-09-10, which left most of
+     the pane empty to the right of copy whose rules already spanned the width. */
   .cs-top{flex:0 0 auto;display:flex;align-items:baseline;
     gap:1rem;border-bottom:1px dotted var(--line);
-    padding:var(--gut) max(var(--gut),calc((100% - 1040px)/2));}
+    padding:var(--gut);}
   .cs-crumb{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;margin:0;padding:0;}
   .cs-crumb li{display:flex;align-items:baseline;gap:.5rem;color:var(--sw4);}
   .cs-crumb li + li::before{content:"/";color:var(--sw4);}
@@ -591,7 +591,7 @@
   .cs-crumb [aria-current="page"]{color:var(--sw4);}
 
   .cs-body{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
-    padding:0 max(var(--gut),calc((100% - 1040px)/2)) 5rem;}
+    padding:0 var(--gut) 5rem;}
   /* Focused on open so Tab and Escape land inside. The ring would be the only solid
      outline on a page whose every rule is dotted. */
   .cs-body:focus{outline:none;}
@@ -602,7 +602,7 @@
   .cs-mast .claim{margin:.8rem 0 0;font-size:clamp(.95rem,2vw,1.2rem);
     font-weight:400;line-height:1.2;color:var(--sw2);}
 
-  .cs-ledger{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+  .cs-ledger{display:grid;grid-template-columns:var(--cs-col) 1fr 1fr;gap:1.1rem 2.2rem;
     padding:1rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);
     margin-bottom:1.8rem;}
   .cs-ledger dt{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
@@ -628,13 +628,13 @@
     background:var(--tile);border-radius:4px;}
   .cs-shot video.cs-film{cursor:pointer;}
   .cs-shot figcaption{font-family:var(--serif);font-weight:300;font-size:var(--prose);
-    line-height:var(--prose-lh);color:var(--sw4);max-width:62ch;margin:0;}
+    line-height:var(--prose-lh);color:var(--sw4);margin:0;}
   .cs-sec{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:1.1rem 2.2rem;
     align-items:start;padding:1.5rem 0;border-top:1px dotted var(--line);}
   .cs-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);}
   .cs-sec > :not(.cs-lbl){grid-column:2;}
   .cs-sec p{font-family:var(--serif);font-weight:300;font-size:var(--prose);
-    line-height:var(--prose-lh);color:var(--sw3);max-width:62ch;margin:0 0 .8rem;}
+    line-height:var(--prose-lh);color:var(--sw3);margin:0 0 .8rem;}
   .cs-sec p:last-child{margin-bottom:0;}
 
   /* ── The system block, Idler only ────────────────────────────────────────
@@ -642,18 +642,21 @@
      neutral scale, the six Matter units and the type ladder are the values on
      the guidelines site, checked against it, not a screenshot of it. The link
      out is still there for the full document. */
-  .cs-sw{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem;}
+  .cs-sw{display:grid;grid-template-columns:repeat(7,1fr);gap:.9rem;margin-bottom:1.4rem;}
   .cs-sw .ch{display:block;height:2.6rem;border-radius:3px;margin-bottom:.4rem;
     border:1px dotted var(--line);}
   .cs-sw .nm{display:block;color:var(--sw2);}
   .cs-sw .hx{display:block;color:var(--sw4);font-variant-numeric:tabular-nums;
     font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;}
   .cs-ramp{display:flex;border-radius:3px;overflow:hidden;margin-bottom:1.4rem;}
-  .cs-ramp i{flex:1 1 0;height:3rem;display:flex;align-items:flex-end;padding:.3rem;}
+  .cs-ramp i{flex:1 1 0;min-width:0;height:4.2rem;display:flex;flex-direction:column;
+    justify-content:flex-end;gap:.1rem;padding:.3rem;}
   /* The step number sits on its own swatch, so its colour is chosen per step from
      that step's relative luminance: ink on the pale end, paper on the dark end. */
-  .cs-ramp b{font-size:.58rem;letter-spacing:.08em;font-weight:400;
-    font-variant-numeric:tabular-nums;color:inherit;}
+  .cs-ramp b,.cs-ramp u{font-size:.55rem;letter-spacing:.02em;font-weight:400;
+    font-variant-numeric:tabular-nums;color:inherit;text-decoration:none;
+    white-space:nowrap;line-height:1.1;}
+  .cs-ramp u{opacity:.72;}
   .cs-units img{display:block;width:100%;height:auto;margin-bottom:.4rem;}
   .cs-units{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
     gap:.9rem;margin-bottom:1.4rem;}
@@ -668,7 +671,7 @@
   .cs-pairs dt{color:var(--sw2);margin-bottom:.35rem;}
   .cs-pairs dt .st{color:var(--sw4);}
   .cs-pairs dd{margin:0;font-family:var(--serif);font-weight:300;font-size:var(--prose);
-    line-height:var(--prose-lh);color:var(--sw3);max-width:62ch;}
+    line-height:var(--prose-lh);color:var(--sw3);}
   .cs-type{width:100%;border-collapse:collapse;}
   .cs-type th{text-align:left;font-weight:400;font-size:.62rem;letter-spacing:.1em;
     text-transform:uppercase;color:var(--sw4);padding:0 .8rem .6rem 0;
@@ -686,14 +689,20 @@
 
   /* Full-bleed on a phone: a 94vw drawer with a 6vw sliver of grid behind it is
      neither one thing nor the other. */
+  @media(max-width:1200px){
+    .cs-ramp{flex-wrap:wrap;}
+    .cs-ramp i{flex:0 0 16.6667%;}
+  }
   @media(max-width:900px){
     .cs{left:0;}
     .cs-sec,.cs-shot{grid-template-columns:1fr;gap:.7rem;}
+    .cs-ledger{grid-template-columns:repeat(3,1fr);gap:1rem;}
     .cs-sec > :not(.cs-lbl),.cs-shot > figcaption{grid-column:1;}
   }
   @media(max-width:700px){
-    .cs-ledger{grid-template-columns:repeat(2,1fr);}
+    .cs-ledger{grid-template-columns:repeat(2,1fr);gap:1.2rem 1rem;}
     .cs-sw{grid-template-columns:repeat(2,1fr);}
+    .cs-ramp i{flex:0 0 33.3333%;}
   }
 
   /* Entrances only, and every one of them has an escape. */
@@ -706,6 +715,14 @@
 // Always writes an explicit data-theme, so the switch knob can key off the attribute
 // rather than guessing at the OS preference.
 document.documentElement.className+=' js';
+// Restore the clean path 404.html forwarded, before anything paints.
+(function(){
+  var m=/[?&]p=([^&]*)/.exec(location.search);
+  if(!m) return;
+  var path=decodeURIComponent(m[1]||'');
+  var q=/[?&]q=([^&]*)/.exec(location.search);
+  try{ history.replaceState(null,'','/'+path+(q?'?'+decodeURIComponent(q[1]):'')+location.hash); }catch(e){}
+})();
 (function(){
   var t;
   try{ t=localStorage.getItem('theme'); }catch(e){}
@@ -872,7 +889,7 @@ document.documentElement.className+=' js';
     <nav class="cs-top" aria-label="Breadcrumb">
       <ol class="cs-crumb">
         <li><a href="/" data-cs-back="top">Renaise</a></li>
-        <li><a href="#work" data-cs-back="work">Work</a></li>
+        <li><a href="#work" data-cs-back="cat" id="cs-crumb-cat">Work</a></li>
         <li id="cs-crumb-name" aria-current="page"></li>
       </ol>
     </nav>
@@ -1222,6 +1239,7 @@ document.documentElement.className+=' js';
 (function(){
   var panel=document.getElementById('cs'),
       body=document.getElementById('cs-body'), crumb=document.getElementById('cs-crumb-name'),
+      crumbCat=document.getElementById('cs-crumb-cat'),
       root=document.documentElement,
       app=document.querySelector('.app');
   if(!panel||!body) return;
@@ -1291,7 +1309,8 @@ document.documentElement.className+=' js';
       h+='<div class="cs-ramp" aria-label="The neutral scale, '+sys.ramp.length+' steps">'
         + sys.ramp.map(function(hex,i){
             return '<i style="background:'+esc(hex)+';color:'+onColor(hex)+'">'
-              + '<b>' + ('0'+(i+1)).slice(-2) + '</b></i>'; }).join('')
+              + '<b>' + ('0'+(i+1)).slice(-2) + '</b>'
+              + '<u>' + esc(String(hex).replace('#','').toUpperCase()) + '</u></i>'; }).join('')
         + '</div>';
     }
     if(sys.units&&sys.units.length){
@@ -1406,6 +1425,11 @@ document.documentElement.className+=' js';
     body.innerHTML=out;
     crumb.textContent=name;
     crumb.setAttribute('data-slug',slug);
+    // URL or IRL, off the card itself, so the crumb can never disagree with the
+    // filter it hands you.
+    var cat=(card&&card.getAttribute('data-cat'))||'';
+    crumbCat.textContent=cat?cat.toUpperCase():'Work';
+    crumbCat.setAttribute('data-cat',cat);
     body.scrollTop=0;
     playFilmsInView();
   }
@@ -1515,8 +1539,8 @@ document.documentElement.className+=' js';
     // Focus without scrolling: the panel is mid-travel and moving focus into a
     // freshly painted container can jump its scroll position under the animation.
     try{ body.focus({preventScroll:true}); }catch(e){ body.focus(); }
-    if(push && location.hash!=='#case='+slug){
-      history.pushState({cs:slug},'','#case='+slug);
+    if(push && pathSlug()!==slug){
+      history.pushState({cs:slug},'','/'+slug);
     }
   }
   function shut(push){
@@ -1536,7 +1560,7 @@ document.documentElement.className+=' js';
       panel.addEventListener('transitionend',onEnd);
       hideT=setTimeout(done,dur()+80);   // guard: a transition that never fires
     }
-    if(push && /^#case=/.test(location.hash)){ history.pushState(null,'','#work'); }
+    if(push && pathSlug()){ history.pushState(null,'','/'); }
   }
 
   function cardFor(slug){
@@ -1568,22 +1592,43 @@ document.documentElement.className+=' js';
     var a=e.target.closest?e.target.closest('.cs-crumb a[data-cs-back]'):null;
     if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
     e.preventDefault();
-    var top=a.getAttribute('data-cs-back')==='top';
+    var kind=a.getAttribute('data-cs-back');
     shut(true);
-    if(top) window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
+    if(kind==='top'){
+      window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
+      return;
+    }
+    // Hand the grid back filtered to this project's kind.
+    var cat=a.getAttribute('data-cat');
+    var btn=cat && document.querySelector('.filters button[data-cat="'+cat+'"]');
+    if(btn) btn.click();
   });
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&!panel.hidden){ e.preventDefault(); shut(true); }
   });
+  // A path names a project only if the store knows it. /work/soot/, /services.html
+  // and /lettucecap/ are real files and never reach this, but a typo must not be
+  // read as a slug either.
+  function pathSlug(){
+    var seg=decodeURIComponent(location.pathname.replace(/^\/+|\/+$/g,''));
+    return (seg && DATA[seg]) ? seg : '';
+  }
+  function wanted(){
+    var m=/^#case=(.+)$/.exec(location.hash);   // links shared before 2026-09-10
+    if(m){ var h=decodeURIComponent(m[1]); if(DATA[h]) return h; }
+    return pathSlug();
+  }
   // Back and forward move through the open panels rather than off the page.
   window.addEventListener('popstate',function(){
-    var m=/^#case=(.+)$/.exec(location.hash);
-    if(m) open(decodeURIComponent(m[1]),cardFor(decodeURIComponent(m[1])),false);
-    else shut(false);
+    var w=wanted();
+    if(w) open(w,cardFor(w),false); else shut(false);
   });
-  // A shared #case= link opens straight into the panel.
-  var m=/^#case=(.+)$/.exec(location.hash);
-  if(m){ var s=decodeURIComponent(m[1]); if(DATA[s]) open(s,cardFor(s),false); }
+  var w0=wanted();
+  if(w0){
+    // An old #case= link becomes the clean path without adding a history entry.
+    if(location.hash){ try{ history.replaceState(null,'','/'+w0); }catch(e){} }
+    open(w0,cardFor(w0),false);
+  }
 })();
 </script>
 </body>

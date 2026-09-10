@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Renaise</title>
+<meta name="robots" content="noindex" />
+<!--
+  GitHub Pages has no rewrite rules, so a case study at /soot has no file to
+  serve and lands here. This hands the path to the index, which opens the panel
+  and puts the clean URL back with replaceState. Real files (/work/soot/,
+  /services.html, /lettucecap/) are served directly and never reach this page.
+
+  It is deliberately self-maintaining: it forwards whatever path it is given and
+  the index decides whether that path names a project, so adding a card needs no
+  new file here.
+-->
+<script>
+(function(){
+  var l = window.location;
+  l.replace(l.protocol + '//' + l.host + '/?p=' +
+    encodeURIComponent(l.pathname.replace(/^\/+|\/+$/g,'')) +
+    (l.search ? '&q=' + encodeURIComponent(l.search.slice(1)) : '') + l.hash);
+})();
+</script>
+</head>
+<body></body>
+</html>
