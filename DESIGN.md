@@ -165,9 +165,31 @@ the live surface or the guidelines, never the subpage it replaced.
 `--rail` (280px) is read by the rail and by the panel that meets it. Two hardcoded 280s drift the
 first time one of them moves.
 
-Close is the Close control or Escape. Reopening inside the 420ms close transition cancels the
-pending hide; without that the stale timeout fires over the panel that just arrived and leaves
-`cs-open` on a `display:none` element.
+**The way out is the breadcrumb**, not a Close control (2026-09-10). It is the same three-item
+crumb the `/work/<slug>/` pages carry — `Renaise / Work / <Name>`, separator generated, the
+current item not a link — so moving between a panel and a page never changes how you get back.
+Renaise closes to the top of the index; Work closes to the grid. Escape still closes.
+
+**Motion.** The panel travels its own width, which is most of the screen. Moved alone it read as
+an opaque wall shoved across the grid, so the leading edge is softened with opacity (`.4` → `1`)
+and the body composes a beat behind the frame — `.14s` delay, a `10px` rise — so the frame
+arrives and the case study settles inside it. One curve, the site's, on `--cs-dur` (`.52s`).
+
+Three defects fixed the same day, all of them things that only show up in motion:
+
+- **One `requestAnimationFrame` is not enough** to guarantee the pre-transition style was
+  committed. When it wasn't, the panel snapped straight to its end value with no animation.
+  Forced reflow plus a double rAF.
+- **`inert` and focus were released the instant close began**, so the index scrolled back under
+  a panel still on screen. Both now happen at the end, and every `focus()` passes
+  `preventScroll`.
+- **The close duration was a second copy of the CSS number.** `transitionend` on the panel's
+  `transform` is the truth now, with `--cs-dur` read out of the computed style as the guard for
+  the case where no transition fires. A duration written twice is a duration that drifts.
+
+Reopening inside the close cancels both the pending hide and its listener; without that the
+stale timeout fires over the panel that just arrived and leaves `cs-open` on a `display:none`
+element.
 
 The hrefs stay on the anchors, so the panel is an enhancement: no JS, a middle-click, or any
 modified click still goes where the card always went. State is a `#case=<slug>` hash, so a

@@ -70,6 +70,10 @@
     /* The rail width, read by the rail and by the case study panel that butts
        against it. Two hardcoded 280s would drift the first time one moved. */
     --rail:280px;
+    /* The panel's timing, read by the CSS that runs it and by the JS that waits
+       on it. A duration written twice is a duration that drifts. */
+    --cs-dur:.52s;
+    --ease:cubic-bezier(.2,.7,.2,1);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --serif:"Redaction","Times New Roman",Times,serif;
     --display:"Redaction","Times New Roman",Times,serif;
@@ -538,13 +542,18 @@
      always went. Nothing on the index moves when it opens.
      Same ink, same three alphas, same dotted rules — a panel that invented its
      own scale would read as a different site. */
+  /* The panel travels its own width, which is most of the screen. Moved alone it
+     reads as an opaque wall shoved across the grid, so the edge is softened with
+     opacity and the content settles a beat behind the frame — the frame arrives,
+     then the case study composes inside it. One curve, the site's. */
   .cs{position:fixed;top:0;right:0;left:var(--rail);z-index:61;height:100%;
     display:flex;flex-direction:column;background:var(--bg1);
     border-left:1px dotted var(--line);
-    transform:translateX(100%);
-    transition:transform .42s cubic-bezier(.2,.7,.2,1);}
+    transform:translateX(100%);opacity:.4;
+    transition:transform var(--cs-dur) var(--ease),opacity var(--cs-dur) var(--ease);
+    will-change:transform;}
   .cs[hidden]{display:none;}
-  .cs-open .cs{transform:translateX(0);}
+  .cs-open .cs{transform:translateX(0);opacity:1;}
   /* The page behind it stops scrolling; the panel scrolls instead. */
   .cs-open,.cs-open body{overflow:hidden;}
 
@@ -552,17 +561,21 @@
   /* The header and the body read on the site's own measure, not stretched to the
      viewport: the index caps its main column at 1040 and the case study is that
      same column arriving in a different frame. */
-  .cs-top{flex:0 0 auto;display:flex;align-items:baseline;justify-content:space-between;
+  .cs-top{flex:0 0 auto;display:flex;align-items:baseline;
     gap:1rem;border-bottom:1px dotted var(--line);
     padding:var(--gut) max(var(--gut),calc((100% - 1040px)/2));}
-  .cs-crumb{display:flex;flex-wrap:wrap;gap:.5rem;color:var(--sw4);}
-  .cs-crumb span + span::before{content:"/";color:var(--sw4);margin-right:.5rem;}
-  .cs-x{appearance:none;background:none;border:0;padding:.1rem .2rem;margin:-.1rem -.2rem;
-    color:var(--sw4);font:inherit;cursor:pointer;}
-  .cs-x:hover{color:var(--accent);}
+  .cs-crumb{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;margin:0;padding:0;}
+  .cs-crumb li{display:flex;align-items:baseline;gap:.5rem;color:var(--sw4);}
+  .cs-crumb li + li::before{content:"/";color:var(--sw4);}
+  .cs-crumb a{color:var(--sw2);}
+  .cs-crumb a:hover{color:var(--accent);}
+  .cs-crumb [aria-current="page"]{color:var(--sw4);}
 
   .cs-body{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
-    padding:0 max(var(--gut),calc((100% - 1040px)/2)) 5rem;}
+    padding:0 max(var(--gut),calc((100% - 1040px)/2)) 5rem;
+    opacity:0;transform:translateY(10px);
+    transition:opacity .34s var(--ease) .14s,transform .34s var(--ease) .14s;}
+  .cs-open .cs-body{opacity:1;transform:none;}
   /* Focused on open so Tab and Escape land inside. The ring would be the only solid
      outline on a page whose every rule is dotted. */
   .cs-body:focus{outline:none;}
@@ -654,7 +667,8 @@
 
   /* Entrances only, and every one of them has an escape. */
   @media(prefers-reduced-motion:reduce){
-    .cs{transition:none;}
+    .cs,.cs-body{transition:none;}
+    .cs-body{transform:none;}
   }
 </style>
 <script>
@@ -821,10 +835,13 @@ document.documentElement.className+=' js';
   <!-- Case study panel. Empty in the document; filled from the store on open, so the
        markup here can never drift from what the CMS actually says. -->
   <aside class="cs" id="cs" role="dialog" aria-modal="true" aria-labelledby="cs-name" hidden>
-    <div class="cs-top">
-      <div class="cs-crumb"><span>Work</span><span id="cs-crumb-name"></span></div>
-      <button class="cs-x" id="cs-x" type="button">Close</button>
-    </div>
+    <nav class="cs-top" aria-label="Breadcrumb">
+      <ol class="cs-crumb">
+        <li><a href="/" data-cs-back="top">Renaise</a></li>
+        <li><a href="#work" data-cs-back="work">Work</a></li>
+        <li id="cs-crumb-name" aria-current="page"></li>
+      </ol>
+    </nav>
     <div class="cs-body" id="cs-body" tabindex="-1"></div>
   </aside>
 
@@ -1171,7 +1188,7 @@ document.documentElement.className+=' js';
 (function(){
   var panel=document.getElementById('cs'),
       body=document.getElementById('cs-body'), crumb=document.getElementById('cs-crumb-name'),
-      close=document.getElementById('cs-x'), root=document.documentElement,
+      root=document.documentElement,
       app=document.querySelector('.app');
   if(!panel||!body) return;
 
@@ -1345,6 +1362,17 @@ document.documentElement.className+=' js';
     playFilmsInView();
   }
 
+  function reduced(){
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches);
+  }
+  // The duration lives in CSS. Read it rather than restating it, so changing the
+  // token cannot leave the JS waiting on a number the transition no longer uses.
+  function dur(){
+    var v=getComputedStyle(root).getPropertyValue('--cs-dur').trim();
+    var n=parseFloat(v)||0.52;
+    return /ms$/.test(v)?n:n*1000;
+  }
+
   // Entrance, not a scroll effect: a film runs once when it arrives and is then
   // unobserved. Without an observer it plays on open, which is the honest fallback.
   function playFilmsInView(){
@@ -1361,22 +1389,29 @@ document.documentElement.className+=' js';
     films.forEach(function(v){ io.observe(v); });
   }
 
-  var last=null, hideT=null;
+  var last=null, hideT=null, pendingEnd=null;
   function open(slug,card,push){
     if(!slug) return;
     // Reopening inside the close transition would otherwise let the pending hide
     // fire over the panel that just arrived, leaving cs-open on an empty display:none.
     if(hideT){ clearTimeout(hideT); hideT=null; }
+    if(pendingEnd){ panel.removeEventListener('transitionend',pendingEnd); pendingEnd=null; }
     last=document.activeElement;
     render(slug,card);
     panel.hidden=false;
     // aria-modal is a claim; inert is the enforcement. Without it Tab walks out of
     // the panel and into the grid underneath, which is covered but still focusable.
     if('inert' in HTMLElement.prototype) app.inert=true;
-    // One frame on the ground state, so the transform actually transitions in
-    // rather than being painted straight at its end value.
-    requestAnimationFrame(function(){ root.classList.add('cs-open'); });
-    body.focus();
+    // Two frames on the ground state. One is not enough to guarantee the browser
+    // committed the pre-transition style, and when it hasn't the panel snaps
+    // straight to its end value with no animation at all.
+    void panel.offsetWidth;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ root.classList.add('cs-open'); });
+    });
+    // Focus without scrolling: the panel is mid-travel and moving focus into a
+    // freshly painted container can jump its scroll position under the animation.
+    try{ body.focus({preventScroll:true}); }catch(e){ body.focus(); }
     if(push && location.hash!=='#case='+slug){
       history.pushState({cs:slug},'','#case='+slug);
     }
@@ -1384,11 +1419,20 @@ document.documentElement.className+=' js';
   function shut(push){
     if(panel.hidden) return;
     root.classList.remove('cs-open');
-    if('inert' in HTMLElement.prototype) app.inert=false;
-    var done=function(){ hideT=null; panel.hidden=true; body.innerHTML=''; };
-    if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches){ done(); }
-    else{ hideT=setTimeout(done,420); }
-    if(last&&last.focus) last.focus();
+    var done=function(){
+      if(hideT){ clearTimeout(hideT); hideT=null; }
+      panel.removeEventListener('transitionend',onEnd); pendingEnd=null;
+      panel.hidden=true; body.innerHTML='';
+      if('inert' in HTMLElement.prototype) app.inert=false;
+      if(last&&last.focus){ try{ last.focus({preventScroll:true}); }catch(e){ last.focus(); } }
+    };
+    var onEnd=function(e){ if(e.target===panel&&e.propertyName==='transform') done(); };
+    if(reduced()){ done(); }
+    else{
+      pendingEnd=onEnd;
+      panel.addEventListener('transitionend',onEnd);
+      hideT=setTimeout(done,dur()+80);   // guard: a transition that never fires
+    }
     if(push && /^#case=/.test(location.hash)){ history.pushState(null,'','#work'); }
   }
 
@@ -1415,7 +1459,16 @@ document.documentElement.className+=' js';
     var q=v.play(); if(q&&q.catch) q.catch(function(){});
   });
 
-  close.addEventListener('click',function(){ shut(true); });
+  // The crumb is the way out. "Renaise" returns to the top of the index,
+  // "Work" leaves you at the grid you came from.
+  panel.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('.cs-crumb a[data-cs-back]'):null;
+    if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0) return;
+    e.preventDefault();
+    var top=a.getAttribute('data-cs-back')==='top';
+    shut(true);
+    if(top) window.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});
+  });
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&!panel.hidden){ e.preventDefault(); shut(true); }
   });
