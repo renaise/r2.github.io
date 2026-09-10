@@ -251,7 +251,7 @@ arrangement the card order uses. Four sections where the store has the four-part
 where it does not, the hook is the Overview and that is the whole entry. Nothing is
 authored twice and nothing announces the absence.
 
-**Two projects carry their system inline.** Idler renders the accents, the twelve-step
+**Three projects carry their system inline.** Idler renders the accents, the twelve-step
 neutral scale, the six Matter units and the type ladder from `id-idler.pages.dev`; Artifice
 renders carbon, chalk, cobalt on both grounds, the mark minimums, WHITEBOX/BLACKBOX and the
 type ladder from `brand.artificenyc.org`. Values are read off the live guidelines and checked
@@ -284,6 +284,15 @@ the thing the swatches and tables are there to demonstrate, and ran the same
 not-X-but-Y shape twice. Cut. Idler's table keeps a Face column because it runs two faces;
 Artifice's carried one family five times, so the family is a single **Typeface** spec line and
 the column is gone.
+
+**FLORA's is Hieronymous**, named for the Bosch panel that opens its reference board. There is
+no published guidelines document to pull from — the system exists as a campaign set and that
+board — so the block carries the board and the four names on it and nothing invented around
+them: Hieronymus Bosch, Nam June Paik, Iris van Herpen, Gisela Colón.
+
+**The board image spells two of the four wrong** ("Hieronymous Bosch", "Giesela Colon"). The
+names in the reference line are the artists' own spellings. A real person's name is not a place
+to reproduce a typo, so the two disagree on purpose until the source file is fixed.
 
 The panel's swatch chips carry a dotted `--line` border: `#0E0E0E` on the dark ground is a
 chip you cannot otherwise see, and a dotted edge joins the one rule family rather than
