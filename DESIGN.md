@@ -159,8 +159,13 @@ column to sit beside, so the panel takes the width.
 Inside, the header and body sit on the index's own 1040px measure, taken off the **pane** and not
 the viewport, so the case study is that column arriving in a different frame. Nothing navigates
 and nothing on the index moves. It replaces the eight cards that routed to
-`studioartifice.com/work/<slug>/`, and the panel never offers that route back — the footer links
-the live surface or the guidelines, never the subpage it replaced.
+`studioartifice.com/work/<slug>/`.
+
+**What is revealed is the full case study.** There is no fuller one to page through to, so the
+footer never offers one: no "Full case study" link to a `/work/<slug>/` page and no
+`studioartifice.com/work/<slug>/` link handing back the offsite trip the panel exists to remove.
+The footer carries the live surface and the guidelines, and nothing else — for six of the eleven
+it carries nothing, and renders no rule.
 
 `--rail` (280px) is read by the rail and by the panel that meets it. Two hardcoded 280s drift the
 first time one of them moves.

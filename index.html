@@ -712,7 +712,7 @@ document.documentElement.className+=' js';
         <a href="https://www.are.na/renaise/channels" target="_blank" rel="noopener">Are.na <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <a href="https://renaise.substack.com/" target="_blank" rel="noopener">Substack <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <a href="https://github.com/renaise" target="_blank" rel="noopener">GitHub <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
-        <a href="https://www.figma.com/design/XMjbHq7OsxQTjdlMJBrMzQ/RENAISE---LAB---STAGE--Public-?node-id=12-5349&amp;t=sKzy4CnPkO0pWFA3-1" target="_blank" rel="noopener">Figma <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
+        <a href="https://www.figma.com/design/XMjbHq7OsxQTjdlMJBrMzQ/RENAISE---LAB---STAGE--Public-?node-id=0-1&amp;t=NlN41DV5NRkYTlwR-1" target="_blank" rel="noopener">Figma <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <div class="foot"><div class="clock" id="clock" aria-label="Current time in New York"></div><button class="tsw" id="tsw" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="track"><span class="knob"></span></span><span class="lbl">Light</span></button></div>
       </div>
     </aside>
@@ -1331,11 +1331,13 @@ document.documentElement.className+=' js';
     }
     out+=systemBlock(d.system);
 
-    // The footer offers the live thing, never the route this panel replaced: a
-    // studioartifice.com/work/<slug>/ link here would hand back the offsite trip
-    // the panel exists to remove. Live surfaces and the guidelines still link out.
+    // What is revealed IS the full case study. There is no fuller one to page
+    // through to, so the footer never offers one: no "Full case study" link to a
+    // /work/<slug>/ page, and no studioartifice.com/work/<slug>/ link handing
+    // back the offsite trip the panel exists to remove. The footer carries the
+    // live thing and the guidelines, and nothing else.
     var href=card?card.getAttribute('href'):'';
-    var isStudioSubpage=/studioartifice\.com\/work\//.test(href||'');
+    var isCaseStudyRoute=/^\/work\//.test(href||'')||/studioartifice\.com\/work\//.test(href||'');
     // When the card already pointed at the guidelines, "Open the system" is that
     // link. Two rows to one destination is a hierarchy problem, not a courtesy.
     var norm=function(u){ return String(u||'').replace(/^https?:\/\//,'').replace(/\/+$/,''); };
@@ -1344,9 +1346,7 @@ document.documentElement.className+=' js';
     if(d.system&&d.system.url){
       out+='<a href="'+esc(d.system.url)+'" target="_blank" rel="noopener">Open the system</a>';
     }
-    if(href&&/^\/work\//.test(href)){
-      out+='<a href="'+esc(href)+'">Full case study</a>';
-    }else if(href&&!isStudioSubpage&&!dupeOfSystem){
+    if(href&&!isCaseStudyRoute&&!dupeOfSystem){
       out+='<a href="'+esc(href)+'" target="_blank" rel="noopener">Visit '
         + esc(href.replace(/^https?:\/\//,'').replace(/\/$/,'')) + '</a>';
     }
