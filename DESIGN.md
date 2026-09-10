@@ -157,6 +157,15 @@ Authored order as of 2026-08-31: idler · artifactory · soot · the-artifact-in
 industrial-lighting · lighthouse · depictions-of-original-sin · artifice-brand ·
 studio-artifice. Ten cards. `flora` and `sensitive-subjects` are not on the site.
 
+**`biota` was added last on 2026-09-10 and the store does not carry it.** The reorder script
+only applies an order that accounts for every card on the page, so with twelve cards and eleven
+rows in the store the guard fires and the **authored order now stands permanently**. That is the
+intended fail-safe and it puts BIOTA last, which is where it belongs, but the CMS has stopped
+driving order until a `biota` row exists. Add one to hand control back.
+
+The rail's filter counts are authored, not derived: `All 12 · URL 11 · IRL 1`. A thirteenth card
+means editing them by hand.
+
 The CMS carries `problem`, `solution`, `impact`, and `process` for every project. The card
 renders **only `hook`**. The card is still a hook rather than a summary, but the withholding
 no longer routes offsite: **case studies live here now**, at `/work/<slug>/`, per Renaise
