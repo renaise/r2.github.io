@@ -259,6 +259,25 @@ against them, never transcribed from a picture. The Matter units are drawn from 
 pair rather than shipped as six files, so there can be a sixth and not a seventh. Both link out
 under **Open the guidelines**.
 
+**Idler's system is pulled at runtime, not copied.** `id-idler.pages.dev` serves
+`access-control-allow-origin: *`, so the panel fetches the guidelines and reads the values off
+the document. The page has a real contract for them: every accent is `button.sw[data-hex]`
+carrying its name in `aria-label` and its state in `.role`, every neutral step is
+`button.rstep[data-hex]`, every Matter unit is a `.acell` with `.ameans` and `.aname`. Those
+three are pulled. Units are accepted only at exactly six, because six and no seventh is the
+argument the block makes; any other count means the parse is wrong, not the system.
+
+**The type ladder is not pulled.** It is split across several grouped `.ttable`s with a Preview
+column, and a naive parse of that returns garbage rather than nothing, which is worse than a
+copy. It stays baked until id-idler publishes the scale as data.
+
+Every pull is a merge over the baked block, never a replacement, and the result is cached for a
+day. A fetch that fails, is blocked, or returns an unrecognised shape leaves the panel exactly
+as it renders offline — verified by aborting the request and confirming all four counts hold.
+That it is genuinely reading the document rather than its own copy is verified the other way:
+serve the real guidelines with one accent and one unit renamed, and both renames appear in the
+panel.
+
 The block states no claim about its own accuracy: both systems opened on a line saying the
 values were read off the live document rather than transcribed from it, which asserted exactly
 the thing the swatches and tables are there to demonstrate, and ran the same
