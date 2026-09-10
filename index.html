@@ -64,9 +64,6 @@
     --sw2:rgba(176,176,176,0.96); --sw3:rgba(176,176,176,0.86); --sw4:rgba(176,176,176,0.80);
     --accent:#ffffff; --bg1:#161718; --tile:#101010;
     --line:rgba(176,176,176,0.42);
-    /* The panel's veil drops the grid toward the page's own ground rather than
-       toward black, which in light mode read as a grey wash over the covers. */
-    --veil:rgba(12,12,13,0.62);
     /* One gutter for the whole frame: rail padding, card spread, and the first
        card's top all read from this, so the buffer is identical on every side. */
     --gut:1.4rem;
@@ -116,7 +113,6 @@
     --sw5:rgba(76,76,76,0.82);
     --card-body:rgba(70,70,70,0.90);
     --prose-ink:rgba(70,70,70,0.94);
-    --veil:rgba(233,233,233,0.72);
   }
   *{box-sizing:border-box;}
   /* anchor jumps ease instead of cutting; no fixed bar now, so only the mobile rail to clear */
@@ -539,14 +535,8 @@
      always went. Nothing on the index moves when it opens.
      Same ink, same three alphas, same dotted rules — a panel that invented its
      own scale would read as a different site. */
-  .csv{position:fixed;inset:0;z-index:60;background:var(--veil);
-    opacity:0;transition:opacity .38s cubic-bezier(.2,.7,.2,1);}
-  .csv[hidden]{display:none;}
-  .cs-open .csv{opacity:1;}
-
-  .cs{position:fixed;top:0;right:0;z-index:61;height:100%;
-    width:min(720px,94vw);display:flex;flex-direction:column;
-    background:var(--bg1);border-left:1px dotted var(--line);
+  .cs{position:fixed;top:0;right:0;z-index:61;height:100%;width:100%;
+    display:flex;flex-direction:column;background:var(--bg1);
     transform:translateX(100%);
     transition:transform .42s cubic-bezier(.2,.7,.2,1);}
   .cs[hidden]{display:none;}
@@ -555,8 +545,12 @@
   .cs-open,.cs-open body{overflow:hidden;}
 
   /* Header pins. The body under it is the only thing that moves. */
+  /* The header and the body read on the site's own measure, not stretched to the
+     viewport: the index caps its main column at 1040 and the case study is that
+     same column arriving in a different frame. */
   .cs-top{flex:0 0 auto;display:flex;align-items:baseline;justify-content:space-between;
-    gap:1rem;padding:var(--gut);border-bottom:1px dotted var(--line);}
+    gap:1rem;border-bottom:1px dotted var(--line);
+    padding:var(--gut) max(var(--gut),calc((100vw - 1040px)/2));}
   .cs-crumb{display:flex;flex-wrap:wrap;gap:.5rem;color:var(--sw4);}
   .cs-crumb span + span::before{content:"/";color:var(--sw4);margin-right:.5rem;}
   .cs-x{appearance:none;background:none;border:0;padding:.1rem .2rem;margin:-.1rem -.2rem;
@@ -564,7 +558,7 @@
   .cs-x:hover{color:var(--accent);}
 
   .cs-body{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
-    padding:0 var(--gut) 4rem;}
+    padding:0 max(var(--gut),calc((100vw - 1040px)/2)) 5rem;}
   /* Focused on open so Tab and Escape land inside. The ring would be the only solid
      outline on a page whose every rule is dotted. */
   .cs-body:focus{outline:none;}
@@ -638,13 +632,12 @@
   /* Full-bleed on a phone: a 94vw drawer with a 6vw sliver of grid behind it is
      neither one thing nor the other. */
   @media(max-width:700px){
-    .cs{width:100%;border-left:0;}
     .cs-ledger{grid-template-columns:repeat(2,1fr);}
   }
 
   /* Entrances only, and every one of them has an escape. */
   @media(prefers-reduced-motion:reduce){
-    .cs,.csv{transition:none;}
+    .cs{transition:none;}
   }
 </style>
 <script>
@@ -810,7 +803,6 @@ document.documentElement.className+=' js';
 
   <!-- Case study panel. Empty in the document; filled from the store on open, so the
        markup here can never drift from what the CMS actually says. -->
-  <div class="csv" id="csv" hidden></div>
   <aside class="cs" id="cs" role="dialog" aria-modal="true" aria-labelledby="cs-name" hidden>
     <div class="cs-top">
       <div class="cs-crumb"><span>Work</span><span id="cs-crumb-name"></span></div>
@@ -1160,11 +1152,11 @@ document.documentElement.className+=' js';
 // A project the store has no four-part text for renders its header, its plate and
 // its hook, and stops. Nothing announces the absence.
 (function(){
-  var panel=document.getElementById('cs'), veil=document.getElementById('csv'),
+  var panel=document.getElementById('cs'),
       body=document.getElementById('cs-body'), crumb=document.getElementById('cs-crumb-name'),
       close=document.getElementById('cs-x'), root=document.documentElement,
       app=document.querySelector('.app');
-  if(!panel||!veil||!body) return;
+  if(!panel||!body) return;
 
   var DATA={};
   try{ DATA=JSON.parse(document.getElementById('cs-data').textContent)||{}; }catch(e){}
@@ -1324,14 +1316,17 @@ document.documentElement.className+=' js';
     body.scrollTop=0;
   }
 
-  var last=null;
+  var last=null, hideT=null;
   function open(slug,card,push){
     if(!slug) return;
+    // Reopening inside the close transition would otherwise let the pending hide
+    // fire over the panel that just arrived, leaving cs-open on an empty display:none.
+    if(hideT){ clearTimeout(hideT); hideT=null; }
     last=document.activeElement;
     render(slug,card);
-    veil.hidden=false; panel.hidden=false;
+    panel.hidden=false;
     // aria-modal is a claim; inert is the enforcement. Without it Tab walks out of
-    // the panel and into the grid the veil is covering.
+    // the panel and into the grid underneath, which is covered but still focusable.
     if('inert' in HTMLElement.prototype) app.inert=true;
     // One frame on the ground state, so the transform actually transitions in
     // rather than being painted straight at its end value.
@@ -1345,9 +1340,9 @@ document.documentElement.className+=' js';
     if(panel.hidden) return;
     root.classList.remove('cs-open');
     if('inert' in HTMLElement.prototype) app.inert=false;
-    var done=function(){ panel.hidden=true; veil.hidden=true; body.innerHTML=''; };
+    var done=function(){ hideT=null; panel.hidden=true; body.innerHTML=''; };
     if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches){ done(); }
-    else{ setTimeout(done,420); }
+    else{ hideT=setTimeout(done,420); }
     if(last&&last.focus) last.focus();
     if(push && /^#case=/.test(location.hash)){ history.pushState(null,'','#work'); }
   }
@@ -1368,7 +1363,6 @@ document.documentElement.className+=' js';
   });
 
   close.addEventListener('click',function(){ shut(true); });
-  veil.addEventListener('click',function(){ shut(true); });
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&!panel.hidden){ e.preventDefault(); shut(true); }
   });

@@ -145,10 +145,18 @@ renders **only `hook`**. The card is still a hook rather than a summary, but the
 no longer routes offsite: **case studies live here now**, at `/work/<slug>/`, per Renaise
 2026-08-25 and the model in `CMS.md`. SOOT is the first.
 
-**Every card opens the case study panel** (2026-09-10). A click slides a right-hand panel in
-over the grid; nothing navigates and nothing on the index moves. It replaces the eight cards
-that routed to `studioartifice.com/work/<slug>/`, and the panel never offers that route back
-— the footer links the live surface or the guidelines, never the subpage it replaced.
+**Every card opens the case study panel** (2026-09-10). A click transitions the case study in
+from the right and it takes the **whole window** — full-bleed, end to end, no veil and nothing
+of the index showing beside it. It shipped as a 720px drawer that morning and was corrected the
+same day: a drawer is a floating card on a grey page. Inside, the header and the body sit on the
+index's own 1040px measure, so the case study is that column arriving in a different frame.
+Nothing navigates and nothing on the index moves. It replaces the eight cards that routed to
+`studioartifice.com/work/<slug>/`, and the panel never offers that route back — the footer links
+the live surface or the guidelines, never the subpage it replaced.
+
+Close is the Close control or Escape. Reopening inside the 420ms close transition cancels the
+pending hide; without that the stale timeout fires over the panel that just arrived and leaves
+`cs-open` on a `display:none` element.
 
 The hrefs stay on the anchors, so the panel is an enhancement: no JS, a middle-click, or any
 modified click still goes where the card always went. State is a `#case=<slug>` hash, so a
@@ -170,8 +178,8 @@ seventh. Both still link out to the full document.
 
 The panel's swatch chips carry a dotted `--line` border: `#0E0E0E` on the dark ground is a
 chip you cannot otherwise see, and a dotted edge joins the one rule family rather than
-introducing a second. `--veil` drops the grid toward the page's own ground in each theme;
-a black scrim over light mode read as a grey wash across the covers.
+introducing a second. There is no `--veil` token any more — nothing shows through a full-bleed
+panel, so a scrim behind it was a control that did nothing.
 
 Card fields map `name · year · title · role · medium · hook`, with `status` appended to
 medium only when it is not `Live`.
