@@ -77,6 +77,13 @@
     /* The case study's label column. Same measure as `.cv .sec`, so the panel
        and the CV split at the same place. */
     --cs-col:minmax(120px,22%);
+    /* The gutter between the two columns, and the gap between stacked rows in
+       one. Written four times as 1.1rem / 2.2rem before this. The pair is
+       composed from the two, so a block needing only the column gutter takes
+       --cs-gap-col rather than restating the number. */
+    --cs-gap-row:1.1rem;
+    --cs-gap-col:2.2rem;
+    --cs-gap:var(--cs-gap-row) var(--cs-gap-col);
     --ease:cubic-bezier(.2,.7,.2,1);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --serif:"Redaction","Times New Roman",Times,serif;
@@ -468,7 +475,7 @@
      to its own much shorter ramp, and .wrap's bottom padding comes in to match. */
   .card:last-child{padding-bottom:clamp(24px,2.4vw,40px);}
   .about{margin-top:0;}
-  .cv .sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:1.1rem 2.2rem;
+  .cv .sec{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:var(--cs-gap);
     padding:1.5rem 0 1.5rem var(--gut);border-top:1px dotted var(--line);align-items:start;
     margin-left:calc(-1 * var(--gut));}
 
@@ -602,7 +609,7 @@
   .cs-mast .claim{margin:.8rem 0 0;font-size:clamp(.95rem,2vw,1.2rem);
     font-weight:400;line-height:1.2;color:var(--sw2);}
 
-  .cs-ledger{display:grid;grid-template-columns:var(--cs-col) 1fr 1fr;gap:1.1rem 2.2rem;
+  .cs-ledger{display:grid;grid-template-columns:var(--cs-col) 1fr 1fr;gap:var(--cs-gap);
     padding:1rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);
     margin-bottom:1.8rem;}
   .cs-ledger dt{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
@@ -618,7 +625,8 @@
 
   /* Additional plates. Same ground and radius as the cover, but each keeps its own
      ratio: a 1508/600 diagram cropped into a 16:9 hole loses both its ends. */
-  .cs-shot{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:.7rem 2.2rem;
+  .cs-shot{display:grid;grid-template-columns:var(--cs-col) 1fr;
+    gap:.7rem var(--cs-gap-col);
     margin:0 0 2.2rem;}
   .cs-shot > img,.cs-shot > video{grid-column:1 / -1;}
   .cs-shot > figcaption{grid-column:2;}
@@ -629,7 +637,7 @@
   .cs-shot video.cs-film{cursor:pointer;}
   .cs-shot figcaption{font-family:var(--serif);font-weight:300;font-size:var(--prose);
     line-height:var(--prose-lh);color:var(--sw4);margin:0;}
-  .cs-sec{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:1.1rem 2.2rem;
+  .cs-sec{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:var(--cs-gap);
     align-items:start;padding:1.5rem 0;border-top:1px dotted var(--line);}
   .cs-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);}
   .cs-sec > :not(.cs-lbl){grid-column:2;}
@@ -642,7 +650,8 @@
      neutral scale, the six Matter units and the type ladder are the values on
      the guidelines site, checked against it, not a screenshot of it. The link
      out is still there for the full document. */
-  .cs-sw{display:grid;grid-template-columns:repeat(7,1fr);gap:.9rem;margin-bottom:1.4rem;}
+  .cs-sw,.cs-units,.cs-pairs{display:grid;grid-template-columns:repeat(var(--n,4),1fr);}
+  .cs-sw{gap:.9rem;margin-bottom:1.4rem;}
   .cs-sw .ch{display:block;height:2.6rem;border-radius:3px;margin-bottom:.4rem;
     border:1px dotted var(--line);}
   .cs-sw .nm{display:block;color:var(--sw2);}
@@ -658,15 +667,14 @@
     white-space:nowrap;line-height:1.1;}
   .cs-ramp u{opacity:.72;}
   .cs-units img{display:block;width:100%;height:auto;margin-bottom:.4rem;}
-  .cs-units{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
-    gap:.9rem;margin-bottom:1.4rem;}
+  .cs-units{gap:.9rem;margin-bottom:1.4rem;}
   .cs-units figure{margin:0;}
   .cs-units figcaption{color:var(--sw2);}
   .cs-units .st{color:var(--sw4);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;}
-  .cs-pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-    gap:1rem 1.4rem;margin-bottom:1.4rem;}
-  .cs-pairs.wide{grid-template-columns:1fr;gap:1.1rem;}
-  .cs-pairs.one{grid-template-columns:1fr;margin-bottom:1rem;}
+  .cs-pairs{gap:1rem 1.4rem;margin-bottom:1.4rem;}
+  .cs-pairs.wide,.cs-pairs.one{grid-template-columns:1fr;}
+  .cs-pairs.wide{gap:1.1rem;}
+  .cs-pairs.one{margin-bottom:1rem;}
   .cs-pairs.one dd{font-family:var(--sans);font-size:.72rem;color:var(--sw2);}
   .cs-pairs dt{color:var(--sw2);margin-bottom:.35rem;}
   .cs-pairs dt .st{color:var(--sw4);}
@@ -689,9 +697,16 @@
 
   /* Full-bleed on a phone: a 94vw drawer with a 6vw sliver of grid behind it is
      neither one thing nor the other. */
+  /* Below this a full-count row squeezes a label past legibility, so the specimen
+     grids stop counting and start fitting. */
   @media(max-width:1200px){
     .cs-ramp{flex-wrap:wrap;}
     .cs-ramp i{flex:0 0 16.6667%;}
+    .cs-sw,.cs-units,.cs-pairs{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}
+    /* Six units fit four then two under auto-fit. Three and three is the same
+       information without the orphan, and six divides by three. */
+    .cs-units{grid-template-columns:repeat(3,1fr);}
+    .cs-pairs.wide,.cs-pairs.one{grid-template-columns:1fr;}
   }
   @media(max-width:900px){
     .cs{left:0;}
@@ -701,7 +716,8 @@
   }
   @media(max-width:700px){
     .cs-ledger{grid-template-columns:repeat(2,1fr);gap:1.2rem 1rem;}
-    .cs-sw{grid-template-columns:repeat(2,1fr);}
+    .cs-sw,.cs-units,.cs-pairs{grid-template-columns:repeat(2,1fr);}
+    .cs-pairs.wide,.cs-pairs.one{grid-template-columns:1fr;}
     .cs-ramp i{flex:0 0 33.3333%;}
   }
 
@@ -1299,7 +1315,7 @@ document.documentElement.className+=' js';
     if(!sys) return '';
     var h='<section class="cs-sec"><div class="cs-lbl">System</div>';
     if(sys.swatches&&sys.swatches.length){
-      h+='<div class="cs-sw">'+sys.swatches.map(function(a){
+      h+='<div class="cs-sw" style="--n:'+sys.swatches.length+'">'+sys.swatches.map(function(a){
         return '<div><span class="ch" style="background:'+esc(a.hex)+'"></span>'
           + '<span class="nm">'+esc(a.name)+(a.note?' &middot; '+esc(a.note):'')+'</span>'
           + '<span class="hx">'+esc(a.hex)+'</span></div>';
@@ -1314,10 +1330,10 @@ document.documentElement.className+=' js';
         + '</div>';
     }
     if(sys.units&&sys.units.length){
-      h+='<div class="cs-units">'+sys.units.map(unit).join('')+'</div>';
+      h+='<div class="cs-units" style="--n:'+sys.units.length+'">'+sys.units.map(unit).join('')+'</div>';
     }
     if(sys.marks&&sys.marks.length){
-      h+='<dl class="cs-pairs">'+sys.marks.map(function(m){
+      h+='<dl class="cs-pairs" style="--n:'+sys.marks.length+'">'+sys.marks.map(function(m){
         return '<div><dt>'+esc(m.name)+'<span class="st"> &middot; '+esc(m.note)+'</span></dt>'
           + '<dd>'+esc(m.min)+' minimum</dd></div>';
       }).join('')+'</dl>';

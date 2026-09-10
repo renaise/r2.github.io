@@ -236,6 +236,18 @@ footer never offers one: no "Full case study" link to a `/work/<slug>/` page and
 The footer carries the live surface and the guidelines, and nothing else — for six of the eleven
 it carries nothing, and renders no rule.
 
+**Grid tokens** (swept 2026-09-10). `--cs-col` and `--cs-gap` (composed from `--cs-gap-row` and
+`--cs-gap-col`) are the whole two-column split, and `.cv .sec` reads them too — it had its own
+copy of `minmax(120px,22%)`, which is how two definitions of one column drift apart. The CV and
+the case study now measure identical: both break at 302 and 583 at 1440.
+
+**Specimen rows count their own children.** `.cs-sw`, `.cs-units` and `.cs-pairs` share one
+idiom, `repeat(var(--n),1fr)`, with `--n` set by the renderer. The swatch grid had been pinned at
+seven for Idler's seven accents, so Artifice's four rendered as four narrow cells with three empty
+ones trailing — 107px where 198px was available. Below 1200px they stop counting and start
+fitting, at `minmax(130px,1fr)`; units take three columns there, because six divides by three and
+auto-fit was leaving an orphan.
+
 `--rail` (280px) is read by the rail and by the panel that meets it. Two hardcoded 280s drift the
 first time one of them moves.
 
