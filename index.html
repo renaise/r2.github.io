@@ -103,6 +103,7 @@
     --line-soft:rgba(176,176,176,0.18);
     --sw5:rgba(176,176,176,0.74);
     --card-body:rgba(176,176,176,0.88);
+    --card-body-rest:rgba(176,176,176,0.22);
   }
   /* Dark is the same construction inverted: one ink, same alpha steps, flat page.
      Ink #b0b0b0 on near-black #161718. The ground carries one point of blue over red (R=22
@@ -120,6 +121,7 @@
     --line-soft:rgba(92,92,92,0.18);
     --sw5:rgba(76,76,76,0.82);
     --card-body:rgba(70,70,70,0.90);
+    --card-body-rest:rgba(70,70,70,0.225);
     --prose-ink:rgba(70,70,70,0.94);
   }
   *{box-sizing:border-box;}
@@ -368,7 +370,13 @@
   .c1 .d{color:var(--prose-ink);display:block;margin-top:var(--prose-gap);
     font-size:clamp(.83rem,.77rem + .17vw,.9rem);
     font-family:var(--serif);font-weight:400;letter-spacing:0;line-height:1.5;
-    color:var(--card-body);}
+    color:var(--card-body-rest);
+    transition:color .3s cubic-bezier(.2,.7,.2,1);}
+  a.proj:hover .d,a.proj:focus-visible .d{color:var(--card-body);}
+  /* Without a pointer there is no hover to reveal it, so the copy is never dimmed.
+     A description you cannot read and cannot summon is a description you do not have. */
+  @media(hover:none){ .c1 .d{color:var(--card-body);} }
+  @media(prefers-reduced-motion:reduce){ .c1 .d{transition:none;} }
   .c1 br+span{display:block;}
 
   /* about / CV */
@@ -634,12 +642,16 @@
   .cs-sw .nm{display:block;color:var(--sw2);}
   .cs-sw .hx{display:block;color:var(--sw4);font-variant-numeric:tabular-nums;
     font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;}
-  .cs-ramp{display:flex;height:2rem;border-radius:3px;overflow:hidden;margin-bottom:1.4rem;}
-  .cs-ramp i{flex:1 1 0;}
+  .cs-ramp{display:flex;border-radius:3px;overflow:hidden;margin-bottom:1.4rem;}
+  .cs-ramp i{flex:1 1 0;height:3rem;display:flex;align-items:flex-end;padding:.3rem;}
+  /* The step number sits on its own swatch, so its colour is chosen per step from
+     that step's relative luminance: ink on the pale end, paper on the dark end. */
+  .cs-ramp b{font-size:.58rem;letter-spacing:.08em;font-weight:400;
+    font-variant-numeric:tabular-nums;color:inherit;}
+  .cs-units img{display:block;width:100%;height:auto;margin-bottom:.4rem;}
   .cs-units{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
     gap:.9rem;margin-bottom:1.4rem;}
   .cs-units figure{margin:0;}
-  .cs-units svg{display:block;width:100%;height:auto;margin-bottom:.4rem;}
   .cs-units figcaption{color:var(--sw2);}
   .cs-units .st{color:var(--sw4);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;}
   .cs-pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
@@ -1220,6 +1232,20 @@ document.documentElement.className+=' js';
     })
     .catch(function(){});
 
+  // Relative luminance, so a label can be told which end of the ramp it is on.
+  function lumOf(hex){
+    var m=/^#?([0-9a-f]{6})$/i.exec(String(hex)); if(!m) return 0;
+    var n=parseInt(m[1],16), c=[n>>16&255,n>>8&255,n&255].map(function(v){
+      v/=255; return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4); });
+    return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];
+  }
+  // Ink or paper, whichever actually wins on this swatch. A fixed threshold left
+  // the step at the crossover sitting near 2:1.
+  function onColor(hex){
+    var L=lumOf(hex)+0.05, ink=lumOf('#0E0E0E')+0.05, paper=lumOf('#F2F2F2')+0.05;
+    var withInk=L/ink, withPaper=paper/L;
+    return withInk>=withPaper?'#0E0E0E':'#F2F2F2';
+  }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
@@ -1235,23 +1261,10 @@ document.documentElement.className+=' js';
   // states, and the hole state is the same path knocked out of a plate. Six units and
   // no seventh, which is the whole argument for drawing them from the form + state pair.
   function unit(u){
-    var id='u-'+u.token, F={
-      circle:'<circle cx="20" cy="20" r="14"/>',
-      triangle:'<path d="M20 6 34.1 30.5H5.9Z"/>',
-      square:'<rect x="6" y="6" width="28" height="28"/>'
-    }[u.form]||'';
-    var art = u.state==='hole'
-      ? '<defs><mask id="'+id+'"><rect width="40" height="40" fill="#fff"/>'
-        + '<g fill="#000">'+F+'</g></mask></defs>'
-        + '<rect width="40" height="40" fill="currentColor" mask="url(#'+id+')"/>'
-      : '<g fill="currentColor">'+F+'</g>';
-    return '<figure><svg viewBox="0 0 40 40" aria-hidden="true">'+art+'</svg>'
+    return '<figure><img src="/stage/idler/atoms/'+esc(u.token)+'.png" alt="" loading="lazy">'
       + '<figcaption>'+esc(u.name)+'<br><span class="st">'+esc(u.state)+'</span></figcaption></figure>';
   }
 
-  // One block, two guidelines sites: id-idler.pages.dev for Idler and
-  // brand.artificenyc.org for Artifice. Every part is optional, so a system that
-  // has no units or no pairs renders the parts it does have and stops.
   function systemBlock(sys){
     if(!sys) return '';
     var h='<section class="cs-sec"><div class="cs-lbl">System</div>';
@@ -1263,8 +1276,10 @@ document.documentElement.className+=' js';
       }).join('')+'</div>';
     }
     if(sys.ramp&&sys.ramp.length){
-      h+='<div class="cs-ramp" role="img" aria-label="The neutral scale, '+sys.ramp.length+' steps">'
-        + sys.ramp.map(function(hex){ return '<i style="background:'+esc(hex)+'"></i>'; }).join('')
+      h+='<div class="cs-ramp" aria-label="The neutral scale, '+sys.ramp.length+' steps">'
+        + sys.ramp.map(function(hex,i){
+            return '<i style="background:'+esc(hex)+';color:'+onColor(hex)+'">'
+              + '<b>' + ('0'+(i+1)).slice(-2) + '</b></i>'; }).join('')
         + '</div>';
     }
     if(sys.units&&sys.units.length){

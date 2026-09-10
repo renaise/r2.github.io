@@ -58,6 +58,14 @@ hierarchy problem.
 Accent is hover and outlines only — **never fill an area with it.** `--tile` backs the
 project plates, whose covers are composed for a dark ground, so it does not invert.
 
+**The card description recedes until you hover its card** (Renaise 2026-09-10). `--card-body-rest`
+is `--card-body`'s alpha at a quarter of it; hover and focus-visible restore the full value.
+Colour only, so nothing in the layout moves because a pointer crossed it. Measured: **1.55:1 at
+rest and 6.70:1 on hover in dark, 1.44:1 and 6.05:1 in light.** The rest state is far below any
+floor and is a deliberate reveal, not an oversight — but it is the hook, the only sentence the
+card carries, so if it should be legible without a pointer the alpha is the dial. Without a
+pointer there is no reveal, so `@media(hover:none)` never dims it at all.
+
 Light mode has no headroom: body sits at 4.54:1 against a 4.5 floor. A lighter page or
 lighter type drops it below AA. The only way to lift the scale is to darken `--ink`.
 `--sw4` (2.36:1) is knowingly sub-AA — recessive by design, the h1 included.
@@ -275,6 +283,18 @@ carrying its name in `aria-label` and its state in `.role`, every neutral step i
 `button.rstep[data-hex]`, every Matter unit is a `.acell` with `.ameans` and `.aname`. Those
 three are pulled. Units are accepted only at exactly six, because six and no seventh is the
 argument the block makes; any other count means the parse is wrong, not the system.
+
+**The Matter units are the client's art, not a drawing of it.** They were hand-drawn SVG paths
+built from the form-and-state pair, and the drawing was wrong in a way that misstated the system:
+the hole state is a small circular aperture *inside* the form, and the drawing rendered the form
+knocked out of a plate, which is its inverse. The forms are also rounded, not sharp-cornered.
+The six PNGs in `stage/idler/atoms/` are id-idler's own `/assets/atoms/`, used as supplied.
+**A brand primitive is fixed art; deriving one from a rule is how you publish a wrong one.**
+
+The neutral ramp carries its `01`–`12` step numbers, as the Grayscale section does. Each number's
+colour is chosen from its own swatch by asking which of ink or paper wins on it — a fixed
+luminance threshold left the crossover step at 2.3:1, and `mix-blend-mode:difference` went
+invisible across six of the twelve. Every step now measures 4.6:1 or better.
 
 **The type ladder is not pulled.** It is split across several grouped `.ttable`s with a Preview
 column, and a naive parse of that returns garbage rather than nothing, which is worse than a
