@@ -143,8 +143,35 @@ studio-artifice. Ten cards. `flora` and `sensitive-subjects` are not on the site
 The CMS carries `problem`, `solution`, `impact`, and `process` for every project. The card
 renders **only `hook`**. The card is still a hook rather than a summary, but the withholding
 no longer routes offsite: **case studies live here now**, at `/work/<slug>/`, per Renaise
-2026-08-25 and the model in `CMS.md`. SOOT is the first. Cards for projects with a page here
-link to it; the rest still link out.
+2026-08-25 and the model in `CMS.md`. SOOT is the first.
+
+**Every card opens the case study panel** (2026-09-10). A click slides a right-hand panel in
+over the grid; nothing navigates and nothing on the index moves. It replaces the eight cards
+that routed to `studioartifice.com/work/<slug>/`, and the panel never offers that route back
+— the footer links the live surface or the guidelines, never the subpage it replaced.
+
+The hrefs stay on the anchors, so the panel is an enhancement: no JS, a middle-click, or any
+modified click still goes where the card always went. State is a `#case=<slug>` hash, so a
+panel is shareable, Back closes it, and a shared link opens straight into it. `.app` goes
+`inert` while it is open — `aria-modal` is a claim, `inert` is the enforcement.
+
+Copy comes from the store, with a baked `#cs-data` block as the fallback, the same
+arrangement the card order uses. Four sections where the store has the four-part text;
+where it does not, the hook is the Overview and that is the whole entry. Nothing is
+authored twice and nothing announces the absence.
+
+**Two projects carry their system inline.** Idler renders the accents, the twelve-step
+neutral scale, the six Matter units and the type ladder from `id-idler.pages.dev`; Artifice
+renders carbon, chalk, cobalt on both grounds, the mark minimums, WHITEBOX/BLACKBOX and the
+type ladder from `brand.artificenyc.org`. Values are read off the live guidelines and
+checked against them, never transcribed from a picture. The Matter units are drawn from a
+form-and-state pair rather than shipped as six files, so there can be a sixth and not a
+seventh. Both still link out to the full document.
+
+The panel's swatch chips carry a dotted `--line` border: `#0E0E0E` on the dark ground is a
+chip you cannot otherwise see, and a dotted edge joins the one rule family rather than
+introducing a second. `--veil` drops the grid toward the page's own ground in each theme;
+a black scrim over light mode read as a grey wash across the covers.
 
 Card fields map `name · year · title · role · medium · hook`, with `status` appended to
 medium only when it is not `Live`.
@@ -163,7 +190,8 @@ carries everything, Redaction is the wordmark alone. No `dotted` border on a str
 motion. No adjective that survives deletion.
 
 Struck 2026-08-25: *"No case study on this site — route to the studio."* Reversed by
-Renaise. Case studies live here now, at `/work/<slug>/`.
+Renaise. Case studies live here now, at `/work/<slug>/`, and as of 2026-09-10 every card
+opens one in the panel rather than routing to a studioartifice.com subpage.
 
 ## Open
 
