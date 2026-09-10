@@ -233,10 +233,17 @@ authored twice and nothing announces the absence.
 **Two projects carry their system inline.** Idler renders the accents, the twelve-step
 neutral scale, the six Matter units and the type ladder from `id-idler.pages.dev`; Artifice
 renders carbon, chalk, cobalt on both grounds, the mark minimums, WHITEBOX/BLACKBOX and the
-type ladder from `brand.artificenyc.org`. Values are read off the live guidelines and
-checked against them, never transcribed from a picture. The Matter units are drawn from a
-form-and-state pair rather than shipped as six files, so there can be a sixth and not a
-seventh. Both still link out to the full document.
+type ladder from `brand.artificenyc.org`. Values are read off the live guidelines and checked
+against them, never transcribed from a picture. The Matter units are drawn from a form-and-state
+pair rather than shipped as six files, so there can be a sixth and not a seventh. Both link out
+under **Open the guidelines**.
+
+The block states no claim about its own accuracy: both systems opened on a line saying the
+values were read off the live document rather than transcribed from it, which asserted exactly
+the thing the swatches and tables are there to demonstrate, and ran the same
+not-X-but-Y shape twice. Cut. Idler's table keeps a Face column because it runs two faces;
+Artifice's carried one family five times, so the family is a single **Typeface** spec line and
+the column is gone.
 
 The panel's swatch chips carry a dotted `--line` border: `#0E0E0E` on the dark ground is a
 chip you cannot otherwise see, and a dotted edge joins the one rule family rather than
