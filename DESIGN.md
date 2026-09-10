@@ -316,6 +316,13 @@ are. `flora`'s cover is the tightest case: it is cut from a 1296-wide GIF and th
 already an upscale — `floraaidemov0.mp4` holds the same screen at 3800x2160 but without the
 ambient glow the designed cover has, so it is a composition change, not a re-encode.
 
+**See Live Site** sits under the ledger on the prose column, in the rail's link register: quiet
+text and an arrow that means "this leaves", no filled control. Nine of the twelve carry one, each
+URL checked for a 200 rather than assumed. SOOT, FLORA and Depictions have no live URL in the
+store, `projects.ts` or the repo, so they carry none rather than one pointing somewhere plausible.
+The footer's old `Visit <domain>` row is suppressed where it would duplicate the CTA — one
+destination, one control.
+
 A project may carry `shots`: extra plates that render under the prose, each with its own
 `ratio` and caption. A 1508/600 diagram cropped into a 16:9 hole loses both its ends, and a
 plate with no line under it makes the reader guess what they are looking at. FLORA carries
@@ -365,9 +372,13 @@ The type table's last row carries no bottom rule. It and the footer's top rule s
 parallel dotted lines with the section's padding between them, and the footer already closes
 the block.
 
-**The type ladder is not pulled.** It is split across several grouped `.ttable`s with a Preview
-column, and a naive parse of that returns garbage rather than nothing, which is worse than a
-copy. It stays baked until id-idler publishes the scale as data.
+**The type ladder and the two faces are pulled too** (2026-09-10). Left baked twice on the grounds
+that a naive parse of grouped tables returns garbage rather than nothing; the contract turned out
+to be strict enough to trust. The ladder is split across four `.ttable`s that all carry the same
+eight headers, and the faces sit in a fifth with its own. Each is matched on its header row and
+rejected whole if it does not match, so a redesign there falls back to the baked block rather than
+publishing a mangled one. Preview and Token are dropped from the ladder: one is a specimen glyph,
+the other is the variable name, and the panel is showing the scale, not the API.
 
 Every pull is a merge over the baked block, never a replacement, and the result is cached for a
 day. A fetch that fails, is blocked, or returns an unrecognised shape leaves the panel exactly
