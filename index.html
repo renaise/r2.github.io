@@ -74,6 +74,9 @@
        on it. A duration written twice is a duration that drifts. */
     --cs-dur:.42s;
     --cs-slide:28px;
+    /* The case study's label column. Same measure as `.cv .sec`, so the panel
+       and the CV split at the same place. */
+    --cs-col:minmax(120px,22%);
     --ease:cubic-bezier(.2,.7,.2,1);
     --sans:"Diatype Variable","Helvetica Neue",Helvetica,Arial,sans-serif;
     --serif:"Redaction","Times New Roman",Times,serif;
@@ -615,17 +618,21 @@
 
   /* Additional plates. Same ground and radius as the cover, but each keeps its own
      ratio: a 1508/600 diagram cropped into a 16:9 hole loses both its ends. */
-  .cs-shot{margin:0 0 2.2rem;}
+  .cs-shot{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:.7rem 2.2rem;
+    margin:0 0 2.2rem;}
+  .cs-shot > img,.cs-shot > video{grid-column:1 / -1;}
+  .cs-shot > figcaption{grid-column:2;}
   .cs-shot img{display:block;width:100%;aspect-ratio:var(--ar);object-fit:cover;
     background:var(--tile);border-radius:4px;}
   .cs-shot video{display:block;width:100%;aspect-ratio:var(--ar);object-fit:cover;
     background:var(--tile);border-radius:4px;}
   .cs-shot video.cs-film{cursor:pointer;}
   .cs-shot figcaption{font-family:var(--serif);font-weight:300;font-size:var(--prose);
-    line-height:var(--prose-lh);color:var(--sw4);max-width:62ch;margin-top:.7rem;}
-  .cs-sec{padding:0 0 2.2rem;}
-  .cs-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);
-    padding-bottom:.7rem;margin-bottom:1rem;border-bottom:1px dotted var(--line);}
+    line-height:var(--prose-lh);color:var(--sw4);max-width:62ch;margin:0;}
+  .cs-sec{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:1.1rem 2.2rem;
+    align-items:start;padding:1.5rem 0;border-top:1px dotted var(--line);}
+  .cs-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);}
+  .cs-sec > :not(.cs-lbl){grid-column:2;}
   .cs-sec p{font-family:var(--serif);font-weight:300;font-size:var(--prose);
     line-height:var(--prose-lh);color:var(--sw3);max-width:62ch;margin:0 0 .8rem;}
   .cs-sec p:last-child{margin-bottom:0;}
@@ -635,8 +642,7 @@
      neutral scale, the six Matter units and the type ladder are the values on
      the guidelines site, checked against it, not a screenshot of it. The link
      out is still there for the full document. */
-  .cs-sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
-    gap:.9rem;margin-bottom:1.4rem;}
+  .cs-sw{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.4rem;}
   .cs-sw .ch{display:block;height:2.6rem;border-radius:3px;margin-bottom:.4rem;
     border:1px dotted var(--line);}
   .cs-sw .nm{display:block;color:var(--sw2);}
@@ -682,9 +688,12 @@
      neither one thing nor the other. */
   @media(max-width:900px){
     .cs{left:0;}
+    .cs-sec,.cs-shot{grid-template-columns:1fr;gap:.7rem;}
+    .cs-sec > :not(.cs-lbl),.cs-shot > figcaption{grid-column:1;}
   }
   @media(max-width:700px){
     .cs-ledger{grid-template-columns:repeat(2,1fr);}
+    .cs-sw{grid-template-columns:repeat(2,1fr);}
   }
 
   /* Entrances only, and every one of them has an escape. */

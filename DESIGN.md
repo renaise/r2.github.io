@@ -196,7 +196,22 @@ The panel drew a second dotted rule a pixel away from it, which read as a double
 column to sit beside, so the panel takes the width.
 
 Inside, the header and body sit on the index's own 1040px measure, taken off the **pane** and not
-the viewport, so the case study is that column arriving in a different frame. Nothing navigates
+the viewport, so the case study is that column arriving in a different frame.
+
+**Every block in the case study splits label-left, content-right** (2026-09-10), on
+`--cs-col` — `minmax(120px,22%)`, the same measure `.cv .sec` already uses, so the panel and the
+CV break at the same place rather than each inventing an edge. The dotted rule runs across the
+top of the block, not under the label alone. One token drives all of it: prose, swatches, the
+ramp, the atoms, the type table and the plate captions all start on the same x. Verified at 1440,
+1100 and 390 across all twelve panels — one distinct left edge, every time.
+
+Plates keep the full measure and their captions join the prose column, so every line of running
+copy in the panel starts on the same edge as every other. Under 900px the rail unpins and the
+whole thing collapses to one column: a 120px gutter is a quarter of a phone.
+
+The accent swatches are a fixed four across, not `auto-fill`. Seven never divides evenly, and in
+the narrower column auto-fill landed on 6+1, which reads as an accident where 4+3 reads as a
+decision. Nothing navigates
 and nothing on the index moves. It replaces the eight cards that routed to
 `studioartifice.com/work/<slug>/`.
 
