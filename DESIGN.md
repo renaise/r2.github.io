@@ -282,6 +282,12 @@ it carries nothing, and renders no rule.
 copy of `minmax(120px,22%)`, which is how two definitions of one column drift apart. The CV and
 the case study now measure identical: both break at 302 and 583 at 1440.
 
+**Every specimen row has one anatomy** (2026-09-11): a specimen block at a fixed 3.4rem, a name,
+and a value in the small uppercase style. Accents, the neutral ramp, the Matter units and the
+faces were four different shapes at four different heights — chips around 60px against atoms at
+230 — which read as four ideas stacked rather than one spec sheet. A face has no chip of its own,
+so its specimen is the letterform.
+
 **Specimen rows count their own children.** `.cs-sw`, `.cs-units` and `.cs-pairs` share one
 idiom, `repeat(var(--n),1fr)`, with `--n` set by the renderer. The swatch grid had been pinned at
 seven for Idler's seven accents, so Artifice's four rendered as four narrow cells with three empty
