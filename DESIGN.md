@@ -376,8 +376,16 @@ flashes on every seam and throws the ending away. It carries no audio track at a
 IntersectionObserver at .25 when it reaches the viewport — an entrance, like the cards, then
 unobserved. Click the plate to run it again.
 
-Copy comes from the store, with a baked `#cs-data` block as the fallback, the same
-arrangement the card order uses. Four sections where the store has the four-part text;
+**The store no longer owns the case study prose** (2026-09-11). Two sources held one string and
+which one won depended on timing: deep-link to `/soot` and the panel rendered before the fetch
+landed, so the baked copy showed; click the same card ten seconds into a session and the store's
+row overwrote it. Every prose rewrite from 2026-09-10 on was being reverted on the second path,
+and checking the payload rather than the rendered page hid it.
+
+The store now supplies `name`, `year`, `title`, `role`, `medium`, `status` and the order. The
+case study prose (`problem`, `process`, `solution`, `impact`, `hook`) is authored in `#cs-data`
+and is authoritative there. **The store's rows for those five fields are stale and should not be
+read.** Four sections where the store has the four-part text;
 where it does not, the hook is the Overview and that is the whole entry. Nothing is
 authored twice and nothing announces the absence.
 
