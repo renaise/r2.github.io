@@ -59,12 +59,15 @@ Accent is hover and outlines only — **never fill an area with it.** `--tile` b
 project plates, whose covers are composed for a dark ground, so it does not invert.
 
 **The card description recedes until you hover its card** (Renaise 2026-09-10). `--card-body-rest`
-is `--card-body`'s alpha at a quarter of it; hover and focus-visible restore the full value.
-Colour only, so nothing in the layout moves because a pointer crossed it. Measured: **1.55:1 at
-rest and 6.70:1 on hover in dark, 1.44:1 and 6.05:1 in light.** The rest state is far below any
-floor and is a deliberate reveal, not an oversight — but it is the hook, the only sentence the
-card carries, so if it should be legible without a pointer the alpha is the dial. Without a
-pointer there is no reveal, so `@media(hover:none)` never dims it at all.
+sits at **alpha .75** against `--card-body`'s .88 / .90; hover and focus-visible restore the full
+value. Colour only, so nothing in the layout moves because a pointer crossed it. Measured:
+**5.20:1 at rest and 6.70:1 on hover in dark, 4.14:1 and 6.05:1 in light** — both rest states
+clear AA, and the reveal is a lift rather than a rescue.
+
+It shipped that morning at a quarter alpha, which measured 1.55:1 and 1.44:1: legible only under
+a pointer. That is a defensible register for decoration and the wrong one for the hook, which is
+the only sentence the card carries. Without a pointer there is no reveal either way, so
+`@media(hover:none)` never dims it at all.
 
 Light mode has no headroom: body sits at 4.54:1 against a 4.5 floor. A lighter page or
 lighter type drops it below AA. The only way to lift the scale is to darken `--ink`.
