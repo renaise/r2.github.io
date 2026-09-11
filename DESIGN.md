@@ -141,8 +141,10 @@ non-16:9 covers never sit on dead space. Covers are `object-fit:contain`, 6% pad
 butted bottom.
 
 **As of 2026-08-25 every cover is `.fill`** (`object-fit:cover`, no padding), edge to edge.
-Most are a video recorded or cut to close its own loop; `lighthouse` and `artifice-brand` are
-stills, so check the element before assuming a card has a video to drive. Durations are no
+Most are a video recorded or cut to close its own loop; `lighthouse` is a still, so check the
+element before assuming a card has a video to drive. `artifice-brand` became a video on
+2026-09-11, from a 4K 6.000s render of the marks turning — its first and last frames are
+identical (seam 0.0 of 255), so it closes its loop exactly rather than approximately. Durations are no
 longer all 5.000s: FLORA's is 14.4s.
 
 `the-artifact-index`'s cover was re-recorded on 2026-09-10 off the live
