@@ -79,6 +79,10 @@ the OS; choosing opts out permanently. Without JS the switch is hidden and
 
 - Sticky rail, `280px`, `100vh`: mark → statement → **search** → marquee → donate → links,
   switch, clock pinned bottom. Rail children sit on a `1.25rem` gap (was `1.9rem`).
+- **Search** carries a hand-built concept map alongside the card text, and **every card needs an
+  entry in it.** `biota` was added after the map was written and had none, so it was reachable
+  only by words already visible on it: ios, android, consumer, currency, video and image all
+  missed. Adding a card means adding its concepts.
 - **Search** filters the work grid and nothing else on the page. It reports a count, offers a
   clear control, answers Escape, and renders "Nothing matches that." at zero results, because
   a grid that silently empties reads as broken. Matches are wrapped in `<mark>`, which is
