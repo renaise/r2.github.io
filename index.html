@@ -609,7 +609,7 @@
   .cs-mast .claim{margin:.8rem 0 0;font-size:clamp(.95rem,2vw,1.2rem);
     font-weight:400;line-height:1.2;color:var(--sw2);}
 
-  .cs-ledger{display:grid;grid-template-columns:var(--cs-col) 1fr 1fr;gap:var(--cs-gap);
+  .cs-ledger{display:grid;grid-template-columns:var(--cs-col) 1fr 1fr 1fr;gap:var(--cs-gap);
     padding:1rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);
     margin-bottom:1.8rem;}
   .cs-ledger dt{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
@@ -619,14 +619,11 @@
 
   /* Sits with the ledger, on the prose column, in the rail's link register:
      quiet text and an arrow that means "this leaves". No filled control. */
-  .cs-cta{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:var(--cs-gap);
-    margin:-.6rem 0 2.2rem;}
-  .cs-cta a{grid-column:2;}
-  .cs-cta a{justify-self:start;display:inline-flex;align-items:center;gap:.4rem;color:var(--sw2);
-    font-size:.72rem;letter-spacing:.012em;}
-  .cs-cta a:hover{color:var(--accent);}
-  .cs-cta .ar{display:inline-block;width:.62em;height:.62em;}
-  .cs-cta .ar svg{display:block;width:100%;height:100%;}
+  /* The live link is a ledger value like the others, in the same register. */
+  .cs-live{display:inline-flex;align-items:center;gap:.4rem;color:var(--sw2);}
+  .cs-live:hover{color:var(--accent);}
+  .cs-live .ar{display:inline-block;width:.62em;height:.62em;}
+  .cs-live .ar svg{display:block;width:100%;height:100%;}
   /* The plate, carried over from the card so the artifact reads the same in both. */
   .cs-plate{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);
     overflow:hidden;border-radius:4px;margin-bottom:2.2rem;}
@@ -720,8 +717,7 @@
   }
   @media(max-width:900px){
     .cs{left:0;}
-    .cs-sec,.cs-shot,.cs-cta{grid-template-columns:1fr;gap:.7rem;}
-    .cs-cta a{grid-column:1;}
+    .cs-sec,.cs-shot{grid-template-columns:1fr;gap:.7rem;}
     .cs-ledger{grid-template-columns:repeat(3,1fr);gap:1rem;}
     .cs-sec > :not(.cs-lbl),.cs-shot > figcaption{grid-column:1;}
   }
@@ -1412,13 +1408,12 @@ document.documentElement.className+=' js';
       + (d.role?'<div><dt>Role</dt><dd>'+esc(d.role)+'</dd></div>':'')
       + (d.year?'<div><dt>Year</dt><dd class="yr">'+esc(d.year)+'</dd></div>':'')
       + (d.medium?'<div><dt>Medium</dt><dd>'+esc(d.medium)+'</dd></div>':'')
+      + (d.live?'<div><dt>Live</dt><dd><a class="cs-live" href="'+esc(d.live)+'" '
+        + 'target="_blank" rel="noopener">See Live Site <span class="ar" aria-hidden="true">'
+        + '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" '
+        + 'stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" />'
+        + '<path d="M5.4 1.6H14.4V10.6" /></svg></span></a></dd></div>':'')
       + '</dl>';
-    if(d.live){
-      out+='<div class="cs-cta"><a href="'+esc(d.live)+'" target="_blank" rel="noopener">'
-        + 'See Live Site <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" '
-        + 'stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter">'
-        + '<path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a></div>';
-    }
     out+=plate(card,d);
     // The card shows the hook alone. Where the store has the four-part text the panel
     // carries it; where it doesn't, the hook is the overview and that is the whole entry.
