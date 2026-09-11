@@ -363,6 +363,12 @@ are. `flora`'s cover is the tightest case: it is cut from a 1296-wide GIF and th
 already an upscale — `floraaidemov0.mp4` holds the same screen at 3800x2160 but without the
 ambient glow the designed cover has, so it is a composition change, not a re-encode.
 
+**The three entities sit beside the name** in the About block, where `.wm` was already a flex row
+built to hold more than the wordmark: Codex Foundry, Artifice NYC, Studio Artifice, each a mask
+filled with the ink at a shared 15px height, each linking to its organisation. This replaces a
+marquee that had been removed from the markup while its `.ent` styling stayed behind. The bio
+already names the three; the marks save the reader parsing it out of a sentence.
+
 **The case study closes on the live product.** `.cs-end` puts a full-size link to the production
 site after the last section, on the prose column, for a reader who has read the whole thing and is
 where the ledger's small row is not. Nine of twelve carry it; SOOT, FLORA and Depictions have no
