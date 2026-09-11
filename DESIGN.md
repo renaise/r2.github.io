@@ -59,10 +59,15 @@ Accent is hover and outlines only — **never fill an area with it.** `--tile` b
 project plates, whose covers are composed for a dark ground, so it does not invert.
 
 **The card description recedes until you hover its card** (Renaise 2026-09-10). `--card-body-rest`
-sits at **alpha .75** against `--card-body`'s .88 / .90; hover and focus-visible restore the full
+sits at **alpha .66** against `--card-body`'s .88 / .90; hover and focus-visible restore the full
 value. Colour only, so nothing in the layout moves because a pointer crossed it. Measured:
-**5.20:1 at rest and 6.70:1 on hover in dark, 4.14:1 and 6.05:1 in light** — both rest states
-clear AA, and the reveal is a lift rather than a rescue.
+**4.30:1 at rest and 6.70:1 on hover in dark, 3.39:1 and 6.05:1 in light.**
+
+**Both rest states are under the 4.5 floor, light the further under.** That is the same knowing
+trade `--sw4` makes at 2.36:1 and it is a chosen register, not an oversight — but light mode has
+no headroom anywhere (body sits at 4.54:1), so it is always the theme that fails first when this
+dial moves. Correcting the note this file carried at .75: light measured 4.14:1 there, already
+below AA, not above it.
 
 It shipped that morning at a quarter alpha, which measured 1.55:1 and 1.44:1: legible only under
 a pointer. That is a defensible register for decoration and the wrong one for the hook, which is
