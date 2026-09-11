@@ -141,10 +141,19 @@ non-16:9 covers never sit on dead space. Covers are `object-fit:contain`, 6% pad
 butted bottom.
 
 **As of 2026-08-25 every cover is `.fill`** (`object-fit:cover`, no padding), edge to edge.
-Most are a video recorded or cut to close its own loop; `lighthouse` is a still, so check the
-element before assuming a card has a video to drive. `artifice-brand` became a video on
-2026-09-11, from a 4K 6.000s render of the marks turning — its first and last frames are
-identical (seam 0.0 of 255), so it closes its loop exactly rather than approximately. Durations are no
+Most are a video recorded or cut to close its own loop; `biota` is the only still left, so check
+the element before assuming a card has a video to drive. `lighthouse` was re-derived from
+`lighthousehq.com` on 2026-09-11 and its still had gone stale the same way the Artifact Index's
+had: the site now leads "Business Immigration for Frontier Talent", not "Land Talent Land
+Somewhere". `artifice-brand` became a video on
+2026-09-11, from a 4K render of the marks turning.
+
+**Its trim point is 2.9s, not the 1.5s asked for, and the reason is the loop.** A rendering
+artifact sits between the marks for the first ~0.9s, so any cut past that clears it. But the
+source is a 6s cycle that returns to its own first frame, so cutting the front breaks the wrap:
+at 1.5s the seam measures 8.13 of 255, worse than the 4.74 of the untrimmed clip. The marks are
+six-fold symmetric, so the half-rotation at 2.9s returns them to an identical pose and the seam
+falls to **1.07**. The trade is length: 3.10s of animation instead of 4.50s. Durations are no
 longer all 5.000s: FLORA's is 14.4s.
 
 `the-artifact-index`'s cover was re-recorded on 2026-09-10 off the live
