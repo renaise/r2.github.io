@@ -389,7 +389,7 @@ read.** Four sections where the store has the four-part text;
 where it does not, the hook is the Overview and that is the whole entry. Nothing is
 authored twice and nothing announces the absence.
 
-**Three projects carry their system inline.** Idler renders the accents, the twelve-step
+**Four projects carry their system inline.** Idler renders the accents, the twelve-step
 neutral scale, the six Matter units and the type ladder from `id-idler.pages.dev`; Artifice
 renders carbon, chalk, cobalt on both grounds, the mark minimums, WHITEBOX/BLACKBOX and the
 type ladder from `brand.artificenyc.org`. Values are read off the live guidelines and checked
@@ -442,6 +442,12 @@ the thing the swatches and tables are there to demonstrate, and ran the same
 not-X-but-Y shape twice. Cut. Idler's table keeps a Face column because it runs two faces;
 Artifice's carried one family five times, so the family is a single **Typeface** spec line and
 the column is gone.
+
+**Lighthouse publishes only its greyscale ramp as data.** The ten steps, Ink `#0A0A08` through
+Cream `#F0EEE9`, extract cleanly and in sequence from the 2.0 guidelines. The six brand colours
+do not: the PDF's text layer lists them out of order against their swatches, and sampling the
+page's pixels lands on labels rather than chips. A wrong hex under a client's colour name is
+worse than no swatch, so the palette spread ships as artwork and the names stay with it.
 
 **FLORA's is Hieronymous**, named for the Bosch panel that opens its reference board. There is
 no published guidelines document to pull from — the system exists as a campaign set and that
