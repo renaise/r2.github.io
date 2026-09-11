@@ -357,7 +357,12 @@ are. `flora`'s cover is the tightest case: it is cut from a 1296-wide GIF and th
 already an upscale — `floraaidemov0.mp4` holds the same screen at 3800x2160 but without the
 ambient glow the designed cover has, so it is a composition change, not a re-encode.
 
-**See Live Site** sits under the ledger on the prose column, in the rail's link register: quiet
+**The case study closes on the live product.** `.cs-end` puts a full-size link to the production
+site after the last section, on the prose column, for a reader who has read the whole thing and is
+where the ledger's small row is not. Nine of twelve carry it; SOOT, FLORA and Depictions have no
+live URL.
+
+**See Live Site** sits in the ledger as its fourth column, in the rail's link register: quiet
 text and an arrow that means "this leaves", no filled control. Nine of the twelve carry one, each
 URL checked for a 200 rather than assumed. SOOT, FLORA and Depictions have no live URL in the
 store, `projects.ts` or the repo, so they carry none rather than one pointing somewhere plausible.
