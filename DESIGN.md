@@ -492,3 +492,12 @@ opens one in the panel rather than routing to a studioartifice.com subpage.
   oversight: do not raise it again or prune them.
 - Root `CLAUDE.md` still describes a cream page, Neue Haas Grotesk, and a `#FF2A00` accent.
   None have ever existed in this build.
+
+## Artifacts (2026-09-25)
+
+An artifact is one made thing that holds up outside its project: a mark, a palette, a neutral
+ramp, a unit set, a type scale, a motion plate, a reference board. The Artifacts tab (fourth pill
+in the rail filters) swaps the project grid for these, 20 of them from the identity work. Every
+specimen renders from `#cs-data`, so editing a palette there updates the tile; the `LIST` in the
+Artifacts script only decides which pieces count and what they're called. A tile opens its
+project's case study.
