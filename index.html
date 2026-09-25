@@ -566,7 +566,8 @@
      The illustrations the identity work produced, pulled out of their sites:
      the Osmosis petri dish, the Idler Shell, the BIOTA fish. Each tile shows the
      object alone and says which project it came from. */
-  .arts{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--row-gap) 1.6rem;align-items:start;}
+  /* Four across: eight artifacts land as two full rows instead of three and a gap. */
+  .arts{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--row-gap) 1.6rem;align-items:start;}
   .art{display:block;color:inherit;text-decoration:none;cursor:pointer;}
   .art .sp{position:relative;aspect-ratio:4/3;border:1px dotted var(--line);overflow:hidden;
     display:flex;align-items:center;justify-content:center;background:var(--sp-bg,var(--tile));
@@ -1247,7 +1248,7 @@ document.documentElement.className+=' js';
   var A='/stage/';
   var LIST=[
     {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.webp'},
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',fit:'cover',pad:'0'},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0'},
     {s:'biota',n:'Fish',src:'biota/art/fish.mp4',fit:'cover',pad:'0',pos:'50% 36%'},
     {s:'the-artifact-index',n:'Objects',src:'the-artifact-index/art/objects.webp'},
     {s:'artifice-brand',n:'Asterisks',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0'},

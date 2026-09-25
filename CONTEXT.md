@@ -18,3 +18,8 @@ Fixed and shipped:
 
 Left as is (documented choices): rail links at 1.44rem (DESIGN.md, 2026-08-26); search focus stays off accent (DESIGN comment).
 Open: mobile rail links are ~15px tall touch targets; widening them changes the one-row link layout, so it needs a design call.
+
+## 2026-09-25 · Artifacts refine
+
+- One illustration per project (8). Grid goes four across on wide screens so they land as two full rows; two across below 1240px.
+- The Idler Shell loop was the one bright tile, and cover-fit clipped the cube. Re-rendered with its #F3F5F2 ground keyed out onto the tile color (#101010), shown whole (contain). Source: ~/Desktop/idler-shell-recording-2026-08-19.mp4.
