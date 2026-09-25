@@ -29,3 +29,10 @@ Open: mobile rail links are ~15px tall touch targets; widening them changes the 
 Each case study now carries an Artifact section (after the written case, before the shots) rendering
 the same piece as the index tile. A tile click opens the case study scrolled to that section; tiles
 link to `/<slug>#artifact` so a new tab or shared link lands there too. Card clicks still open at the top.
+
+## 2026-09-25 · Vector joins Artifacts
+
+- ARTIFACTORY's artifact is Vector (artifactory-vector.pages.dev); its case-study Artifact section links "Open Vector ↗".
+- Tile image is the tool's panel (unit set + motion modes). The 3D stage could not be captured: headless Chrome (swiftshader and metal) renders an empty WebGL stage, and a headed CDP Chrome closed its tabs. Swap in a real Capture/Download from the tool when available.
+- Artifact grid column count now follows the count (4 when divisible by 4, else 3) so rows fill.
+- Open with Renaise: whether artifacts should carry provenance ("made in Vector / ARTIFACTORY") with tools as instruments.

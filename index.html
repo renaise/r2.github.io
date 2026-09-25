@@ -566,8 +566,8 @@
      The illustrations the identity work produced, pulled out of their sites:
      the Osmosis petri dish, the Idler Shell, the BIOTA fish. Each tile shows the
      object alone and says which project it came from. */
-  /* Four across: eight artifacts land as two full rows instead of three and a gap. */
-  .arts{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--row-gap) 1.6rem;align-items:start;}
+  /* Column count is set from the artifact count (script) so the last row never orphans. */
+  .arts{display:grid;grid-template-columns:repeat(var(--arts-cols,4),1fr);gap:var(--row-gap) 1.6rem;align-items:start;}
   .art{display:block;color:inherit;text-decoration:none;cursor:pointer;}
   .art .sp{position:relative;aspect-ratio:4/3;border:1px dotted var(--line);overflow:hidden;
     display:flex;align-items:center;justify-content:center;background:var(--sp-bg,var(--tile));
@@ -1260,7 +1260,8 @@ document.documentElement.className+=' js';
     {s:'artifice-brand',n:'Asterisks',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0'},
     {s:'soot',n:'Trail',src:'soot/art/trail.webp'},
     {s:'flora',n:'Bloom',src:'flora/01.jpg',fit:'cover',pad:'0'},
-    {s:'lighthouse',n:'Cloud',src:'lighthouse/art/cloud.jpg',fit:'cover',pad:'0'}
+    {s:'lighthouse',n:'Cloud',src:'lighthouse/art/cloud.jpg',fit:'cover',pad:'0'},
+    {s:'artifactory',n:'Vector',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/'}
   ];
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -1279,8 +1280,10 @@ document.documentElement.className+=' js';
     box.appendChild(el); return el;
   });
   var cnt=document.getElementById('arts-n'); if(cnt) cnt.textContent=items.length;
+  // Rows always fill: four across when the count divides by four, else three.
+  box.style.setProperty('--arts-cols', items.length%4===0?4:3);
   // The case study renders the same piece in its own Artifact section.
-  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg}; });
+  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg,url:a.url}; });
   // Motion plays only while on screen, and never under reduced motion.
   if('IntersectionObserver' in window && !reduce){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){
@@ -1579,7 +1582,9 @@ document.documentElement.className+=' js';
         + (/\.mp4$/.test(asrc)
             ? '<video class="cs-film" src="'+esc(asrc)+'" poster="'+esc(asrc.replace(/\.mp4$/,'.jpg'))+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
             : '<img src="'+esc(asrc)+'" alt="" loading="lazy">')
-        + '<figcaption>'+esc(art.n)+'</figcaption></figure></section>';
+        + '<figcaption>'+esc(art.n)
+        + (art.url?' &middot; <a class="cs-lnk" href="'+esc(art.url)+'" target="_blank" rel="noopener">Open '+esc(art.n)+' &#8599;</a>':'')
+        + '</figcaption></figure></section>';
     }
     if(d.shots&&d.shots.length){
       out+=d.shots.map(function(sh){
