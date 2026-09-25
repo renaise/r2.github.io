@@ -39,8 +39,7 @@ link to `/<slug>#artifact` so a new tab or shared link lands there too. Card cli
 
 ## 2026-09-25 · The Shell + Sequencer
 
-Vector is the tool that made the Idler Shell (Renaise). On the site it's named Sequencer (the
-ARTIFACTORY synth/DAW register: it plays the Shell through a fixed set of motions + keyframes) and
-sits right after the Shell. Captions carry provenance both ways: "Idler · 2026 · Made in Sequencer"
-and "ARTIFACTORY · 2026 · Plays the Shell"; the Idler case study's Artifact caption links to the tool.
-The live tool and its panel screenshot still say "Vector" — rename there too, or keep Vector.
+Vector is the tool that made the Idler Shell (Renaise). The tool keeps its name (live site
+unchanged). On renaise.com its tile carries a descriptor only, "Sequencer for the Shell", and sits
+right after the Shell; the Shell's caption reads "Idler · 2026 · Made in Vector" and the Idler case
+study's Artifact caption links to the tool.

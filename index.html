@@ -1255,8 +1255,8 @@ document.documentElement.className+=' js';
   var LIST=[
     {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.webp'},
     // The Shell and the instrument that plays it sit side by side.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0',madeIn:'Sequencer',madeUrl:'https://artifactory-vector.pages.dev/'},
-    {s:'artifactory',n:'Sequencer',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/',note:'Plays the Shell'},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
+    {s:'artifactory',n:'Vector',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/',desc:'Sequencer for the Shell'},
     {s:'biota',n:'Fish',src:'biota/art/fish.mp4',fit:'cover',pad:'0',pos:'50% 36%'},
     {s:'the-artifact-index',n:'Objects',src:'the-artifact-index/art/objects.webp'},
     {s:'artifice-brand',n:'Asterisks',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0'},
@@ -1276,9 +1276,10 @@ document.documentElement.className+=' js';
       + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
              : '<img src="'+esc(src)+'" alt="" loading="lazy">')
       + '</div><div class="cap"><span class="nm">'+esc(a.n)+'</span>'
-      + '<span class="src">'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))
-      + (a.madeIn?' &middot; Made in '+esc(a.madeIn):'')+(a.note?' &middot; '+esc(a.note):'')+'</span></div>';
-    el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')+' '+(a.note||'')).toLowerCase();
+      + '<span class="src">'+(a.desc ? esc(a.desc)
+        : esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+(a.madeIn?' &middot; Made in '+esc(a.madeIn):''))
+      + '</span></div>';
+    el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')+' '+(a.desc||'')).toLowerCase();
     box.appendChild(el); return el;
   });
   var cnt=document.getElementById('arts-n'); if(cnt) cnt.textContent=items.length;
