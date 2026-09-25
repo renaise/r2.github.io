@@ -562,9 +562,9 @@
     .statement p{max-width:34ch;} }
 
   /* ── Artifacts ────────────────────────────────────────────────────────────
-     An artifact is one made thing that stands on its own outside the project it
-     came from: a mark, a palette, a unit set, a type scale, a motion plate. Each
-     tile shows the thing itself and says where it came from. */
+     The illustrations the identity work produced, pulled out of their sites:
+     the Osmosis petri dish, the Idler Shell, the BIOTA fish. Each tile shows the
+     object alone and says which project it came from. */
   .filters button{flex:1 1 auto;}
   .arts{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem 1.6rem;align-items:start;}
   .art{display:block;color:inherit;text-decoration:none;cursor:pointer;}
@@ -578,22 +578,9 @@
   .art .nm{color:var(--sw2);font-size:.86rem;}
   .art .src{display:block;color:var(--sw4);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
     margin-top:.25rem;}
-  .sp-mark{width:58%;aspect-ratio:var(--r);background:var(--sw2);
-    -webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat;}
-  .sp-sw,.sp-ramp{position:absolute;inset:0;display:flex;}
-  .sp-sw i,.sp-ramp i{flex:1;}
-  .sp-units{display:grid;grid-template-columns:repeat(3,1fr);gap:8% 10%;width:62%;}
-  .sp-units img{width:100%;display:block;}
-  .sp-type{align-self:stretch;width:100%;padding:1rem 1.1rem;display:flex;flex-direction:column;
-    justify-content:center;gap:.15rem;overflow:hidden;}
-  .sp-type span{display:block;color:var(--sw2);line-height:1.05;white-space:nowrap;letter-spacing:-.01em;}
-  .sp-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-  .sp-fmt{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;}
-  .sp-fmt div{display:flex;flex-direction:column;justify-content:flex-end;padding:.9rem;
-    font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;}
-  .sp-fmt div:first-child{background:#FCFAF5;color:#0E0E0E;}
-  .sp-fmt div:last-child{background:#0E0E0E;color:#FCFAF5;}
-  .sp-fmt b{font-weight:400;font-size:1.05rem;letter-spacing:0;text-transform:none;display:block;}
+  .art .sp{background:var(--sp-bg,var(--tile));}
+  .art .sp img,.art .sp video{position:absolute;inset:0;width:100%;height:100%;
+    object-fit:var(--fit,contain);object-position:var(--pos,50% 50%);padding:var(--pad,8%);box-sizing:border-box;}
   @media(max-width:1240px){ .arts{grid-template-columns:repeat(2,1fr);} }
   @media(max-width:900px){ .arts{grid-template-columns:1fr;gap:2.2rem;} }
 
@@ -1252,66 +1239,53 @@ document.documentElement.className+=' js';
 
 <script>
 // ── Artifacts ────────────────────────────────────────────────────────────────
-// The identity work broken into the things it produced. Everything renders from
-// #cs-data, so a palette or ramp edited there changes here too; this list only
-// says which pieces count as artifacts and what to call them.
+// Illustrations lifted out of the identity work, each one shown on its own.
+// Files live in /stage/<slug>/art/. fit: contain keeps a cut-out object whole on
+// the dark tile; cover is for pieces that carry their own ground.
 (function(){
   var box=document.getElementById('arts'), dataEl=document.getElementById('cs-data');
   if(!box||!dataEl) return;
   var D; try{ D=JSON.parse(dataEl.textContent); }catch(e){ return; }
-  var MARK={idler:5.142,osmosis:4.955,lighthouse:5.087,'artifice-brand':8.429,
-            'studio-artifice':6.854,biota:1.007,flora:6.292};
-  var EXT={biota:'png','studio-artifice':'png'};
+  var A='/stage/';
   var LIST=[
-    ['idler','mark','The Shell'],['idler','palette','Minerals'],['idler','ramp','Neutral ramp'],
-    ['idler','units','Matter'],['idler','type','Type scale'],['idler','plate','Motion plate'],
-    ['lighthouse','mark','Primary mark'],['lighthouse','ramp','Ink to Cream'],
-    ['lighthouse','type','Type scale'],['lighthouse','plate','Motion plate'],
-    ['artifice-brand','mark','Lockup'],['artifice-brand','palette','Carbon, chalk, cobalt'],
-    ['artifice-brand','formats','WHITEBOX / BLACKBOX'],['artifice-brand','type','Type scale'],
-    ['artifice-brand','plate','Motion plate'],
-    ['osmosis','mark','Wordmark'],['flora','mark','Wordmark'],['flora','board','Hieronymous'],
-    ['biota','mark','Mark'],['studio-artifice','mark','Mark']
+    {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.webp'},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',fit:'cover',pad:'0'},
+    {s:'biota',n:'Fish',src:'biota/art/fish.mp4',fit:'cover',pad:'0',pos:'50% 36%',bg:'#000'},
+    {s:'the-artifact-index',n:'Objects',src:'the-artifact-index/art/objects.webp'},
+    {s:'osmosis',n:'Orb',src:'osmosis/art/orb.webp'},
+    {s:'artifice-brand',n:'Asterisks',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0',bg:'#000'},
+    {s:'soot',n:'Trail',src:'soot/art/trail.webp'},
+    {s:'osmosis',n:'Petri dish, dark',src:'osmosis/art/petri-dark.webp'},
+    {s:'flora',n:'Bloom',src:'flora/01.jpg',fit:'cover',pad:'0'},
+    {s:'biota',n:'Sphere',src:'biota/art/sphere.mp4',fit:'cover',pad:'0',bg:'#000'},
+    {s:'osmosis',n:'Column',src:'osmosis/art/column.webp',fit:'cover',pad:'0'},
+    {s:'lighthouse',n:'Cloud',src:'lighthouse/art/cloud.jpg',fit:'cover',pad:'0'},
+    {s:'osmosis',n:'Orbit',src:'osmosis/art/orbit.webp',fit:'cover',pad:'0'}
   ];
-  var KIND={mark:'Mark',palette:'Palette',ramp:'Neutrals',units:'Units',type:'Type',
-            plate:'Motion',formats:'Formats',board:'References'};
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-  function spec(slug,kind){
-    var r=D[slug], sys=r.system||{};
-    switch(kind){
-      case 'mark': return '<span class="sp-mark" style="--m:url(/assets/logos/'+slug+'.'
-        +(EXT[slug]||'svg')+');--r:'+MARK[slug]+'"></span>';
-      case 'palette': return '<span class="sp-sw">'+sys.swatches.filter(function(a,i,l){
-          return l.findIndex(function(b){ return b.hex===a.hex; })===i; })
-        .map(function(a){ return '<i style="background:'+esc(a.hex)+'"></i>'; }).join('')+'</span>';
-      case 'ramp': return '<span class="sp-ramp">'+sys.ramp.map(function(h){
-          return '<i style="background:'+esc(h)+'"></i>'; }).join('')+'</span>';
-      case 'units': return '<span class="sp-units">'+sys.units.map(function(u){
-          return '<img src="/stage/idler/atoms/'+esc(u.token)+'.png" alt="'+esc(u.name)+'" loading="lazy">';
-        }).join('')+'</span>';
-      case 'type':
-        var rows=sys.type.rows.slice(0,6), n=rows.length;
-        return '<span class="sp-type">'+rows.map(function(row,i){
-          return '<span style="font-size:'+(1.9-1.3*i/Math.max(n-1,1)).toFixed(2)+'rem">'+esc(row[0])+'</span>';
-        }).join('')+'</span>';
-      case 'plate': return '<img class="sp-img" src="'+esc(r.plate.poster)+'" alt="" loading="lazy">';
-      case 'board': return '<img class="sp-img" src="'+esc(sys.board.src)+'" alt="'+esc(sys.board.alt||'')+'" loading="lazy">';
-      case 'formats': return '<span class="sp-fmt">'+sys.pairs.map(function(p){
-          return '<div><b>'+esc(p.term)+'</b>'+esc(p.sub)+'</div>'; }).join('')+'</span>';
-    }
-    return '';
-  }
-  var items=LIST.filter(function(a){ return D[a[0]]; }).map(function(a){
-    var r=D[a[0]], el=document.createElement('a');
-    el.className='art'; el.href='/'+a[0]; el.setAttribute('data-slug',a[0]);
-    el.innerHTML='<div class="sp">'+spec(a[0],a[1])+'</div>'
-      + '<div class="cap"><span class="nm">'+esc(a[2])+'</span>'
-      + '<span class="src">'+esc(KIND[a[1]])+' &middot; '+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+'</span></div>';
-    el.__text=(a[2]+' '+KIND[a[1]]+' '+r.name+' '+r.year).toLowerCase();
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var items=LIST.filter(function(a){ return D[a.s]; }).map(function(a){
+    var r=D[a.s], el=document.createElement('a'), src=A+a.src, isV=/\.mp4$/.test(src);
+    var poster=src.replace(/\.mp4$/,'.jpg');
+    el.className='art'; el.href='/'+a.s; el.setAttribute('data-slug',a.s);
+    var style=(a.fit?'--fit:'+a.fit+';':'')+(a.pad?'--pad:'+a.pad+';':'')+(a.bg?'--sp-bg:'+a.bg+';':'')+(a.pos?'--pos:'+a.pos+';':'');
+    el.innerHTML='<div class="sp" style="'+style+'">'
+      + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-label="'+esc(a.n)+'"></video>'
+             : '<img src="'+esc(src)+'" alt="'+esc(a.n+', '+r.name)+'" loading="lazy">')
+      + '</div><div class="cap"><span class="nm">'+esc(a.n)+'</span>'
+      + '<span class="src">'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+'</span></div>';
+    el.__text=(a.n+' '+r.name+' '+r.year).toLowerCase();
     box.appendChild(el); return el;
   });
   var cnt=document.getElementById('arts-n'); if(cnt) cnt.textContent=items.length;
+  // Motion plays only while on screen, and never under reduced motion.
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){
+      var v=e.target; if(e.isIntersecting){ if(v.preload==='none'){ v.preload='auto'; }
+        var pr=v.play(); if(pr&&pr.catch) pr.catch(function(){}); } else v.pause(); }); });
+    box.querySelectorAll('video').forEach(function(v){ io.observe(v); });
+  }
   // Opens the project's case study, the same way the card does.
   box.addEventListener('click',function(e){
     var a=e.target.closest('.art'); if(!a) return;

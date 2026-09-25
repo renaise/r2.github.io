@@ -495,9 +495,10 @@ opens one in the panel rather than routing to a studioartifice.com subpage.
 
 ## Artifacts (2026-09-25)
 
-An artifact is one made thing that holds up outside its project: a mark, a palette, a neutral
-ramp, a unit set, a type scale, a motion plate, a reference board. The Artifacts tab (fourth pill
-in the rail filters) swaps the project grid for these, 20 of them from the identity work. Every
-specimen renders from `#cs-data`, so editing a palette there updates the tile; the `LIST` in the
-Artifacts script only decides which pieces count and what they're called. A tile opens its
-project's case study.
+An artifact is an illustration the identity work produced, shown on its own: the Osmosis petri
+dish, the Idler Shell, the BIOTA fish, the Artifact Index objects. Not palettes or type specs.
+The Artifacts tab (fourth pill in the rail filters) swaps the project grid for these. Files live
+in `/stage/<slug>/art/` (WebP for stills, 720p-or-smaller h264 with a .jpg poster for motion);
+the `LIST` in the Artifacts script sets name, fit and ground per piece. Video plays only on
+screen and never under reduced motion. A tile opens its project's case study.
+Other artists' works shown in Artifice programs (e.g. The Garden series) are not artifacts here.
