@@ -495,7 +495,7 @@ opens one in the panel rather than routing to a studioartifice.com subpage.
 
 ## Artifacts (2026-09-25)
 
-An artifact is an illustration the identity work produced, shown on its own: the Osmosis petri
+An artifact is one illustration per project, shown on its own: the Osmosis petri
 dish, the Idler Shell, the BIOTA fish, the Artifact Index objects. Not palettes or type specs.
 The Artifacts tab (fourth pill in the rail filters) swaps the project grid for these. Files live
 in `/stage/<slug>/art/` (WebP for stills, 720p-or-smaller h264 with a .jpg poster for motion);
