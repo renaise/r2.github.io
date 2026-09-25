@@ -557,9 +557,12 @@
     .card{padding-left:0;margin-left:0;}
     .cv .sec{padding-left:0;margin-left:0;}
     .side .foot{padding-right:0;margin-right:0;}
-    /* Measure only. The size stays on the shared prose ladder — bumping it here was the
-       one place the rail bio drifted off the other two serif blocks. */
-    .statement p{max-width:34ch;} }
+    /* The bio runs the full width beside the avatar; a 34ch cap left a dead
+       right half on tablets. */
+    .statement p{max-width:none;}
+    /* Search and the tabs are two controls, so they get a real gap between them;
+       the desktop rail's negative margin would press the pills into the rule. */
+    .filters{margin-top:.55rem;} }
 
   /* ── Artifacts ────────────────────────────────────────────────────────────
      The illustrations the identity work produced, pulled out of their sites:
