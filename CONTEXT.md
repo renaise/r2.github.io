@@ -23,3 +23,9 @@ Open: mobile rail links are ~15px tall touch targets; widening them changes the 
 
 - One illustration per project (8). Grid goes four across on wide screens so they land as two full rows; two across below 1240px.
 - The Idler Shell loop was the one bright tile, and cover-fit clipped the cube. Re-rendered with its #F3F5F2 ground keyed out onto the tile color (#101010), shown whole (contain). Source: ~/Desktop/idler-shell-recording-2026-08-19.mp4.
+
+## 2026-09-25 · Artifacts route to their case study
+
+Each case study now carries an Artifact section (after the written case, before the shots) rendering
+the same piece as the index tile. A tile click opens the case study scrolled to that section; tiles
+link to `/<slug>#artifact` so a new tab or shared link lands there too. Card clicks still open at the top.

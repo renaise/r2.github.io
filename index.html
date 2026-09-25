@@ -659,6 +659,12 @@
 
   /* Additional plates. Same ground and radius as the cover, but each keeps its own
      ratio: a 1508/600 diagram cropped into a 16:9 hole loses both its ends. */
+  /* The artifact in its case study: same tile, ground and fit as on the index. */
+  .cs-art figure{margin:0;}
+  .cs-art figure > video,.cs-art figure > img{display:block;width:100%;aspect-ratio:var(--ar);
+    object-fit:var(--fit,contain);object-position:var(--pos,50% 50%);padding:var(--pad,8%);
+    box-sizing:border-box;background:var(--sp-bg,var(--tile));border:1px dotted var(--line);}
+  .cs-art figcaption{margin-top:.6rem;color:var(--sw4);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
   .cs-shot{display:grid;grid-template-columns:var(--cs-col) 1fr;
     gap:.7rem var(--cs-gap-col);
     margin:0 0 2.2rem;}
@@ -1262,7 +1268,7 @@ document.documentElement.className+=' js';
   var items=LIST.filter(function(a){ return D[a.s]; }).map(function(a){
     var r=D[a.s], el=document.createElement('a'), src=A+a.src, isV=/\.mp4$/.test(src);
     var poster=src.replace(/\.mp4$/,'.jpg');
-    el.className='art'; el.href='/'+a.s; el.setAttribute('data-slug',a.s);
+    el.className='art'; el.href='/'+a.s+'#artifact'; el.setAttribute('data-slug',a.s);
     var style=(a.fit?'--fit:'+a.fit+';':'')+(a.pad?'--pad:'+a.pad+';':'')+(a.bg?'--sp-bg:'+a.bg+';':'')+(a.pos?'--pos:'+a.pos+';':'');
     el.innerHTML='<div class="sp" style="'+style+'">'
       + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
@@ -1273,6 +1279,8 @@ document.documentElement.className+=' js';
     box.appendChild(el); return el;
   });
   var cnt=document.getElementById('arts-n'); if(cnt) cnt.textContent=items.length;
+  // The case study renders the same piece in its own Artifact section.
+  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg}; });
   // Motion plays only while on screen, and never under reduced motion.
   if('IntersectionObserver' in window && !reduce){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){
@@ -1285,7 +1293,7 @@ document.documentElement.className+=' js';
     var a=e.target.closest('.art'); if(!a) return;
     if(e.metaKey||e.ctrlKey||e.shiftKey||e.button) return;
     var card=document.querySelector('#work .proj[data-slug="'+a.getAttribute('data-slug')+'"]');
-    if(card){ e.preventDefault(); card.click(); }
+    if(card){ e.preventDefault(); window.__artJump=a.getAttribute('data-slug'); card.click(); }
   });
   var q=document.getElementById('q');
   window.__applyArts=function(){
@@ -1562,6 +1570,17 @@ document.documentElement.className+=' js';
     }else if(d.hook){
       out+=section('Overview',d.hook);
     }
+    var art=window.__ART&&window.__ART[slug];
+    if(art){
+      var asrc=art.src, st='--ar:4/3;'+(art.fit?'--fit:'+art.fit+';':'')+(art.pad?'--pad:'+art.pad+';':'')
+        + (art.pos?'--pos:'+art.pos+';':'')+(art.bg?'--sp-bg:'+art.bg+';':'');
+      out+='<section class="cs-sec cs-art" id="cs-artifact"><div class="cs-lbl">Artifact</div>'
+        + '<figure style="'+st+'">'
+        + (/\.mp4$/.test(asrc)
+            ? '<video class="cs-film" src="'+esc(asrc)+'" poster="'+esc(asrc.replace(/\.mp4$/,'.jpg'))+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
+            : '<img src="'+esc(asrc)+'" alt="" loading="lazy">')
+        + '<figcaption>'+esc(art.n)+'</figcaption></figure></section>';
+    }
     if(d.shots&&d.shots.length){
       out+=d.shots.map(function(sh){
         var media = /\.mp4$/.test(sh.src)
@@ -1618,6 +1637,13 @@ document.documentElement.className+=' js';
     crumbCat.textContent=cat?cat.toUpperCase():'Work';
     crumbCat.setAttribute('data-cat',cat);
     body.scrollTop=0;
+    // From an artifact tile, or a /<slug>#artifact link: land on the piece itself.
+    if(window.__artJump===slug||location.hash==='#artifact'){
+      window.__artJump=null;
+      var target=body.querySelector('#cs-artifact');
+      if(target) requestAnimationFrame(function(){
+        body.scrollTop+=target.getBoundingClientRect().top-body.getBoundingClientRect().top-24; });
+    }
     playFilmsInView();
   }
 
