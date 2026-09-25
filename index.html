@@ -1254,14 +1254,15 @@ document.documentElement.className+=' js';
   var A='/stage/';
   var LIST=[
     {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.webp'},
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0'},
+    // The Shell and the instrument that plays it sit side by side.
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0',madeIn:'Sequencer',madeUrl:'https://artifactory-vector.pages.dev/'},
+    {s:'artifactory',n:'Sequencer',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/',note:'Plays the Shell'},
     {s:'biota',n:'Fish',src:'biota/art/fish.mp4',fit:'cover',pad:'0',pos:'50% 36%'},
     {s:'the-artifact-index',n:'Objects',src:'the-artifact-index/art/objects.webp'},
     {s:'artifice-brand',n:'Asterisks',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0'},
     {s:'soot',n:'Trail',src:'soot/art/trail.webp'},
     {s:'flora',n:'Bloom',src:'flora/01.jpg',fit:'cover',pad:'0'},
-    {s:'lighthouse',n:'Cloud',src:'lighthouse/art/cloud.jpg',fit:'cover',pad:'0'},
-    {s:'artifactory',n:'Vector',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/'}
+    {s:'lighthouse',n:'Cloud',src:'lighthouse/art/cloud.jpg',fit:'cover',pad:'0'}
   ];
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -1275,15 +1276,16 @@ document.documentElement.className+=' js';
       + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
              : '<img src="'+esc(src)+'" alt="" loading="lazy">')
       + '</div><div class="cap"><span class="nm">'+esc(a.n)+'</span>'
-      + '<span class="src">'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+'</span></div>';
-    el.__text=(a.n+' '+r.name+' '+r.year).toLowerCase();
+      + '<span class="src">'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))
+      + (a.madeIn?' &middot; Made in '+esc(a.madeIn):'')+(a.note?' &middot; '+esc(a.note):'')+'</span></div>';
+    el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')+' '+(a.note||'')).toLowerCase();
     box.appendChild(el); return el;
   });
   var cnt=document.getElementById('arts-n'); if(cnt) cnt.textContent=items.length;
   // Rows always fill: four across when the count divides by four, else three.
   box.style.setProperty('--arts-cols', items.length%4===0?4:3);
   // The case study renders the same piece in its own Artifact section.
-  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg,url:a.url}; });
+  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg,url:a.url,madeIn:a.madeIn,madeUrl:a.madeUrl}; });
   // Motion plays only while on screen, and never under reduced motion.
   if('IntersectionObserver' in window && !reduce){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){
@@ -1584,6 +1586,7 @@ document.documentElement.className+=' js';
             : '<img src="'+esc(asrc)+'" alt="" loading="lazy">')
         + '<figcaption>'+esc(art.n)
         + (art.url?' &middot; <a class="cs-lnk" href="'+esc(art.url)+'" target="_blank" rel="noopener">Open '+esc(art.n)+' &#8599;</a>':'')
+        + (art.madeIn?' &middot; Made in <a class="cs-lnk" href="'+esc(art.madeUrl)+'" target="_blank" rel="noopener">'+esc(art.madeIn)+' &#8599;</a>':'')
         + '</figcaption></figure></section>';
     }
     if(d.shots&&d.shots.length){

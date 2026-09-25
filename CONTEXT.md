@@ -36,3 +36,11 @@ link to `/<slug>#artifact` so a new tab or shared link lands there too. Card cli
 - Tile image is the tool's panel (unit set + motion modes). The 3D stage could not be captured: headless Chrome (swiftshader and metal) renders an empty WebGL stage, and a headed CDP Chrome closed its tabs. Swap in a real Capture/Download from the tool when available.
 - Artifact grid column count now follows the count (4 when divisible by 4, else 3) so rows fill.
 - Open with Renaise: whether artifacts should carry provenance ("made in Vector / ARTIFACTORY") with tools as instruments.
+
+## 2026-09-25 · The Shell + Sequencer
+
+Vector is the tool that made the Idler Shell (Renaise). On the site it's named Sequencer (the
+ARTIFACTORY synth/DAW register: it plays the Shell through a fixed set of motions + keyframes) and
+sits right after the Shell. Captions carry provenance both ways: "Idler · 2026 · Made in Sequencer"
+and "ARTIFACTORY · 2026 · Plays the Shell"; the Idler case study's Artifact caption links to the tool.
+The live tool and its panel screenshot still say "Vector" — rename there too, or keep Vector.
