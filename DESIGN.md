@@ -58,10 +58,12 @@ hierarchy problem.
 Accent is hover and outlines only — **never fill an area with it.** `--tile` backs the
 project plates, whose covers are composed for a dark ground, so it does not invert.
 
-**The card description recedes until you hover its card** (Renaise 2026-09-10). `--card-body-rest`
-sits at **alpha .58** against `--card-body`'s .88 / .90; hover and focus-visible restore the full
-value. Colour only, so nothing in the layout moves because a pointer crossed it. Measured:
-**3.61:1 at rest and 6.70:1 on hover in dark, 2.84:1 and 6.05:1 in light.**
+**Cards carry no description** (Renaise 2026-09-25). Name, year, title and role say enough at
+index distance; the hook sentence lives in the case-study panel (`cs-data.hook`). The
+`--card-body` / `--card-body-rest` tokens and the hover-reveal ladder went with it.
+
+**No sort control.** The grid is a curatorial sequence and is not re-sortable; years run out of
+order on purpose. Don't add a Newest toggle back.
 
 **The alpha ladder, measured 2026-09-10.** Every text role on the index, against its own ground:
 
@@ -70,27 +72,8 @@ value. Colour only, so nothing in the layout moves because a pointer crossed it.
 | card name | 1.00 | 8.28:1 | 7.30:1 |
 | card title | .96 | 7.73:1 | 6.75:1 |
 | rail statement, CV body | .92 | 7.20:1 | 6.64:1 |
-| **card description, hovered** | **.88** | **6.70:1** | **6.05:1** |
 | card role, clock | .80 | 5.70:1 | 5.02:1 |
 | card year | .74 | 5.06:1 | 4.59:1 |
-| **card description, at rest** | **.58** | **3.61:1** | **2.84:1** |
-
-Six steps, and the description is the floor at both ends: dimmest at rest, and on hover it lands
-between the statement and the role rather than above them. `.58` is the same value `--sw4`
-historically took as the documented recessive tier, so it is a step on a ladder the page already
-walks rather than a new one. Light runs about one step behind dark at every tier, which is why it
-is always the theme that falls under a floor first.
-
-**Both rest states are under the 4.5 floor, light the further under.** That is the same knowing
-trade `--sw4` makes at 2.36:1 and it is a chosen register, not an oversight — but light mode has
-no headroom anywhere (body sits at 4.54:1), so it is always the theme that fails first when this
-dial moves. Correcting the note this file carried at .75: light measured 4.14:1 there, already
-below AA, not above it.
-
-It shipped that morning at a quarter alpha, which measured 1.55:1 and 1.44:1: legible only under
-a pointer. That is a defensible register for decoration and the wrong one for the hook, which is
-the only sentence the card carries. Without a pointer there is no reveal either way, so
-`@media(hover:none)` never dims it at all.
 
 Light mode has no headroom: body sits at 4.54:1 against a 4.5 floor. A lighter page or
 lighter type drops it below AA. The only way to lift the scale is to darken `--ink`.
