@@ -50,3 +50,14 @@ Four pills read wrong, and Artifacts isn't a filter over projects; it's a differ
 Moved out of the rail pills into its own section after the work grid, in the CV row anatomy
 (label left, 3×3 grid in the body column, two across on phones). Rail filters back to All / URL / IRL.
 The section's row rule is its only divider (card border dropped to avoid parallel lines).
+
+## 2026-09-25 · Copy pass, Information, SOOT artifact
+
+- Deslop: rail statement (dropped "industrial knowledge worker", "bespoke"), Information paragraph and
+  footnote 1 no longer repeat the "made-up artifact tests the idea" line; slogan-shaped sentences
+  rewritten in Studio Artifice, Artifice brand, Idler and Lighthouse case studies; ARTIFACTORY title case.
+- Information: all text in --prose-ink; company logos inline at full strength (--accent) with a
+  word-space either side.
+- SOOT artifact: the Spaces rail (+ and four Space avatars from SOOT's own UI, cover frame) replaces Trail.
+- Every case study opens with a See live site CTA (SOOT → soot.com); Veo shows In production.
+- Card/case titles can be overridden at runtime by the Seance CMS store; repo edits to titles may not show if the CMS has its own.
