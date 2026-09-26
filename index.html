@@ -520,7 +520,11 @@
      paragraph, with a word-space of room either side. */
   .cv .body a.il{white-space:nowrap;color:var(--accent);margin:0 .22em;}
   .cv .body a.il:hover{opacity:.7;}
-  .cv .row .nm > a.il:first-child{margin-left:0;}
+  .cv .row .nm > a.il:first-child{margin-left:0;margin-right:.45em;}
+  .cv .row .nm{display:flex;align-items:center;}
+  .il .mk{flex:none;}
+  .cv .row a.il{display:inline-flex;align-items:center;gap:.4em;}
+  .il.ic img{display:block;width:1.3em;height:1.3em;border-radius:22%;outline:1px solid var(--line);}
   .il .mk{display:inline-block;height:var(--h,.78em);width:calc(var(--h,.78em) * var(--r));vertical-align:-.02em;
     margin:0 .14em 0 0;background-color:currentColor;
     -webkit-mask:var(--m) left center/contain no-repeat;mask:var(--m) left center/contain no-repeat;}
@@ -962,23 +966,23 @@ document.documentElement.className+=' js';
           <div class="sec">
             <div class="lbl">Milestones</div>
             <div class="body">
-              <div class="row"><span class="nm">Onassis ONX Fellow</span><span class="yr">2026 · New York</span></div>
-              <div class="row"><span class="nm">Founding Designer, <a class="il" href="https://flora.ai" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/flora.svg);--r:6.292;--h:.9em"></span><span class="sr">FLORA</span></a></span><span class="yr">2024</span></div>
-              <div class="row"><span class="nm">Lead Product Designer, <a class="il" href="https://www.soot.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/soot.png);--r:3.926;--h:.8em"></span><span class="sr">SOOT</span></a></span><span class="yr">2024–25</span></div>
-              <div class="row"><span class="nm">Origin, Mythra (pre-agentic protocol)</span><span class="yr">2023</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://www.onassis.org/onx" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/onx.svg);--r:1.816;--h:1.35em"></span><span class="sr">Onassis ONX</span></a> Fellow</span><span class="yr">2026 · New York</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://flora.ai" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/flora.svg);--r:6.292;--h:.9em"></span><span class="sr">FLORA</span></a> Founding Designer</span><span class="yr">2024</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://www.soot.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/soot.png);--r:3.926;--h:.72em"></span><span class="sr">SOOT</span></a> Lead Product Designer</span><span class="yr">2024–25</span></div>
+              <div class="row"><span class="nm"><a class="il ic" href="https://mythra.ai" target="_blank" rel="noopener"><img src="/assets/logos/mythra.png" alt="" width="24" height="24">Mythra</a> Origin, pre-agentic protocol</span><span class="yr">2023</span></div>
             </div>
           </div>
           <div class="sec">
             <div class="lbl">Studios + Roles</div>
             <div class="body">
-              <div class="row"><span class="nm"><a class="il" href="https://fictivekin.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/fictive-kin.svg);--r:8.727;--h:.72em"></span><span class="sr">Fictive Kin</span></a></span><span class="ctx">2026 · Present</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://fictivekin.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/fictive-kin.svg);--r:8.727;--h:.72em"></span><span class="sr">Fictive Kin</span></a></span><span class="ctx">Designer · 2026 · Present</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a></span><span class="ctx">Founder · 2024</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.429"></span><span class="sr">Artifice NYC</span></a></span><span class="ctx">Creative Director · 2024</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:1em"></span><span class="sr">Studio Artifice</span></a></span><span class="ctx">Founder + Creative Director · 2023</span></div>
               <div class="sub">Previously</div>
-              <div class="row prior"><span class="nm"><a class="il" href="https://vokal.io" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/vokal.svg);--r:4.864;--h:.8em"></span><span class="sr">Vokal Interactive</span></a></span><span class="ctx">2020</span></div>
-              <div class="row prior"><span class="nm">Google Fonts</span><span class="ctx">2019</span></div>
-              <div class="row prior"><span class="nm">Legion Collective</span><span class="ctx">2019</span></div>
+              <div class="row prior"><span class="nm"><a class="il" href="https://vokal.io" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/vokal.svg);--r:4.864;--h:.8em"></span><span class="sr">Vokal Interactive</span></a></span><span class="ctx">Designer · 2020</span></div>
+              <div class="row prior"><span class="nm"><a class="il" href="https://fonts.google.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/google-fonts.svg);--r:5.645;--h:1.2em"></span><span class="sr">Google Fonts</span></a></span><span class="ctx">Designer · 2019</span></div>
+              <div class="row prior"><span class="nm"><a class="il" href="https://www.legioncollective.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/legion-collective.png);--r:1.005;--h:1.5em"></span>Legion Collective</a></span><span class="ctx">Designer · 2019</span></div>
             </div>
           </div>
         </div>
