@@ -722,7 +722,9 @@
      neutral scale, the six Matter units and the type ladder are the values on
      the guidelines site, checked against it, not a screenshot of it. The link
      out is still there for the full document. */
-  .cs-sw,.cs-units,.cs-pairs{display:grid;grid-template-columns:repeat(var(--n,4),1fr);}
+  .cs-pairs{display:grid;grid-template-columns:repeat(var(--n,4),1fr);}
+  /* Swatches, ramp and units share one column count, so their chips line up at every width. */
+  .cs-sw,.cs-units,.cs-ramp{display:grid;grid-template-columns:repeat(var(--spec-cols,6),1fr);}
   .cs-sw,.cs-units{gap:.9rem;margin-bottom:1.6rem;}
   /* One specimen height for every row in the block. */
   .cs-sw .ch,.cs-units img,.cs-ramp .ch{display:block;width:100%;height:3.4rem;
@@ -734,7 +736,7 @@
   /* A face has no chip of its own, so the specimen is the letterform. */
   .cs-faces .ch.fc{display:flex;align-items:center;justify-content:flex-start;
     font-size:2.1rem;line-height:1;color:var(--sw2);border:0;letter-spacing:-.02em;}
-  .cs-ramp{display:grid;grid-template-columns:repeat(var(--n,12),1fr);gap:.9rem;
+  .cs-ramp{gap:.9rem;
     margin-bottom:1.6rem;}
   .cs-ramp i{min-width:0;font-style:normal;}
   .cs-ramp .ch{border-radius:3px;border:1px dotted var(--line);}
@@ -788,25 +790,27 @@
   /* Below this a full-count row squeezes a label past legibility, so the specimen
      grids stop counting and start fitting. */
   @media(max-width:1200px){
-    .cs-ramp{grid-template-columns:repeat(6,1fr);}
-    .cs-sw,.cs-units,.cs-pairs{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}
+    .cs-pairs{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));}
     /* Six units fit four then two under auto-fit. Three and three is the same
        information without the orphan, and six divides by three. */
-    .cs-units{grid-template-columns:repeat(3,1fr);}
     .cs-pairs.wide,.cs-pairs.one{grid-template-columns:1fr;}
   }
   @media(max-width:900px){
     .cs{left:0;}
+    /* Label left, text right holds down to phones; the label column just narrows. */
+    .cs-sec,.cs-shot,.cs-end,.cs-foot{grid-template-columns:minmax(88px,20%) 1fr;gap:.7rem 1.2rem;}
+    .cs-ledger{grid-template-columns:repeat(3,1fr);gap:1rem;}
+  }
+  @media(max-width:560px){
     .cs-sec,.cs-shot,.cs-end,.cs-foot{grid-template-columns:1fr;gap:.7rem;}
     .cs-end > a,.cs-foot > a{grid-column:1;}
-    .cs-ledger{grid-template-columns:repeat(3,1fr);gap:1rem;}
     .cs-sec > :not(.cs-lbl){grid-column:1;}
   }
   @media(max-width:700px){
     .cs-ledger{grid-template-columns:repeat(2,1fr);gap:1.2rem 1rem;}
-    .cs-sw,.cs-units,.cs-pairs{grid-template-columns:repeat(2,1fr);}
+    .cs-pairs{grid-template-columns:repeat(2,1fr);}
+    .cs-sw,.cs-units,.cs-ramp{--spec-cols:3;}
     .cs-pairs.wide,.cs-pairs.one{grid-template-columns:1fr;}
-    .cs-ramp{grid-template-columns:repeat(3,1fr);}
   }
 
   /* Entrances only, and every one of them has an escape. */
