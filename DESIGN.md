@@ -497,7 +497,8 @@ opens one in the panel rather than routing to a studioartifice.com subpage.
 
 An artifact is one illustration per project, shown on its own: the Osmosis petri
 dish, the Idler Shell, the BIOTA fish, the Artifact Index objects. Not palettes or type specs.
-The Artifacts tab (fourth pill in the rail filters) swaps the project grid for these. Files live
+Artifacts are their own section between the work grid and the about/CV block (label-left, same row
+anatomy as Information / Milestones), not a filter: the rail pills stay All / URL / IRL. Files live
 in `/stage/<slug>/art/` (WebP for stills, 720p-or-smaller h264 with a .jpg poster for motion);
 the `LIST` in the Artifacts script sets name, fit and ground per piece. Video plays only on
 screen and never under reduced motion. A tile opens its project's case study.

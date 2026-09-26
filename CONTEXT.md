@@ -43,3 +43,10 @@ Vector is the tool that made the Idler Shell (Renaise). The tool keeps its name 
 unchanged). On renaise.com its tile carries a descriptor only, "Sequencer for the Shell", and sits
 right after the Shell; the Shell's caption reads "Idler · 2026 · Made in Vector" and the Idler case
 study's Artifact caption links to the tool.
+
+## 2026-09-25 · Artifacts become a section
+
+Four pills read wrong, and Artifacts isn't a filter over projects; it's a different kind of thing.
+Moved out of the rail pills into its own section after the work grid, in the CV row anatomy
+(label left, 3×3 grid in the body column, two across on phones). Rail filters back to All / URL / IRL.
+The section's row rule is its only divider (card border dropped to avoid parallel lines).

@@ -567,13 +567,13 @@
      the Osmosis petri dish, the Idler Shell, the BIOTA fish. Each tile shows the
      object alone and says which project it came from. */
   /* Column count is set from the artifact count (script) so the last row never orphans. */
-  .arts{display:grid;grid-template-columns:repeat(var(--arts-cols,4),1fr);gap:var(--row-gap) 1.6rem;align-items:start;}
+  .arts{display:grid;grid-template-columns:repeat(var(--arts-cols,4),1fr);gap:2.2rem 1.2rem;align-items:start;}
   .art{display:block;color:inherit;text-decoration:none;cursor:pointer;}
   .art .sp{position:relative;aspect-ratio:4/3;border:1px dotted var(--line);overflow:hidden;
     display:flex;align-items:center;justify-content:center;background:var(--sp-bg,var(--tile));
     transition:border-color .2s;}
   .art:hover .sp,.art:focus-visible .sp{border-color:var(--accent);}
-  .layout[hidden],.arts[hidden],.art[hidden]{display:none;}
+  .layout[hidden]{display:none;}
   .art .cap{margin-top:.6rem;}
   .art .nm{display:block;color:var(--sw2);font-weight:450;font-size:.96rem;line-height:1.26;letter-spacing:-.008em;
     transition:color .2s;}
@@ -582,8 +582,12 @@
     margin-top:.25rem;}
   .art .sp img,.art .sp video{position:absolute;inset:0;width:100%;height:100%;
     object-fit:var(--fit,contain);object-position:var(--pos,50% 50%);padding:var(--pad,8%);box-sizing:border-box;}
-  @media(max-width:1240px){ .arts{grid-template-columns:repeat(2,1fr);} }
-  @media(max-width:900px){ .arts{grid-template-columns:1fr;gap:2.2rem;} }
+  /* In the CV body column the grid runs three across down to phones, then two. */
+  /* The row's own dotted rule is the section divider; the card's would draw a second
+     parallel line above it. */
+  #artifacts{border-top:0;padding-top:0;}
+  #artifacts .sec{padding-block:1.5rem 0;}
+  @media(max-width:700px){ .arts{grid-template-columns:repeat(2,1fr);gap:1.6rem 1rem;} }
 
   .spacer{height:2.2rem;}
   /* ── Case study panel ──────────────────────────────────────────────────────
@@ -824,7 +828,6 @@ document.documentElement.className+=' js';
         <button type="button" data-cat="all" aria-pressed="true">All<span class="n">12</span></button>
         <button type="button" data-cat="url" aria-pressed="false">URL<span class="n">11</span></button>
         <button type="button" data-cat="irl" aria-pressed="false">IRL<span class="n">1</span></button>
-        <button type="button" data-cat="artifacts" aria-pressed="false">Artifacts<span class="n" id="arts-n"></span></button>
       </div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="acts">
@@ -893,7 +896,17 @@ document.documentElement.className+=' js';
       </a>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
-      <div class="arts" id="arts" hidden aria-label="Artifacts"></div>
+    </section>
+
+    <!-- Artifacts: what the projects produced, shown on their own. A section, not a
+         filter: they are a different kind of thing from the projects above. -->
+    <section class="card" id="artifacts">
+      <div class="cv">
+        <div class="sec">
+          <div class="lbl">Artifacts</div>
+          <div class="arts" id="arts"></div>
+        </div>
+      </div>
     </section>
 
     <section class="card" id="about">
@@ -1208,16 +1221,6 @@ document.documentElement.className+=' js';
     window.__cat='all';
     window.__applyWork=function(){
       var cat=window.__cat, n=0;
-      var layout=document.querySelector('#work .layout');
-      if(cat==='artifacts' && window.__applyArts){
-        layout.hidden=true;
-        n=window.__applyArts();
-        if(none) none.hidden = n!==0;
-        if(status) status.textContent = n===0 ? 'No artifacts match.' : n+' artifacts shown.';
-        return n;
-      }
-      layout.hidden=false;
-      if(window.__hideArts) window.__hideArts();
       cards.forEach(function(c){
         var inCat = cat==='all' || (' '+(c.getAttribute('data-cat')||'')+' ').indexOf(' '+cat+' ')>-1;
         var inQuery = c.getAttribute('data-q')!=='0';
@@ -1282,7 +1285,6 @@ document.documentElement.className+=' js';
     el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')+' '+(a.desc||'')).toLowerCase();
     box.appendChild(el); return el;
   });
-  var cnt=document.getElementById('arts-n'); if(cnt) cnt.textContent=items.length;
   // Rows always fill: four across when the count divides by four, else three.
   box.style.setProperty('--arts-cols', items.length%4===0?4:3);
   // The case study renders the same piece in its own Artifact section.
@@ -1301,18 +1303,6 @@ document.documentElement.className+=' js';
     var card=document.querySelector('#work .proj[data-slug="'+a.getAttribute('data-slug')+'"]');
     if(card){ e.preventDefault(); window.__artJump=a.getAttribute('data-slug'); card.click(); }
   });
-  var q=document.getElementById('q');
-  window.__applyArts=function(){
-    var t=(q&&q.value||'').trim().toLowerCase().split(/\s+/).filter(Boolean), n=0;
-    box.hidden=false;
-    items.forEach(function(el){
-      var hit=t.every(function(w){ return el.__text.indexOf(w)>-1; });
-      el.hidden=!hit; if(hit) n++;
-    });
-    return n;
-  };
-  window.__hideArts=function(){ box.hidden=true; };
-  if(window.__cat==='artifacts' && window.__applyWork) window.__applyWork();
 })();
 </script>
 
