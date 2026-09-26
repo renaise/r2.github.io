@@ -567,14 +567,14 @@
      the Osmosis petri dish, the Idler Shell, the BIOTA fish. Each tile shows the
      object alone and says which project it came from. */
   /* Column count is set from the artifact count (script) so the last row never orphans. */
-  .arts{display:grid;grid-template-columns:repeat(var(--arts-cols,4),1fr);gap:2.2rem 1.2rem;align-items:start;}
+  .arts{display:grid;grid-template-columns:repeat(var(--arts-cols,4),1fr);gap:1.4rem .6rem;align-items:start;}
   .art{display:block;color:inherit;text-decoration:none;cursor:pointer;}
   .art .sp{position:relative;aspect-ratio:4/3;border:1px dotted var(--line);overflow:hidden;
     display:flex;align-items:center;justify-content:center;background:var(--sp-bg,var(--tile));
     transition:border-color .2s;}
   .art:hover .sp,.art:focus-visible .sp{border-color:var(--accent);}
   .layout[hidden]{display:none;}
-  .art .cap{margin-top:.6rem;}
+  .art .cap{margin-top:.45rem;}
   .art .nm{display:block;color:var(--sw2);font-weight:450;font-size:.96rem;line-height:1.26;letter-spacing:-.008em;
     transition:color .2s;}
   .art:hover .nm,.art:focus-visible .nm{color:var(--accent);}
@@ -587,7 +587,7 @@
      parallel line above it. */
   #artifacts{border-top:0;padding-top:0;}
   #artifacts .sec{padding-block:1.5rem 0;}
-  @media(max-width:700px){ .arts{grid-template-columns:repeat(2,1fr);gap:1.6rem 1rem;} }
+  @media(max-width:700px){ .arts{grid-template-columns:repeat(2,1fr);gap:1.2rem .5rem;} }
 
   .spacer{height:2.2rem;}
   /* ── Case study panel ──────────────────────────────────────────────────────
