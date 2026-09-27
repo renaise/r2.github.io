@@ -230,7 +230,7 @@
   /* Wordmark + pronoun. Shares the wordmark's baseline: h1 is a clamp() from 3.6rem to
      11rem, so any hand-set offset would drift across that range. The baseline tracks it
      for free and sits the caption on the same line the display face stands on. */
-  .wm{display:flex;align-items:baseline;gap:.7rem;}
+  .wm{display:flex;align-items:baseline;gap:.7rem;justify-content:space-between;}
 
   /* Search. One dotted rule, the page's only border idiom, and type on the shared
      .72rem step so the field reads as a line in the rail rather than a widget in it. */
@@ -663,7 +663,7 @@
   .cs-mast .claim{margin:.8rem 0 0;font-size:clamp(.95rem,2vw,1.2rem);
     font-weight:400;line-height:1.2;color:var(--sw2);}
 
-  .cs-ledger{display:grid;grid-template-columns:var(--cs-col) 1fr 1fr;gap:var(--cs-gap);
+  .cs-ledger{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--cs-gap);
     padding:1rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);
     margin-bottom:1.8rem;}
   .cs-ledger dt{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
@@ -689,7 +689,8 @@
     box-sizing:border-box;background:var(--sp-bg,var(--tile));border:1px dotted var(--line);}
   .cs-art figcaption{margin-top:.6rem;color:var(--sw4);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
   /* The live-site CTA under the title: the rail pill's capsule, one size up. */
-  .cs-cta{display:inline-flex;align-items:center;gap:.4rem;margin-top:1.1rem;padding:.42rem .8rem;
+  .cs-ledger-cta{justify-self:end;align-self:center;}
+  .cs-cta{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .8rem;
     font-family:var(--sans);font-size:.8rem;color:var(--sw2);border:1px dotted var(--line);border-radius:999px;
     transition:color .2s,border-color .2s;}
   .cs-cta:hover{color:var(--accent);border-color:var(--accent);}
@@ -799,7 +800,7 @@
     .cs{left:0;}
     /* Label left, text right holds down to phones; the label column just narrows. */
     .cs-sec,.cs-shot,.cs-end,.cs-foot{grid-template-columns:minmax(88px,20%) 1fr;gap:.7rem 1.2rem;}
-    .cs-ledger{grid-template-columns:repeat(3,1fr);gap:1rem;}
+    .cs-ledger{grid-template-columns:repeat(4,1fr);gap:1rem;}
   }
   @media(max-width:560px){
     .cs-sec,.cs-shot,.cs-end,.cs-foot{grid-template-columns:1fr;gap:.7rem;}
@@ -956,7 +957,7 @@ document.documentElement.className+=' js';
             <div class="lbl">Information</div>
             <div class="body">
               <p class="lede">Renaise is a brand + product designer working across culture + venture in consumer media, creative tools, and deep tech.</p>
-              <p>Founder of <a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a>, an applications platform. Creative director of <a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.429"></span><span class="sr">Artifice NYC</span></a>, a curatorial research nonprofit. Founder and creative director of <a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:1em"></span><span class="sr">Studio Artifice</span></a>, a commercial studio.</p>
+              <p>Founder of <a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a>, an applications platform. Creative director of <a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.429"></span><span class="sr">Artifice NYC</span></a>, a curatorial research nonprofit. Founder and creative director of <a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:.85em"></span><span class="sr">Studio Artifice</span></a>, a commercial studio.</p>
               <p>Her research centers on artifice: the artifacts of science fiction, with a focus on speculative fiction and hybrid models of creation. Projects usually start as a website or an interface and end as a physical installation.</p>
               <div class="links">
                 <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
@@ -982,7 +983,7 @@ document.documentElement.className+=' js';
               <div class="row"><span class="nm"><a class="il" href="https://fictivekin.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/fictive-kin.svg);--r:8.727;--h:.72em"></span><span class="sr">Fictive Kin</span></a></span><span class="ctx">Designer · 2026 · Present</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a></span><span class="ctx">Founder · 2024</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.429"></span><span class="sr">Artifice NYC</span></a></span><span class="ctx">Creative Director · 2024</span></div>
-              <div class="row"><span class="nm"><a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:1em"></span><span class="sr">Studio Artifice</span></a></span><span class="ctx">Founder + Creative Director · 2023</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:.85em"></span><span class="sr">Studio Artifice</span></a></span><span class="ctx">Founder + Creative Director · 2023</span></div>
               <div class="sub">Previously</div>
               <div class="row prior"><span class="nm"><a class="il" href="https://vokal.io" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/vokal.svg);--r:4.864;--h:.8em"></span><span class="sr">Vokal Interactive</span></a></span><span class="ctx">Designer · 2020</span></div>
               <div class="row prior"><span class="nm"><a class="il" href="https://fonts.google.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/google-fonts.svg);--r:5.645;--h:1.2em"></span><span class="sr">Google Fonts</span></a></span><span class="ctx">Designer · 2019</span></div>
@@ -1289,7 +1290,7 @@ document.documentElement.className+=' js';
   var D; try{ D=JSON.parse(dataEl.textContent); }catch(e){ return; }
   var A='/stage/';
   var LIST=[
-    {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.webp'},
+    {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.mp4',fit:'cover',pad:'0',bg:'#101010'},
     // The Shell and the instrument that plays it sit side by side.
     {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
     {s:'artifactory',n:'Vector',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/',desc:'Sequencer for the Shell'},
@@ -1338,6 +1339,22 @@ document.documentElement.className+=' js';
 })();
 </script>
 
+<script>
+// The wordmark fills its row: size it so name + marks span the card's full width.
+(function(){
+  var wm=document.querySelector('.wm'), nm=wm&&wm.querySelector('.wmname'), ents=wm&&wm.querySelector('.ents');
+  if(!nm) return;
+  function fit(){
+    nm.style.fontSize='100px';
+    var narrow=window.innerWidth<=700;
+    var avail=wm.clientWidth-(narrow?0:(ents?ents.offsetWidth:0)+parseFloat(getComputedStyle(wm).columnGap||0)*2);
+    var w=nm.getBoundingClientRect().width;
+    if(w>0) nm.style.fontSize=Math.max(40,Math.floor(100*avail/w*0.995))+'px';
+  }
+  fit(); window.addEventListener('resize',fit);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fit);
+})();
+</script>
 <!-- ── Showroom order, driven by the Seance CMS ──────────────────────────────
      The .proj blocks above are authored in a fixed DOM order. This reorders
      them to match the shared store (D1 kv 'renaise_cms') — the same store the
@@ -1584,18 +1601,19 @@ document.documentElement.className+=' js';
     var d=DATA[slug]||{}, name=d.name||slug, out='';
     out+='<header class="cs-mast"><h2 id="cs-name">'+esc(name)+'</h2>'
       + (d.title?'<p class="claim">'+esc(d.title)+'</p>':'')
-      // Every case study opens with the way out to the real thing.
-      + (d.live
+      + '</header>';
+    // The way out to the real thing sits in the ledger's fourth column.
+    var cta=(d.live
           ? '<a class="cs-cta" href="'+esc(d.live)+'" target="_blank" rel="noopener">See live site '
             + '<span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
             + 'stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" />'
             + '<path d="M5.4 1.6H14.4V10.6" /></svg></span></a>'
-          : (d.status?'<span class="cs-cta is-off">'+esc(d.status==='In Progress'?'In production':d.status)+'</span>':''))
-      + '</header>';
+          : (d.status?'<span class="cs-cta is-off">'+esc(d.status==='In Progress'?'In production':d.status)+'</span>':''));
     out+='<dl class="cs-ledger">'
       + (d.role?'<div><dt>Role</dt><dd>'+esc(d.role)+'</dd></div>':'')
       + (d.year?'<div><dt>Year</dt><dd class="yr">'+esc(d.year)+'</dd></div>':'')
       + (d.medium?'<div><dt>Medium</dt><dd>'+esc(d.medium)+'</dd></div>':'')
+      + (cta?'<div class="cs-ledger-cta">'+cta+'</div>':'')
       + '</dl>';
     out+=plate(card,d);
     // The card shows the hook alone. Where the store has the four-part text the panel
