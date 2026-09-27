@@ -13,7 +13,7 @@ as a production deploy: confirm before pushing outward-facing changes, and verif
 
 ## Design & voice
 Follow `DESIGN.md` exactly (cream gradient, Neue Haas Grotesk body, Helvetica Now Display wordmark,
-Favorit Mono meta, `#FF2A00` accent used sparingly). Copy rules: **no em dashes**, `+` over "and",
+Favorit Mono meta, `#FF2A00` accent used sparingly). Copy rules: **US English** (color, gray, program, catalog, center), **no em dashes**, `+` over "and",
 quiet editorial register. Marquee phrases are sourced from studioartifice.com.
 
 ## Deploy
