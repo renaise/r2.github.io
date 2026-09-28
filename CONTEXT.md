@@ -1,5 +1,24 @@
 # renaise.com — context log
 
+## 2026-09-28 · /pd + /cd pass; System block standardized
+
+Renaise: "the guidelines needs to be a button and the typography needs to be standardized."
+- System block: the guidelines link is now the live-site CTA capsule ("Open the guidelines ↗";
+  SOOT's reads "Open Library ↗"), closing the section. The dt/dd row is gone.
+- System + Compare type is two roles only. Label: .62rem caps, .1em, --sw4 (table heads, hex,
+  tokens, ramp codes). Value: .72rem, 400, --sw2 (names, steps, cells). Hex/token tracking was
+  .06em against .1em on table heads; the guidelines dd was weight 300. Face tokens drop the CSS
+  "--" prefix ("--institutional" read as "- -INSTITUTIONAL").
+- Case study honors reduced motion (plate no longer autoplays, films don't auto-run); the plate
+  video carries the card's label.
+- Phone search field on the 40px floor; browser theme color matches --bg1 (#e9e9e9); Mythra icon
+  outline dotted; the switch uses the site-wide focus ring.
+
+Open (recommended, not shipped): case-study URLs (/soot, /idler…) return HTTP 404 via 404.html,
+so shared links preview badly; rail link touch targets on phones; URL 11 / IRL 1 filter carries
+little signal; four card videos lack labels and seven cards double-wrap .nmw; DESIGN.md + CLAUDE.md
+describe the old cream/Favorit build.
+
 ## 2026-09-25 · /pd visual hierarchy pass (+ /cd)
 
 JTBD: a prospective client or collaborator judges the work in one scroll, then opens a case study.
