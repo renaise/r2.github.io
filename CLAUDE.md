@@ -8,13 +8,14 @@ as a production deploy: confirm before pushing outward-facing changes, and verif
 - `index.html` — the whole site. Self-contained, no build step. Hand-edit + push.
 - `DESIGN.md` — the design system. Read it before any visual change; keep it in sync.
 - `assets/projects/` — project marks/imagery referenced by root-absolute paths (`/assets/projects/…`).
-- `fonts/` + `ABCFavoritMono-Light-Trial.otf` — self-hosted webfonts.
+- `fonts/` — self-hosted webfonts (Diatype, Redaction; unreferenced extras stay by decision).
 - `CNAME` — `renaise.com`. Never delete it.
 
 ## Design & voice
-Follow `DESIGN.md` exactly (cream gradient, Neue Haas Grotesk body, Helvetica Now Display wordmark,
-Favorit Mono meta, `#FF2A00` accent used sparingly). Copy rules: **US English** (color, gray, program, catalog, center), **no em dashes**, `+` over "and",
-quiet editorial register. Marquee phrases are sourced from studioartifice.com.
+Follow `DESIGN.md` exactly (dark by default on `#161718`, light opt-in on `#e9e9e9`; one gray ink
+in alpha steps, no brand hue; Diatype for the interface, Redaction for prose + wordmark; every
+rule a 1px dotted `--line`). Copy rules: **US English** (color, gray, program, catalog, center), **no em dashes**, `+` over "and",
+quiet editorial register.
 
 ## Deploy
 ```bash

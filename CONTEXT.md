@@ -1,5 +1,23 @@
 # renaise.com — context log
 
+## 2026-09-28 · The open list, fixed
+
+- Case-study routes are real files: `scripts/build-routes.py` writes `/<slug>/index.html` from
+  #cs-data (200, own title/description/cover as og:image, canonical), then forwards to `/?p=<slug>`
+  like 404.html. **Re-run it whenever #cs-data or a cover changes.**
+- Filters are what a client buys: All 12 / Identity 5 / Product 5 / Site 5 (cards carry
+  multi-value data-cat). Depictions is `irl` and lives under All; its crumb reads IRL and hands
+  back All. Crumb shows the card's first kind in title case.
+- Names: The Artifact Index takes the glyph treatment (Artifice glyph, `assets/logos/artifice-glyph.svg`,
+  + name) so it no longer shows the same ARTIFICE wordmark as Artifice Brand Identity. Doubled
+  `.nmw` wrappers removed from seven cards.
+- Phones: rail links are a 3-across grid of 40px dotted capsules (the filter pills' shape).
+- Cards: `.media` is aria-hidden and hover `.sys` images have empty alt, so each link's name is its
+  card text. Search reads "Search work" (it only searches the grid).
+- Dead code out: smoothLoop (no data-smooth anywhere), .proj .ext, .k-re/.k-ai, stale donate
+  comment, duplicate .cs-sw and .cs-shot rules.
+- DESIGN.md + CLAUDE.md synced to the build (dark default, Diatype + Redaction, no brand hue).
+
 ## 2026-09-28 · /pd + /cd pass; System block standardized
 
 Renaise: "the guidelines needs to be a button and the typography needs to be standardized."

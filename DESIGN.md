@@ -15,16 +15,24 @@ No adjectives of quality. If a line could sit on any designer's site, it does no
 
 ## Type
 
-**Diatype carries the interface** — body, nav, labels, years, the clock. Times sets running
-copy. Newsreader sets the wordmark alone. There is no mono role.
+**Diatype carries the interface**: body, nav, labels, years, the clock. Redaction sets running
+copy and the wordmark. There is no mono role.
 
 | Role | Token | Face | File |
 |---|---|---|---|
-| Everything | `--sans` | Diatype Variable (Dinamo) | `fonts/Cargo-DiatypePlusVariable.woff2` |
-| Wordmark only | `--display` | Newsreader Variable (OFL) | `fonts/Newsreader-Variable.woff2` |
-| Running copy | `--serif` | Times New Roman | system, no request |
+| Interface | `--sans` | Diatype Variable (Dinamo) | `fonts/Cargo-DiatypePlusVariable.woff2` |
+| Running copy | `--serif` | Redaction (MCKL, OFL), Times fallback | `fonts/Redaction-Regular.woff2`, `-Bold.woff2` |
+| Wordmark | `--display` | Redaction, Times fallback | same files |
 
-**Redaction is no longer loaded.** The wordmark ran in Times until 2026-08-26, when it moved
+**As built (2026-09-28): Redaction is loaded again**, 400 and 700 via `@font-face`, and both
+`--serif` and `--display` resolve to it. Newsreader is on disk but referenced by nothing. The
+wordmark (`.wmname`, the About block) asks for weight 300, which Redaction does not carry, so
+it renders the Regular cut. Running copy sits on the `--prose` ladder
+(`clamp(.8rem,.72rem + .22vw,.92rem)`, leading 1.38, `--prose-ink`). The rail's `h1` is the
+image mark, not the wordmark. Some CSS comments in `index.html` still describe Times as the
+serif and Diatype as the wordmark; the tokens are what ships.
+
+History: The wordmark ran in Times until 2026-08-26, when it moved
 to Newsreader at **weight 300** with `letter-spacing:-.042em`. Times ships Regular and Bold
 only, so a lighter wordmark was impossible in it: `font-weight` had nowhere to go. Newsreader
 carries 200–800 and was already sitting in `fonts/`, referenced by nothing.
@@ -36,24 +44,35 @@ Diatype's default figures are **proportional** (ten distinct advances), so anyth
 numbers that change in place needs `font-variant-numeric:tabular-nums` or it jitters. The
 clock and the CV years set it. This is the constraint the old mono role used to absorb.
 
-Sizes: body `.72rem` · statement `.95rem`/1.1 · h1 `clamp(3.6rem,12vw,11rem)` ·
-clock `.68rem` · **rail links `1.44rem`** (doubled 2026-08-26, two columns, the trailing
+Sizes: body `.72rem` · micro-labels `.62rem` caps · statement
+`clamp(.94rem,.86rem + .3vw,1.08rem)`/1.42 · wordmark `clamp(3.6rem,12vw,11rem)` (2.4rem under
+900px) · clock `.62rem` · **rail links `1.44rem`** (doubled 2026-08-26, two columns, the trailing
 arrow held in flow at `opacity:0` and revealed on hover so nothing reflows under the pointer).
 
 ## Color
 
-One ink, three alphas, flat page. **No brand hue exists.** A fourth colour means a
-hierarchy problem.
+One ink, a ladder of alphas, flat page. **No brand hue exists.** A fourth color means a
+hierarchy problem. **Dark is the default** (2026-09-28 build); light is a choice the reader
+makes.
 
-| Token | Light | Dark |
+| Token | Dark (default) | Light |
 |---|---|---|
-| `--ink` | `#5c5c5c` | `#a8a8a8` |
-| `--sw2` — body, nav (α .90) | renders `#6a6a6a` · 4.54:1 | 6.19:1 |
-| `--sw3` — labels, **every rule** (α .72) | renders `#848484` · 3.14:1 | 4.41:1 |
-| `--sw4` — descriptions, h1, clock (α .58) | 2.36:1 | — |
-| `--accent` | `#2e2e2e` | `#ffffff` |
-| `--bg1` | `#ebebeb` | `#1a1a1a` |
-| `--tile` | `#100f0e` | `#100f0e` — **dark in both** |
+| `--ink` | `#b0b0b0` | `#4a4a4a` |
+| `--sw2` body, nav, values | ink α .96 | `rgb(76,76,76)` α .98 |
+| `--sw3` | ink α .86 | α .92 |
+| `--sw4` labels, clock, wordmark | ink α .80 | α .86 |
+| `--sw5` | ink α .74 | α .82 |
+| `--prose-ink` running copy | ink α .92 | `rgb(70,70,70)` α .94 |
+| `--line` every rule | ink α .42 | `rgb(92,92,92)` α .42 |
+| `--line-soft` CV sub-rules | α .18 | α .18 |
+| `--accent` | `#ffffff` | `#2e2e2e` |
+| `--bg1` | `#161718` | `#e9e9e9` |
+| `--tile` | `#101010` | `#101010`, **dark in both** |
+| `--chip` / `--chip-ink` | `#0e0e0f` / white α .92 | `#f6f6f6` / `#1a1a1a` |
+
+The dark ground carries one point of blue over red (22/23/24), a hair cooler than neutral
+without reading as navy. The `--sw` values and ratios in the ladder below were measured on the
+earlier `#5c5c5c` / `#ebebeb` tokens and are kept as history; re-measure before citing them.
 
 Accent is hover and outlines only — **never fill an area with it.** `--tile` backs the
 project plates, whose covers are composed for a dark ground, so it does not invert.
@@ -80,14 +99,17 @@ lighter type drops it below AA. The only way to lift the scale is to darken `--i
 `--sw4` (2.36:1) is knowingly sub-AA — recessive by design, the h1 included.
 
 Theme resolves in a `<head>` script before first paint and always writes an explicit
-`data-theme`, so the switch knob can never disagree with the page. No stored choice follows
-the OS; choosing opts out permanently. Without JS the switch is hidden and
-`prefers-color-scheme` still applies.
+`data-theme`, so the switch knob can never disagree with the page. A stored `theme` in
+localStorage wins; otherwise the page is **dark**. The OS preference is never read: there is
+no `prefers-color-scheme` branch in the CSS. Without JS the switch is hidden and the page
+stays dark.
 
 ## Layout
 
-- Sticky rail, `280px`, `100vh`: mark → statement → **search** → marquee → donate → links,
-  switch, clock pinned bottom. Rail children sit on a `1.25rem` gap (was `1.9rem`).
+- Sticky rail, `--rail` (280px), `100vh`: image mark (the `h1`) → statement → **search** →
+  filters → links, with the clock and switch pinned bottom. The marquee and donate link are
+  no longer in the markup (only stale CSS comments mention them). Rail children sit on a
+  `1.25rem` gap (was `1.9rem`). One gutter, `--gut` (1.4rem), frames rail and grid.
 - **Search** carries a hand-built concept map alongside the card text, and **every card needs an
   entry in it.** `biota` was added after the map was written and had none, so it was reachable
   only by words already visible on it: ios, android, consumer, currency, video and image all
@@ -103,7 +125,8 @@ the OS; choosing opts out permanently. Without JS the switch is hidden and
 - Case study pages (`/work/<slug>/`) carry a breadcrumb: Renaise / Work / <name>, separator
   generated in CSS so it never trails the last item.
 - Main column `max-width:1040px`. First card `padding-top:1.5rem` to sit level with the mark.
-- Work index is a **2-up grid** (`gap:3.2rem 2rem`), collapsing to one column under 900px.
+- Work index is a **3-up grid** (`gap:var(--row-gap) 1.6rem`, `--row-gap` 3.2rem), stepping
+  to two columns at 1240px and one under 900px (`gap:2.6rem`).
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
 
@@ -176,7 +199,7 @@ entries ease in once, then unobserve. Plates fade a dotted outline on hover — 
 present but `transparent` at rest, because `outline-style` none→dotted is discrete and would
 otherwise pop.
 
-The marquee runs `110s` (was `64s`).
+The marquee ran `110s` (was `64s`). It is no longer in the rail as of the 2026-09-28 build.
 
 Exactly one living element: **a clock that serves no function.** It is proof the page is
 running. One dynamic element is charisma; three is a dashboard.
@@ -401,7 +424,14 @@ renders carbon, chalk, cobalt on both grounds, the mark minimums, WHITEBOX/BLACK
 type ladder from `brand.artificenyc.org`. Values are read off the live guidelines and checked
 against them, never transcribed from a picture. The Matter units are drawn from a form-and-state
 pair rather than shipped as six files, so there can be a sixth and not a seventh. Both link out
-under **Open the guidelines**.
+under **Open the guidelines**, set as the `.cs-cta` capsule (dotted `--line` border, 999px
+radius, `.8rem` Diatype, arrow; accent on hover) that closes the section after every specimen.
+The ledger's live-site link uses the same capsule.
+
+**Two type roles in the System and Compare blocks, and no more** (`.cs-sys`, 2026-09-28):
+**Label**, `.62rem` caps, `.1em` tracking, `--sw4` (section labels, table heads, hex values,
+tokens, ramp codes); **Value**, `.72rem` Diatype, 400, `--sw2` (names, steps, table cells,
+terms). Specimens (the Aa, the chips) are the only other sizes in the block.
 
 **Idler's system is pulled at runtime, not copied.** `id-idler.pages.dev` serves
 `access-control-allow-origin: *`, so the panel fetches the guidelines and reads the values off
@@ -480,10 +510,13 @@ wordmark is the first name alone.
 
 ## Kill-list
 
-No second hue. No filled accent. No solid rule anywhere. **No second typeface** — Diatype
-carries everything, Redaction is the wordmark alone. No `dotted` border on a straight rule
-(pitch is unspaceable — use `--rule`). No framework, build step, or CDN. No scroll-linked
-motion. No adjective that survives deletion.
+No second hue. No filled accent. No solid rule anywhere; every rule is a 1px dotted border on
+`--line`. **Two faces only**: Diatype for the interface, Redaction for prose and the wordmark.
+No third. No framework, build step, or CDN. No scroll-linked motion. No adjective that survives
+deletion.
+
+Corrected 2026-09-28: this list used to ban dotted borders on straight rules in favor of a
+`--rule` token. That token never existed (see Layout), and dotted `--line` is the one rule idiom.
 
 Struck 2026-08-25: *"No case study on this site — route to the studio."* Reversed by
 Renaise. Case studies live here now, at `/work/<slug>/`, and as of 2026-09-10 every card
@@ -496,8 +529,27 @@ opens one in the panel rather than routing to a studioartifice.com subpage.
   and five unused font files (both Diatype Widths variables, Diatype Italic, Redaction Regular
   + Bold) are committed and served but referenced by nothing. This is a decision, not an
   oversight: do not raise it again or prune them.
-- Root `CLAUDE.md` still describes a cream page, Neue Haas Grotesk, and a `#FF2A00` accent.
-  None have ever existed in this build.
+- ~~Root `CLAUDE.md` still describes a cream page, Neue Haas Grotesk, and a `#FF2A00` accent.~~
+  Closed 2026-09-28: `CLAUDE.md` now points at the tokens as built.
+- Several CSS comments in `index.html` (Times as the serif, Diatype wordmark, marquee, donate,
+  the old light-mode contrast figures) no longer match the rules under them. Tokens win.
+
+## 2026-09-28 · docs synced to the build
+
+Read against `index.html`'s `:root` tokens, `@font-face` rules, head theme script and CSS.
+Corrected here:
+
+- Default theme is dark (`--bg1` `#161718`); light is opt-in (`#e9e9e9`). No OS preference.
+- `--ink` `#b0b0b0` dark / `#4a4a4a` light (was `#5c5c5c` / `#a8a8a8`); `--tile` `#101010`;
+  `--accent` white dark, `#2e2e2e` light. Token table now lists `--sw2`–`--sw5`, `--line`,
+  `--line-soft`, `--prose-ink`, `--chip`.
+- Redaction is loaded and sets `--serif` and `--display`; Diatype is `--sans`. Newsreader is
+  unreferenced. No Favorit Mono, no Neue Haas, no cream gradient, no `#FF2A00`.
+- Work grid is 3-up, 2-up at 1240px, 1-up under 900px (was 2-up).
+- Rail: image mark, statement, search, filters, links, clock + switch. Marquee and donate gone.
+- System/Compare blocks: two type roles, Label and Value. Guidelines link is the `.cs-cta`
+  capsule.
+- Kill-list no longer points at a `--rule` token that never existed.
 
 ## Artifacts (2026-09-25)
 
