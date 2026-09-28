@@ -148,6 +148,12 @@ the same frame (seam diff 0.09 of 255) and whose every frame is a settled compos
 poster is frame 0. **A cover cut from a live site carries that site's copy; re-shoot it when the
 copy moves.**
 
+Every work card moves (2026-09-28). BIOTA was the one still; its cover is now the same composition
+with the Symbiota fish (`/stage/biota/art/fish.mp4`) playing inside the feed card, the card's UI
+(pill, caption, Remix/Share, side icons) re-laid on top: 1920x1080, 4.6s, poster is frame 0.
+Covers autoplay on screen at every viewport size, phones included; only reduced motion holds them
+on the poster.
+
 FLORA's cover changed on 2026-09-10 from Flora's marketing site to the product's own home
 screen. It went still for an hour and is a video again, cut from `floragif01.gif` — the same
 1296x720 source as the still, frame 0 identical — so the thumbnail moves. 25MB of GIF is 1.4MB

@@ -923,7 +923,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:1"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D Design Environment</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="biota" data-cat="url" href="https://biota.app">
-        <div class="media" style="--poster:url(/stage/biota/cover.jpg)"><img class="cover fill" src="/stage/biota/cover.jpg" alt="BIOTA: the feed, the compose screen with its tone presets, and a profile mid-generation"><span class="tag">Product</span></div>
+        <div class="media" style="--poster:url(/stage/biota/cover.jpg)"><video class="cover fill" src="/stage/biota/cover.mp4" muted loop playsinline preload="none" poster="/stage/biota/cover.jpg" aria-label="BIOTA: the feed, the compose screen with its tone presets, and a profile mid-generation"></video><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/biota.png);--r:1.007;--s:.86"></span><b>BIOTA</b></span><span class="yr">2025</span></div><div class="c1"><span class="t">Prompting as a Social Feed</span><br><span class="m">Designer</span></div></div>
       </a>
       </div>
@@ -1209,13 +1209,12 @@ document.documentElement.className+=' js';
 
   // ── Media policy ────────────────────────────────────────────────────────
   // One video per card, nothing preloaded, poster showing until playback is allowed.
-  // Playback is allowed when the card is on screen AND the viewport is not small AND
-  // the reader has not asked for reduced motion. Small screens and reduced-motion
-  // sessions stay on the poster unless the reader hovers or taps the card.
+  // Playback is allowed when the card is on screen AND the reader has not asked for
+  // reduced motion, at every viewport size. Reduced-motion sessions stay on the
+  // poster unless the reader hovers or taps the card.
   (function(){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-    var small  = window.matchMedia && window.matchMedia('(max-width:900px)').matches;
-    var autoOK = !reduce && !small;
+    var autoOK = !reduce;
 
     function play(v){
       if(!v) return;
