@@ -1,5 +1,11 @@
 # renaise.com — context log
 
+## 2026-09-30 · Phone socials move to the page foot
+
+Under 900px the six icon links leave the header and close the page, under the footnotes (a dotted
+rule above them). One set of links is moved between `.acts` and `nav.socials` by a matchMedia
+script, not duplicated; desktop keeps the labelled rail links. Clock + switch stay in the header.
+
 ## 2026-09-30 · Phone rail icons
 
 Are.na's icon is now its official mark (from are.na/favicon.svg, fill → currentColor) instead of

@@ -553,20 +553,25 @@
     .brand-h1{flex:0 0 auto;align-self:flex-start;}
     .statement{flex:1 1 0;min-width:0;}
     .find,.filters{flex:1 0 100%;}
-    /* On a phone the six links drop to icons in one row: six labelled capsules
-       under four filter tabs was two more rows of buttons than the header needs.
-       The words stay in the markup for screen readers. */
+    /* On a phone the six links drop to icons in one row, and the row lives at the foot
+       of the page (moved there by script under 900px): the header keeps the statement,
+       search and filters, and the ways to reach Renaise close the page. The words stay
+       in the markup for screen readers. */
     .acts{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem;flex:1 0 100%;}
-    .acts a{box-sizing:border-box;width:40px;height:40px;margin:0;padding:0;
-      justify-content:center;color:var(--sw3);border-color:transparent;}
-    .acts a:first-child{margin-left:-11px;}
-    .acts .ic{display:block;width:15px;height:15px;}
-    .acts .ic svg{width:100%;height:100%;display:block;}
-    .acts .tx{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-    .acts a .ar{display:none;}
+    .socials{display:flex;flex-wrap:wrap;align-items:center;gap:.25rem;
+      margin-top:1.4rem;padding-top:.8rem;border-top:1px dotted var(--line);}
+    .socials a{box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+      width:40px;height:40px;margin:0;padding:0;color:var(--sw3);text-decoration:none;
+      transition:color .2s;}
+    .socials a:first-child{margin-left:-11px;}
+    .socials a:hover{color:var(--ink);}
+    .socials .ic{display:block;width:15px;height:15px;}
+    .socials .ic svg{width:100%;height:100%;display:block;}
+    .socials .tx{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+    .socials a .ar{display:none;}
     .acts .foot{flex:1 0 100%;}
     /* Its own full-width line; space-between then throws clock and switch to the edges. */
-    .acts .foot{margin-top:.8rem;}
+    .acts .foot{margin-top:0;}
     .wrap{padding:0 var(--gut) clamp(1rem,3vw,1.6rem);}
     /* The rail is a stacked header here with no vertical rule to meet, so the dividers
        stop reaching for it. */
@@ -1016,6 +1021,7 @@ document.documentElement.className+=' js';
             <p>Redaction is the typeface set across this site, in the wordmark and the running copy. Titus Kaphar and Reginald Dwayne Betts drew it with MCKL for a project about mass incarceration, and released it openly. <a class="more" href="https://www.moma.org/calendar/exhibitions/5056" target="_blank" rel="noopener">Learn more <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a></p>
           </div>
         </div>
+        <nav class="socials" aria-label="Elsewhere" hidden></nav>
       </footer>
     </main>
   </div>
@@ -1221,6 +1227,27 @@ document.documentElement.className+=' js';
     } else if(autoOK){
       document.querySelectorAll('#work .proj video').forEach(play);
     }
+  })();
+
+  // ── Socials ─────────────────────────────────────────────────────────────
+  // One set of links, two homes: the rail on desktop, the page foot on phones.
+  // Moved rather than duplicated, so there is never a second copy to drift.
+  (function(){
+    var acts=document.querySelector('.acts'), foot=acts&&acts.querySelector('.foot'),
+        dock=document.querySelector('.socials');
+    if(!acts||!foot||!dock||!window.matchMedia) return;
+    var mq=window.matchMedia('(max-width:900px)');
+    function place(){
+      if(mq.matches){
+        [].slice.call(acts.querySelectorAll(':scope > a')).forEach(function(a){ dock.appendChild(a); });
+        dock.hidden=false;
+      } else {
+        [].slice.call(dock.children).forEach(function(a){ acts.insertBefore(a,foot); });
+        dock.hidden=true;
+      }
+    }
+    place();
+    if(mq.addEventListener) mq.addEventListener('change',place); else mq.addListener(place);
   })();
 
   // ── Filters ─────────────────────────────────────────────────────────────
