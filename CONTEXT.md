@@ -1,5 +1,19 @@
 # renaise.com — context log
 
+## 2026-09-30 · Copy pass
+
+- **One title per project.** Cards (Sept retitles) and case studies disagreed for Osmosis, Studio
+  Artifice and Aputure, and the Seance CMS overrode Idler's panel title with a July one. Case data now
+  matches the cards, and the CMS overrides only `year`, `medium`, `status` (+ order). Name/title/role
+  are authored here; the store's rows for them are stale. Update titles in index.html, not the CMS.
+- Statement: "practice from web to world". Information: dropped the sentence that repeated footnote 1;
+  "speculative fiction" once, not science fiction + speculative fiction; "Founder + creative director".
+- Case copy: SOOT WORLD spelled one way; SOOT's principle quoted; FLORA "Hieronymus" (matches the
+  artifact tile) without naming Bosch twice; Osmosis "match" frontier models (hook and problem agreed
+  on match); Idler's dark-category point made once; Studio Artifice impact out of third person;
+  Lighthouse process/impact untangled; Veo 3 named consistently; ARTIFACTORY numerals; AFXHQ impact
+  no longer repeats the token point.
+
 ## 2026-09-30 · AFXHQ case study
 
 - New card + case study: **AFXHQ · Infrastructure for Interoperability** (Artifice NYC's internal
