@@ -1,5 +1,20 @@
 # renaise.com — context log
 
+## 2026-09-30 · AFXHQ case study
+
+- New card + case study: **AFXHQ · Infrastructure for Interoperability** (Artifice NYC's internal
+  operations dashboard, afxhq.pages.dev, behind Cloudflare Access). Product filter (All 13 / Product 6),
+  Artifice glyph + name, tag Infrastructure, route page `/afxhq/`.
+- CTA: new `contact` field on a case study ({label, email}) renders the ledger capsule as a mailto;
+  AFXHQ reads "Contact to Learn More" → admin@artificenyc.org. Takes precedence over live/status.
+- Cover: a real-time Playwright recording (not the shared browse daemon, which reset mid-capture)
+  scrolling the Archive view only, from the chapters to nodes:i, cursor drawn in-page, 0.35s
+  crossfade loop. Redacted in-frame: team roster, War Room nav item, chapter gross figures, the
+  ONX "(50/50)" term; "ONX Studio" lowercased per partner naming. Views ruled out as sensitive:
+  Intelligence/Profiles (CRM), Websites (tokens/repos), Departments (staff), Routines, Interviews
+  (unannounced Ch006). Recorder: scratch `afx/rec/rec.cjs`.
+- 13 cards leave a single card on the last desktop row.
+
 ## 2026-09-30 · Phone socials move to the page foot
 
 Under 900px the six icon links leave the header and close the page, under the footnotes (a dotted
