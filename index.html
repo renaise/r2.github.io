@@ -267,6 +267,10 @@
   .filters button:hover{color:var(--accent);}
   .filters button[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);}
   .filters .n{font-variant-numeric:tabular-nums;opacity:.6;}
+  /* Four pills in the 234px desktop rail left no air around the labels, so the counts
+     show only where the pills get the full width (phones). The status line still
+     announces how many are shown. */
+  @media(min-width:901px){ .filters .n{display:none;} }
 
   /* One visible focus treatment, everywhere. */
   a:focus-visible,button:focus-visible,input:focus-visible{

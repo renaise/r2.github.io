@@ -1,5 +1,10 @@
 # renaise.com — context log
 
+## 2026-09-30 · Desktop filter pills
+
+Four pills crowded the 234px rail. Counts now show only under 900px, where the pills get the full
+width; the status line still announces the shown count.
+
 ## 2026-09-28 · The open list, fixed
 
 - Case-study routes are real files: `scripts/build-routes.py` writes `/<slug>/index.html` from
