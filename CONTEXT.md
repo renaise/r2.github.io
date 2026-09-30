@@ -1,5 +1,11 @@
 # renaise.com — context log
 
+## 2026-09-30 · AFXHQ cover in dark mode
+
+Re-recorded the Archive walkthrough with the dashboard in dark mode (same path and redactions; cursor
+inverted to white). The shell only picks up `afxhq-theme` on a full load, so the recorder sets the key
+and reloads; setting it and changing the hash left the shell light and only the embed dark.
+
 ## 2026-09-30 · Copy pass
 
 - **One title per project.** Cards (Sept retitles) and case studies disagreed for Osmosis, Studio
