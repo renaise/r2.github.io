@@ -1,5 +1,10 @@
 # renaise.com — context log
 
+## 2026-09-30 · Phone rail icons
+
+Are.na's icon is now its official mark (from are.na/favicon.svg, fill → currentColor) instead of
+the drawn approximation. Phone rail icons 18px → 15px; the 40px tap targets are unchanged.
+
 ## 2026-09-30 · Desktop filter pills
 
 Four pills crowded the 234px rail. Counts now show only under 900px, where the pills get the full
