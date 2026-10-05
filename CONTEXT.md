@@ -1,5 +1,19 @@
 # renaise.com — context log
 
+## 2026-10-04 · Aputure: context, sections, /aputure
+
+- Slug `industrial-lighting` → `aputure` (card, #cs-data, search terms, `stage/aputure/`,
+  `assets/logos/aputure.svg`, route page). `/industrial-lighting/` is a noindex refresh to `/aputure/`
+  so old links land. The card still links out to studioartifice.com/work/industrial-lighting/.
+  The Seance CMS still keys this project as `industrial-lighting`, so its year/medium/status no longer
+  apply here (baked values stand).
+- New case-study component: `briefs` = [{label, pairs:[[term, def]]}], rendered after Problem as
+  labeled `cs-pairs wide` sections. Aputure carries Goals, Measure, Scope, Direction, from Renaise's
+  brief, kickoff notes and SOW scope (8-week design, 4-month build; Aputure/amaran/Deity/Sidus Link).
+- Measure is deliberately general (no Q1 CVR, funnel percentages or revenue projection): those are
+  the client's internal figures. Exact numbers are in the 2026-10-04 conversation if cleared to publish.
+- Open: year. renaise.com says 2024, studioartifice.com llms.txt says 2025.
+
 ## 2026-09-30 · AFXHQ cover in dark mode
 
 Re-recorded the Archive walkthrough with the dashboard in dark mode (same path and redactions; cursor
