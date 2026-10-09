@@ -261,22 +261,28 @@
      button beside some words. Four equal pills fill the rail to within 0.6px, which is
      why Artifacts is not a fifth: it is a link to #artifacts and sits on its own row. */
   .filters button,.jumps a{appearance:none;background:transparent;cursor:pointer;flex:1 1 0;
+    line-height:normal;
     font-family:var(--sans);font-size:.74rem;letter-spacing:0;color:var(--sw3);
     border:1px dotted var(--line);border-radius:999px;padding:.32rem .3rem;white-space:nowrap;
     display:flex;align-items:baseline;justify-content:center;gap:.3rem;
     transition:color .2s,border-color .2s;}
   .filters button:hover{color:var(--accent);}
+  .jumps a:focus-visible,.filters button:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   .filters button[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);}
-  .filters .n{font-variant-numeric:tabular-nums;opacity:.6;}
+  .filters .n,.jumps .n{font-variant-numeric:tabular-nums;opacity:.6;}
   /* Not a filter: it goes to the Artifacts section. Same capsule, its own row. */
-  .jumps{display:flex;gap:.25rem;margin:.3rem 0 0;padding:0;}
-  .jumps a{text-decoration:none;}
+  /* Four tracks, same as the filter row resolves to, so the pill is one filter
+     wide by construction instead of by arithmetic. */
+  /* minmax(0,…), not 1fr: a bare 1fr floors at min-content, and "Artifacts" needs
+     56.08px against a 55.55px filter, so the track grew and the pill came out wider
+     than the things it sits under. */
+  .jumps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.25rem;margin:calc(-1.25rem + .3rem) 0 0;padding:0;}
+  .jumps a{text-decoration:none;grid-column:1;}
   .jumps a:hover{color:var(--accent);border-color:var(--accent);}
-  .jumps a:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   /* Four pills in the 234px desktop rail left no air around the labels, so the counts
      show only where the pills get the full width (phones). The status line still
      announces how many are shown. */
-  @media(min-width:901px){ .filters .n{display:none;} }
+  @media(min-width:901px){ .filters .n,.jumps .n{display:none;} }
 
   /* One visible focus treatment, everywhere. */
   a:focus-visible,button:focus-visible,input:focus-visible{
@@ -558,7 +564,7 @@
        header opens on one line instead of a lone circle over a paragraph. */
     .brand-h1{flex:0 0 auto;align-self:flex-start;}
     .statement{flex:1 1 0;min-width:0;}
-    .find,.filters{flex:1 0 100%;}
+    .find,.filters,.jumps{flex:1 0 100%;}
     /* On a phone the six links drop to icons in one row, and the row lives at the foot
        of the page (moved there by script under 900px): the header keeps the statement,
        search and filters, and the ways to reach Renaise close the page. The words stay
@@ -592,7 +598,7 @@
        the desktop rail's negative margin would press the pills into the rule. */
     .filters{margin-top:.55rem;}
     /* 40px floor for thumbs. */
-    .filters button{min-height:40px;align-items:center;}
+    .filters button,.jumps a{min-height:40px;align-items:center;}
     .find input{padding:.7rem 0;min-height:40px;} }
 
   /* ── Artifacts ────────────────────────────────────────────────────────────
