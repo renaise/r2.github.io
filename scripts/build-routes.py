@@ -52,7 +52,12 @@ for slug, d in data.items():
         img = '/assets/og.jpg'
     out = TPL.format(
         slug=slug, name=e(d.get('name', slug)), case=e(d.get('title', '')),
-        title=e('%s · %s · Renaise Kim' % (d.get('name', slug), d.get('title', ''))),
+        # A project whose headline is its own name would otherwise read
+        # "Artifice Brand Identity · Artifice Brand Identity · Renaise Kim".
+        title=e(' · '.join(
+            [p for i, p in enumerate([d.get('name', slug), d.get('title', '')])
+             if p and p not in [d.get('name', slug), d.get('title', '')][:i]]
+            + ['Renaise Kim'])),
         desc=e(d.get('hook', '')), url=SITE + '/' + slug + '/', img=SITE + img)
     os.makedirs(os.path.join(ROOT, slug), exist_ok=True)
     open(os.path.join(ROOT, slug, 'index.html'), 'w', encoding='utf-8').write(out)
