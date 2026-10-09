@@ -258,10 +258,9 @@
      the row wraps into a list rather than scrolling sideways. */
   .filters{display:flex;flex-wrap:wrap;gap:.25rem;margin:calc(-1.25rem + .5rem) 0 0;padding:0;border:0;}
   /* Tabs carrying the capsule each, so the set reads as one control rather than one
-     button beside some words. Four equal pills filled the rail to within 0.6px, so a
-     fifth at flex:1 1 0 would shrink every pill under its own label — white-space is
-     nowrap, so that clips rather than wraps. They size to content and wrap instead. */
-  .filters button{appearance:none;background:transparent;cursor:pointer;flex:0 1 auto;
+     button beside some words. Four equal pills fill the rail to within 0.6px, which is
+     why Artifacts is not a fifth: it is a link to #artifacts and sits on its own row. */
+  .filters button,.jumps a{appearance:none;background:transparent;cursor:pointer;flex:1 1 0;
     font-family:var(--sans);font-size:.74rem;letter-spacing:0;color:var(--sw3);
     border:1px dotted var(--line);border-radius:999px;padding:.32rem .3rem;white-space:nowrap;
     display:flex;align-items:baseline;justify-content:center;gap:.3rem;
@@ -269,6 +268,11 @@
   .filters button:hover{color:var(--accent);}
   .filters button[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);}
   .filters .n{font-variant-numeric:tabular-nums;opacity:.6;}
+  /* Not a filter: it goes to the Artifacts section. Same capsule, its own row. */
+  .jumps{display:flex;gap:.25rem;margin:.3rem 0 0;padding:0;}
+  .jumps a{text-decoration:none;}
+  .jumps a:hover{color:var(--accent);border-color:var(--accent);}
+  .jumps a:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   /* Four pills in the 234px desktop rail left no air around the labels, so the counts
      show only where the pills get the full width (phones). The status line still
      announces how many are shown. */
@@ -904,8 +908,8 @@ document.documentElement.className+=' js';
         <button type="button" data-cat="identity" aria-pressed="false">Identity<span class="n">5</span></button>
         <button type="button" data-cat="product" aria-pressed="false">Product<span class="n">6</span></button>
         <button type="button" data-cat="site" aria-pressed="false">Site<span class="n">5</span></button>
-        <button type="button" data-cat="artifact" aria-pressed="false">Artifacts<span class="n">4</span></button>
       </div>
+      <div class="jumps"><a href="#artifacts" data-jump="artifacts">Artifacts</a></div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="acts">
         <a href="mailto:krenaise@gmail.com"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14"/><path d="M2.5 5.5 12 13l9.5-7.5"/></svg></span><span class="tx">Email</span> <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
@@ -947,7 +951,7 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/lighthouse/cover.jpg)"><video class="cover fill" src="/stage/lighthouse/cover.mp4" muted loop playsinline preload="none" poster="/stage/lighthouse/cover.jpg" aria-label="lighthousehq.com, the cloud hero running down into the client row and the case counts"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="" loading="lazy"><span class="tag">Identity + Site</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Lighthouse</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/lighthouse.svg);--r:5.458"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span></div></div>
       </a>
-      <a class="proj" data-slug="the-artifact-index" data-cat="product artifact" href="https://index.artificenyc.org">
+      <a class="proj" data-slug="the-artifact-index" data-cat="product" href="https://index.artificenyc.org">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/the-artifact-index/cover.jpg)"><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" muted loop playsinline preload="none" poster="/stage/the-artifact-index/cover.jpg"></video><img class="sys" src="/stage/the-artifact-index/system.jpg" alt="" loading="lazy"><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-glyph.svg);--r:1.873"></span><b>The Artifact Index</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span></div></div>
       </a>
@@ -955,7 +959,7 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/aputure/cover.jpg)"><video class="cover fill" src="/stage/aputure/cover.mp4" muted loop playsinline preload="none" poster="/stage/aputure/cover.jpg"></video><span class="tag">Global Site</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Aputure</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/aputure.svg);--r:4.047"></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Art Director + Designer</span></div></div>
       </a>
-      <a class="proj" data-slug="artifice-brand" data-cat="identity artifact" href="https://brand.artificenyc.org">
+      <a class="proj" data-slug="artifice-brand" data-cat="identity" href="https://brand.artificenyc.org">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/artifice-brand/cover.jpg)"><video class="cover fill" src="/stage/artifice-brand/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifice-brand/cover.jpg" aria-label="The Artifice marks turning: the WHITEBOX hexagon and the BLACKBOX asterisk"></video><img class="sys" src="/stage/artifice-brand/system.jpg" alt="" loading="lazy"><span class="tag">Identity</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Artifice Brand Identity</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.434"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span></div></div>
       </a>
@@ -963,11 +967,11 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/afxhq/cover.jpg)"><video class="cover fill" src="/stage/afxhq/cover.mp4" muted loop playsinline preload="none" poster="/stage/afxhq/cover.jpg" aria-label="AFXHQ, the operations dashboard: scrolling the Archive of Artifice NYC&#39;s programming, from the first chapters through standalone productions and nodes"></video><span class="tag">Infrastructure</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-glyph.svg);--r:1.873"></span><b>AFXHQ</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Infrastructure for Interoperability</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
-      <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl artifact" href="https://studioartifice.com/work/depictions-of-original-sin/">
+      <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl" href="https://studioartifice.com/work/depictions-of-original-sin/">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="" loading="lazy"><span class="tag">Activation</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Google Labs (Veo 3)</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/depictions-of-original-sin.svg);--r:6.849"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span></div></div>
       </a>
-      <a class="proj" data-slug="artifactory" data-cat="product artifact" href="https://artifactory.pages.dev">
+      <a class="proj" data-slug="artifactory" data-cat="product" href="https://artifactory.pages.dev">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/artifactory/cover.jpg)"><video class="cover fill" src="/stage/artifactory/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="" loading="lazy"><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D Design Environment</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
@@ -1005,9 +1009,8 @@ document.documentElement.className+=' js';
           <div class="sec">
             <div class="lbl">Information</div>
             <div class="body">
-              <p class="lede">Renaise Kim (b. 1998) is a brand + product designer working across culture + venture in consumer media, creative tools and deep tech.</p>
-              <p>Founder of <a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a>, an applications platform. Creative director of <a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.434"></span><span class="sr">Artifice NYC</span></a>, a curatorial research nonprofit. Founder + creative director of <a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:.85em"></span><span class="sr">Studio Artifice</span></a>, a commercial studio.</p>
-              <p>Her research centers on artifice: the artifacts of speculative fiction and hybrid models of creation.</p>
+              <p>Renaise Kim (b. 1998) is a brand + product designer working across culture + venture in consumer media, creative tools and deep tech. Founder of <a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a>, an applications platform. Creative director of <a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.434"></span><span class="sr">Artifice NYC</span></a>, a curatorial research nonprofit. Founder + creative director of <a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854"></span><span class="sr">Studio Artifice</span></a>, a commercial studio. Her research centers on artifice: the artifacts of speculative fiction and hybrid models of creation.</p>
+              
               <div class="links">
                 <a href="mailto:krenaise@gmail.com">Email <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
                 <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener">LinkedIn <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
@@ -1020,23 +1023,23 @@ document.documentElement.className+=' js';
           <div class="sec">
             <div class="lbl">Milestones</div>
             <div class="body">
-              <div class="row"><span class="nm"><a class="il" href="https://www.onassis.org/onx" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/onx.svg);--r:1.827;--h:1.35em"></span><span class="sr">Onassis ONX</span></a> Fellow</span><span class="yr">2026 · New York</span></div>
-              <div class="row"><span class="nm"><a class="il" href="https://flora.ai" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/flora.svg);--r:6.257;--h:.9em"></span><span class="sr">FLORA</span></a> Founding Designer</span><span class="yr">2024</span></div>
-              <div class="row"><span class="nm"><a class="il" href="https://www.soot.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/soot.png);--r:3.926;--h:.72em"></span><span class="sr">SOOT</span></a> Lead Product Designer</span><span class="yr">2024–25</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://www.onassis.org/onx" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/onx.svg);--r:1.827"></span><span class="sr">Onassis ONX</span></a> Fellow</span><span class="yr">2026 · New York</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://flora.ai" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/flora.svg);--r:6.257"></span><span class="sr">FLORA</span></a> Founding Designer</span><span class="yr">2024</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://www.soot.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/soot.png);--r:3.926"></span><span class="sr">SOOT</span></a> Lead Product Designer</span><span class="yr">2024–25</span></div>
               <div class="row"><span class="nm"><a class="il ic" href="https://mythra.ai" target="_blank" rel="noopener"><img src="/assets/logos/mythra.png" alt="" width="24" height="24">Mythra</a> Origin, pre-agentic protocol</span><span class="yr">2023</span></div>
             </div>
           </div>
           <div class="sec">
             <div class="lbl">Studios + Roles</div>
             <div class="body">
-              <div class="row"><span class="nm"><a class="il" href="https://fictivekin.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/fictive-kin.svg);--r:8.727;--h:.72em"></span><span class="sr">Fictive Kin</span></a></span><span class="ctx">Designer · 2026 · Present</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://fictivekin.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/fictive-kin.svg);--r:8.727"></span><span class="sr">Fictive Kin</span></a></span><span class="ctx">Designer · 2026 · Present</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://codexfoundry.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/ent-codex.png);--r:1"></span>Codex Foundry</a></span><span class="ctx">Founder · 2024</span></div>
               <div class="row"><span class="nm"><a class="il" href="https://artificenyc.org" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.434"></span><span class="sr">Artifice NYC</span></a></span><span class="ctx">Creative Director · 2024</span></div>
-              <div class="row"><span class="nm"><a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--h:.85em"></span><span class="sr">Studio Artifice</span></a></span><span class="ctx">Founder + Creative Director · 2023</span></div>
+              <div class="row"><span class="nm"><a class="il" href="https://studioartifice.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854"></span><span class="sr">Studio Artifice</span></a></span><span class="ctx">Founder + Creative Director · 2023</span></div>
               <div class="sub">Previously</div>
-              <div class="row prior"><span class="nm"><a class="il" href="https://vokal.io" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/vokal.svg);--r:5.117;--h:.8em"></span><span class="sr">Vokal Interactive</span></a></span><span class="ctx">Designer · 2020</span></div>
-              <div class="row prior"><span class="nm"><a class="il" href="https://fonts.google.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/google-fonts.svg);--r:6.725;--h:1.2em"></span><span class="sr">Google Fonts</span></a></span><span class="ctx">Designer · 2019</span></div>
-              <div class="row prior"><span class="nm"><a class="il" href="https://www.legioncollective.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/legion-collective.png);--r:1.005;--h:1.5em"></span>Legion Collective</a></span><span class="ctx">Designer · 2019</span></div>
+              <div class="row prior"><span class="nm"><a class="il" href="https://vokal.io" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/vokal.svg);--r:5.117"></span><span class="sr">Vokal Interactive</span></a></span><span class="ctx">Designer · 2020</span></div>
+              <div class="row prior"><span class="nm"><a class="il" href="https://fonts.google.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/google-fonts.svg);--r:6.725"></span><span class="sr">Google Fonts</span></a></span><span class="ctx">Designer · 2019</span></div>
+              <div class="row prior"><span class="nm"><a class="il" href="https://www.legioncollective.com" target="_blank" rel="noopener"><span class="mk" style="--m:url(/assets/logos/legion-collective.png);--r:1.005"></span>Legion Collective</a></span><span class="ctx">Designer · 2019</span></div>
             </div>
           </div>
         </div>
@@ -1325,6 +1328,19 @@ document.documentElement.className+=' js';
         block:'start'});
     });
     window.__applyWork();
+
+    // Artifacts is a jump, not a filter. The href alone works with JS off; this only
+    // closes a case study first, since otherwise the jump lands behind the panel.
+    var jump=document.querySelector('.jumps a[data-jump="artifacts"]');
+    if(jump) jump.addEventListener('click',function(e){
+      var target=document.getElementById('artifacts');
+      if(!target) return;
+      e.preventDefault();
+      if(window.__csShut) window.__csShut();
+      target.scrollIntoView({
+        behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth',
+        block:'start'});
+    });
   })();
 </script>
 
