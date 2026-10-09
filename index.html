@@ -256,10 +256,12 @@
      The primary way into the work; search is the fallback under it. */
   /* Under the search in the rail, so the two ways into the work sit together. At 280px
      the row wraps into a list rather than scrolling sideways. */
-  .filters{display:flex;gap:.25rem;margin:calc(-1.25rem + .5rem) 0 0;padding:0;border:0;}
-  /* Four tabs sharing the rail width, each carrying the capsule so the set reads as
-     one control rather than one button beside two words. */
-  .filters button{appearance:none;background:transparent;cursor:pointer;flex:1 1 0;
+  .filters{display:flex;flex-wrap:wrap;gap:.25rem;margin:calc(-1.25rem + .5rem) 0 0;padding:0;border:0;}
+  /* Tabs carrying the capsule each, so the set reads as one control rather than one
+     button beside some words. Four equal pills filled the rail to within 0.6px, so a
+     fifth at flex:1 1 0 would shrink every pill under its own label — white-space is
+     nowrap, so that clips rather than wraps. They size to content and wrap instead. */
+  .filters button{appearance:none;background:transparent;cursor:pointer;flex:0 1 auto;
     font-family:var(--sans);font-size:.74rem;letter-spacing:0;color:var(--sw3);
     border:1px dotted var(--line);border-radius:999px;padding:.32rem .3rem;white-space:nowrap;
     display:flex;align-items:baseline;justify-content:center;gap:.3rem;
@@ -875,6 +877,7 @@ document.documentElement.className+=' js';
         <button type="button" data-cat="identity" aria-pressed="false">Identity<span class="n">5</span></button>
         <button type="button" data-cat="product" aria-pressed="false">Product<span class="n">6</span></button>
         <button type="button" data-cat="site" aria-pressed="false">Site<span class="n">5</span></button>
+        <button type="button" data-cat="artifact" aria-pressed="false">Artifacts<span class="n">4</span></button>
       </div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
       <div class="acts">
@@ -917,7 +920,7 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/lighthouse/cover.jpg)"><video class="cover fill" src="/stage/lighthouse/cover.mp4" muted loop playsinline preload="none" poster="/stage/lighthouse/cover.jpg" aria-label="lighthousehq.com, the cloud hero running down into the client row and the case counts"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="" loading="lazy"><span class="tag">Identity + Site</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Lighthouse</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/lighthouse.svg);--r:5.087;--s:1.18"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">U.S. Visas for Frontier Talent</span><br><span class="m">Lead Designer</span></div></div>
       </a>
-      <a class="proj" data-slug="the-artifact-index" data-cat="product" href="https://index.artificenyc.org">
+      <a class="proj" data-slug="the-artifact-index" data-cat="product artifact" href="https://index.artificenyc.org">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/the-artifact-index/cover.jpg)"><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" muted loop playsinline preload="none" poster="/stage/the-artifact-index/cover.jpg"></video><img class="sys" src="/stage/the-artifact-index/system.jpg" alt="" loading="lazy"><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-glyph.svg);--r:1.871"></span><b>The Artifact Index</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Structured, Relational Dataset of Creative Process</span><br><span class="m">Creative Director</span></div></div>
       </a>
@@ -925,7 +928,7 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/aputure/cover.jpg)"><video class="cover fill" src="/stage/aputure/cover.mp4" muted loop playsinline preload="none" poster="/stage/aputure/cover.jpg"></video><span class="tag">Global Site</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Aputure</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/aputure.svg);--r:3.926"></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">A Design System for a Global Catalog</span><br><span class="m">Art Director + Designer</span></div></div>
       </a>
-      <a class="proj" data-slug="artifice-brand" data-cat="identity" href="https://brand.artificenyc.org">
+      <a class="proj" data-slug="artifice-brand" data-cat="identity artifact" href="https://brand.artificenyc.org">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/artifice-brand/cover.jpg)"><video class="cover fill" src="/stage/artifice-brand/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifice-brand/cover.jpg" aria-label="The Artifice marks turning: the WHITEBOX hexagon and the BLACKBOX asterisk"></video><img class="sys" src="/stage/artifice-brand/system.jpg" alt="" loading="lazy"><span class="tag">Identity</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Artifice Brand Identity</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.429"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Living Spec for a Curatorial Research Organization</span><br><span class="m">Creative Director</span></div></div>
       </a>
@@ -933,11 +936,11 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/afxhq/cover.jpg)"><video class="cover fill" src="/stage/afxhq/cover.mp4" muted loop playsinline preload="none" poster="/stage/afxhq/cover.jpg" aria-label="AFXHQ, the operations dashboard: scrolling the Archive of Artifice NYC&#39;s programming, from the first chapters through standalone productions and nodes"></video><span class="tag">Infrastructure</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-glyph.svg);--r:1.871"></span><b>AFXHQ</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Infrastructure for Interoperability</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
-      <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl" href="https://studioartifice.com/work/depictions-of-original-sin/">
+      <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl artifact" href="https://studioartifice.com/work/depictions-of-original-sin/">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="" loading="lazy"><span class="tag">Activation</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Google Labs (Veo 3)</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/depictions-of-original-sin.svg);--r:6.625"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span></div></div>
       </a>
-      <a class="proj" data-slug="artifactory" data-cat="product" href="https://artifactory.pages.dev">
+      <a class="proj" data-slug="artifactory" data-cat="product artifact" href="https://artifactory.pages.dev">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/artifactory/cover.jpg)"><video class="cover fill" src="/stage/artifactory/cover.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="" loading="lazy"><span class="tag">Product</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:1"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Interactive 3D Design Environment</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
