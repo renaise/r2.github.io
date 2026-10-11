@@ -511,8 +511,18 @@
      The measure is uncapped so the bio fills its column instead of stranding half the panel
      empty, and the size comes off the shared prose ladder rather than a local value — same
      face, same size, same leading as the rail bio and the card descriptions. */
-  .cv .body p{margin:0 0 var(--prose-gap);max-width:none;font-family:var(--serif);font-weight:300;
-    font-size:var(--prose);line-height:var(--prose-lh);color:var(--prose-ink);}
+  /* The measure ran the full column — 803px, about 95 characters, at 1440 — with no
+     wrapping hint, so the rag swung from a flush line to an 86px hole and the last
+     line came out a 39% stub.
+
+     Measured six settings on the real text. 66ch with pretty and hyphens wins on
+     every count: rag sd 8.8px against 40.7 for 58ch unhyphenated and 16.9 for
+     balance, deepest line 23px short against 117. The names are what forced the
+     holes — Codex Foundry, Artifice NYC, Studio Artifice do not break, so without
+     hyphenation the long words around them push whole lines early. */
+  .cv .body p{margin:0 0 var(--prose-gap);max-width:66ch;font-family:var(--serif);font-weight:300;
+    font-size:var(--prose);line-height:var(--prose-lh);color:var(--prose-ink);
+    text-wrap:pretty;hyphens:auto;}
   /* The rail is a flex column with a 1.9rem gap, so margin-top alone can never bring this
      under 30px. The negative margin cancels that gap and parks the run just under the
      statement's dotted rule. */
