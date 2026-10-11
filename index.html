@@ -72,7 +72,7 @@
     --row-gap:3.2rem;
     /* The rail width, read by the rail and by the case study panel that butts
        against it. Two hardcoded 280s would drift the first time one moved. */
-    --rail:280px;
+    --rail:320px;
     /* The panel's timing, read by the CSS that runs it and by the JS that waits
        on it. A duration written twice is a duration that drifts. */
     --cs-dur:.42s;
@@ -215,7 +215,7 @@
     font-family:var(--sans);font-size:.72rem;letter-spacing:.02em;color:var(--sw2);
     border:1px dotted transparent;border-radius:999px;
     padding:.1em .5em .14em;margin:0 0 0 .1em;
-    transition:color .2s,border-color .2s;}
+    transition:color .2s,border-color .2s,opacity .22s ease;}
   .note .more:hover{color:var(--accent);border-color:var(--line);}
   .wmname{margin:0;font-family:var(--display);font-weight:300;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
@@ -269,7 +269,7 @@
   /* Five on one line, desktop and phone. Grid rather than flex so every tab is the
      same width by construction, and minmax(0,...) because a bare 1fr floors at
      min-content and the longest label would push the row wider than the rail. */
-  .filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.22rem;
+  .filters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.26rem;
     margin:calc(-1.25rem + .5rem) 0 0;padding:0;border:0;}
   /* Tabs carrying the capsule each, so the set reads as one control rather than one
      button beside some words. Four equal pills fill the rail to within 0.6px, which is
@@ -277,14 +277,26 @@
      border stays on every tab as transparent so nothing shifts when it lands. */
   .filters button,.filters a{appearance:none;background:transparent;cursor:pointer;
     line-height:normal;
-    font-family:var(--sans);font-size:.65rem;letter-spacing:-.008em;color:var(--sw4);
-    border:1px dotted transparent;border-radius:999px;padding:.34rem .3rem;white-space:nowrap;
+    font-family:var(--sans);font-size:.72rem;letter-spacing:0;color:var(--sw4);
+    border:1px dotted transparent;border-radius:999px;padding:.34rem .34rem;white-space:nowrap;
     display:flex;align-items:baseline;justify-content:center;gap:.2rem;
-    transition:color .2s,border-color .2s;}
+    transition:color .2s,border-color .2s,opacity .22s ease;}
   .filters button:hover,.filters a:hover{color:var(--ink);border-color:var(--line);}
   .filters a:focus-visible,.filters button:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   .filters button[aria-pressed="true"]{color:var(--accent);
     outline:1px dotted var(--accent);outline-offset:2px;}
+  /* At rest the row is just the active tab. The other four are still in the grid,
+     holding their tracks, so nothing moves when they arrive — only their opacity
+     changes. Hovering the row or tabbing into it brings them back.
+
+     Gated on a device that actually has a pointer. Where hover does not exist there
+     is no way to ask for them, so on touch they stay visible and the row behaves the
+     way it did before. focus-within covers the keyboard either way. */
+  @media (hover:hover) and (pointer:fine){
+    .filters > *{opacity:0;}
+    .filters button[aria-pressed="true"]{opacity:1;}
+    .filters:hover > *,.filters:focus-within > *{opacity:1;}
+  }
   .filters .n{font-variant-numeric:tabular-nums;opacity:.6;}
   /* Four pills in the 234px desktop rail left no air around the labels, so the counts
      show only where the pills get the full width (phones). The status line still
@@ -306,7 +318,8 @@
   .js .proj{opacity:0;transform:translateY(18px);
     transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
   .js .proj.in{opacity:1;transform:none;}
-  @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;} }
+  @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;}
+    .filters > *{transition:color .2s,border-color .2s;} }
   a.proj:hover{color:inherit;}
   a.proj:hover .t{color:var(--accent);}
   /* thumbnails, not hero plates — the two-up grid does the shrinking, so the plate fills
@@ -433,7 +446,7 @@
      neighbours at rest and the stroke simply appears around it. */
   .acts a{border:1px dotted transparent;border-radius:999px;
     padding:.06em .5em .1em;margin:-.06em -.5em -.1em;
-    transition:color .2s,border-color .2s;}
+    transition:color .2s,border-color .2s,opacity .22s ease;}
   .acts a:hover{border-color:var(--line);}
   /* Icons are the phone version of these links; the rail keeps the words. */
   .acts .ic{display:none;}
@@ -733,7 +746,7 @@
   .cs-ledger-cta{justify-self:end;align-self:center;}
   .cs-cta{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .8rem;
     font-family:var(--sans);font-size:.8rem;color:var(--sw2);border:1px dotted var(--line);border-radius:999px;
-    transition:color .2s,border-color .2s;}
+    transition:color .2s,border-color .2s,opacity .22s ease;}
   .cs-cta:hover{color:var(--accent);border-color:var(--accent);}
   .cs-cta .ar{display:inline-block;width:.62em;height:.62em;}
   .cs-cta .ar svg{display:block;width:100%;height:100%;}
@@ -757,7 +770,7 @@
     display:flex;align-items:center;justify-content:center;
     appearance:none;cursor:pointer;color:var(--ink);
     background:var(--bg);border:1px dotted var(--line);border-radius:999px;
-    transition:color .2s,border-color .2s;}
+    transition:color .2s,border-color .2s,opacity .22s ease;}
   .cs-play svg{width:20px;height:20px;margin-left:2px;}
   .cs-play:hover{color:var(--accent);border-color:var(--accent);}
   .cs-play:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
