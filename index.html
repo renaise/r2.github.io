@@ -1285,6 +1285,30 @@ document.documentElement.className+=' js';
     } else if(autoOK){
       document.querySelectorAll('#work .proj video').forEach(play);
     }
+
+    // One clock for the whole grid. Every cover is already 30fps, but nine run
+    // exactly 5.00s / 150 frames and four do not (afxhq 11.67s, flora 14.43s,
+    // biota 4.60s, artifice-brand 3.30s), so each looped on its own cycle and the
+    // grid never settled. The beat restarts them together every 5s: the nine are
+    // unchanged, the short two hold their last frame until the beat, and the long
+    // two show their first five seconds.
+    //
+    // `loop` comes off, or a clip would restart on its own between beats and drift
+    // straight back out of phase.
+    var BEAT=5000;
+    function covers(){ return [].slice.call(document.querySelectorAll('#work .proj video')); }
+    covers().forEach(function(v){ v.loop=false; });
+    if(autoOK){
+      setInterval(function(){
+        if(document.hidden) return;
+        covers().forEach(function(v){
+          var r=v.getBoundingClientRect();
+          if(r.bottom<0||r.top>innerHeight) return;   // the observer has this one paused
+          try{ v.currentTime=0; }catch(e){}
+          play(v);
+        });
+      },BEAT);
+    }
   })();
 
   // ── Socials ─────────────────────────────────────────────────────────────
