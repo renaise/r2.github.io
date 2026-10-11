@@ -215,7 +215,7 @@
     font-family:var(--sans);font-size:.72rem;letter-spacing:.02em;color:var(--sw2);
     border:1px dotted transparent;border-radius:999px;
     padding:.1em .5em .14em;margin:0 0 0 .1em;
-    transition:color .2s,border-color .2s,opacity .22s ease;}
+    transition:color .2s,border-color .2s;}
   .note .more:hover{color:var(--accent);border-color:var(--line);}
   .wmname{margin:0;font-family:var(--display);font-weight:300;
     font-size:clamp(3.6rem,12vw,11rem);line-height:.9;color:var(--sw4);
@@ -246,6 +246,11 @@
   .js .find{display:block;}
   .find-in{display:flex;align-items:center;gap:.4rem;
     border-bottom:1px dotted var(--line);}
+  /* Sits with the placeholder, not above it, and takes the field's own colour so
+     it brightens with the rest of the row on focus. */
+  .find-ic{display:flex;flex:none;color:var(--sw4);transition:color .2s;}
+  .find-ic svg{width:13px;height:13px;display:block;}
+  .find-in:focus-within .find-ic{color:var(--sw2);}
   .find input{flex:1;min-width:0;box-sizing:border-box;appearance:none;-webkit-appearance:none;
     background:transparent;border:0;font-family:var(--sans);font-size:.82rem;line-height:1.2;
     color:var(--sw2);padding:.32rem 0;margin:0;border-radius:0;}
@@ -278,25 +283,14 @@
   .filters button,.filters a{appearance:none;background:transparent;cursor:pointer;
     line-height:normal;
     font-family:var(--sans);font-size:.72rem;letter-spacing:0;color:var(--sw4);
-    border:1px dotted transparent;border-radius:999px;padding:.34rem .34rem;white-space:nowrap;
+    border:0;border-radius:999px;padding:.34rem .34rem;white-space:nowrap;
     display:flex;align-items:baseline;justify-content:center;gap:.2rem;
-    transition:color .2s,border-color .2s,opacity .22s ease;}
-  .filters button:hover,.filters a:hover{color:var(--ink);border-color:var(--line);}
+    transition:color .2s,border-color .2s;}
+  .filters button:hover,.filters a:hover{color:var(--ink);
+    outline:1px dotted var(--line);outline-offset:2px;}
   .filters a:focus-visible,.filters button:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   .filters button[aria-pressed="true"]{color:var(--accent);
     outline:1px dotted var(--accent);outline-offset:2px;}
-  /* At rest the row is just the active tab. The other four are still in the grid,
-     holding their tracks, so nothing moves when they arrive — only their opacity
-     changes. Hovering the row or tabbing into it brings them back.
-
-     Gated on a device that actually has a pointer. Where hover does not exist there
-     is no way to ask for them, so on touch they stay visible and the row behaves the
-     way it did before. focus-within covers the keyboard either way. */
-  @media (hover:hover) and (pointer:fine){
-    .filters > *{opacity:0;}
-    .filters button[aria-pressed="true"]{opacity:1;}
-    .filters:hover > *,.filters:focus-within > *{opacity:1;}
-  }
   .filters .n{font-variant-numeric:tabular-nums;opacity:.6;}
   /* Four pills in the 234px desktop rail left no air around the labels, so the counts
      show only where the pills get the full width (phones). The status line still
@@ -318,8 +312,7 @@
   .js .proj{opacity:0;transform:translateY(18px);
     transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);}
   .js .proj.in{opacity:1;transform:none;}
-  @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;}
-    .filters > *{transition:color .2s,border-color .2s;} }
+  @media(prefers-reduced-motion:reduce){ .js .proj{opacity:1;transform:none;transition:none;} }
   a.proj:hover{color:inherit;}
   a.proj:hover .t{color:var(--accent);}
   /* thumbnails, not hero plates — the two-up grid does the shrinking, so the plate fills
@@ -446,7 +439,7 @@
      neighbours at rest and the stroke simply appears around it. */
   .acts a{border:1px dotted transparent;border-radius:999px;
     padding:.06em .5em .1em;margin:-.06em -.5em -.1em;
-    transition:color .2s,border-color .2s,opacity .22s ease;}
+    transition:color .2s,border-color .2s;}
   .acts a:hover{border-color:var(--line);}
   /* Icons are the phone version of these links; the rail keeps the words. */
   .acts .ic{display:none;}
@@ -746,7 +739,7 @@
   .cs-ledger-cta{justify-self:end;align-self:center;}
   .cs-cta{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .8rem;
     font-family:var(--sans);font-size:.8rem;color:var(--sw2);border:1px dotted var(--line);border-radius:999px;
-    transition:color .2s,border-color .2s,opacity .22s ease;}
+    transition:color .2s,border-color .2s;}
   .cs-cta:hover{color:var(--accent);border-color:var(--accent);}
   .cs-cta .ar{display:inline-block;width:.62em;height:.62em;}
   .cs-cta .ar svg{display:block;width:100%;height:100%;}
@@ -770,7 +763,7 @@
     display:flex;align-items:center;justify-content:center;
     appearance:none;cursor:pointer;color:var(--ink);
     background:var(--bg);border:1px dotted var(--line);border-radius:999px;
-    transition:color .2s,border-color .2s,opacity .22s ease;}
+    transition:color .2s,border-color .2s;}
   .cs-play svg{width:20px;height:20px;margin-left:2px;}
   .cs-play:hover{color:var(--accent);border-color:var(--accent);}
   .cs-play:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
@@ -926,7 +919,7 @@ document.documentElement.className+=' js';
       <!-- Filters the work grid in place. Hidden without JS, since a search field that
            cannot search is worse than no field. -->
       <form class="find" role="search" onsubmit="return false">
-        <div class="find-in"><input id="q" type="search" placeholder="Search work" maxlength="24"
+        <div class="find-in"><span class="find-ic" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><circle cx="7" cy="7" r="4.6" /><path d="M10.4 10.4 14.2 14.2" /></svg></span><input id="q" type="search" placeholder="Search work" maxlength="24"
           autocomplete="off" spellcheck="false" aria-label="Search work" aria-controls="work" />
         </div>
       </form>
