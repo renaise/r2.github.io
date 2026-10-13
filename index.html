@@ -857,8 +857,6 @@
   .cs-end a:hover{color:var(--accent);}
   .cs-end .ar{display:inline-block;width:.58em;height:.58em;}
   .cs-end .ar svg{display:block;width:100%;height:100%;}
-  .cs-proto-cta{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:var(--cs-gap);margin:-.9rem 0 2.2rem;}
-  .cs-proto-cta > a{grid-column:2;justify-self:start;}
   .cs-foot{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:var(--cs-gap);
     padding:2.2rem 0 .4rem;border-top:1px dotted var(--line);border-bottom:0;}
   .cs-foot > a{grid-column:2;justify-self:start;}
@@ -1733,20 +1731,17 @@ document.documentElement.className+=' js';
             + '<span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
             + 'stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" />'
             + '<path d="M5.4 1.6H14.4V10.6" /></svg></span></a>'
+          : (d.cta
+          ? '<a class="cs-cta" href="'+esc(d.cta.href)+'" target="_blank" rel="noopener">'+esc(d.cta.label)+' '
+            + '<span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
+            + 'stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" />'
+            + '<path d="M5.4 1.6H14.4V10.6" /></svg></span></a>'
           : (d.live
           ? '<a class="cs-cta" href="'+esc(d.live)+'" target="_blank" rel="noopener">See live site '
             + '<span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
             + 'stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" />'
             + '<path d="M5.4 1.6H14.4V10.6" /></svg></span></a>'
-          : (d.status&&!d.cta?'<span class="cs-cta is-off">'+esc(d.status==='In Progress'?'In production':d.status)+'</span>':''));
-    // The prototype link rides with the prototype shots, not up in the ledger: the
-    // button that opens the prototype sits next to the comps that show it.
-    var protoCta=d.cta
-          ? '<a class="cs-cta" href="'+esc(d.cta.href)+'" target="_blank" rel="noopener">'+esc(d.cta.label)+' '
-            + '<span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" '
-            + 'stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" />'
-            + '<path d="M5.4 1.6H14.4V10.6" /></svg></span></a>'
-          : '';
+          : (d.status?'<span class="cs-cta is-off">'+esc(d.status==='In Progress'?'In production':d.status)+'</span>':'')));
     out+='<dl class="cs-ledger">'
       + (d.role?'<div><dt>Role</dt><dd>'+esc(d.role)+'</dd></div>':'')
       + (d.year?'<div><dt>Year</dt><dd class="yr">'+esc(d.year)+'</dd></div>':'')
@@ -1832,7 +1827,6 @@ document.documentElement.className+=' js';
           + media + (sh.cap?'<figcaption>'+esc(sh.cap)+'</figcaption>':'') + '</figure>';
       }).join('');
     }
-    if(protoCta) out+='<div class="cs-proto-cta">'+protoCta+'</div>';
     out+=systemBlock(d.system);
 
     // What is revealed IS the full case study. There is no fuller one to page
