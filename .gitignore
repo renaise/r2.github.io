@@ -1,3 +1,6 @@
 # local tool artifacts, never part of the published site
 .gstack/
 .DS_Store
+
+# agent worktrees/scratch — never deploy
+.claude/
