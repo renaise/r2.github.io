@@ -1428,15 +1428,20 @@ document.documentElement.className+=' js';
     {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.mp4',fit:'cover',pad:'0',bg:'#101010'},
     // The Shell and the instrument that plays it sit side by side.
     {s:'idler',n:'The Shell',src:'idler/art/shell.mp4',pad:'0',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
-    {s:'artifactory',n:'Vector',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/',desc:'Sequencer for the Shell'},
+    {s:'artifactory',n:'Vector',src:'artifactory/art/vector.webp',bg:'#E8EAED',pad:'6%',url:'https://artifactory-vector.pages.dev/',after:'idler'},
     {s:'biota',n:'Symbiota',src:'biota/art/fish.mp4',fit:'cover',pad:'0',pos:'50% 36%'},
-    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp',desc:'Artifice'},
+    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp'},
     {s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0'},
     {s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fit:'cover',pad:'0'},
     {s:'flora',n:'Hieronymus',src:'flora/art/hieronymus.mp4',fit:'cover',pad:'0',bg:'#05060a'}
   ];
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  // Same order as the project grid above, so the two sections read the same way.
+  // `after` keeps a piece beside the one it belongs to (Vector plays the Shell).
+  var cards=[].map.call(document.querySelectorAll('#work .proj'),function(c){ return c.getAttribute('data-slug'); });
+  function rank(a){ var i=cards.indexOf(a.after||a.s); return (i<0?1e3:i)+(a.after?0.5:0); }
+  LIST.sort(function(a,b){ return rank(a)-rank(b); });
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var items=LIST.filter(function(a){ return D[a.s]; }).map(function(a){
     var r=D[a.s], el=document.createElement('a'), src=A+a.src, isV=/\.mp4$/.test(src);
@@ -1447,10 +1452,9 @@ document.documentElement.className+=' js';
       + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
              : '<img src="'+esc(src)+'" alt="" loading="lazy">')
       + '</div><div class="cap"><span class="nm">'+esc(a.n)+'</span>'
-      + '<span class="src">'+(a.desc ? esc(a.desc)
-        : esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+(a.madeIn?' &middot; Made in '+esc(a.madeIn):''))
-      + '</span></div>';
-    el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')+' '+(a.desc||'')).toLowerCase();
+      // One kind of fact per line: the object, then the project it came from + year.
+      + '<span class="src">'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+'</span></div>';
+    el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')).toLowerCase();
     box.appendChild(el); return el;
   });
   // Rows always fill: four across when the count divides by four, else three.
