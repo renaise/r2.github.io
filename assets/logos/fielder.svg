@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Fielder">
+  <!-- Original mark: a fluorescent rabbit, drawn from simple shapes. Not a reproduction of any photograph. -->
+  <defs>
+    <linearGradient id="g" x1="0.2" y1="0.1" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#d4ff6a"/>
+      <stop offset="0.55" stop-color="#9ef22f"/>
+      <stop offset="1" stop-color="#5fcf12"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g fill="url(#g)" filter="url(#glow)">
+    <ellipse cx="41.5" cy="15" rx="3" ry="9.5" transform="rotate(-22 41.5 15)"/>
+    <ellipse cx="46.5" cy="14" rx="3.3" ry="10" transform="rotate(-6 46.5 14)"/>
+    <ellipse cx="46" cy="27.5" rx="8.2" ry="7" transform="rotate(-14 46 27.5)"/>
+    <ellipse cx="39.5" cy="38" rx="8" ry="9.5"/>
+    <ellipse cx="28" cy="40.5" rx="17" ry="11.5"/>
+    <circle cx="19" cy="40" r="12"/>
+    <circle cx="8.5" cy="37.5" r="3.4"/>
+    <rect x="35" y="45.5" width="10" height="6" rx="3"/>
+    <ellipse cx="17" cy="51.2" rx="9.5" ry="3"/>
+  </g>
+  <circle cx="50" cy="25.6" r="1.1" fill="#3f8f10"/>
+</svg>
