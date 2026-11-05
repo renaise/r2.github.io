@@ -259,7 +259,13 @@ ramp, the atoms, the type table and the plate captions all start on the same x. 
 1100 and 390 across all twelve panels — one distinct left edge, every time.
 
 Plates keep the full measure and their captions join the prose column, so every line of running
-copy in the panel starts on the same edge as every other. Under 900px the rail unpins and the
+copy in the panel starts on the same edge as every other.
+
+**Hierarchy inside a case study** (2026-11-05): title, claim, ledger, plate, then Overview (the
+hook), Problem, Process, Solution, Impact. Captions are the interface face at .72rem in `--sw5`,
+left on the prose column: a step under the prose, never the prose's serif and size, or they read
+as more body copy. Paragraphs in a section are spaced by `--cs-gap-row` alone; a margin on top of
+the row gap doubles it and one section reads as two. Under 900px the rail unpins and the
 whole thing collapses to one column: a 120px gutter is a quarter of a phone.
 
 **The ledger is on the same template**: `var(--cs-col) 1fr 1fr`, so ROLE lands on the label

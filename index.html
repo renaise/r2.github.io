@@ -765,7 +765,9 @@
     gap:.7rem var(--cs-gap-col);
     margin:0 0 2.2rem;}
   .cs-shot > img,.cs-shot > video{grid-column:1 / -1;}
-  .cs-shot > figcaption{grid-column:1 / -1;text-align:center;}
+  /* Captions join the prose column (DESIGN.md), set in the interface face a step under
+     the prose, so a caption labels its plate instead of reading as more body copy. */
+  .cs-shot > figcaption{grid-column:2;text-align:left;}
   .cs-shot img,.cs-shot video{display:block;width:100%;aspect-ratio:var(--ar);object-fit:cover;
     background:var(--tile);border-radius:4px;}
   .cs-shot video.cs-film{cursor:pointer;}
@@ -787,16 +789,16 @@
   .cs-play:hover{color:var(--accent);border-color:var(--accent);}
   .cs-play:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   .cs-embed.is-playing{position:static;}
-  .cs-shot figcaption{font-family:var(--serif);font-weight:300;font-size:var(--prose);
-    line-height:var(--prose-lh);color:var(--sw4);margin:0 auto;max-width:72ch;}
+  .cs-shot figcaption{font-size:.72rem;line-height:1.45;letter-spacing:.005em;
+    color:var(--sw5);margin:0;max-width:72ch;}
   .cs-sec{display:grid;grid-template-columns:var(--cs-col) 1fr;gap:var(--cs-gap);
     align-items:start;padding:2.6rem 0 3rem;border-top:1px dotted var(--line);}
   .cs-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);}
   .cs-sec > :not(.cs-lbl){grid-column:2;}
   .cs-sec p{font-family:var(--serif);font-weight:300;font-size:var(--prose);
-    line-height:var(--prose-lh);color:var(--prose-ink);margin:0 0 .8rem;}
-  .cs-sec p:last-child{margin-bottom:0;}
-  .cs-sec p + p{margin-top:1.1rem;}
+    line-height:var(--prose-lh);color:var(--prose-ink);margin:0;}
+  /* Each paragraph is its own grid row, so --cs-gap-row alone spaces them. Margins on
+     top of the row gap doubled it and split one section into what read as two. */
 
   /* ── The system block, Idler only ────────────────────────────────────────
      id-idler.pages.dev baked in rather than linked past: the accents, the
@@ -891,7 +893,7 @@
   @media(max-width:560px){
     .cs-sec,.cs-shot,.cs-end,.cs-foot{grid-template-columns:1fr;gap:.7rem;}
     .cs-end > a,.cs-foot > a{grid-column:1;}
-    .cs-sec > :not(.cs-lbl){grid-column:1;}
+    .cs-sec > :not(.cs-lbl),.cs-shot > figcaption{grid-column:1;}
   }
   @media(max-width:700px){
     .cs-ledger{column-gap:1.4rem;row-gap:.9rem;}
@@ -1462,8 +1464,8 @@ document.documentElement.className+=' js';
   LIST.sort(function(a,b){ return rank(a)-rank(b); });
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
   var items=LIST.filter(function(a){ return D[a.s]; }).map(function(a){
-    var r=D[a.s], el=document.createElement('a'), src=A+a.src, isV=/\.mp4$/.test(src);
-    var poster=src.replace(/\.mp4$/,'.jpg');
+    var r=D[a.s], el=document.createElement('a'), src=A+a.src, isV=/\.mp4(?=\?|$)/.test(src);
+    var poster=src.replace(/\.mp4(?=\?|$)/,'.jpg');
     el.className='art'; el.href='/'+a.s+'#artifact'; el.setAttribute('data-slug',a.s);
     var style=(a.fit?'--fit:'+a.fit+';':'')+(a.pad?'--pad:'+a.pad+';':'')+(a.bg?'--sp-bg:'+a.bg+';':'')+(a.pos?'--pos:'+a.pos+';':'');
     el.innerHTML='<div class="sp" style="'+style+'">'
@@ -1746,7 +1748,7 @@ document.documentElement.className+=' js';
     if(!src) return '';
     var poster=big?(big.poster||''):(m?m.getAttribute('poster')||'':'');
     var alt=(m&&(m.getAttribute('alt')||m.getAttribute('aria-label')))||'';
-    if(/\.mp4$/.test(src)){
+    if(/\.mp4(?=\?|$)/.test(src)){
       return '<div class="cs-plate"><video src="'+esc(src)+'" '+(reduced()?'':'autoplay ')+'muted loop '
         + 'playsinline preload="auto" poster="'+esc(poster)+'"'+(alt?' aria-label="'+esc(alt)+'"':'')+'></video></div>';
     }
@@ -1781,10 +1783,10 @@ document.documentElement.className+=' js';
       + linkField
       + '</dl>';
     out+=plate(card,d);
-    // The card shows the hook alone. Where the store has the four-part text the panel
-    // carries it; where it doesn't, the hook is the overview and that is the whole entry.
+    // The hook opens the case study as its Overview, then the four-part text follows
+    // where it exists; without it, the hook is the overview and that is the whole entry.
     if(d.problem||d.process||d.solution||d.impact){
-      out+=section('Problem',d.problem);
+      out+=section('Overview',d.hook)+section('Problem',d.problem);
       if(d.compare&&d.compare.rows){
         out+='<section class="cs-sec cs-sys"><div class="cs-lbl">'+esc(d.compare.label||'Compare')+'</div><table class="cs-type"><thead><tr>'
           + d.compare.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'</tr></thead><tbody>'
@@ -1826,8 +1828,8 @@ document.documentElement.className+=' js';
         + (art.pos?'--pos:'+art.pos+';':'')+(art.bg?'--sp-bg:'+art.bg+';':'');
       out+='<section class="cs-sec cs-art" id="cs-artifact"><div class="cs-lbl">Artifact</div>'
         + '<figure style="'+st+'">'
-        + (/\.mp4$/.test(asrc)
-            ? '<video class="cs-film" src="'+esc(asrc)+'" poster="'+esc(asrc.replace(/\.mp4$/,'.jpg'))+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
+        + (/\.mp4(?=\?|$)/.test(asrc)
+            ? '<video class="cs-film" src="'+esc(asrc)+'" poster="'+esc(asrc.replace(/\.mp4(?=\?|$)/,'.jpg'))+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
             : '<img src="'+esc(asrc)+'" alt="" loading="lazy">')
         + '<figcaption>'+esc(art.n)
         + (art.url?' &middot; <a class="cs-lnk" href="'+esc(art.url)+'" target="_blank" rel="noopener">Open '+esc(art.n)+' &#8599;</a>':'')
@@ -1850,7 +1852,7 @@ document.documentElement.className+=' js';
     }
     if(d.shots&&d.shots.length){
       out+=d.shots.map(function(sh){
-        var media = /\.mp4$/.test(sh.src)
+        var media = /\.mp4(?=\?|$)/.test(sh.src)
           ? '<video class="cs-film" src="'+esc(sh.src)+'" poster="'+esc(sh.poster||'')+'" '
             + 'muted playsinline preload="none"'+(sh.loop?' loop':'')+' '
             + 'aria-label="'+esc(sh.alt||'')+'"'+(sh.loop?'':' title="Play again"')+'></video>'
