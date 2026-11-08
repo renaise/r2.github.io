@@ -421,10 +421,18 @@
     scrollbar-width:none;-webkit-mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);
     mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);}
   .feed ol::-webkit-scrollbar{display:none;}
-  .feed a{display:grid;grid-template-columns:3.4em 1fr;gap:.6rem;font-family:var(--sans);font-size:.74rem;
-    line-height:1.38;color:var(--sw2);text-decoration:none;transition:color .2s;}
-  .feed a:hover{color:var(--ink);}
-  .feed time{color:var(--sw4);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .feed-h a{color:inherit;text-decoration:none;transition:color .2s;}
+  .feed-h a:hover{color:var(--ink);}
+  .feed li a{display:grid;grid-template-columns:44px 1fr;gap:.7rem;align-items:start;font-family:var(--sans);
+    font-size:.74rem;line-height:1.38;color:var(--sw2);text-decoration:none;transition:color .2s;}
+  .feed li a:hover{color:var(--ink);}
+  .feed .th{width:44px;height:44px;border-radius:4px;overflow:hidden;background:var(--line);}
+  .feed .th img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s;}
+  .feed li a:hover .th img{opacity:.85;}
+  .feed .tx{min-width:0;display:flex;flex-direction:column;}
+  .feed .ch{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .feed .bt{color:var(--sw4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .feed time{color:var(--sw4);font-variant-numeric:tabular-nums;font-size:.62rem;letter-spacing:.03em;margin-top:.1rem;}
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
@@ -967,17 +975,12 @@ document.documentElement.className+=' js';
         <a href="#artifacts" data-jump="artifacts">Artifacts</a>
       </div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
-      <!-- Newsfeed: what shipped, newest first. Dated by the deploy, linked to the live thing.
-           Add to the top; the list scrolls inside the rail's spare height. -->
-      <section class="feed" aria-labelledby="feed-h">
-        <h2 class="feed-h" id="feed-h">News</h2>
-        <ol>
-          <li><a href="https://mosh-pit.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-11-05">Nov 5</time><span>Moshpit takes the Shell from ARTIFACTORY as its mark, a sphere carved by a Schwarz P surface.</span></a></li>
-          <li><a href="/biota/"><time datetime="2026-11-05">Nov 5</time><span>BIOTA&rsquo;s first release drafted as an App Store set.</span></a></li>
-          <li><a href="https://fielder.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-11-04">Nov 4</time><span>Fielder puts eighteen collections grouped by look on its top row.</span></a></li>
-          <li><a href="https://fielder.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-11-01">Nov 1</time><span>Fielder&rsquo;s search bar reaches the web: Google Images, Pinterest, Are.na.</span></a></li>
-          <li><a href="https://mosh-pit.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-10-29">Oct 29</time><span>Moshpit is live, built on Fielder with a shared pit.</span></a></li>
-        </ol>
+      <!-- Newsfeed: Renaise's latest Are.na blocks, read live from the public v3 API
+           (guest tier, 30 reads/min per visitor; this costs 7, cached 10 min per session).
+           Hidden until it loads, and stays hidden if Are.na doesn't answer: no stale copy. -->
+      <section class="feed" aria-labelledby="feed-h" hidden>
+        <h2 class="feed-h" id="feed-h"><a href="https://www.are.na/renaise" target="_blank" rel="noopener">Are.na</a></h2>
+        <ol></ol>
       </section>
       <div class="acts">
         <a href="mailto:krenaise@gmail.com"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14"/><path d="M2.5 5.5 12 13l9.5-7.5"/></svg></span><span class="tx">Email</span> <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
@@ -2349,6 +2352,46 @@ document.documentElement.className+=' js';
     if(buildMask()) frame(performance.now()); });
   matchMedia('(prefers-reduced-motion:reduce)').addEventListener('change',function(e){
     if(e.matches){ stop(); frame(0); } else start(); });
+})();
+</script>
+
+<script>
+/* Rail newsfeed: the latest public Are.na blocks with an image, each with the channel it
+   went into. Dated by the block's last update, which is when it was connected. */
+(function(){
+  var sec=document.querySelector('.feed'); if(!sec||!window.fetch) return;
+  var ol=sec.querySelector('ol'), KEY='arena-feed-v1', N=6, API='https://api.are.na/v3';
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function mon(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}
+  // Filenames and "image" say nothing; only a real title is shown.
+  function title(t){t=(t||'').trim(); return (!t||/^image$/i.test(t)||/^Screenshot \d|\.(png|jpe?g|gif|webp)"?$/i.test(t))?'':t}
+  function draw(items){
+    if(!items.length) return;
+    ol.innerHTML=items.map(function(b){
+      return '<li><a href="https://www.are.na/block/'+b.id+'" target="_blank" rel="noopener">'+
+        '<span class="th"><img src="'+esc(b.img)+'" alt="" loading="lazy" width="44" height="44"></span>'+
+        '<span class="tx"><span class="ch">'+esc(b.ch||'Are.na')+'</span>'+
+        (b.t?'<span class="bt">'+esc(b.t)+'</span>':'')+
+        '<time datetime="'+esc(b.d)+'">'+mon(b.d)+'</time></span></a></li>';
+    }).join('');
+    sec.hidden=false;
+  }
+  try{var c=JSON.parse(sessionStorage.getItem(KEY)||'null'); if(c&&Date.now()-c.at<6e5){draw(c.items);return;}}catch(e){}
+  fetch(API+'/users/renaise/contents?per=40&sort=updated_at_desc').then(function(r){if(!r.ok)throw r;return r.json()})
+  .then(function(j){
+    var bl=(j.data||[]).filter(function(b){return b.base_type==='Block'&&b.image&&b.image.small&&b.visibility!=='private'})
+      .sort(function(a,b){return a.updated_at<b.updated_at?1:-1}).slice(0,N);
+    return Promise.all(bl.map(function(b){
+      return fetch(API+'/blocks/'+b.id+'/connections?per=5').then(function(r){return r.ok?r.json():{data:[]}})
+        .catch(function(){return {data:[]}}).then(function(cj){
+          var ch=(cj.data||[]).filter(function(c){return c.visibility!=='private'})
+            .sort(function(x,y){return x.updated_at<y.updated_at?1:-1})[0];
+          return {id:b.id,img:b.image.small.src,t:title(b.title),d:b.updated_at,ch:ch?ch.title:''};
+        });
+    }));
+  }).then(function(items){
+    draw(items); try{sessionStorage.setItem(KEY,JSON.stringify({at:Date.now(),items:items}))}catch(e){}
+  }).catch(function(){});
 })();
 </script>
 </body>

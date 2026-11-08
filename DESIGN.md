@@ -129,10 +129,12 @@ stays dark.
   to two columns at 1240px and one under 900px (`gap:2.6rem`).
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
-- **Newsfeed (2026-11-08).** `.feed` in the rail: dated one-liners of what shipped, newest
-  first, each linked to the live thing. It takes the rail's spare height and scrolls inside it,
-  fading at the foot; on phones it shows the latest three. Dates come from the deploy, never
-  estimated. Add new items to the top of the list.
+- **Newsfeed (2026-11-08).** `.feed` in the rail is Are.na only: Renaise's latest six public
+  blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
+  `/connections` for the channel name). 44px thumbnail, channel, the block's title when it has a
+  real one (not "image" or a screenshot filename), date of the block's last update. Hidden until
+  it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
+  reads/min per visitor; a load costs 7, cached 10 min in sessionStorage. Phones show three.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
