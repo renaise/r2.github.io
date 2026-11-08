@@ -413,6 +413,18 @@
   :root[data-theme="dark"] .side .brand .mk-l{display:none;}
   :root[data-theme="dark"] .side .brand .mk-d{display:block;}
   /* The rail's only links. No rules, no underline — color is the whole affordance. */
+  /* Newsfeed. Takes the rail's spare height between the filters and the links and
+     scrolls inside it; the bottom fades so a cut-off line reads as more, not as a crop. */
+  .feed{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:.55rem;}
+  .feed-h{margin:0;font-family:var(--sans);font-size:.62rem;font-weight:400;letter-spacing:.03em;color:var(--sw4);}
+  .feed ol{list-style:none;margin:0;padding:0 0 1.2rem;display:grid;gap:.7rem;overflow-y:auto;min-height:0;
+    scrollbar-width:none;-webkit-mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);
+    mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);}
+  .feed ol::-webkit-scrollbar{display:none;}
+  .feed a{display:grid;grid-template-columns:3.4em 1fr;gap:.6rem;font-family:var(--sans);font-size:.74rem;
+    line-height:1.38;color:var(--sw2);text-decoration:none;transition:color .2s;}
+  .feed a:hover{color:var(--ink);}
+  .feed time{color:var(--sw4);font-variant-numeric:tabular-nums;white-space:nowrap;}
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
@@ -592,6 +604,9 @@
     .brand-h1{flex:0 0 auto;align-self:flex-start;}
     .statement{flex:1 1 0;min-width:0;}
     .find,.filters{flex:1 0 100%;}
+    .feed{flex:1 0 100%;}
+    .feed ol{overflow:visible;padding-bottom:0;-webkit-mask-image:none;mask-image:none;}
+    .feed li:nth-child(n+4){display:none;}
     /* On a phone the six links drop to icons in one row, and the row lives at the foot
        of the page (moved there by script under 900px): the header keeps the statement,
        search and filters, and the ways to reach Renaise close the page. The words stay
@@ -952,6 +967,18 @@ document.documentElement.className+=' js';
         <a href="#artifacts" data-jump="artifacts">Artifacts</a>
       </div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
+      <!-- Newsfeed: what shipped, newest first. Dated by the deploy, linked to the live thing.
+           Add to the top; the list scrolls inside the rail's spare height. -->
+      <section class="feed" aria-labelledby="feed-h">
+        <h2 class="feed-h" id="feed-h">News</h2>
+        <ol>
+          <li><a href="https://mosh-pit.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-11-05">Nov 5</time><span>Moshpit takes the Shell from ARTIFACTORY as its mark, a sphere carved by a Schwarz P surface.</span></a></li>
+          <li><a href="/biota/"><time datetime="2026-11-05">Nov 5</time><span>BIOTA&rsquo;s first release drafted as an App Store set.</span></a></li>
+          <li><a href="https://fielder.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-11-04">Nov 4</time><span>Fielder puts eighteen collections grouped by look on its top row.</span></a></li>
+          <li><a href="https://fielder.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-11-01">Nov 1</time><span>Fielder&rsquo;s search bar reaches the web: Google Images, Pinterest, Are.na.</span></a></li>
+          <li><a href="https://mosh-pit.pages.dev/" target="_blank" rel="noopener"><time datetime="2026-10-29">Oct 29</time><span>Moshpit is live, built on Fielder with a shared pit.</span></a></li>
+        </ol>
+      </section>
       <div class="acts">
         <a href="mailto:krenaise@gmail.com"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14"/><path d="M2.5 5.5 12 13l9.5-7.5"/></svg></span><span class="tx">Email</span> <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
         <a href="https://www.linkedin.com/in/renaisekim" target="_blank" rel="noopener"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span><span class="tx">LinkedIn</span> <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>

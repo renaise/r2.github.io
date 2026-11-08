@@ -107,7 +107,7 @@ stays dark.
 ## Layout
 
 - Sticky rail, `--rail` (280px), `100vh`: image mark (the `h1`) → statement → **search** →
-  filters → links, with the clock and switch pinned bottom. The marquee and donate link are
+  filters → **newsfeed** → links, with the clock and switch pinned bottom. The marquee and donate link are
   no longer in the markup (only stale CSS comments mention them). Rail children sit on a
   `1.25rem` gap (was `1.9rem`). One gutter, `--gut` (1.4rem), frames rail and grid.
 - **Search** carries a hand-built concept map alongside the card text, and **every card needs an
@@ -129,6 +129,10 @@ stays dark.
   to two columns at 1240px and one under 900px (`gap:2.6rem`).
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
+- **Newsfeed (2026-11-08).** `.feed` in the rail: dated one-liners of what shipped, newest
+  first, each linked to the live thing. It takes the rail's spare height and scrolls inside it,
+  fading at the foot; on phones it shows the latest three. Dates come from the deploy, never
+  estimated. Add new items to the top of the list.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
