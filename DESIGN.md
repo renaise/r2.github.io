@@ -132,9 +132,10 @@ stays dark.
 - **Newsfeed (2026-11-08).** `.feed` ("Signals") in the rail is Are.na only: Renaise's latest public
   blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
   `/connections` for the channel name). Four of the blocks she most recently added (by `connected_at`, read from her four most recently
-  updated channels). One block at a time: a frame (`.sig`) that takes the rail's spare height (110 to 420px, never
-  scrolls) shows the image whole (`contain`) on a radial gradient in the page's grays after
-  portorocha.com (`--sig-a`/`--sig-b`), crossfading through her latest image additions every
+  updated channels). One block at a time: a frame (`.sig`) that takes the rail's spare height (110 to 440px, never
+  scrolls) runs full bleed (past the gutter to the viewport edge and the rail's rule) and shows
+  the image whole (`contain`) over a frosted copy of itself (blown up, `blur(26px)`, dimmed),
+  crossfading through her latest image additions every
   4.5s. Hover, focus or a hidden tab holds it; reduced motion keeps it still. One caption line:
   channel, date dimmed, counter. The frame links to the block. Replaced the 12-up contact sheet
   (2026-11-09: "a little awkward"), a boxed grid of thumbnails competing with the links. Hidden until
