@@ -417,22 +417,29 @@
      scrolls inside it; the bottom fades so a cut-off line reads as more, not as a crop. */
   .feed{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:.55rem;}
   .feed-h{margin:0;font-family:var(--sans);font-size:.62rem;font-weight:400;letter-spacing:.03em;color:var(--sw4);}
-  .feed ol{list-style:none;margin:0;padding:0 0 1.2rem;display:grid;gap:.7rem;overflow-y:auto;min-height:0;
-    scrollbar-width:none;-webkit-mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);
+  .feed ol{list-style:none;margin:0;padding:0;display:grid;gap:.7rem;overflow-y:auto;min-height:0;scrollbar-width:none;}
+  /* the fade only when the rail is too short to hold all four */
+  .feed ol.over{padding-bottom:1.2rem;-webkit-mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);
     mask-image:linear-gradient(#000 calc(100% - 1.6rem),transparent);}
   .feed ol::-webkit-scrollbar{display:none;}
   .feed-h a{color:inherit;text-decoration:none;transition:color .2s;}
   .feed-h a:hover{color:var(--ink);}
-  .feed li a{display:grid;grid-template-columns:44px 1fr;gap:.7rem;align-items:start;font-family:var(--sans);
-    font-size:.74rem;line-height:1.38;color:var(--sw2);text-decoration:none;transition:color .2s;}
+  /* Four at a time, two by two. Every item is one cell of the same size with the radius
+     on the cell (4px, the plates' radius); the image fills it, so the four read as a set. */
+  .feed ol{grid-template-columns:1fr 1fr;gap:.9rem .8rem;align-content:start;}
+  .feed li a{display:flex;flex-direction:column;gap:.35rem;font-family:var(--sans);
+    font-size:.7rem;line-height:1.3;color:var(--sw2);text-decoration:none;transition:color .2s;}
   .feed li a:hover{color:var(--ink);}
-  .feed .th{width:44px;height:44px;border-radius:4px;overflow:hidden;background:var(--line);}
-  .feed .th img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s;}
+  .feed .th{display:flex;width:100%;aspect-ratio:1;border-radius:4px;overflow:hidden;background:var(--line);}
+  .feed .th img{display:block;width:100%;height:100%;object-fit:cover;transition:opacity .2s;}
   .feed li a:hover .th img{opacity:.85;}
   .feed .tx{min-width:0;display:flex;flex-direction:column;}
-  .feed .ch{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .feed .bt{color:var(--sw4);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .feed time{color:var(--sw4);font-variant-numeric:tabular-nums;font-size:.62rem;letter-spacing:.03em;margin-top:.1rem;}
+  .feed .ch{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sw3);}
+  /* a text block is its words, clipped to the cell; the cell is drawn so it reads as a block */
+  .feed .tx-block{align-items:flex-start;padding:.5rem .55rem;background:none;border:1px dotted var(--line);
+    font-family:var(--serif,Georgia,serif);font-size:.68rem;line-height:1.35;color:var(--sw2);overflow:hidden;}
+  .feed .tx-block span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden;}
+  .feed time{color:var(--sw4);opacity:.6;font-variant-numeric:tabular-nums;font-size:.62rem;letter-spacing:.03em;}
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
@@ -614,7 +621,7 @@
     .find,.filters{flex:1 0 100%;}
     .feed{flex:1 0 100%;}
     .feed ol{overflow:visible;padding-bottom:0;-webkit-mask-image:none;mask-image:none;}
-    .feed li:nth-child(n+4){display:none;}
+    .feed ol{grid-template-columns:repeat(4,minmax(0,1fr));}
     /* On a phone the six links drop to icons in one row, and the row lives at the foot
        of the page (moved there by script under 900px): the header keeps the statement,
        search and filters, and the ways to reach Renaise close the page. The words stay
@@ -975,11 +982,11 @@ document.documentElement.className+=' js';
         <a href="#artifacts" data-jump="artifacts">Artifacts</a>
       </div>
       <p class="sr" id="status" role="status" aria-live="polite"></p>
-      <!-- Newsfeed: Renaise's latest Are.na blocks, read live from the public v3 API
-           (guest tier, 30 reads/min per visitor; this costs 7, cached 10 min per session).
+      <!-- Are.na Feed: the blocks Renaise most recently added to her channels, read live from
+           the public v3 API (guest tier, 30 reads/min per visitor; this costs 5, cached 10 min).
            Hidden until it loads, and stays hidden if Are.na doesn't answer: no stale copy. -->
       <section class="feed" aria-labelledby="feed-h" hidden>
-        <h2 class="feed-h" id="feed-h"><a href="https://www.are.na/renaise" target="_blank" rel="noopener">Are.na</a></h2>
+        <h2 class="feed-h" id="feed-h"><a href="https://www.are.na/renaise" target="_blank" rel="noopener">Are.na Feed</a></h2>
         <ol></ol>
       </section>
       <div class="acts">
@@ -2357,40 +2364,48 @@ document.documentElement.className+=' js';
 </script>
 
 <script>
-/* Rail newsfeed: the latest public Are.na blocks with an image, each with the channel it
-   went into. Dated by the block's last update, which is when it was connected. */
+/* Are.na Feed: the blocks Renaise most recently added. An addition is a connection, so the
+   date is connected_at, read from the channel (a block created years ago and added today is
+   today's). Her four most recently updated public channels are read, her own connections
+   kept, newest first. Images show whole; text blocks show their words. */
 (function(){
   var sec=document.querySelector('.feed'); if(!sec||!window.fetch) return;
-  var ol=sec.querySelector('ol'), KEY='arena-feed-v1', N=6, API='https://api.are.na/v3';
+  var ol=sec.querySelector('ol'), KEY='arena-feed-v3', N=4, API='https://api.are.na/v3';
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function mon(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}
-  // Filenames and "image" say nothing; only a real title is shown.
+  // Filenames and "image" say nothing; only a real title is used, as the image's alt text.
   function title(t){t=(t||'').trim(); return (!t||/^image$/i.test(t)||/^Screenshot \d|\.(png|jpe?g|gif|webp)"?$/i.test(t))?'':t}
+  function plain(md){return String(md||'').replace(/!\[[^\]]*\]\([^)]*\)/g,'').replace(/\[([^\]]*)\]\([^)]*\)/g,'$1').replace(/[*_`>#]+/g,'').replace(/^\s*[-+]\s+/gm,'').replace(/\s+/g,' ').trim()}
   function draw(items){
     if(!items.length) return;
     ol.innerHTML=items.map(function(b){
-      return '<li><a href="https://www.are.na/block/'+b.id+'" target="_blank" rel="noopener">'+
-        '<span class="th"><img src="'+esc(b.img)+'" alt="" loading="lazy" width="44" height="44"></span>'+
-        '<span class="tx"><span class="ch">'+esc(b.ch||'Are.na')+'</span>'+
-        (b.t?'<span class="bt">'+esc(b.t)+'</span>':'')+
-        '<time datetime="'+esc(b.d)+'">'+mon(b.d)+'</time></span></a></li>';
+      var body=b.img
+        ?'<span class="th"><img src="'+esc(b.img)+'" alt="'+esc(b.t)+'" loading="lazy"'+(b.w?' width="'+b.w+'" height="'+b.h+'"':'')+'></span>'
+        :'<span class="th tx-block"><span>'+esc(b.text)+'</span></span>';
+      return '<li><a href="https://www.are.na/block/'+b.id+'" target="_blank" rel="noopener">'+body+
+        '<span class="tx"><span class="ch">'+esc(b.ch)+'</span><time datetime="'+esc(b.d)+'">'+mon(b.d)+'</time></span></a></li>';
     }).join('');
-    sec.hidden=false;
+    sec.hidden=false; fit(); addEventListener('resize',fit);
   }
+  function fit(){ol.classList.remove('over'); if(ol.scrollHeight>ol.clientHeight+1) ol.classList.add('over');}
   try{var c=JSON.parse(sessionStorage.getItem(KEY)||'null'); if(c&&Date.now()-c.at<6e5){draw(c.items);return;}}catch(e){}
   fetch(API+'/users/renaise/contents?per=40&sort=updated_at_desc').then(function(r){if(!r.ok)throw r;return r.json()})
   .then(function(j){
-    var bl=(j.data||[]).filter(function(b){return b.base_type==='Block'&&b.image&&b.image.small&&b.visibility!=='private'})
+    var chs=(j.data||[]).filter(function(c){return c.type==='Channel'&&c.visibility!=='private'})
       .sort(function(a,b){return a.updated_at<b.updated_at?1:-1}).slice(0,N);
-    return Promise.all(bl.map(function(b){
-      return fetch(API+'/blocks/'+b.id+'/connections?per=5').then(function(r){return r.ok?r.json():{data:[]}})
+    return Promise.all(chs.map(function(c){
+      return fetch(API+'/channels/'+c.slug+'/contents?per='+N+'&sort=position_desc').then(function(r){return r.ok?r.json():{data:[]}})
         .catch(function(){return {data:[]}}).then(function(cj){
-          var ch=(cj.data||[]).filter(function(c){return c.visibility!=='private'})
-            .sort(function(x,y){return x.updated_at<y.updated_at?1:-1})[0];
-          return {id:b.id,img:b.image.small.src,t:title(b.title),d:b.updated_at,ch:ch?ch.title:''};
+          return (cj.data||[]).filter(function(b){var k=b.connection;return b.type!=='Channel'&&k&&k.connected_by&&k.connected_by.slug==='renaise'})
+            .map(function(b){
+              var im=b.image&&b.image.small, tx=b.type==='Text'&&b.content?plain(b.content.markdown||b.content.plain):'';
+              return (im||tx)?{id:b.id,img:im?im.src:'',w:im?im.width:0,h:im?im.height:0,text:tx.slice(0,220),t:title(b.title),d:b.connection.connected_at,ch:c.title}:null;
+            }).filter(Boolean);
         });
     }));
-  }).then(function(items){
+  }).then(function(lists){
+    var seen={}, items=[].concat.apply([],lists).sort(function(a,b){return a.d<b.d?1:-1})
+      .filter(function(b){return seen[b.id]?false:(seen[b.id]=1)}).slice(0,N);
     draw(items); try{sessionStorage.setItem(KEY,JSON.stringify({at:Date.now(),items:items}))}catch(e){}
   }).catch(function(){});
 })();
