@@ -129,15 +129,16 @@ stays dark.
   to two columns at 1240px and one under 900px (`gap:2.6rem`).
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
-- **Newsfeed (2026-11-08).** `.feed` ("Signals") in the rail is Are.na only: Renaise's latest four public
+- **Newsfeed (2026-11-08).** `.feed` ("Signals") in the rail is Are.na only: Renaise's latest public
   blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
   `/connections` for the channel name). Four of the blocks she most recently added (by `connected_at`, read from her four most recently
-  updated channels). The newest leads at full rail width (16:10), the three before it sit beneath as
-  squares; 4px radius on every cell, image filling it; text blocks show their words. No caption:
-  the set is one tile (10px radius, 6px inset) on a radial gradient in the page's grays, after
-  portorocha.com (`--sig-a`/`--sig-b`, light and dark). Titles and dates live in each link's aria-label. Hidden until
+  updated channels). A contact sheet of her latest twelve image blocks (text blocks skipped), three across, square
+  cells with a 4px radius, on one tile (10px radius, 6px inset) with a radial gradient in the
+  page's grays after portorocha.com (`--sig-a`/`--sig-b`). The tile takes the rail's spare height:
+  all twelve on a tall screen, scroll + fade on a short one. Titles and dates live in each
+  link's aria-label. Hidden until
   it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
-  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: four squares in one row on the same tile.
+  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: the newest eight, four across.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and

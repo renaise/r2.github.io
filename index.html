@@ -426,27 +426,24 @@
   .feed ol::-webkit-scrollbar{display:none;}
   .feed-h a{color:inherit;text-decoration:none;transition:color .2s;}
   .feed-h a:hover{color:var(--ink);}
-  /* The newest addition leads at the rail's full width; the three before it sit beneath
-     as a row of squares. One caption line under the set names whichever block is pointed
-     at (channel, date dimmed) and falls back to the newest, so no label repeats four times.
-     Every cell carries the 4px radius and the image fills it. */
-  .feed ol{grid-template-columns:repeat(3,minmax(0,1fr));gap:.45rem;align-content:start;}
-  .feed li:first-child{grid-column:1 / -1;}
+  /* A contact sheet of her latest twelve additions, three across, newest first, on one tile
+     (after portorocha.com's rail). The tile takes all the height between the filters and the
+     links: on a tall screen it shows everything, on a short one it scrolls and fades. */
+  .feed ol{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;align-content:start;}
   .feed li a{display:block;text-decoration:none;color:var(--sw2);}
   .feed .th{display:flex;width:100%;aspect-ratio:1;border-radius:4px;overflow:hidden;background:rgba(0,0,0,.18);}
-  .feed li:first-child .th{aspect-ratio:16 / 10;}
   .feed .th img{display:block;width:100%;height:100%;object-fit:cover;transition:opacity .2s;}
   .feed li a:hover .th img{opacity:.85;}
   .feed .tx{display:none;}
   /* No caption: the set is one tile, after portorocha.com's rail. A soft radial gradient in
      the page's own grays (no hue), lighter low on the left; the images sit inset on it with
      the tile's radius stepped down by its padding so the corners stay concentric. */
-  .feed-set{position:relative;min-height:0;display:flex;flex-direction:column;padding:6px;border-radius:10px;
+  .feed-set{position:relative;flex:0 1 auto;min-height:0;display:flex;flex-direction:column;padding:6px;border-radius:10px;overflow:hidden;
     background:radial-gradient(76% 130% at 24% 65%,var(--sig-a) 0,var(--sig-b) 100%);}
   /* a text block is its words, clipped to the cell; the cell is drawn so it reads as a block */
   .feed .tx-block{align-items:flex-start;padding:.4rem .45rem;background:none;border:1px dotted var(--line);
-    font-family:var(--serif,Georgia,serif);font-size:.6rem;line-height:1.3;color:var(--sw2);overflow:hidden;}
-  .feed .tx-block span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden;}
+    font-family:var(--serif,Georgia,serif);font-size:.56rem;line-height:1.25;color:var(--sw2);overflow:hidden;}
+  .feed .tx-block span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;}
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
@@ -629,8 +626,7 @@
     .feed{flex:1 0 100%;}
     .feed ol{overflow:visible;padding-bottom:0;-webkit-mask-image:none;mask-image:none;}
     .feed ol{grid-template-columns:repeat(4,minmax(0,1fr));}
-    .feed li:first-child{grid-column:auto;}
-    .feed li:first-child .th{aspect-ratio:1;}
+    .feed li:nth-child(n+9){display:none;}
     /* On a phone the six links drop to icons in one row, and the row lives at the foot
        of the page (moved there by script under 900px): the header keeps the statement,
        search and filters, and the ways to reach Renaise close the page. The words stay
@@ -2376,10 +2372,10 @@ document.documentElement.className+=' js';
 /* Are.na Feed: the blocks Renaise most recently added. An addition is a connection, so the
    date is connected_at, read from the channel (a block created years ago and added today is
    today's). Her four most recently updated public channels are read, her own connections
-   kept, newest first. Images show whole; text blocks show their words. */
+   kept, newest first. Image blocks only (image, link, embed, attachment previews): it is a contact sheet. */
 (function(){
   var sec=document.querySelector('.feed'); if(!sec||!window.fetch) return;
-  var ol=sec.querySelector('ol'), KEY='arena-feed-v3', N=4, API='https://api.are.na/v3';
+  var ol=sec.querySelector('ol'), KEY='arena-feed-v4', N=12, CH=4, API='https://api.are.na/v3';
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function mon(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}
   // Filenames and "image" say nothing; only a real title is used, as the image's alt text.
@@ -2400,14 +2396,14 @@ document.documentElement.className+=' js';
   fetch(API+'/users/renaise/contents?per=40&sort=updated_at_desc').then(function(r){if(!r.ok)throw r;return r.json()})
   .then(function(j){
     var chs=(j.data||[]).filter(function(c){return c.type==='Channel'&&c.visibility!=='private'})
-      .sort(function(a,b){return a.updated_at<b.updated_at?1:-1}).slice(0,N);
+      .sort(function(a,b){return a.updated_at<b.updated_at?1:-1}).slice(0,CH);
     return Promise.all(chs.map(function(c){
       return fetch(API+'/channels/'+c.slug+'/contents?per='+N+'&sort=position_desc').then(function(r){return r.ok?r.json():{data:[]}})
         .catch(function(){return {data:[]}}).then(function(cj){
           return (cj.data||[]).filter(function(b){var k=b.connection;return b.type!=='Channel'&&k&&k.connected_by&&k.connected_by.slug==='renaise'})
             .map(function(b){
               var im=b.image&&b.image.small, tx=b.type==='Text'&&b.content?plain(b.content.markdown||b.content.plain):'';
-              return (im||tx)?{id:b.id,img:im?im.src:'',w:im?im.width:0,h:im?im.height:0,text:tx.slice(0,220),t:title(b.title),d:b.connection.connected_at,ch:c.title}:null;
+              return im?{id:b.id,img:im?im.src:'',w:im?im.width:0,h:im?im.height:0,text:tx.slice(0,220),t:title(b.title),d:b.connection.connected_at,ch:c.title}:null;
             }).filter(Boolean);
         });
     }));
