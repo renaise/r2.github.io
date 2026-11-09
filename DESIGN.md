@@ -133,11 +133,11 @@ stays dark.
   blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
   `/connections` for the channel name). Four of the blocks she most recently added (by `connected_at`, read from her four most recently
   updated channels). The newest leads at full rail width (16:10), the three before it sit beneath as
-  squares; 4px radius on every cell, image filling it; text blocks show their words. One shared
-  caption (channel, date dimmed) sits on the lead image over a gradient rising from its foot,
-  light ink in both themes; it names the pointed-at block and falls back to the newest. Hidden until
+  squares; 4px radius on every cell, image filling it; text blocks show their words. No caption:
+  the set is one tile (10px radius, 6px inset) on a radial gradient in the page's grays, after
+  portorocha.com (`--sig-a`/`--sig-b`, light and dark). Titles and dates live in each link's aria-label. Hidden until
   it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
-  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: four squares in one row, same caption.
+  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: four squares in one row on the same tile.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
