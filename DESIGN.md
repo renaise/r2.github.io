@@ -132,10 +132,11 @@ stays dark.
 - **Newsfeed (2026-11-08).** `.feed` ("Are.na Feed") in the rail is Are.na only: Renaise's latest four public
   blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
   `/connections` for the channel name). Four of the blocks she most recently added (by `connected_at`, read from her four most recently
-  updated channels). Two by two, square cells with the 4px radius on the cell and the image filling
-  it; text blocks show their words. Channel, then the date dimmed; a real title becomes alt text. Hidden until
+  updated channels). The newest leads at full rail width (16:10), the three before it sit beneath as
+  squares; 4px radius on every cell, image filling it; text blocks show their words. One shared
+  caption line (channel, date dimmed) names the pointed-at block and falls back to the newest. Hidden until
   it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
-  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones show all four in one row.
+  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: four squares in one row, same caption.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
