@@ -132,13 +132,14 @@ stays dark.
 - **Newsfeed (2026-11-08).** `.feed` ("Signals") in the rail is Are.na only: Renaise's latest public
   blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
   `/connections` for the channel name). Four of the blocks she most recently added (by `connected_at`, read from her four most recently
-  updated channels). A contact sheet of her latest twelve image blocks (text blocks skipped), three across, square
-  cells with a 4px radius, on one tile (10px radius, 6px inset) with a radial gradient in the
-  page's grays after portorocha.com (`--sig-a`/`--sig-b`). The tile takes the rail's spare height:
-  all twelve on a tall screen, scroll + fade on a short one. Titles and dates live in each
-  link's aria-label. Hidden until
+  updated channels). One block at a time: a frame (`.sig`) that takes the rail's spare height (110 to 420px, never
+  scrolls) shows the image whole (`contain`) on a radial gradient in the page's grays after
+  portorocha.com (`--sig-a`/`--sig-b`), crossfading through her latest image additions every
+  4.5s. Hover, focus or a hidden tab holds it; reduced motion keeps it still. One caption line:
+  channel, date dimmed, counter. The frame links to the block. Replaced the 12-up contact sheet
+  (2026-11-09: "a little awkward"), a boxed grid of thumbnails competing with the links. Hidden until
   it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
-  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: the newest eight, four across.
+  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: the frame at 16:10, full width.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
