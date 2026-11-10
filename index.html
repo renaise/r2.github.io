@@ -422,8 +422,18 @@
      her latest twelve additions. Hover or focus holds it; reduced motion keeps it still. */
   .feed{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:.55rem;}
   .feed-h{margin:0;font-family:var(--sans);font-size:.62rem;font-weight:400;letter-spacing:.03em;color:var(--sw4);}
-  .feed-h a{color:inherit;text-decoration:none;transition:color .2s;}
-  .feed-h a:hover{color:var(--ink);}
+  /* Four views share the frame. The tabs change ink only, never weight or width, so
+     nothing in the rail moves when one is picked. */
+  .sig-head{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;}
+  .sig-tabs{display:flex;gap:.55rem;}
+  .sig-tabs button{position:relative;background:none;border:0;padding:0;font:inherit;font-family:var(--sans);
+    font-size:.62rem;letter-spacing:.03em;color:var(--sw4);opacity:.6;cursor:pointer;transition:color .2s,opacity .2s;}
+  .sig-tabs button::after{content:"";position:absolute;inset:-12px -4px;}
+  .sig-tabs button:hover{opacity:1;}
+  .sig-tabs button[aria-selected="true"]{color:var(--ink);opacity:1;}
+  /* The app recordings are 1600px wide; shown whole in a 280px rail the map is a speck. They
+     fill the frame instead, keeping the middle of the screen, where the map lives. */
+  .sig video.fg{inset:0;width:100%;height:100%;object-fit:cover;filter:none;background:#000;}
   /* Full bleed: the frame runs past the rail's gutter to both of its edges (left to the
      viewport, right to the rail's dotted rule). Behind each image is a frosted copy of itself,
      blown up, blurred and dimmed, so any shape of image fills the frame without being cropped. */
@@ -986,8 +996,16 @@ document.documentElement.className+=' js';
            the public v3 API (guest tier, 30 reads/min per visitor; this costs 5, cached 10 min).
            Hidden until it loads, and stays hidden if Are.na doesn't answer: no stale copy. -->
       <section class="feed" aria-labelledby="feed-h" hidden>
-        <h2 class="feed-h" id="feed-h"><a href="https://www.are.na/renaise" target="_blank" rel="noopener" aria-label="Signals, from Are.na">Signals</a></h2>
-        <a class="sig" target="_blank" rel="noopener"></a>
+        <div class="sig-head">
+          <h2 class="feed-h" id="feed-h">Signals</h2>
+          <div class="sig-tabs" role="tablist" aria-label="Signals">
+            <button type="button" role="tab" data-v="arena" aria-selected="false" hidden>Are.na</button>
+            <button type="button" role="tab" data-v="moshpit" aria-selected="false">Moshpit</button>
+            <button type="button" role="tab" data-v="fielder" aria-selected="false">Fielder</button>
+            <button type="button" role="tab" data-v="figma" aria-selected="false">Figma</button>
+          </div>
+        </div>
+        <a class="sig" role="tabpanel" aria-labelledby="feed-h" target="_blank" rel="noopener"></a>
         <p class="sig-cap"><span class="ch"></span><time></time><span class="n" aria-hidden="true"></span></p>
       </section>
       <div class="acts">
@@ -2365,65 +2383,89 @@ document.documentElement.className+=' js';
 </script>
 
 <script>
-/* Are.na Feed: the blocks Renaise most recently added. An addition is a connection, so the
-   date is connected_at, read from the channel (a block created years ago and added today is
-   today's). Her four most recently updated public channels are read, her own connections
-   kept, newest first. Image blocks only (image, link, embed, attachment previews), shown one at a time. */
+/* Signals: four views in one full-bleed frame. Are.na is the blocks Renaise most recently
+   added (by connected_at, from her four most recently updated public channels; images only),
+   crossfading. Moshpit and Fielder play their recorded covers; Figma shows the public file's
+   thumbnail (assets/signals/figma.jpg, saved from Figma's oEmbed 2026-11-09). Every view sits
+   over a frosted copy of itself. The last view picked is remembered per browser. */
 (function(){
-  var sec=document.querySelector('.feed'); if(!sec||!window.fetch) return;
-  var ol=sec.querySelector('ol'), KEY='arena-feed-v4', N=12, CH=4, API='https://api.are.na/v3';
+  var sec=document.querySelector('.feed'); if(!sec) return;
+  var a=sec.querySelector('.sig'), cap=sec.querySelector('.sig-cap'), tabs=sec.querySelectorAll('.sig-tabs button');
+  var KEY='arena-feed-v4', VKEY='signals-view', N=12, CH=4, API='https://api.are.na/v3';
+  var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STATIC={
+    moshpit:{href:'https://moshpit.codexfoundry.com/',video:'/stage/moshpit/cover.mp4?v=3',poster:'/stage/moshpit/cover.jpg?v=3',ch:'Moshpit',sub:'Feed Aggregator',label:'Moshpit, a feed aggregator'},
+    fielder:{href:'https://fielder.pages.dev/',video:'/stage/fielder/cover.mp4?v=3',poster:'/stage/fielder/cover.jpg?v=3',ch:'Fielder',sub:'Visual Researcher',label:'Fielder, a visual researcher'},
+    figma:{href:'https://www.figma.com/design/XMjbHq7OsxQTjdlMJBrMzQ/RENAISE---LAB---STAGE--Public-?node-id=0-1',img:'/assets/signals/figma.jpg',ch:'Lab + Stage',sub:'Figma',label:'Renaise, Lab + Stage, the public Figma file'}
+  };
+  var items=[], i=0, view=null, timer=null, held=false;
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function mon(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'America/New_York'})}
   // Filenames and "image" say nothing; only a real title is used, as the image's alt text.
   function title(t){t=(t||'').trim(); return (!t||/^image$/i.test(t)||/^Screenshot \d|\.(png|jpe?g|gif|webp)"?$/i.test(t))?'':t}
-  function plain(md){return String(md||'').replace(/!\[[^\]]*\]\([^)]*\)/g,'').replace(/\[([^\]]*)\]\([^)]*\)/g,'$1').replace(/[*_`>#]+/g,'').replace(/^\s*[-+]\s+/gm,'').replace(/\s+/g,' ').trim()}
-  function draw(items){
-    if(!items.length) return;
-    var a=sec.querySelector('.sig'), cap=sec.querySelector('.sig-cap'), i=0, timer=null, held=false;
-    var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    a.innerHTML=items.map(function(b,k){
-      var at=(k<2?'src':'data-src')+'="'+esc(b.img)+'"';
-      return '<span class="sl'+(k?'':' on')+'"><img class="bg" '+at+' alt="" aria-hidden="true"><img class="fg" '+at+' alt="'+esc(b.t)+'"></span>';
-    }).join('');
-    var imgs=a.querySelectorAll('.sl');
-    function show(k){
-      i=(k+items.length)%items.length; var b=items[i];
-      [].forEach.call(imgs[(i+1)%items.length].querySelectorAll('img[data-src]'),function(im){im.src=im.dataset.src;im.removeAttribute('data-src');});
-      [].forEach.call(imgs,function(im,j){im.classList.toggle('on',j===i)});
-      a.href='https://www.are.na/block/'+b.id;
-      a.setAttribute('aria-label',(b.t?b.t+', ':'')+'saved to '+b.ch+', '+mon(b.d)+', on Are.na');
-      cap.querySelector('.ch').textContent=b.ch;
-      var t=cap.querySelector('time'); t.dateTime=b.d; t.textContent=mon(b.d);
-      cap.querySelector('.n').textContent=(i+1)+' / '+items.length;
-    }
-    function run(){clearInterval(timer); if(!still&&!held&&items.length>1) timer=setInterval(function(){show(i+1)},4500);}
-    a.addEventListener('mouseenter',function(){held=true;run()});
-    a.addEventListener('mouseleave',function(){held=false;run()});
-    a.addEventListener('focus',function(){held=true;run()});
-    a.addEventListener('blur',function(){held=false;run()});
-    document.addEventListener('visibilitychange',function(){held=document.hidden;run()});
-    show(0); sec.hidden=false; run();
+  function caption(ch,t,n){cap.querySelector('.ch').textContent=ch; var tm=cap.querySelector('time'); tm.textContent=t||''; if(n===undefined) tm.removeAttribute('datetime'); cap.querySelector('.n').textContent=n||'';}
+  function stop(){clearInterval(timer); timer=null;}
+  function run(){stop(); if(view==='arena'&&!still&&!held&&items.length>1) timer=setInterval(function(){show(i+1)},4500);}
+  function show(k){
+    var sl=a.querySelectorAll('.sl'); if(!sl.length) return;
+    i=(k+items.length)%items.length; var b=items[i];
+    [].forEach.call(sl[(i+1)%sl.length].querySelectorAll('img[data-src]'),function(im){im.src=im.dataset.src;im.removeAttribute('data-src');});
+    [].forEach.call(sl,function(s,j){s.classList.toggle('on',j===i)});
+    a.href='https://www.are.na/block/'+b.id;
+    a.setAttribute('aria-label',(b.t?b.t+', ':'')+'saved to '+b.ch+', '+mon(b.d)+', on Are.na');
+    caption(b.ch,mon(b.d),(i+1)+' / '+items.length); var tm=cap.querySelector('time'); tm.dateTime=b.d;
   }
-  try{var c=JSON.parse(sessionStorage.getItem(KEY)||'null'); if(c&&Date.now()-c.at<6e5){draw(c.items);return;}}catch(e){}
+  function pick(v){
+    if(v==='arena'&&!items.length) v='moshpit';
+    view=v; stop();
+    [].forEach.call(tabs,function(t){t.setAttribute('aria-selected',t.dataset.v===v?'true':'false'); t.tabIndex=t.dataset.v===v?0:-1;});
+    try{localStorage.setItem(VKEY,v)}catch(e){}
+    if(v==='arena'){
+      a.innerHTML=items.map(function(b,k){
+        var at=(k<2?'src':'data-src')+'="'+esc(b.img)+'"';
+        return '<span class="sl'+(k?'':' on')+'"><img class="bg" '+at+' alt="" aria-hidden="true"><img class="fg" '+at+' alt="'+esc(b.t)+'"></span>';
+      }).join('');
+      show(0); run(); return;
+    }
+    var s=STATIC[v], bg=s.poster||s.img;
+    a.innerHTML='<span class="sl on"><img class="bg" src="'+bg+'" alt="" aria-hidden="true">'+
+      (s.video?'<video class="fg" src="'+s.video+'" poster="'+s.poster+'" muted loop playsinline'+(still?'':' autoplay')+' aria-hidden="true"></video>'
+              :'<img class="fg" src="'+s.img+'" alt="">')+'</span>';
+    a.href=s.href; a.setAttribute('aria-label',s.label); caption(s.ch,s.sub);
+  }
+  [].forEach.call(tabs,function(t){t.addEventListener('click',function(){pick(t.dataset.v)});});
+  sec.querySelector('.sig-tabs').addEventListener('keydown',function(e){
+    if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft') return;
+    var on=[].filter.call(tabs,function(t){return !t.hidden}), k=on.findIndex(function(t){return t.dataset.v===view});
+    var n=on[(k+(e.key==='ArrowRight'?1:-1)+on.length)%on.length]; pick(n.dataset.v); n.focus(); e.preventDefault();
+  });
+  a.addEventListener('mouseenter',function(){held=true;run()});
+  a.addEventListener('mouseleave',function(){held=false;run()});
+  a.addEventListener('focus',function(){held=true;run()});
+  a.addEventListener('blur',function(){held=false;run()});
+  document.addEventListener('visibilitychange',function(){held=document.hidden;run()});
+  var saved=null; try{saved=localStorage.getItem(VKEY)}catch(e){}
+  function start(){sec.hidden=false; pick(saved&&(saved!=='arena'||items.length)?saved:(items.length?'arena':'moshpit'));}
+  function got(list){items=list; if(items.length) sec.querySelector('[data-v="arena"]').hidden=false; start();}
+  try{var c=JSON.parse(sessionStorage.getItem(KEY)||'null'); if(c&&Date.now()-c.at<6e5){got(c.items);return;}}catch(e){}
+  if(!window.fetch){start();return;}
   fetch(API+'/users/renaise/contents?per=40&sort=updated_at_desc').then(function(r){if(!r.ok)throw r;return r.json()})
   .then(function(j){
     var chs=(j.data||[]).filter(function(c){return c.type==='Channel'&&c.visibility!=='private'})
-      .sort(function(a,b){return a.updated_at<b.updated_at?1:-1}).slice(0,CH);
+      .sort(function(x,y){return x.updated_at<y.updated_at?1:-1}).slice(0,CH);
     return Promise.all(chs.map(function(c){
       return fetch(API+'/channels/'+c.slug+'/contents?per='+N+'&sort=position_desc').then(function(r){return r.ok?r.json():{data:[]}})
         .catch(function(){return {data:[]}}).then(function(cj){
-          return (cj.data||[]).filter(function(b){var k=b.connection;return b.type!=='Channel'&&k&&k.connected_by&&k.connected_by.slug==='renaise'})
-            .map(function(b){
-              var im=b.image&&b.image.small, tx=b.type==='Text'&&b.content?plain(b.content.markdown||b.content.plain):'';
-              return im?{id:b.id,img:im?im.src:'',w:im?im.width:0,h:im?im.height:0,text:tx.slice(0,220),t:title(b.title),d:b.connection.connected_at,ch:c.title}:null;
-            }).filter(Boolean);
+          return (cj.data||[]).filter(function(b){var k=b.connection;return b.type!=='Channel'&&k&&k.connected_by&&k.connected_by.slug==='renaise'&&b.image&&b.image.small})
+            .map(function(b){return {id:b.id,img:b.image.small.src,t:title(b.title),d:b.connection.connected_at,ch:c.title};});
         });
     }));
   }).then(function(lists){
-    var seen={}, items=[].concat.apply([],lists).sort(function(a,b){return a.d<b.d?1:-1})
+    var seen={}, list=[].concat.apply([],lists).sort(function(x,y){return x.d<y.d?1:-1})
       .filter(function(b){return seen[b.id]?false:(seen[b.id]=1)}).slice(0,N);
-    draw(items); try{sessionStorage.setItem(KEY,JSON.stringify({at:Date.now(),items:items}))}catch(e){}
-  }).catch(function(){});
+    try{sessionStorage.setItem(KEY,JSON.stringify({at:Date.now(),items:list}))}catch(e){}
+    got(list);
+  }).catch(function(){got([])});
 })();
 </script>
 </body>

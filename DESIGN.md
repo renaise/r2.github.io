@@ -138,7 +138,12 @@ stays dark.
   crossfading through her latest image additions every
   4.5s. Hover, focus or a hidden tab holds it; reduced motion keeps it still. One caption line:
   channel, date dimmed, counter. The frame links to the block. Replaced the 12-up contact sheet
-  (2026-11-09: "a little awkward"), a boxed grid of thumbnails competing with the links. Hidden until
+  (2026-11-09: "a little awkward"), a boxed grid of thumbnails competing with the links.
+  **Four views** (2026-11-09), small text tabs beside the label that change ink only: Are.na
+  (the feed above), Moshpit ("Feed Aggregator") and Fielder ("Visual Researcher") play their
+  recorded covers filling the frame, Figma shows the public LAB + STAGE file's thumbnail
+  (`assets/signals/figma.jpg`, saved from Figma's oEmbed, refresh by hand). Arrow keys move
+  between tabs; the last view is remembered per browser; if Are.na fails its tab hides. Hidden until
   it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
   reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: the frame at 16:10, full width.
 
