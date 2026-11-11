@@ -129,23 +129,14 @@ stays dark.
   to two columns at 1240px and one under 900px (`gap:2.6rem`).
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
-- **Newsfeed (2026-11-08).** `.feed` ("Signals") in the rail is Are.na only: Renaise's latest public
-  blocks with an image, read live from the v3 API (`/users/renaise/contents`, then each block's
-  `/connections` for the channel name). Four of the blocks she most recently added (by `connected_at`, read from her four most recently
-  updated channels). One block at a time: a frame (`.sig`) that takes the rail's spare height (110 to 440px, never
-  scrolls) runs full bleed (past the gutter to the viewport edge and the rail's rule) and shows
-  the image whole (`contain`) over a frosted copy of itself (blown up, `blur(26px)`, dimmed),
-  crossfading through her latest image additions every
-  4.5s. Hover, focus or a hidden tab holds it; reduced motion keeps it still. One caption line:
-  channel, date dimmed, counter. The frame links to the block. Replaced the 12-up contact sheet
-  (2026-11-09: "a little awkward"), a boxed grid of thumbnails competing with the links.
-  **Four views** (2026-11-09), small text tabs beside the label that change ink only: Are.na
-  (the feed above), Moshpit ("Feed Aggregator") and Fielder ("Visual Researcher") play their
-  recorded covers filling the frame, Figma shows the public LAB + STAGE file's thumbnail
-  (`assets/signals/figma.jpg`, saved from Figma's oEmbed, refresh by hand). Arrow keys move
-  between tabs; the last view is remembered per browser; if Are.na fails its tab hides. Hidden until
-  it loads and stays hidden on failure, so it never shows a stale copy. Guest tier allows 30
-  reads/min per visitor; a load costs 5, cached 10 min in sessionStorage. Phones: the frame at 16:10, full width.
+- **Signals (2026-11-11).** `.feed` in the rail is the data visualization only. Two text tabs
+  beside the label, ink-only, Moshpit first and the default ("Feed Aggregator"), then Fielder
+  ("Visual Researcher"). Each plays its recorded map (`stage/<app>/cover.mp4`) filling a frame
+  (`.sig`) that takes the rail's spare height (110 to 440px, never scrolls), full bleed, over a
+  frosted copy of its poster. The frame links to the app. Arrow keys move between tabs; the last
+  view is remembered per browser. Renaise: "the left rail only should be the data visualization
+  otherwise it communicates nothing", so the Are.na feed and the Figma thumbnail (2026-11-08/09)
+  are gone. Phones: the frame at 16:10, full width.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and
