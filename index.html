@@ -408,10 +408,10 @@
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp.
      Two artworks, not one tinted: the dark mark is its own file. */
-  /* The logotype is Renaise's signature (assets/signature.png, 2026-11-11), used as a mask so it
-     takes the ink in both themes from one file. */
-  .side .brand .sig-mk{display:block;height:56px;aspect-ratio:720/351;background:var(--ink);
-    -webkit-mask:url(/assets/signature.png) left center/contain no-repeat;mask:url(/assets/signature.png) left center/contain no-repeat;}
+  /* The logotype is Renaise's signature, "Renaise Kim" in her hand (assets/signature.png, from
+     RENAISESIGNATURE.png, 2026-11-11), used as a mask so it takes the ink in both themes from one file. */
+  .side .brand .sig-mk{display:block;height:46px;aspect-ratio:1200/274;max-width:100%;background:var(--ink);
+    -webkit-mask:url(/assets/signature.png?v=2) left center/contain no-repeat;mask:url(/assets/signature.png?v=2) left center/contain no-repeat;}
   /* The rail's only links. No rules, no underline — color is the whole affordance. */
   /* Newsfeed. Takes the rail's spare height between the filters and the links and
      scrolls inside it; the bottom fades so a cut-off line reads as more, not as a crop. */
@@ -435,6 +435,11 @@
      blown up, blurred and dimmed, so any shape of image fills the frame without being cropped. */
   .sig{position:relative;display:block;flex:1 1 auto;min-height:110px;max-height:440px;overflow:hidden;
     margin:0 calc(-1 * var(--gut));}
+  /* Gradient blur: the clusters dissolve into a blur toward the frame's top and bottom edges. */
+  .sig::before,.sig::after{content:"";position:absolute;left:0;right:0;height:32%;z-index:2;pointer-events:none;
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}
+  .sig::before{top:0;-webkit-mask:linear-gradient(to bottom,#000 10%,transparent);mask:linear-gradient(to bottom,#000 10%,transparent);}
+  .sig::after{bottom:0;-webkit-mask:linear-gradient(to top,#000 10%,transparent);mask:linear-gradient(to top,#000 10%,transparent);}
   .sig .sl{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;}
   .sig .sl.on{opacity:1;}
   .sig .fg{position:absolute;inset:14px var(--gut);width:calc(100% - 2 * var(--gut));height:calc(100% - 28px);
@@ -616,7 +621,8 @@
     .side{flex-flow:row wrap;align-items:center;}
     /* Avatar and bio share the first row: mark on the left, text beside it, so the
        header opens on one line instead of a lone circle over a paragraph. */
-    .brand-h1{flex:0 0 auto;align-self:flex-start;}
+    .brand-h1{flex:1 0 100%;align-self:flex-start;}
+    .side .brand .sig-mk{height:40px;}
     .statement{flex:1 1 0;min-width:0;}
     .find,.filters{flex:1 0 100%;}
     .feed{flex:1 0 100%;}

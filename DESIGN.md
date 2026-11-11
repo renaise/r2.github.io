@@ -577,4 +577,4 @@ the `LIST` in the Artifacts script sets name, fit and ground per piece. Video pl
 screen and never under reduced motion. A tile opens its project's case study.
 Other artists' works shown in Artifice programs (e.g. The Garden series) are not artifacts here.
 
-- **Logotype (2026-11-11).** The rail brand is Renaise's signature (`assets/signature.png`, white on transparent, 720x351), drawn as a CSS mask filled with `--ink` (56px tall) so one file serves both themes. Replaced the round icon-192 / icon-dark-192 pair in the rail; the icons still serve as favicons.
+- **Logotype (2026-11-11).** The rail brand is Renaise's signature, "Renaise Kim" in her hand (`assets/signature.png`, made from RENAISESIGNATURE.png: ink inverted to alpha, 1200x274), drawn as a CSS mask filled with `--ink` so one file serves both themes. 46px tall; on phones it takes its own row at 40px. It replaced the round icon-192 pair, which still serves as the favicon. **Signals gradient blur:** `.sig::before/::after` blur the clusters with `backdrop-filter` (12px), masked to fade over the top and bottom 32% of the frame.
