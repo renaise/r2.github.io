@@ -575,3 +575,5 @@ in `/stage/<slug>/art/` (WebP for stills, 720p-or-smaller h264 with a .jpg poste
 the `LIST` in the Artifacts script sets name, fit and ground per piece. Video plays only on
 screen and never under reduced motion. A tile opens its project's case study.
 Other artists' works shown in Artifice programs (e.g. The Garden series) are not artifacts here.
+
+- **Logotype (2026-11-11).** The rail brand is Renaise's signature (`assets/signature.png`, white on transparent, 720x351), drawn as a CSS mask filled with `--ink` (56px tall) so one file serves both themes. Replaced the round icon-192 / icon-dark-192 pair in the rail; the icons still serve as favicons.

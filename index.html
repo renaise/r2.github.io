@@ -410,10 +410,10 @@
   .side .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
   /* the mark is the wordmark now — served from the 192px asset so it stays crisp.
      Two artworks, not one tinted: the dark mark is its own file. */
-  .side .brand img{height:52px;width:52px;}
-  .side .brand .mk-d{display:none;}
-  :root[data-theme="dark"] .side .brand .mk-l{display:none;}
-  :root[data-theme="dark"] .side .brand .mk-d{display:block;}
+  /* The logotype is Renaise's signature (assets/signature.png, 2026-11-11), used as a mask so it
+     takes the ink in both themes from one file. */
+  .side .brand .sig-mk{display:block;height:56px;aspect-ratio:720/351;background:var(--ink);
+    -webkit-mask:url(/assets/signature.png) left center/contain no-repeat;mask:url(/assets/signature.png) left center/contain no-repeat;}
   /* The rail's only links. No rules, no underline — color is the whole affordance. */
   /* Newsfeed. Takes the rail's spare height between the filters and the links and
      scrolls inside it; the bottom fades so a cut-off line reads as more, not as a crop. */
@@ -972,7 +972,7 @@ document.documentElement.className+=' js';
 <body>
   <div class="app">
     <aside class="side">
-      <h1 class="brand-h1"><a class="brand" href="/" aria-label="Renaise Kim, home"><img class="mk-l" src="/assets/icon-192.png" alt="" width="52" height="52" /><img class="mk-d" src="/assets/icon-dark-192.png" alt="" width="52" height="52" /><span class="sr">Renaise Kim · Visual Systems</span></a></h1>
+      <h1 class="brand-h1"><a class="brand" href="/" aria-label="Renaise Kim, home"><span class="sig-mk" aria-hidden="true"></span><span class="sr">Renaise Kim · Visual Systems</span></a></h1>
       <section class="statement">
         <p>Renaise is a designer and curator working from web to world<a class="fnref sm" id="fnref1" href="#fn1" aria-describedby="fn1"><sup>[&#8202;1&#8202;]</sup></a>: identity, product and data visualization for new technology to new productions.</p>
       </section>
