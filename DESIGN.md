@@ -131,7 +131,7 @@ stays dark.
 - Rail unpins to a stacked header under 900px.
 - **Signals (2026-11-11).** `.feed` in the rail is the data visualization only. Two text tabs
   beside the label, ink-only, Moshpit first and the default ("Feed Aggregator"), then Fielder
-  ("Visual Researcher"). Each plays its recorded map (`stage/<app>/cover.mp4`) filling a frame
+  ("Visual Researcher"). Each plays its vector clusters only (`stage/<app>/clusters.mp4`, cropped from `cover.mp4` with no app chrome, shown whole) in a frame
   (`.sig`) that takes the rail's spare height (110 to 440px, never scrolls), full bleed, over a
   frosted copy of its poster. The frame links to the app. Arrow keys move between tabs; the last
   view is remembered per browser. Renaise: "the left rail only should be the data visualization
