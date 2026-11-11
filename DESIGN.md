@@ -129,14 +129,15 @@ stays dark.
   to two columns at 1240px and one under 900px (`gap:2.6rem`).
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
-- **Signals (2026-11-11).** `.feed` in the rail is the data visualization only. Two text tabs
-  beside the label, ink-only, Moshpit first and the default ("Feed Aggregator"), then Fielder
-  ("Visual Researcher"). Each plays its vector clusters only (`stage/<app>/clusters.mp4`, cropped from `cover.mp4` with no app chrome, shown whole; played forward then reversed at 0.8x, so ~20s Moshpit / ~29s Fielder with a seamless loop) in a frame
-  (`.sig`) that takes the rail's spare height (110 to 440px, never scrolls), full bleed, over a
-  frosted copy of its poster. The frame links to the app. Arrow keys move between tabs; the last
-  view is remembered per browser. Renaise: "the left rail only should be the data visualization
-  otherwise it communicates nothing", so the Are.na feed and the Figma thumbnail (2026-11-08/09)
-  are gone. Phones: the frame at 16:10, full width.
+- **Signals (2026-11-11).** `.feed` in the rail is the data visualization only: two ink-only text
+  tabs, Moshpit first and the default, then Fielder, over the vector clusters. No label and no
+  caption (removed 2026-11-11 at Renaise's request). The clusters have no background: the black is
+  keyed out of `stage/<app>/clusters.mp4` (cropped from `cover.mp4`, played forward then reversed
+  at 0.8x) into transparent video, `clusters.webm` (VP9 alpha) for Chrome + Firefox and
+  `clusters-alpha.mov` (HEVC alpha) for Safari, which plays WebM but drops the alpha; a UA test picks
+  one. `clusters.png` is the transparent poster. The video fills the frame (`cover`), and the frame
+  (110 to 440px tall, full bleed) links to the app. Arrow keys move between tabs; the last view is
+  remembered per browser. Phones: the frame at 16:10, full width.
 
 **Every rule on the page is a 1px dotted border on `--line`.** Zero solid borders, zero
 box-shadows. Straight rules and curves alike — the switch track, the plate hover outline and

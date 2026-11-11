@@ -61,7 +61,6 @@
      dark, and the switch is the only thing that changes it. */
   :root{
     --ink:#b0b0b0;
-    --sig-a:#4e4e4e; --sig-b:#242424;
     --sw2:rgba(176,176,176,0.96); --sw3:rgba(176,176,176,0.86); --sw4:rgba(176,176,176,0.80);
     --accent:#ffffff; --bg1:#161718; --tile:#101010;
     --line:rgba(176,176,176,0.42);
@@ -127,7 +126,6 @@
      --tile is unchanged — the plates are dark in both themes by design. */
   :root[data-theme="light"]{
     --ink:#4a4a4a;
-    --sig-a:#f6f6f6; --sig-b:#cfcfcf;
     --sw2:rgba(76,76,76,0.98); --sw3:rgba(76,76,76,0.92); --sw4:rgba(76,76,76,0.86);
     --accent:#2e2e2e; --bg1:#e9e9e9; --line:rgba(92,92,92,0.42);
     --chip:#f6f6f6; --chip-ink:#1a1a1a;
@@ -420,7 +418,6 @@
   /* Signals: the rail's data visualization. The frame takes all the rail's spare height (so it
      never scrolls) and plays one app's map over a frosted copy of itself. */
   .feed{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:.55rem;}
-  .feed-h{margin:0;font-family:var(--sans);font-size:.62rem;font-weight:400;letter-spacing:.03em;color:var(--sw4);}
   /* Two views share the frame. The tabs change ink only, never weight or width, so
      nothing in the rail moves when one is picked. */
   .sig-head{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;}
@@ -432,22 +429,16 @@
   .sig-tabs button[aria-selected="true"]{color:var(--ink);opacity:1;}
   /* The recordings are cropped to the vector clusters alone (stage/<app>/clusters.mp4, cut from
      cover.mp4: no search bar, no rail, no menus). Shown whole so no cluster is cut off. */
-  .sig video.fg{inset:0;width:100%;height:100%;object-fit:contain;filter:none;background:#000;}
+  .sig video.fg{inset:0;width:100%;height:100%;object-fit:cover;filter:none;background:none;}
   /* Full bleed: the frame runs past the rail's gutter to both of its edges (left to the
      viewport, right to the rail's dotted rule). Behind each image is a frosted copy of itself,
      blown up, blurred and dimmed, so any shape of image fills the frame without being cropped. */
   .sig{position:relative;display:block;flex:1 1 auto;min-height:110px;max-height:440px;overflow:hidden;
-    margin:0 calc(-1 * var(--gut));background:var(--sig-b);}
+    margin:0 calc(-1 * var(--gut));}
   .sig .sl{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;}
   .sig .sl.on{opacity:1;}
-  .sig .bg{position:absolute;inset:-12%;width:124%;height:124%;object-fit:cover;
-    filter:blur(26px) saturate(1.25) brightness(.72);transform:translateZ(0);}
   .sig .fg{position:absolute;inset:14px var(--gut);width:calc(100% - 2 * var(--gut));height:calc(100% - 28px);
     object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.28));}
-  .sig-cap{margin:0;display:flex;gap:.5rem;align-items:baseline;min-width:0;font-family:var(--sans);font-size:.7rem;line-height:1.3;}
-  .sig-cap .ch{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--sw2);min-width:0;}
-  .sig-cap time,.sig-cap .n{flex:0 0 auto;color:var(--sw4);opacity:.6;font-variant-numeric:tabular-nums;font-size:.62rem;letter-spacing:.03em;}
-  .sig-cap .n{margin-left:auto;}
   @media(prefers-reduced-motion:reduce){ .sig .sl{transition:none;} }
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
     align-items:baseline;}
@@ -994,16 +985,14 @@ document.documentElement.className+=' js';
       <!-- Signals: the data visualization only. Moshpit and Fielder each play a recording of
            their map; anything else in this frame (Are.na saves, the Figma file) said nothing
            about the work, so it was taken out 2026-11-11. -->
-      <section class="feed" aria-labelledby="feed-h" hidden>
+      <section class="feed" aria-label="Signals" hidden>
         <div class="sig-head">
-          <h2 class="feed-h" id="feed-h">Signals</h2>
           <div class="sig-tabs" role="tablist" aria-label="Signals">
             <button type="button" role="tab" data-v="moshpit" aria-selected="true">Moshpit</button>
             <button type="button" role="tab" data-v="fielder" aria-selected="false">Fielder</button>
           </div>
         </div>
-        <a class="sig" role="tabpanel" aria-labelledby="feed-h" target="_blank" rel="noopener"></a>
-        <p class="sig-cap"><span class="ch"></span><time></time><span class="n" aria-hidden="true"></span></p>
+        <a class="sig" role="tabpanel" target="_blank" rel="noopener"></a>
       </section>
       <div class="acts">
         <a href="mailto:krenaise@gmail.com"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14"/><path d="M2.5 5.5 12 13l9.5-7.5"/></svg></span><span class="tx">Email</span> <span class="ar" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M1.6 14.4 14.4 1.6" /><path d="M5.4 1.6H14.4V10.6" /></svg></span></a>
@@ -2381,25 +2370,26 @@ document.documentElement.className+=' js';
 
 <script>
 /* Signals: the data visualization, nothing else. Moshpit (first, the default) and Fielder each
-   play a recording of their map over a frosted copy of its poster. The last view picked is
+   play their vector clusters with no background, filling the frame. No label, no caption. The last view picked is
    remembered per browser. */
 (function(){
   var sec=document.querySelector('.feed'); if(!sec) return;
-  var a=sec.querySelector('.sig'), cap=sec.querySelector('.sig-cap'), tabs=sec.querySelectorAll('.sig-tabs button');
+  var a=sec.querySelector('.sig'), tabs=sec.querySelectorAll('.sig-tabs button');
+  // The clusters float on the rail with no background: transparent video, VP9 alpha (WebM) for
+  // Chrome + Firefox, HEVC alpha (.mov) for Safari, which plays WebM but drops its alpha.
+  var SAFARI=/^((?!chrome|chromium|crios|fxios|android).)*safari/i.test(navigator.userAgent);
   var VKEY='signals-view', still=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var VIEWS={
-    moshpit:{href:'https://moshpit.codexfoundry.com/',video:'/stage/moshpit/clusters.mp4?v=2',poster:'/stage/moshpit/clusters.jpg?v=1',ch:'Moshpit',sub:'Feed Aggregator',label:'Moshpit, a feed aggregator, its map of images'},
-    fielder:{href:'https://fielder.pages.dev/',video:'/stage/fielder/clusters.mp4?v=2',poster:'/stage/fielder/clusters.jpg?v=1',ch:'Fielder',sub:'Visual Researcher',label:'Fielder, a visual researcher, its map of images'}
+    moshpit:{href:'https://moshpit.codexfoundry.com/',webm:'/stage/moshpit/clusters.webm?v=1',mov:'/stage/moshpit/clusters-alpha.mov?v=1',poster:'/stage/moshpit/clusters.png?v=1',ch:'Moshpit',sub:'Feed Aggregator',label:'Moshpit, a feed aggregator, its map of images'},
+    fielder:{href:'https://fielder.pages.dev/',webm:'/stage/fielder/clusters.webm?v=1',mov:'/stage/fielder/clusters-alpha.mov?v=1',poster:'/stage/fielder/clusters.png?v=1',ch:'Fielder',sub:'Visual Researcher',label:'Fielder, a visual researcher, its map of images'}
   };
   function pick(v){
     if(!VIEWS[v]) v='moshpit';
     var s=VIEWS[v];
     [].forEach.call(tabs,function(t){t.setAttribute('aria-selected',t.dataset.v===v?'true':'false'); t.tabIndex=t.dataset.v===v?0:-1;});
     try{localStorage.setItem(VKEY,v)}catch(e){}
-    a.innerHTML='<span class="sl on"><img class="bg" src="'+s.poster+'" alt="" aria-hidden="true">'+
-      '<video class="fg" src="'+s.video+'" poster="'+s.poster+'" muted loop playsinline'+(still?'':' autoplay')+' aria-hidden="true"></video></span>';
+    a.innerHTML='<span class="sl on"><video class="fg" src="'+(SAFARI?s.mov:s.webm)+'" poster="'+s.poster+'" muted loop playsinline'+(still?'':' autoplay')+' aria-hidden="true"></video></span>';
     a.href=s.href; a.setAttribute('aria-label',s.label);
-    cap.querySelector('.ch').textContent=s.ch; cap.querySelector('time').textContent=s.sub; cap.querySelector('.n').textContent='';
     view=v;
   }
   var view='moshpit';
