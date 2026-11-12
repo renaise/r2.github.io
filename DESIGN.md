@@ -132,7 +132,8 @@ stays dark.
 - **Signals (2026-11-11).** `.feed` in the rail is the data visualization only: two ink-only text
   tabs, Moshpit first and the default, then Fielder, over the vector clusters. No label and no
   caption (removed 2026-11-11 at Renaise's request). The clusters have no background and are recorded at 2x: the live
-  app at a 640px viewport (so no labels), UI hidden, stepped one frame at a time on a manual clock,
+  app at a 1000px viewport (2000px canvas; field.js's `this.w > 640` label check patched out in the
+  recorder so no labels draw), cropped to the settled map so the clusters fill the frame, ~34s loop at 860px/24fps, UI hidden, stepped one frame at a time on a manual clock,
   cropped to the clusters, played forward then reversed at 0.8x, with the black keyed out into transparent video, `clusters.webm` (VP9 alpha) for Chrome + Firefox and
   `clusters-alpha.mov` (HEVC alpha) for Safari, which plays WebM but drops the alpha; a UA test picks
   one. `clusters.png` is the transparent poster. The video fills the frame (`cover`), and the frame
@@ -578,3 +579,5 @@ screen and never under reduced motion. A tile opens its project's case study.
 Other artists' works shown in Artifice programs (e.g. The Garden series) are not artifacts here.
 
 - **Logotype (2026-11-11).** The rail brand is Renaise's scanned "R" signature (`assets/signature.svg`, traced with potrace from Dope_Ass_Signature 3.png so it stays crisp at any size), drawn as a CSS mask filled with `--ink` so one file serves both themes, 56px tall. The signature lives in the rail only; the About wordmark stays the word "Renaise" in type (Renaise, 2026-11-11: "its renaise or my signature"). Never use RENAISESIGNATURE.png (the "Renaise Kim" script): Renaise calls it her fake signature. It replaced the round icon-192 pair, which still serves as the favicon. **Signals gradient blur:** `.sig::before/::after` blur the clusters with `backdrop-filter` (12px), masked to fade over the top and bottom 32% of the frame.
+
+- **Lighthouse cover + plate (2026-11-12).** The old 5s clip scrolled into an unrendered dark page and snapped back. Re-recorded at 2x from lighthousehq.com: scrolled by `scrollTo` one frame at a time (so the reveal animations fire), held on the hero, eased through every section to the footer, about 12.6s. Plate 2560x1440 (crf 26), cover 1440x810; links carry `?v=2`.
