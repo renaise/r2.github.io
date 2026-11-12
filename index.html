@@ -427,8 +427,8 @@
   .sig-tabs button::after{content:"";position:absolute;inset:-12px -4px;}
   .sig-tabs button:hover{opacity:1;}
   .sig-tabs button[aria-selected="true"]{color:var(--ink);opacity:1;}
-  /* The recordings are cropped to the vector clusters alone (stage/<app>/clusters.mp4, cut from
-     cover.mp4: no search bar, no rail, no menus). Shown whole so no cluster is cut off. */
+  /* The recordings are the vector clusters alone, captured from the live apps at 2x with every
+     control hidden (no search bar, no rail, no menus). Shown whole so no cluster is cut off. */
   .sig video.fg{inset:0;width:100%;height:100%;object-fit:cover;filter:none;background:none;}
   /* Full bleed: the frame runs past the rail's gutter to both of its edges (left to the
      viewport, right to the rail's dotted rule). Behind each image is a frosted copy of itself,
@@ -2385,8 +2385,8 @@ document.documentElement.className+=' js';
   var SAFARI=/^((?!chrome|chromium|crios|fxios|android).)*safari/i.test(navigator.userAgent);
   var VKEY='signals-view', still=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var VIEWS={
-    moshpit:{href:'https://moshpit.codexfoundry.com/',webm:'/stage/moshpit/clusters.webm?v=1',mov:'/stage/moshpit/clusters-alpha.mov?v=1',poster:'/stage/moshpit/clusters.png?v=1',ch:'Moshpit',sub:'Feed Aggregator',label:'Moshpit, a feed aggregator, its map of images'},
-    fielder:{href:'https://fielder.pages.dev/',webm:'/stage/fielder/clusters.webm?v=1',mov:'/stage/fielder/clusters-alpha.mov?v=1',poster:'/stage/fielder/clusters.png?v=1',ch:'Fielder',sub:'Visual Researcher',label:'Fielder, a visual researcher, its map of images'}
+    moshpit:{href:'https://moshpit.codexfoundry.com/',webm:'/stage/moshpit/clusters.webm?v=2',mov:'/stage/moshpit/clusters-alpha.mov?v=2',poster:'/stage/moshpit/clusters.png?v=2',ch:'Moshpit',sub:'Feed Aggregator',label:'Moshpit, a feed aggregator, its map of images'},
+    fielder:{href:'https://fielder.pages.dev/',webm:'/stage/fielder/clusters.webm?v=2',mov:'/stage/fielder/clusters-alpha.mov?v=2',poster:'/stage/fielder/clusters.png?v=2',ch:'Fielder',sub:'Visual Researcher',label:'Fielder, a visual researcher, its map of images'}
   };
   function pick(v){
     if(!VIEWS[v]) v='moshpit';

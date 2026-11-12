@@ -131,9 +131,9 @@ stays dark.
 - Rail unpins to a stacked header under 900px.
 - **Signals (2026-11-11).** `.feed` in the rail is the data visualization only: two ink-only text
   tabs, Moshpit first and the default, then Fielder, over the vector clusters. No label and no
-  caption (removed 2026-11-11 at Renaise's request). The clusters have no background: the black is
-  keyed out of `stage/<app>/clusters.mp4` (cropped from `cover.mp4`, played forward then reversed
-  at 0.8x) into transparent video, `clusters.webm` (VP9 alpha) for Chrome + Firefox and
+  caption (removed 2026-11-11 at Renaise's request). The clusters have no background and are recorded at 2x: the live
+  app at a 640px viewport (so no labels), UI hidden, stepped one frame at a time on a manual clock,
+  cropped to the clusters, played forward then reversed at 0.8x, with the black keyed out into transparent video, `clusters.webm` (VP9 alpha) for Chrome + Firefox and
   `clusters-alpha.mov` (HEVC alpha) for Safari, which plays WebM but drops the alpha; a UA test picks
   one. `clusters.png` is the transparent poster. The video fills the frame (`cover`), and the frame
   (110 to 440px tall, full bleed) links to the app. Arrow keys move between tabs; the last view is
