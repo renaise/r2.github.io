@@ -131,7 +131,13 @@ stays dark.
 - Rail unpins to a stacked header under 900px.
 - **Signals (2026-11-11).** `.feed` in the rail is the data visualization only: two ink-only text
   tabs, Moshpit first and the default, then Fielder, over the vector clusters. No label and no
-  caption (removed 2026-11-11 at Renaise's request). The clusters have no background and are recorded at 2x: the live
+  caption (removed 2026-11-11 at Renaise's request). **Moshpit (2026-11-13)** is no longer a recording of
+  the app: it is rendered from Renaise's own work, 312 images (every still in `stage/` plus frames
+  from each cover/plate video), embedded with Moshpit's own CLIP worker and placed by a 3D UMAP. They
+  ease from a scatter into clusters, hold, and ease back while the map turns one full revolution, so
+  the 34s loop has no seam and no jumps. It is drawn with real alpha (no black key), so dark UI
+  screenshots stay whole. Renderer: scratchpad `render.py`, nothing in Moshpit's repo changed.
+  Fielder is still the app recording below. The clusters have no background and are recorded at 2x: the live
   app at a 1000px viewport (2000px canvas; field.js's `this.w > 640` label check patched out in the
   recorder so no labels draw), cropped to the settled map so the clusters fill the frame, ~34s loop at 860px/24fps, UI hidden, stepped one frame at a time on a manual clock,
   cropped to the clusters, played forward then reversed at 0.8x, with the black keyed out into transparent video, `clusters.webm` (VP9 alpha) for Chrome + Firefox and
