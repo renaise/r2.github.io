@@ -137,6 +137,10 @@ stays dark.
   ease from a scatter into clusters, hold, and ease back while the map turns one full revolution, so
   the 34s loop has no seam and no jumps. It is drawn with real alpha (no black key), so dark UI
   screenshots stay whole. Renderer: scratchpad `render.py`, nothing in Moshpit's repo changed.
+  Each cluster carries a label (2026-11-13, so the viewer knows what they are looking at): the one or
+  two projects it mostly holds and its image count, Helvetica Neue Medium in a dark pill so it reads
+  on both themes. Labels turn with the map, fade in as the clusters settle, and a label that would
+  collide with a nearer one fades out.
   Fielder is still the app recording below. The clusters have no background and are recorded at 2x: the live
   app at a 1000px viewport (2000px canvas; field.js's `this.w > 640` label check patched out in the
   recorder so no labels draw), cropped to the settled map so the clusters fill the frame, ~34s loop at 860px/24fps, UI hidden, stepped one frame at a time on a manual clock,
