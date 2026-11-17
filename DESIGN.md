@@ -591,3 +591,7 @@ Other artists' works shown in Artifice programs (e.g. The Garden series) are not
 - **Logotype (2026-11-11).** The rail brand is Renaise's scanned "R" signature (`assets/signature.svg`, traced with potrace from Dope_Ass_Signature 3.png so it stays crisp at any size), drawn as a CSS mask filled with `--ink` so one file serves both themes, 56px tall. The signature lives in the rail only; the About wordmark stays the word "Renaise" in type (Renaise, 2026-11-11: "its renaise or my signature"). Never use RENAISESIGNATURE.png (the "Renaise Kim" script): Renaise calls it her fake signature. It replaced the round icon-192 pair, which still serves as the favicon. **Signals gradient blur:** `.sig::before/::after` blur the clusters with `backdrop-filter` (12px), masked to fade over the top and bottom 32% of the frame.
 
 - **Lighthouse cover + plate (2026-11-12).** The old 5s clip scrolled into an unrendered dark page and snapped back. Re-recorded at 2x from lighthousehq.com: scrolled by `scrollTo` one frame at a time (so the reveal animations fire), held on the hero, eased through every section to the footer, about 12.6s. Plate 2560x1440 (crf 26), cover 1440x810; links carry `?v=2`.
+
+## 2026-11-17 · Selected work sequence
+
+The opening sequence is Idler, Osmosis, SOOT: identity at launch, brand across surfaces, then brand in product. CMS ordering applies after these three. Existing typography, media, filters + the rest of the archive are preserved. Titles describe delivered systems; no new performance metrics or principal-level job title are claimed.
