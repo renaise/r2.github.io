@@ -941,6 +941,52 @@
   @media(prefers-reduced-motion:reduce){
     .cs,.wrap{transition:none;}
   }
+
+  /* Portfolio reading pass: images first, measured prose, touch-sized controls. */
+  .layout{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.8rem;row-gap:3.8rem;}
+  .work-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding:0 0 1.15rem;margin-bottom:1.4rem;border-bottom:1px dotted var(--line);}
+  .work-heading h2{font-size:.78rem;font-weight:500;margin:0;letter-spacing:.02em;}
+  .work-heading span{font-size:.72rem;color:var(--sw4);}
+  .c1 .t{font-size:1.04rem;line-height:1.35;}
+  .c1 .m{font-size:.78rem;line-height:1.4;margin-top:.35rem;}
+  .cols{gap:.8rem;}
+  .cs-intro{font-family:var(--serif);font-size:clamp(1.08rem,1.2vw,1.35rem);line-height:1.5;max-width:62ch;margin:1.6rem 0 2rem;color:var(--prose-ink);text-wrap:pretty;}
+  .cs-sec{margin-bottom:2.6rem;}
+  .cs-sec p{font-size:clamp(1rem,.85rem + .25vw,1.12rem);line-height:1.58;max-width:66ch;text-wrap:pretty;}
+  .cs-ledger dd{font-size:.82rem;line-height:1.45;max-width:36ch;}
+  .cs-lbl{font-size:.68rem;line-height:1.5;}
+  .cs-shot figcaption{font-size:.8rem;line-height:1.5;max-width:72ch;}
+  .cs-mast .claim{max-width:48ch;line-height:1.35;}
+  .cs-top a,.cs-top button{min-height:36px;display:inline-flex;align-items:center;}
+  .cs-crumb li{align-items:center;}
+  .mobile-signals{display:none;}
+  a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:5px;}
+  @media(min-width:1800px){.layout{grid-template-columns:repeat(3,minmax(0,1fr));}}
+  @media(max-width:900px){
+    .layout{grid-template-columns:repeat(2,minmax(0,1fr));gap:2.8rem 1.4rem;}
+    .side{gap:.85rem;}
+    .side .foot{display:none;}
+    .wrap{padding-top:1.3rem;}
+    .work-heading{margin-bottom:1.2rem;padding-bottom:1rem;}
+    .mobile-signals:has(.feed){display:block;margin:3rem 0;padding:1.5rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);}
+    .mobile-signals .sig{aspect-ratio:16/8;max-height:300px;}
+    .mobile-signals .sig-tabs button{min-height:44px;}
+    .filters button,.filters a{min-height:44px;}
+    .cs-top a,.cs-top button{min-height:44px;}
+  }
+  @media(max-width:600px){
+    .layout{grid-template-columns:1fr;gap:2.8rem;}
+    .work-heading span{font-size:.65rem;}
+    .statement p{font-size:.96rem;line-height:1.4;}
+    .side .brand .sig-mk{height:42px;}
+    .cs-mast{padding-top:1.6rem;}
+    .cs-intro{font-size:1.1rem;line-height:1.5;margin:1.3rem 0 1.6rem;}
+    .cs-sec p{font-size:1rem;line-height:1.55;}
+    .cs-ledger{gap:1.1rem 1.4rem;}
+    .cs-ledger > div{flex:1 1 40%;}
+    .cs-body{padding-bottom:3rem;}
+  }
+
 </style>
 <script>
 // Runs before first paint: resolves the theme so the page never flashes the wrong one.
@@ -1011,7 +1057,8 @@ document.documentElement.className+=' js';
     </aside>
 
     <main class="wrap">
-    <section class="card" id="work">
+    <section class="card" id="work" aria-labelledby="work-title">
+      <header class="work-heading"><h2 id="work-title">Selected work</h2><span>Brand systems + digital products</span></header>
       <div class="layout">
       
 
@@ -1027,7 +1074,7 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/soot/cover.jpg)"><video class="cover fill" src="/stage/soot/cover.mp4" muted loop playsinline preload="none" poster="/stage/soot/cover.jpg"></video><img class="sys" src="/stage/soot/system.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>SOOT</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/soot.png);--r:3.926"></span></span><span class="yr">2024–25</span></div><div class="c1"><span class="t">A Design System for a Self-Sorting Library</span><br><span class="m">Lead Product Designer</span></div></div>
       </a>
-      <a class="proj" data-slug="flora" data-cat="interface" href="https://studioartifice.com/work/flora/">
+      <a class="proj" data-slug="flora" data-cat="interface" href="/flora/">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/flora/cover.jpg)"><video class="cover fill" src="/stage/flora/cover.mp4?v=loop" muted loop playsinline preload="none" poster="/stage/flora/cover.jpg" aria-label="FLORA, the home screen moving into the canvas"></video><img class="sys" src="/stage/flora/system.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>FLORA</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/flora.svg);--r:6.257"></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">Conceptualizing Low Rank Adaptors and Node Orchestration</span><br><span class="m">Founding Designer</span></div></div>
       </a>
@@ -1039,7 +1086,7 @@ document.documentElement.className+=' js';
         <div class="media" aria-hidden="true" style="--poster:url(/stage/depictions-of-original-sin/cover.jpg)"><video class="cover fill" src="/stage/depictions-of-original-sin/cover.mp4" muted loop playsinline preload="none" poster="/stage/depictions-of-original-sin/cover.jpg" aria-label="Google DeepMind Veo, the current site"></video><img class="sys" src="/stage/depictions-of-original-sin/system.jpg" alt="" loading="lazy"><span class="tag">Production</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Google Labs (Veo 3)</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/depictions-of-original-sin.svg);--r:6.849"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span></div></div>
       </a>
-      <a class="proj" data-slug="biota" data-cat="interface" href="https://p-biota.pages.dev/#prototype">
+      <a class="proj" data-slug="biota" data-cat="interface" href="/biota/">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/biota/cover.jpg)"><video class="cover fill" src="/stage/biota/cover.mp4" muted loop playsinline preload="none" poster="/stage/biota/cover.jpg" aria-label="BIOTA M1 prototype: the feed, the compose screen with its tone presets, and a profile mid-generation"></video><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/biota.png);--r:1.007"></span><b>Seed Everything</b></span><span class="yr">2025</span></div><div class="c1"><span class="t">Imagine Anything, Seed Everything</span><br><span class="m">Designer</span></div></div>
       </a>
@@ -1094,6 +1141,8 @@ document.documentElement.className+=' js';
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
     </section>
+
+    <div class="mobile-signals" id="mobile-signals"></div>
 
     <!-- Artifacts: what the projects produced, shown on their own. A section, not a
          filter: they are a different kind of thing from the projects above. -->
@@ -1830,13 +1879,15 @@ document.documentElement.className+=' js';
       + (d.year?'<div><dt>Year</dt><dd class="yr">'+esc(d.year)+'</dd></div>':'')
       + (d.client?'<div><dt>Client</dt><dd>'+esc(d.client)+'</dd></div>':'')
       + (d.medium?'<div><dt>Medium</dt><dd>'+esc(d.medium)+'</dd></div>':'')
+      + (d.status?'<div><dt>Status</dt><dd>'+esc(d.status)+'</dd></div>':'')
       + linkField
       + '</dl>';
+    if(d.hook) out+='<p class="cs-intro">'+esc(d.hook)+'</p>';
     out+=plate(card,d);
     // The hook opens the case study as its Overview, then the four-part text follows
     // where it exists; without it, the hook is the overview and that is the whole entry.
     if(d.problem||d.process||d.solution||d.impact){
-      out+=section('Overview',d.hook)+section('Problem',d.problem);
+      out+=section('Problem',d.problem);
       if(d.compare&&d.compare.rows){
         out+='<section class="cs-sec cs-sys"><div class="cs-lbl">'+esc(d.compare.label||'Compare')+'</div><table class="cs-type"><thead><tr>'
           + d.compare.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')+'</tr></thead><tbody>'
@@ -1854,8 +1905,6 @@ document.documentElement.className+=' js';
       }
       out+=section('Process',d.process)
          + section('Solution',d.solution)+section('Impact',d.impact);
-    }else if(d.hook){
-      out+=section('Overview',d.hook);
     }
     if(d.team&&d.team.length){
       out+='<section class="cs-sec"><div class="cs-lbl">Team</div><dl class="cs-pairs" style="--n:'+Math.min(d.team.length,4)+'">'
@@ -2408,6 +2457,16 @@ document.documentElement.className+=' js';
   });
   var saved=null; try{saved=localStorage.getItem(VKEY)}catch(e){}
   sec.hidden=false; pick(saved);
+})();
+</script>
+<script>
+// Keep the experiments available without putting them ahead of work on a phone.
+(function(){
+  var feed=document.querySelector('.feed'),slot=document.getElementById('mobile-signals'),side=document.querySelector('.side'),acts=document.querySelector('.acts');
+  if(!feed||!slot||!side||!acts)return;
+  var mq=matchMedia('(max-width:900px)');
+  function place(){if(mq.matches)slot.appendChild(feed);else side.insertBefore(feed,acts);}
+  place();mq.addEventListener('change',place);
 })();
 </script>
 </body>

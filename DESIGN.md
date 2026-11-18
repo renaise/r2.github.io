@@ -595,3 +595,9 @@ Other artists' works shown in Artifice programs (e.g. The Garden series) are not
 ## 2026-11-17 · Selected work sequence
 
 The opening sequence is Idler, Osmosis, SOOT: identity at launch, brand across surfaces, then brand in product. CMS ordering applies after these three. Existing typography, media, filters + the rest of the archive are preserved. Titles describe delivered systems; no new performance metrics or principal-level job title are claimed.
+
+## 2026-11-18 · Portfolio reading pass
+
+The work grid is two columns from 601–1799px (three on very wide screens); one below 601px. This gives identity and interface artifacts room to read. Selected work has a quiet header. Signals move below the work grid on mobile rather than delaying the first project. Case-study overview sits before the hero, followed by 16–18px measured prose, named roles, credits and explicit status. No new colors or typefaces.
+
+Benchmarks reviewed: victorbranddesigner.com (clear role/agency attribution) and rorymccormick.ie (selected work + named disciplines). These informed hierarchy, not copied styling.
