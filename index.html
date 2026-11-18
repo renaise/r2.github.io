@@ -1039,8 +1039,8 @@ document.documentElement.className+=' js';
       <section class="feed" aria-label="Signals" hidden>
         <div class="sig-head">
           <div class="sig-tabs" role="tablist" aria-label="Signals">
-            <button type="button" role="tab" data-v="moshpit" aria-selected="true">Moshpit</button>
-            <button type="button" role="tab" data-v="fielder" aria-selected="false">Fielder</button>
+            <button type="button" role="tab" data-v="moshpit" aria-selected="true">Artifacts</button>
+            <button type="button" role="tab" data-v="fielder" aria-selected="false">Field</button>
           </div>
         </div>
         <a class="sig" role="tabpanel" target="_blank" rel="noopener"></a>
@@ -2436,8 +2436,8 @@ document.documentElement.className+=' js';
   var SAFARI=/^((?!chrome|chromium|crios|fxios|android).)*safari/i.test(navigator.userAgent);
   var VKEY='signals-view', still=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var VIEWS={
-    moshpit:{href:'https://moshpit.codexfoundry.com/',webm:'/stage/moshpit/clusters.webm?v=5',mov:'/stage/moshpit/clusters-alpha.mov?v=5',poster:'/stage/moshpit/clusters.png?v=5',ch:'Moshpit',sub:'Feed Aggregator',label:'Moshpit, a feed aggregator, its map of images'},
-    fielder:{href:'https://fielder.pages.dev/',webm:'/stage/fielder/clusters.webm?v=3',mov:'/stage/fielder/clusters-alpha.mov?v=3',poster:'/stage/fielder/clusters.png?v=3',ch:'Fielder',sub:'Visual Researcher',label:'Fielder, a visual researcher, its map of images'}
+    moshpit:{href:'https://moshpit.codexfoundry.com/',webm:'/stage/moshpit/clusters.webm?v=5',mov:'/stage/moshpit/clusters-alpha.mov?v=5',poster:'/stage/moshpit/clusters.png?v=5',ch:'Artifacts',sub:'Feed Aggregator',label:'Artifacts: every image from this work, grouped by how it looks, in Moshpit'},
+    fielder:{href:'https://fielder.pages.dev/',webm:'/stage/fielder/clusters.webm?v=3',mov:'/stage/fielder/clusters-alpha.mov?v=3',poster:'/stage/fielder/clusters.png?v=3',ch:'Field',sub:'Visual Researcher',label:'Field: Fielder, a visual researcher, its map of images'}
   };
   function pick(v){
     if(!VIEWS[v]) v='moshpit';

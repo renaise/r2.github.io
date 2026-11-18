@@ -130,7 +130,7 @@ stays dark.
 - Project rows `1fr 3fr`. Plates locked to `aspect-ratio:16/9`, `border-radius:4px`.
 - Rail unpins to a stacked header under 900px.
 - **Signals (2026-11-11).** `.feed` in the rail is the data visualization only: two ink-only text
-  tabs, Moshpit first and the default, then Fielder, over the vector clusters. No label and no
+  tabs, Artifacts (the Moshpit view) first and the default, then Field (the Fielder view), renamed 2026-11-17, over the vector clusters. No label and no
   caption (removed 2026-11-11 at Renaise's request). **Moshpit (2026-11-13)** is no longer a recording of
   the app: it is rendered from Renaise's own work, 312 images (every still in `stage/` plus frames
   from each cover/plate video), embedded with Moshpit's own CLIP worker and placed by a 3D UMAP. They
