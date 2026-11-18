@@ -26,3 +26,5 @@ Lead with delivered systems + individual scope, without invented business metric
 - 2026-11-18: Visual reading pass: larger two-column plates, work heading, mobile Signals relocation, case intro before hero, readable prose + explicit status; responsive QA pending.
 
 - 2026-11-18: QA passed at 1440, 768, 390 + 320px: no document/panel overflow or JavaScript errors. LinkedIn fix 4aa0a1b verified live; homepage FLORA 404 replaced with existing local case route, Biota card points to public overview instead of restricted prototype. External 403/999 responses are access restrictions, not asserted as dead links.
+
+- 2026-11-18: Cut portfolio copy to concrete work: rewrote introduction, 18 project titles/hooks + three lead case studies; preserved attribution, status + links.
