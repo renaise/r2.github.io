@@ -601,3 +601,5 @@ The opening sequence is Idler, Osmosis, SOOT: identity at launch, brand across s
 The work grid is two columns from 601–1799px (three on very wide screens); one below 601px. This gives identity and interface artifacts room to read. Selected work has a quiet header. Signals move below the work grid on mobile rather than delaying the first project. Case-study overview sits before the hero, followed by 16–18px measured prose, named roles, credits and explicit status. No new colors or typefaces.
 
 Benchmarks reviewed: victorbranddesigner.com (clear role/agency attribution) and rorymccormick.ie (selected work + named disciplines). These informed hierarchy, not copied styling.
+
+- **AFXHQ slated (2026-11-17).** Removed from the work grid at Renaise's request and locked: its record keeps only name, year, title, role and medium, and the case study opens to a Private note with a request-access link. The full copy and row are in git history before commit 165568b.
