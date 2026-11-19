@@ -24,11 +24,13 @@ def frames(mp4, times):
 
 # (slug, label or None for the project name, [sources])
 SPEC = [
-    ('idler', None, [('img', f'{R}/stage/idler/shell-turn.jpg', 0)] + frames('idler/shell-turn.mp4', [3.5, 7.0])
-        # Vector, the instrument that plays the Shell: the cube's states and the orb (panel cropped off)
-        + [('img', f'{SRC}/vector/{n}', 0) for n in ('v010.jpg', 'v050.jpg', 'v090.jpg', 'v125.jpg')]),
+    # Idler: the Shell rendered on dark, Vector's cube states, and the Skill Profile itself
+    # (AI evaluation data, the most on-message image in the set).
+    ('idler', None, [('img', f'{SRC}/shell/{n}', 0) for n in ('s0040.jpg', 's0200.jpg')]
+        + [('img', f'{SRC}/vector/{n}', 0) for n in ('v010.jpg',)]
+        + [('img', f'{SRC}/profile/{n}', 0) for n in ('p000.jpg', 'p090.jpg')]),
     ('osmosis', None, frames('osmosis/art/petri.mp4', [0.5, 2.5, 4.5])),
-    ('biota', 'Symbiota · Biota', frames('biota/art/fish.mp4', [0.5, 2.0, 3.5])),
+    ('biota', 'Symbiota · Biota', frames('biota/art/fish.mp4', [2.0])),
     ('flora', 'Hieronymus · FLORA', frames('flora/art/hieronymus.mp4', [3.0])),
     ('soot', 'Spaces rail · SOOT', frames('soot/art/rail.mp4', [1.0])),
     ('studio-artifice', 'Humanoid · Studio Artifice', frames('studio-artifice/art/figure.mp4', [0.2, 1.5, 4.5])),
@@ -38,7 +40,8 @@ SPEC = [
     ('the-artifact-index', 'Objects · The Artifact Index', [('img', f'{R}/stage/the-artifact-index/art/objects.webp', 0)]),
 ]
 # The film: one shot from across every part (times in seconds into the 23:14 master).
-FILM_T = [40, 60, 80, 100, 120, 140, 160, 180, 220, 240, 280, 300, 380, 540, 580, 600, 900, 920, 940, 980, 1100, 1120, 1140, 1240, 1280, 1300, 1340, 1360]
+# Curated for an AI audience: clean, technical, striking. Grotesque and near-black shots left out.
+FILM_T = [160, 180, 220, 580, 900, 920, 940, 980, 1120, 1140, 1240, 1360]
 
 os.makedirs(f'{SRC}/film', exist_ok=True); os.makedirs(f'{SRC}/index', exist_ok=True)
 film_src = []
@@ -65,14 +68,15 @@ def add(slug, label, src):
     im = im.resize((max(1, round(w * k)), max(1, round(h * k))), Image.LANCZOS)
     lo, hi = im.convert('L').getextrema()
     if hi - lo < 24: return
-    if sum(im.convert('L').getdata()) / (im.size[0] * im.size[1]) < 22: return  # near-black frames show nothing
+    if '/film/' in path and sum(im.convert('L').getdata()) / (im.size[0] * im.size[1]) < 22: return  # near-black film frames show nothing
     sq = im.resize((16, 16), Image.LANCZOS).convert('L'); q = [v / 255 for v in sq.getdata()]
     m = sum(q) / len(q); sd = (sum((v - m) ** 2 for v in q) / len(q)) ** .5 or 1; q = [(v - m) / sd for v in q]
     cv = [c / 255 for px in im.resize((6, 6), Image.LANCZOS).getdata() for c in px]
     for o_slug, o_q, o_c in meta:
         corr = sum(x * y for x, y in zip(o_q, q)) / len(q)
         cd = sum(abs(a - b) for a, b in zip(o_c, cv)) / len(cv)
-        if corr > (.6 if o_slug == slug else .85) or cd < (.06 if o_slug == slug else .025): return
+        # the set is hand-picked now, so only true repeats are dropped
+        if corr > .9 or cd < .015: return
     meta.append((slug, q, cv))
     tiles.append((slug, label or names.get(slug, slug), path.replace(R + '/stage/', '') + (f'@{t}' if kind == 'mp4' else ''), im))
 

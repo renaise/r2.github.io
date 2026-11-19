@@ -1561,7 +1561,7 @@ document.documentElement.className+=' js';
   var LIST=[
     {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.mp4',fit:'cover',pad:'0',bg:'#101010'},
     // The Shell and the instrument that plays it sit side by side.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=2',pad:'0',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=3',pad:'0',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
     // The humanoid: Studio Artifice's brand figure under a heat camera, live at
     // studioartifice.com/home/figure. It sits beside the Shell, where Vector used to.
     {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler'},
@@ -2472,8 +2472,8 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=6').then(function(r){ return r.json(); }).then(function(A){
-    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=6';
+  fetch('/stage/globe/atlas.json?v=7').then(function(r){ return r.json(); }).then(function(A){
+    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=7';
   }).catch(function(){});
 
   function start(A,img){
