@@ -2459,7 +2459,7 @@ document.documentElement.className+=' js';
 /* Signals: the artifact globe (2026-11-19). Every project's images on one turning sphere, drawn
    live on a canvas so each one is a way in: hover names the project, click opens its case study.
    It replaced the recorded Moshpit map, which could only be watched. Thumbnails come from one
-   atlas (stage/globe/atlas.jpg + atlas.json, built from each project's stage folder), so the
+   atlas (stage/globe/atlas.jpg + atlas.json, real artifacts only: see stage/globe/build-atlas.py), so the
    globe costs one image request. The sphere always fits the frame whole. */
 (function(){
   var sec=document.querySelector('.feed'); if(!sec) return;
@@ -2472,8 +2472,8 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=4').then(function(r){ return r.json(); }).then(function(A){
-    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=4';
+  fetch('/stage/globe/atlas.json?v=5').then(function(r){ return r.json(); }).then(function(A){
+    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=5';
   }).catch(function(){});
 
   function start(A,img){
@@ -2495,7 +2495,7 @@ document.documentElement.className+=' js';
       // Tiles sized to the spacing between points, so the sphere reads full without repeats,
       // and the radius leaves room for the outermost tile: the globe always fits whole.
       var M=Math.min(W,H)/2, gap=Math.sqrt(4*Math.PI/N);
-      R=M/(1+gap*.2)-4; S=R*gap*1.7;
+      R=M/(1+gap*.12)-4; S=R*gap*1.55;
     }
     function frame(){
       raf=0; if(!W) size();
@@ -2508,8 +2508,8 @@ document.documentElement.className+=' js';
         p.sx=ox+x*R; p.sy=oy+y*R; p.d=z;
         // Size follows facing: full at the center, shrinking toward the silhouette and
         // smaller still around the back, so the periphery reads as the sphere curving away.
-        var face=z>0?Math.pow(z,1.15):0;
-        p.s=S*(z>0?.16+.84*face:.16*(1+z)+.06)*(i===hover?1.6:1); }
+        var face=z>0?Math.pow(z,1.7):0;
+        p.s=S*(z>0?.1+.9*face:.1*(1+z)+.04)*(i===hover?1.6:1); }
       var ord=pts.slice().sort(function(a,b){ return a.d-b.d; });
       ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
       for(var q=0;q<ord.length;q++){ var p2=ord[q], s2=p2.s, a=p2.d<0?.18+.5*(1+p2.d):1;
@@ -2535,8 +2535,9 @@ document.documentElement.className+=' js';
     }
     function setHover(i){
       if(i===hover) return; hover=i;
+      // The atlas carries each image's own label: Index pieces name the work + artist.
       var slug=i<0?'':A.slugs[pts[i].t];
-      tip.textContent=slug?names[slug]||slug:''; tip.classList.toggle('on',!!slug);
+      tip.textContent=slug?((A.labels&&A.labels[pts[i].t])||names[slug]||slug):''; tip.classList.toggle('on',!!slug);
       box.style.cursor=i<0?(drag?'grabbing':'grab'):'pointer'; kick();
     }
     cv.addEventListener('pointerdown',function(e){ drag={x:e.clientX,y:e.clientY,moved:0}; try{ cv.setPointerCapture(e.pointerId); }catch(_){} });
