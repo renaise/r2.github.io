@@ -24,27 +24,29 @@ def frames(mp4, times):
 
 # (slug, label or None for the project name, [sources])
 SPEC = [
-    # Idler: the Shell rendered on dark, Vector's cube states, and the Skill Profile itself
-    # (AI evaluation data, the most on-message image in the set).
-    ('idler', None, [('img', f'{SRC}/shell/{n}', 0) for n in ('s0040.jpg', 's0200.jpg')]
-        + [('img', f'{SRC}/vector/{n}', 0) for n in ('v010.jpg',)]
-        + [('img', f'{SRC}/profile/{n}', 0) for n in ('p000.jpg', 'p090.jpg')]),
+    # Dark grounds only (Renaise, 2026-11-19): artifacts over interfaces, every image on black or near-black.
+    ('idler', None, [('img', f'{SRC}/shell/{n}', 0) for n in ('s0040.jpg',)]
+        + [('img', f'{SRC}/vector-dark/{n}', 0) for n in ('v005.jpg', 'v040.jpg', 'v080.jpg')]),
     ('osmosis', None, frames('osmosis/art/petri.mp4', [0.5, 2.5, 4.5])),
     ('biota', 'Symbiota · Biota', frames('biota/art/fish.mp4', [2.0])),
-    ('flora', 'Hieronymus · FLORA', frames('flora/art/hieronymus.mp4', [3.0])),
-    ('soot', 'Spaces rail · SOOT', frames('soot/art/rail.mp4', [1.0])),
-    ('studio-artifice', 'Humanoid · Studio Artifice', frames('studio-artifice/art/figure.mp4', [0.2, 1.5, 4.5])),
+    ('flora', 'Hieronymus · FLORA', frames('flora/art/hieronymus.mp4', [0.5, 3.0, 6.0])),
+    ('studio-artifice', 'Humanoid · Studio Artifice', frames('studio-artifice/art/figure.mp4', [0.2, 1.5, 3.0, 4.5])),
     ('artifice-brand', 'Primitives · Artifice', frames('artifice-brand/plate.mp4', [0.3, 1.6, 2.8])),
-    # Lighthouse's plate is its website hero, not an artifact, so it is left out.
-    # Artifactory's cover is the editor interface, not an object, so it is left out.
     ('the-artifact-index', 'Objects · The Artifact Index', [('img', f'{R}/stage/the-artifact-index/art/objects.webp', 0)]),
 ]
-# The film: one shot from across every part (times in seconds into the 23:14 master).
-# Curated for an AI audience: clean, technical, striking. Grotesque and near-black shots left out.
-FILM_T = [160, 180, 220, 580, 900, 920, 940, 980, 1120, 1140, 1240, 1360]
+# Left out: website heroes (Lighthouse), editor interfaces (Artifactory), the light Spaces rail,
+# the light Skill Profile and light Vector, other artists' Index pieces, the Artifactory orb.
+# The film: curated for an AI audience, dark grounds only; grotesque and near-black shots left out.
+FILM_T = sorted(int(f[1:5]) for f in os.listdir(f'{SRC}/film'))  # sampled every 6s over the clean, dark stretches; the checks pick
 
-os.makedirs(f'{SRC}/film', exist_ok=True); os.makedirs(f'{SRC}/index', exist_ok=True)
+os.makedirs(f'{SRC}/film', exist_ok=True)
 film_src = []
+# one shot per 12s of film: frames closer than that are the same scene
+_k = []
+for t in sorted(FILM_T):
+    if _k and t - _k[-1] < 10: continue
+    _k.append(t)
+FILM_T = _k
 for t in FILM_T:
     out = f'{SRC}/film/t{t:04d}.jpg'
     if not os.path.exists(out) and os.path.exists(FILM):
@@ -67,6 +69,9 @@ def add(slug, label, src):
     im = load(kind, path, t).convert('RGB'); w, h = im.size; k = TILE / max(w, h)
     im = im.resize((max(1, round(w * k)), max(1, round(h * k))), Image.LANCZOS)
     lo, hi = im.convert('L').getextrema()
+    g = im.convert('L'); gw, gh = g.size; bw = max(2, gw // 12); bh = max(2, gh // 12)
+    band = [g.getpixel((x, y)) for x in range(gw) for y in range(gh) if x < bw or x >= gw - bw or y < bh or y >= gh - bh]
+    if sum(band) / len(band) > 70: return  # dark grounds only
     if hi - lo < 24: return
     if '/film/' in path and sum(im.convert('L').getdata()) / (im.size[0] * im.size[1]) < 22: return  # near-black film frames show nothing
     sq = im.resize((16, 16), Image.LANCZOS).convert('L'); q = [v / 255 for v in sq.getdata()]
@@ -76,7 +81,7 @@ def add(slug, label, src):
         corr = sum(x * y for x, y in zip(o_q, q)) / len(q)
         cd = sum(abs(a - b) for a, b in zip(o_c, cv)) / len(cv)
         # the set is hand-picked now, so only true repeats are dropped
-        if corr > .9 or cd < .015: return
+        if corr > .86 or cd < .02: return
     meta.append((slug, q, cv))
     tiles.append((slug, label or names.get(slug, slug), path.replace(R + '/stage/', '') + (f'@{t}' if kind == 'mp4' else ''), im))
 
