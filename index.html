@@ -448,6 +448,14 @@
   .sig .fg{position:absolute;inset:14px var(--gut);width:calc(100% - 2 * var(--gut));height:calc(100% - 28px);
     object-fit:contain;filter:drop-shadow(0 6px 18px rgba(0,0,0,.28));}
   @media(prefers-reduced-motion:reduce){ .sig .sl{transition:none;} }
+  /* The artifact globe: no blur bands (they cut the sphere's top and bottom off), and the
+     canvas fills the frame. The tip names the project under the pointer. */
+  .sig.globe{cursor:grab;}
+  .sig.globe::before,.sig.globe::after{display:none;}
+  .sig.globe canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;}
+  .gl-tip{position:absolute;left:var(--gut);bottom:10px;z-index:3;font-family:var(--sans);font-size:.72rem;
+    color:var(--sw2);pointer-events:none;opacity:0;transition:opacity .2s;}
+  .gl-tip.on{opacity:1;}
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
     align-items:baseline;}
   /* clock + switch, and the contact action, each get a row of their own */
@@ -2447,20 +2455,94 @@ document.documentElement.className+=' js';
 </script>
 
 <script>
-/* Signals: the data visualization, nothing else. Moshpit (first, the default) and Fielder each
-   play their vector clusters with no background, filling the frame. No label, no caption. The last view picked is
-   remembered per browser. */
+/* Signals: the artifact globe (2026-11-19). Every project's images on one turning sphere, drawn
+   live on a canvas so each one is a way in: hover names the project, click opens its case study.
+   It replaced the recorded Moshpit map, which could only be watched. Thumbnails come from one
+   atlas (stage/globe/atlas.jpg + atlas.json, built from each project's stage folder), so the
+   globe costs one image request. The sphere always fits the frame whole. */
 (function(){
   var sec=document.querySelector('.feed'); if(!sec) return;
-  var a=sec.querySelector('.sig');
-  // The clusters float on the rail with no background: transparent video, VP9 alpha (WebM) for
-  // Chrome + Firefox, HEVC alpha (.mov) for Safari, which plays WebM but drops its alpha.
-  var SAFARI=/^((?!chrome|chromium|crios|fxios|android).)*safari/i.test(navigator.userAgent);
+  var old=sec.querySelector('.sig'); if(!old) return;
+  var box=document.createElement('div'); box.className='sig globe';
+  box.innerHTML='<canvas role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an image to open that project."></canvas><span class="gl-tip" aria-hidden="true"></span>';
+  old.replaceWith(box); sec.hidden=false;
+  var cv=box.querySelector('canvas'), tip=box.querySelector('.gl-tip'), ctx=cv.getContext('2d');
   var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var s={href:'https://moshpit.codexfoundry.com/',webm:'/stage/moshpit/clusters.webm?v=5',mov:'/stage/moshpit/clusters-alpha.mov?v=5',poster:'/stage/moshpit/clusters.png?v=5',label:'Moshpit: every image from this work, grouped by how it looks'};
-  a.innerHTML='<span class="sl on"><video class="fg" src="'+(SAFARI?s.mov:s.webm)+'" poster="'+s.poster+'" muted loop playsinline'+(still?'':' autoplay')+' aria-hidden="true"></video></span>';
-  a.href=s.href; a.setAttribute('aria-label',s.label);
-  sec.hidden=false;
+  var names={};
+  document.querySelectorAll('#work a.proj').forEach(function(a){
+    var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
+  fetch('/stage/globe/atlas.json?v=1').then(function(r){ return r.json(); }).then(function(A){
+    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=1';
+  }).catch(function(){});
+
+  function start(A,img){
+    var T=A.tile, C=A.cols, n=A.slugs.length, N=Math.round(n*1.6);
+    // Fixed shuffle, so neighbours on the sphere come from different projects.
+    var seed=11, order=[], k, j, t;
+    function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
+    for(k=0;k<N;k++) order.push(k%n);
+    for(k=N-1;k>0;k--){ j=Math.floor(rnd()*(k+1)); t=order[k]; order[k]=order[j]; order[j]=t; }
+    // Fibonacci sphere: even spacing, no seams at the poles.
+    var pts=[], ga=Math.PI*(3-Math.sqrt(5));
+    for(k=0;k<N;k++){ var y=1-2*(k+.5)/N, r=Math.sqrt(1-y*y), th=k*ga;
+      pts.push({x:Math.cos(th)*r,y:y,z:Math.sin(th)*r,t:order[k],sx:0,sy:0,s:0,d:0}); }
+    var rotY=0, rotX=-.28, spin=still?0:.0024, W=0,H=0,dpr=1,R=0,S=0, hover=-1, drag=null, raf=0, seen=true;
+    function size(){
+      dpr=Math.min(window.devicePixelRatio||1,2); W=box.clientWidth; H=box.clientHeight;
+      cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr);
+      S=Math.max(12,Math.min(W,H)*.088); R=Math.min(W,H)/2-S*.8;
+    }
+    function frame(){
+      raf=0; if(!W) size();
+      if(!drag) rotY+=spin;
+      var cy=Math.cos(rotY), sy=Math.sin(rotY), cx=Math.cos(rotX), sx=Math.sin(rotX), ox=W/2, oy=H/2;
+      for(var i=0;i<N;i++){ var p=pts[i];
+        var x=p.x*cy+p.z*sy, z=-p.x*sy+p.z*cy, y=p.y*cx-z*sx; z=p.y*sx+z*cx;
+        var f=1/(1.55-z*.45); p.sx=ox+x*R*f*1.1; p.sy=oy+y*R*f*1.1; p.d=z;
+        p.s=S*(.45+.55*(z+1)/2)*(i===hover?1.7:1); }
+      var ord=pts.slice().sort(function(a,b){ return a.d-b.d; });
+      ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+      for(var q=0;q<ord.length;q++){ var p2=ord[q], s2=p2.s, a=p2.d<0?.18+.5*(1+p2.d):1;
+        ctx.globalAlpha=Math.max(.12,Math.min(1,a));
+        ctx.drawImage(img,(p2.t%C)*T,Math.floor(p2.t/C)*T,T,T,p2.sx-s2/2,p2.sy-s2/2,s2,s2);
+        if(pts.indexOf(p2)===hover){ ctx.globalAlpha=1; ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1; ctx.strokeRect(p2.sx-s2/2-.5,p2.sy-s2/2-.5,s2+1,s2+1); } }
+      ctx.globalAlpha=1;
+      if(seen && !document.hidden && (spin||drag)) raf=requestAnimationFrame(frame);
+    }
+    function kick(){ if(!raf) raf=requestAnimationFrame(frame); }
+    // Nearest front tile, not only the one under the pointer: on a small globe the tiles sit
+    // further apart than they are wide, and a fingertip lands in the gaps.
+    function hit(e){
+      var b=cv.getBoundingClientRect(), mx=e.clientX-b.left, my=e.clientY-b.top, best=-1, bd=1e9,
+          reach=e.pointerType==='touch'?22:0;
+      for(var i=0;i<N;i++){ var p=pts[i]; if(p.d<0) continue;
+        var dx=mx-p.sx, dy=my-p.sy, d=dx*dx+dy*dy, lim=Math.max(p.s/2,reach);
+        if(Math.abs(dx)<=lim && Math.abs(dy)<=lim && d-p.d*40<bd){ bd=d-p.d*40; best=i; } }
+      return best;
+    }
+    function setHover(i){
+      if(i===hover) return; hover=i;
+      var slug=i<0?'':A.slugs[pts[i].t];
+      tip.textContent=slug?names[slug]||slug:''; tip.classList.toggle('on',!!slug);
+      box.style.cursor=i<0?(drag?'grabbing':'grab'):'pointer'; kick();
+    }
+    cv.addEventListener('pointerdown',function(e){ drag={x:e.clientX,y:e.clientY,moved:0}; try{ cv.setPointerCapture(e.pointerId); }catch(_){} });
+    cv.addEventListener('pointermove',function(e){
+      if(drag){ var dx=e.clientX-drag.x, dy=e.clientY-drag.y; drag.moved+=Math.abs(dx)+Math.abs(dy);
+        rotY+=dx*.008; rotX=Math.max(-1.1,Math.min(1.1,rotX+dy*.008)); drag.x=e.clientX; drag.y=e.clientY; kick(); }
+      if(e.pointerType!=='touch' || !drag) setHover(hit(e));
+    });
+    cv.addEventListener('pointerup',function(e){
+      var d=drag; drag=null; if(!d) return;
+      if(d.moved<6){ var i=hit(e); if(i>=0){ var slug=A.slugs[pts[i].t], card=document.querySelector('#work a.proj[data-slug="'+slug+'"]'); if(card) card.click(); } }
+      kick();
+    });
+    cv.addEventListener('pointerleave',function(){ if(!drag) setHover(-1); });
+    if('ResizeObserver' in window) new ResizeObserver(function(){ size(); kick(); }).observe(box);
+    if('IntersectionObserver' in window) new IntersectionObserver(function(es){ seen=es[0].isIntersecting; if(seen) kick(); }).observe(box);
+    document.addEventListener('visibilitychange',function(){ if(!document.hidden) kick(); });
+    size(); kick();
+  }
 })();
 </script>
 <script>
