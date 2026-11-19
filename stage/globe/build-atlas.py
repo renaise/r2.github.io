@@ -24,20 +24,21 @@ def frames(mp4, times):
 
 # (slug, label or None for the project name, [sources])
 SPEC = [
-    # Dark grounds only (Renaise, 2026-11-19): artifacts over interfaces, every image on black or near-black.
-    ('idler', None, [('img', f'{SRC}/shell/{n}', 0) for n in ('s0040.jpg',)]
-        + [('img', f'{SRC}/vector-dark/{n}', 0) for n in ('v005.jpg', 'v040.jpg', 'v080.jpg')]),
-    ('osmosis', None, frames('osmosis/art/petri.mp4', [0.5, 2.5, 4.5])),
-    ('biota', 'Symbiota · Biota', frames('biota/art/fish.mp4', [2.0])),
-    ('flora', 'Hieronymus · FLORA', frames('flora/art/hieronymus.mp4', [0.5, 3.0, 6.0])),
-    ('studio-artifice', 'Humanoid · Studio Artifice', frames('studio-artifice/art/figure.mp4', [0.2, 1.5, 3.0, 4.5])),
-    ('artifice-brand', 'Primitives · Artifice', frames('artifice-brand/plate.mp4', [0.3, 1.6, 2.8])),
+    # Self-made artifacts only (Renaise, 2026-11-19), on dark grounds. The film is out:
+    # its shots were made by the six artists she directed, not by her.
+    ('idler', None, [('img', f'{SRC}/shell/{n}', 0) for n in sorted(os.listdir(f'{SRC}/shell'))]
+        + [('img', f'{SRC}/vector-dark/{n}', 0) for n in sorted(os.listdir(f'{SRC}/vector-dark'))]),
+    ('osmosis', None, frames('osmosis/art/petri.mp4', [0.3, 1.2, 2.2, 3.2, 4.2, 5.0])),
+    ('biota', 'Symbiota · Biota', frames('biota/art/fish.mp4', [0.3, 1.2, 2.2, 3.2, 4.2])),
+    ('flora', 'Hieronymus · FLORA', frames('flora/art/hieronymus.mp4', [0.3, 1.5, 3.0, 4.5, 6.0, 7.5])),
+    ('studio-artifice', 'Humanoid · Studio Artifice', frames('studio-artifice/art/figure.mp4', [0.2, 1.2, 2.2, 3.2, 4.2, 5.2])),
+    ('artifice-brand', 'Primitives · Artifice', frames('artifice-brand/plate.mp4', [0.2, 0.8, 1.4, 2.0, 2.6, 3.2])),
     ('the-artifact-index', 'Objects · The Artifact Index', [('img', f'{R}/stage/the-artifact-index/art/objects.webp', 0)]),
 ]
 # Left out: website heroes (Lighthouse), editor interfaces (Artifactory), the light Spaces rail,
 # the light Skill Profile and light Vector, other artists' Index pieces, the Artifactory orb.
 # The film: curated for an AI audience, dark grounds only; grotesque and near-black shots left out.
-FILM_T = sorted(int(f[1:5]) for f in os.listdir(f'{SRC}/film'))  # sampled every 6s over the clean, dark stretches; the checks pick
+FILM_T = []  # self-made only: the film's shots are the six artists' work
 
 os.makedirs(f'{SRC}/film', exist_ok=True)
 film_src = []
