@@ -259,6 +259,11 @@ render about four pixels tall at `1.02em`. So ARTIFACTORY's row carries the glyp
 name, and `.glyph` on the wrapper opts that one row out of the hide. If a horizontal Codex
 lockup is ever drawn, drop the class and the row rejoins the rule.
 
+**Marks share one length** (2026-11-18). Every lockup is `6em` wide and its height is
+`6em / --r`, so the marks end on one vertical: SOOT (3.9:1) stands about 18px tall, Maestro
+(8.4:1) about 8px. The `.nmw` wrapper stays `1.02em` and the mark overflows it, so rows keep
+their height. `.glyph` rows keep the old fixed-height rule.
+
 **Every card opens the case study panel** (2026-09-10). A click transitions the case study in
 from the right, and it takes **the right pane entirely**: `left:var(--rail)` to `right:0`, full
 height, butted against the rail's own vertical rule. The rail stays; the work grid does not.

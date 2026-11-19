@@ -380,6 +380,11 @@
     -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
     -webkit-mask-position:left center;mask-position:left center;
     -webkit-mask-size:contain;mask-size:contain;}
+  /* Wordmarks share one length, per Renaise 2026-11-18: width is fixed and height follows
+     the mark's own ratio, so SOOT (3.9:1) stands taller than Maestro (8.4:1) and every
+     lockup ends on the same vertical. The wrapper keeps its 1.02em height and the mark
+     overflows it, so rows never change height. Glyph rows keep the fixed-height rule. */
+  .c0 .nmw:not(.glyph) .cl{width:6em;height:calc(6em / var(--r));flex:none;}
   /* Where a mark exists it replaces the set name; the name itself stays in the document
      so search still indexes it and a screen reader still announces it. */
   .c0 .nmw:has(.cl):not(.glyph) b{position:absolute;width:1px;height:1px;overflow:hidden;
