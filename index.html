@@ -1068,7 +1068,7 @@ document.documentElement.className+=' js';
       
 
       <a class="proj" data-slug="idler" data-cat="identity website" href="https://studioartifice.com/work/idler/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/profile.jpg)"><video class="cover fill" data-free src="/stage/idler/profile.mp4?v=4" muted loop playsinline preload="none" poster="/stage/idler/profile.jpg" aria-label="Idler’s Skill Profile on ShelfLife morphing through all six models, then sliding into the Shell, the cube made in Vector"></video><span class="tag">Identity + Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/profile.jpg)"><video class="cover fill" data-free src="/stage/idler/profile.mp4?v=5" muted loop playsinline preload="none" poster="/stage/idler/profile.jpg" aria-label="Idler’s Skill Profile on ShelfLife morphing through all six models, then the Shell cube in Vector, then the Idler brand guidelines"></video><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Idler</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/idler.svg);--r:5.142"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Identity + Launch Site for an AI Research Company</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" data-cat="identity website" href="https://studioartifice.com/work/osmosis/">
@@ -1442,7 +1442,7 @@ document.documentElement.className+=' js';
     // straight back out of phase.
     var BEAT=5000;
     // data-free covers run on their own loop and never take the beat: Idler's
-    // Skill Profile morphs through six models and slides into the Shell over 7.4s, so a
+    // Skill Profile morphs through six models, slides into Vector, then the brand guidelines, over 10.7s, so a
     // 5s restart would cut it short.
     function covers(){ return [].slice.call(document.querySelectorAll('#work .proj video:not([data-free])')); }
     covers().forEach(function(v){ v.loop=false; });
