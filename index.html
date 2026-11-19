@@ -2494,7 +2494,7 @@ document.documentElement.className+=' js';
       // Tiles sized to the spacing between points, so the sphere reads full without repeats,
       // and the radius leaves room for the outermost tile: the globe always fits whole.
       var M=Math.min(W,H)/2, gap=Math.sqrt(4*Math.PI/N);
-      R=M/(1+gap*.46); S=R*gap*.92;
+      R=M/(1+gap*.16)-4; S=R*gap*1.45;
     }
     function frame(){
       raf=0; if(!W) size();
@@ -2505,7 +2505,10 @@ document.documentElement.className+=' js';
         // Orthographic: the outline is the true circle of radius R. Depth reads through size
         // and fade, so the sphere fills its frame exactly.
         p.sx=ox+x*R; p.sy=oy+y*R; p.d=z;
-        p.s=S*(.55+.45*(z+1)/2)*(i===hover?1.7:1); }
+        // Size follows facing: full at the center, shrinking toward the silhouette and
+        // smaller still around the back, so the periphery reads as the sphere curving away.
+        var face=z>0?Math.pow(z,1.15):0;
+        p.s=S*(z>0?.16+.84*face:.16*(1+z)+.06)*(i===hover?1.6:1); }
       var ord=pts.slice().sort(function(a,b){ return a.d-b.d; });
       ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
       for(var q=0;q<ord.length;q++){ var p2=ord[q], s2=p2.s, a=p2.d<0?.18+.5*(1+p2.d):1;
