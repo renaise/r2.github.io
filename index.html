@@ -453,7 +453,7 @@
   .sig.globe{cursor:grab;}
   .sig.globe::before,.sig.globe::after{display:none;}
   .sig.globe canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;}
-  .gl-tip{position:absolute;left:var(--gut);bottom:10px;z-index:3;font-family:var(--sans);font-size:.72rem;
+  .gl-tip{position:absolute;left:0;top:0;z-index:3;white-space:nowrap;padding:.15rem .4rem;background:rgba(0,0,0,.72);font-family:var(--sans);font-size:.72rem;
     color:var(--sw2);pointer-events:none;opacity:0;transition:opacity .2s;}
   .gl-tip.on{opacity:1;}
   .acts{display:grid;grid-template-columns:1fr 1fr;gap:.5rem 1rem;margin-top:auto;
@@ -1087,7 +1087,7 @@ document.documentElement.className+=' js';
       
 
       <a class="proj" data-slug="idler" data-cat="identity website" href="https://studioartifice.com/work/idler/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/profile.jpg)"><video class="cover fill" data-free src="/stage/idler/profile.mp4?v=8" muted loop playsinline preload="none" poster="/stage/idler/profile.jpg" aria-label="Idler’s Skill Profile on ShelfLife morphing through all six models, then the Shell cube in Vector, then the Idler brand guidelines"></video><span class="tag">Identity + Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/shell-card.jpg)"><video class="cover fill" data-free src="/stage/idler/shell-card.mp4" muted loop playsinline preload="none" poster="/stage/idler/shell-card.jpg" aria-label="The Idler Shell turning: a cube of the brand’s shape units in its full color range, reshuffling as it turns"></video><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Idler</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/idler.svg);--r:5.142"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Identity + Launch Site for an AI Research Company</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" data-cat="identity website" href="https://studioartifice.com/work/osmosis/">
@@ -1584,7 +1584,7 @@ document.documentElement.className+=' js';
   var LIST=[
     {s:'osmosis',n:'Petri dish',src:'osmosis/art/petri.mp4',fit:'cover',pad:'0',bg:'#101010'},
     // The Shell and the instrument that plays it sit side by side.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=3',pad:'0',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=3',pad:'7%',fit:'contain',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
     // The humanoid: Studio Artifice's brand figure under a heat camera, live at
     // studioartifice.com/home/figure. It sits beside the Shell, where Vector used to.
     {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler'},
@@ -2608,7 +2608,17 @@ document.documentElement.className+=' js';
         // Each image at its own proportions: the longer side is the tile size.
         var sc=(A.scale&&A.scale[p2.t])||1, rc=A.rects[p2.t], w2=s2*sc*rc[2]/T, h2=s2*sc*rc[3]/T;
         ctx.drawImage(img,rc[0],rc[1],rc[2],rc[3],p2.sx-w2/2,p2.sy-h2/2,w2,h2);
-        }  // cutouts have no box to outline: hover is the 1.6x scale alone
+        }
+      // Hovered image on top (2026-11-19): drawn last at full opacity, with a hairline frame,
+      // so neighbours in front of it never cover it; its name sits right above it.
+      if(hover>=0){
+        var hp=pts[hover], hsc=(A.scale&&A.scale[hp.t])||1, hr=A.rects[hp.t], hw=hp.s*hsc*hr[2]/T, hh=hp.s*hsc*hr[3]/T;
+        ctx.globalAlpha=1; ctx.drawImage(img,hr[0],hr[1],hr[2],hr[3],hp.sx-hw/2,hp.sy-hh/2,hw,hh);
+        ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=1; ctx.strokeRect(Math.round(hp.sx-hw/2)-.5,Math.round(hp.sy-hh/2)-.5,Math.round(hw)+1,Math.round(hh)+1);
+        var tw=tip.offsetWidth||0, tx=Math.max(6,Math.min(W-tw-6,hp.sx-tw/2)), ty=hp.sy-hh/2-22;
+        if(ty<4) ty=hp.sy+hh/2+6;
+        tip.style.transform='translate('+Math.round(tx)+'px,'+Math.round(ty)+'px)';
+      }
       ctx.globalAlpha=1;
       if(seen && !document.hidden && (spin||drag)) raf=requestAnimationFrame(frame);
     }
