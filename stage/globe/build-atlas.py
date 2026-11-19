@@ -30,7 +30,7 @@ SPEC = [
         + [('img', f'{SRC}/vector-dark/{n}', 0) for n in sorted(os.listdir(f'{SRC}/vector-dark'))]),
     ('osmosis', None, frames('osmosis/art/petri.mp4', [0.3, 1.2, 2.2, 3.2, 4.2, 5.0])),
     ('biota', 'Symbiota · Biota', frames('biota/art/fish.mp4', [0.3, 1.2, 2.2, 3.2, 4.2])),
-    ('flora', 'Hieronymus · FLORA', frames('flora/art/hieronymus.mp4', [0.3, 1.5, 3.0, 4.5, 6.0, 7.5])),
+    # Hieronymus fills its whole frame: no ground to remove, so it would sit as a box among cutouts.
     ('studio-artifice', 'Humanoid · Studio Artifice', frames('studio-artifice/art/figure.mp4', [0.2, 1.2, 2.2, 3.2, 4.2, 5.2])),
     ('artifice-brand', 'Primitives · Artifice', frames('artifice-brand/plate.mp4', [0.2, 0.8, 1.4, 2.0, 2.6, 3.2])),
     ('the-artifact-index', 'Objects · The Artifact Index', [('img', f'{R}/stage/the-artifact-index/art/objects.webp', 0)]),
@@ -75,9 +75,9 @@ def add(slug, label, src):
     if sum(band) / len(band) > 70: return  # dark grounds only
     if hi - lo < 24: return
     if '/film/' in path and sum(im.convert('L').getdata()) / (im.size[0] * im.size[1]) < 22: return  # near-black film frames show nothing
-    sq = im.resize((16, 16), Image.LANCZOS).convert('L'); q = [v / 255 for v in sq.getdata()]
+    sq = im.resize((16, 16), Image.LANCZOS).convert('L'); q = [v / 255 for v in (sq.get_flattened_data() if hasattr(sq, 'get_flattened_data') else sq.getdata())]
     m = sum(q) / len(q); sd = (sum((v - m) ** 2 for v in q) / len(q)) ** .5 or 1; q = [(v - m) / sd for v in q]
-    cv = [c / 255 for px in im.resize((6, 6), Image.LANCZOS).getdata() for c in px]
+    _s6 = im.resize((6, 6), Image.LANCZOS); cv = [c / 255 for px in (_s6.get_flattened_data() if hasattr(_s6, 'get_flattened_data') else _s6.getdata()) for c in px]
     for o_slug, o_q, o_c in meta:
         corr = sum(x * y for x, y in zip(o_q, q)) / len(q)
         cd = sum(abs(a - b) for a, b in zip(o_c, cv)) / len(cv)
@@ -90,14 +90,31 @@ for slug, label, srcs in SPEC:
     for s in srcs: add(slug, label, s)
 # Artifact Index pieces are other artists' work: not on the globe (Renaise, 2026-11-19).
 
+def cutout(im):
+    # Background removed (2026-11-19): the ground is the median color of the image's
+    # outer band; alpha ramps with distance from it, so objects float with soft edges.
+    gw, gh = im.size; bw = max(2, gw // 14); bh = max(2, gh // 14); px = im.load()
+    band = [px[x, y] for x in range(gw) for y in range(gh) if x < bw or x >= gw - bw or y < bh or y >= gh - bh]
+    bg = [sorted(c[k] for c in band)[len(band) // 2] for k in range(3)]
+    out = im.convert('RGBA'); po = out.load()
+    for y in range(gh):
+        for x in range(gw):
+            r, g, b = px[x, y]
+            d = max(abs(r - bg[0]), abs(g - bg[1]), abs(b - bg[2]))
+            po[x, y] = (r, g, b, max(0, min(255, int((d - 14) * 255 / 38))))
+    return out
+
 rows = (len(tiles) + COLS - 1) // COLS
-atlas = Image.new('RGB', (COLS * TILE, rows * TILE), (16, 16, 16)); rects = []
+atlas = Image.new('RGBA', (COLS * TILE, rows * TILE), (0, 0, 0, 0)); rects = []
 for i, (_, _, _, im) in enumerate(tiles):
     x, y = (i % COLS) * TILE, (i // COLS) * TILE
-    atlas.paste(im, (x, y)); rects.append([x, y, im.size[0], im.size[1]])
-atlas.save(f'{G}/atlas.jpg', quality=86, optimize=True, progressive=True)
+    atlas.paste(cutout(im), (x, y)); rects.append([x, y, im.size[0], im.size[1]])
+atlas.save(f'{G}/atlas.png', optimize=True)
+subprocess.run(['cwebp', '-quiet', '-q', '86', '-alpha_q', '90', '-exact', f'{G}/atlas.png', '-o', f'{G}/atlas.webp'], check=True)
+os.remove(f'{G}/atlas.png')
+if os.path.exists(f'{G}/atlas.jpg'): os.remove(f'{G}/atlas.jpg')
 json.dump({'tile': TILE, 'cols': COLS, 'slugs': [t[0] for t in tiles], 'labels': [t[1] for t in tiles],
            'rects': rects, 'src': [t[2] for t in tiles]}, open(f'{G}/atlas.json', 'w'))
 from collections import Counter
-print(len(tiles), 'tiles', atlas.size, os.path.getsize(f'{G}/atlas.jpg') // 1024, 'KB')
+print(len(tiles), 'tiles', atlas.size, os.path.getsize(f'{G}/atlas.webp') // 1024, 'KB')
 print(Counter(t[0] for t in tiles))
