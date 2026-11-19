@@ -14,6 +14,8 @@ tmp = tempfile.mkdtemp()
 tiles = []
 hashes = []
 looks = []
+meta = []
+srcs = []
 for slug in cards:
     d = f'{R}/stage/{stage_dir[slug]}'
     if not os.path.isdir(d): print('no stage for', slug); continue
@@ -30,6 +32,9 @@ for slug in cards:
         key = re.sub(r'\.(mp4|jpe?g|png|webp)$', '', os.path.basename(p))
         if key in seen: continue
         seen.add(key); picked.append(p)
+    # Named repeats the look-checks can't separate: the Shell on dark (the light one stays),
+    # and the Index grid screenshot (its cover is the same grid).
+    picked = [p for p in picked if not p.endswith(('idler/art/shell.jpg', 'idler/art/shell.mp4', 'the-artifact-index/grid.webp'))]
     for p in picked[:PER]:
         try:
             if p.endswith('.mp4'):
@@ -50,8 +55,17 @@ for slug in cards:
             q = [v / 255 for v in im.convert('L').resize((12, 12), Image.LANCZOS).getdata()]
             m = sum(q) / len(q); sd = (sum((v - m) ** 2 for v in q) / len(q)) ** .5 or 1; q = [(v - m) / sd for v in q]
             near = lambda a: sum(x * y for x, y in zip(a, q)) / len(q) > .80
-            if any(bin(h ^ o).count('1') < 40 for o in hashes) or any(near(a) for a in looks): continue
-            hashes.append(h); looks.append(q); tiles.append((slug, im))
+            # Stricter inside one project, where the repeats live (two crops of one screen,
+            # three frames of one shot): any resemblance there is a repeat.
+            col = im.resize((6, 6), Image.LANCZOS); cv = [c / 255 for px_ in col.getdata() for c in px_]
+            def same(k):
+                o_slug, o_h, o_q, o_c = meta[k]
+                corr = sum(x * y for x, y in zip(o_q, q)) / len(q)
+                cdist = sum(abs(a - b) for a, b in zip(o_c, cv)) / len(cv)
+                if o_slug == slug: return corr > .45 or bin(h ^ o_h).count('1') < 80 or cdist < .07
+                return corr > .80 or bin(h ^ o_h).count('1') < 40
+            if any(same(k) for k in range(len(meta))): continue
+            meta.append((slug, h, q, cv)); hashes.append(h); looks.append(q); tiles.append((slug, im)); srcs.append(p.replace(R + '/stage/', ''))
         except Exception as e:
             print('skip', p, e)
 rows = (len(tiles) + COLS - 1) // COLS
@@ -63,7 +77,7 @@ for i, (slug, im) in enumerate(tiles):
 os.makedirs(f'{R}/stage/globe', exist_ok=True)
 atlas.save(f'{R}/stage/globe/atlas.jpg', quality=80, optimize=True, progressive=True)
 names = dict(re.findall(r'<a class="proj" data-slug="([^"]+)".*?<b>([^<]+)</b>', html, re.S))
-json.dump({'tile': TILE, 'cols': COLS, 'slugs': [s for s, _ in tiles], 'rects': rects}, open(f'{R}/stage/globe/atlas.json', 'w'))
+json.dump({'tile': TILE, 'cols': COLS, 'slugs': [s for s, _ in tiles], 'rects': rects, 'src': srcs}, open(f'{R}/stage/globe/atlas.json', 'w'))
 from collections import Counter
 print(len(tiles), 'tiles', atlas.size, os.path.getsize(f'{R}/stage/globe/atlas.jpg') // 1024, 'KB')
 print(Counter(s for s, _ in tiles))

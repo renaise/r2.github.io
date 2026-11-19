@@ -2472,8 +2472,8 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=3').then(function(r){ return r.json(); }).then(function(A){
-    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=3';
+  fetch('/stage/globe/atlas.json?v=4').then(function(r){ return r.json(); }).then(function(A){
+    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=4';
   }).catch(function(){});
 
   function start(A,img){
