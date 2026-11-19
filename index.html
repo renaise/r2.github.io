@@ -2472,8 +2472,8 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=2').then(function(r){ return r.json(); }).then(function(A){
-    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=2';
+  fetch('/stage/globe/atlas.json?v=3').then(function(r){ return r.json(); }).then(function(A){
+    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.jpg?v=3';
   }).catch(function(){});
 
   function start(A,img){
@@ -2495,7 +2495,7 @@ document.documentElement.className+=' js';
       // Tiles sized to the spacing between points, so the sphere reads full without repeats,
       // and the radius leaves room for the outermost tile: the globe always fits whole.
       var M=Math.min(W,H)/2, gap=Math.sqrt(4*Math.PI/N);
-      R=M/(1+gap*.16)-4; S=R*gap*1.45;
+      R=M/(1+gap*.2)-4; S=R*gap*1.7;
     }
     function frame(){
       raf=0; if(!W) size();
@@ -2514,8 +2514,10 @@ document.documentElement.className+=' js';
       ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
       for(var q=0;q<ord.length;q++){ var p2=ord[q], s2=p2.s, a=p2.d<0?.18+.5*(1+p2.d):1;
         ctx.globalAlpha=Math.max(.12,Math.min(1,a));
-        ctx.drawImage(img,(p2.t%C)*T,Math.floor(p2.t/C)*T,T,T,p2.sx-s2/2,p2.sy-s2/2,s2,s2);
-        if(pts.indexOf(p2)===hover){ ctx.globalAlpha=1; ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1; ctx.strokeRect(p2.sx-s2/2-.5,p2.sy-s2/2-.5,s2+1,s2+1); } }
+        // Each image at its own proportions: the longer side is the tile size.
+        var rc=A.rects[p2.t], w2=s2*rc[2]/T, h2=s2*rc[3]/T;
+        ctx.drawImage(img,rc[0],rc[1],rc[2],rc[3],p2.sx-w2/2,p2.sy-h2/2,w2,h2);
+        if(pts.indexOf(p2)===hover){ ctx.globalAlpha=1; ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1; ctx.strokeRect(p2.sx-w2/2-.5,p2.sy-h2/2-.5,w2+1,h2+1); } }
       ctx.globalAlpha=1;
       if(seen && !document.hidden && (spin||drag)) raf=requestAnimationFrame(frame);
     }
@@ -2526,8 +2528,9 @@ document.documentElement.className+=' js';
       var b=cv.getBoundingClientRect(), mx=e.clientX-b.left, my=e.clientY-b.top, best=-1, bd=1e9,
           reach=e.pointerType==='touch'?22:0;
       for(var i=0;i<N;i++){ var p=pts[i]; if(p.d<0) continue;
-        var dx=mx-p.sx, dy=my-p.sy, d=dx*dx+dy*dy, lim=Math.max(p.s/2,reach);
-        if(Math.abs(dx)<=lim && Math.abs(dy)<=lim && d-p.d*40<bd){ bd=d-p.d*40; best=i; } }
+        var rc=A.rects[p.t], dx=mx-p.sx, dy=my-p.sy, d=dx*dx+dy*dy,
+            lx=Math.max(p.s*rc[2]/T/2,reach), ly=Math.max(p.s*rc[3]/T/2,reach);
+        if(Math.abs(dx)<=lx && Math.abs(dy)<=ly && d-p.d*40<bd){ bd=d-p.d*40; best=i; } }
       return best;
     }
     function setHover(i){

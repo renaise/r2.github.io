@@ -5,7 +5,7 @@ one JPEG, with a JSON map of tile -> project slug."""
 import json, os, re, subprocess, tempfile, hashlib
 from PIL import Image
 R = os.path.expanduser('~/SEANCE/r2.github.io')
-TILE, PER, COLS = 112, 16, 16
+TILE, PER, COLS = 128, 16, 16
 html = open(f'{R}/index.html').read()
 cards = re.findall(r'<a class="proj" data-slug="([^"]+)"', html)
 stage_dir = {s: s for s in cards}
@@ -38,8 +38,9 @@ for slug in cards:
                 im = Image.open(out)
             else:
                 im = Image.open(p)
-            im = im.convert('RGB'); w, h = im.size; s = min(w, h)
-            im = im.crop(((w - s) // 2, (h - s) // 2, (w - s) // 2 + s, (h - s) // 2 + s)).resize((TILE, TILE), Image.LANCZOS)
+            # Keep the image's own proportions (2026-11-19): fit inside the TILE cell, uncropped.
+            im = im.convert('RGB'); w, h = im.size; k = TILE / max(w, h)
+            im = im.resize((max(1, round(w * k)), max(1, round(h * k))), Image.LANCZOS)
             # near-empty frames (flat ground) say nothing; skip them
             if max(im.convert('L').getextrema()) - min(im.convert('L').getextrema()) < 24: continue
             # no repeats: drop anything visually near an image already kept (difference hash)
@@ -55,12 +56,14 @@ for slug in cards:
             print('skip', p, e)
 rows = (len(tiles) + COLS - 1) // COLS
 atlas = Image.new('RGB', (COLS * TILE, rows * TILE), (16, 16, 16))
+rects = []
 for i, (slug, im) in enumerate(tiles):
-    atlas.paste(im, ((i % COLS) * TILE, (i // COLS) * TILE))
+    x, y = (i % COLS) * TILE, (i // COLS) * TILE
+    atlas.paste(im, (x, y)); rects.append([x, y, im.size[0], im.size[1]])
 os.makedirs(f'{R}/stage/globe', exist_ok=True)
 atlas.save(f'{R}/stage/globe/atlas.jpg', quality=80, optimize=True, progressive=True)
 names = dict(re.findall(r'<a class="proj" data-slug="([^"]+)".*?<b>([^<]+)</b>', html, re.S))
-json.dump({'tile': TILE, 'cols': COLS, 'slugs': [s for s, _ in tiles]}, open(f'{R}/stage/globe/atlas.json', 'w'))
+json.dump({'tile': TILE, 'cols': COLS, 'slugs': [s for s, _ in tiles], 'rects': rects}, open(f'{R}/stage/globe/atlas.json', 'w'))
 from collections import Counter
 print(len(tiles), 'tiles', atlas.size, os.path.getsize(f'{R}/stage/globe/atlas.jpg') // 1024, 'KB')
 print(Counter(s for s, _ in tiles))
