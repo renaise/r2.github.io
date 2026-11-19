@@ -1,101 +1,71 @@
 #!/usr/bin/env python3
-"""Atlas for the renaise.com rail globe (2026-11-19).
+"""Atlas for the renaise.com rail globe, Moshpit-style (2026-11-19).
 
-Rules (Renaise): self-made artifacts only, every image unique (one image per distinct
-object, never two states of the same thing), backgrounds removed so the objects float,
-dense. Sources are cut out once into src/objects/ and kept in the repo, so the atlas
-rebuilds offline.
+The globe is laid out like a Moshpit map: a round cloud of small images, one tight cluster
+per project. That needs hundreds of images, so it draws on every project's stage folder:
+each image once (near-duplicates dropped by look), each at its own proportions, small.
 
-  objects   one frame of each artifact loop, its ground keyed out; composites (the
-            Artifice objects, Primitives) split into their separate pieces
-  atoms     Idler's six shape units
-  marks     marks Renaise designed (Idler, Artifice, Codex Foundry, Fielder, Biota)
-
-Left out: the film (the six artists' work), other artists' Index pieces, website and
-interface screenshots, wordmarks (text), anything that fills its frame (Hieronymus).
+Left out: other people's work (the Depictions film shots and show photos, the Artifact
+Index pieces, Aputure's pre-redesign site), the globe's own sources, near-empty frames.
+The earlier 20-object cutout set is build-atlas-objects.py.
 
 Run: python3 stage/globe/build-atlas.py
 """
-import json, os, subprocess, tempfile, hashlib
+import json, os, re, subprocess, tempfile, hashlib
 from PIL import Image
-R = os.path.expanduser('~/SEANCE/r2.github.io')
-G = f'{R}/stage/globe'; SRC = f'{G}/src'; OBJ = f'{SRC}/objects'
-TILE, COLS = 256, 8
-os.makedirs(OBJ, exist_ok=True)
+R = os.path.expanduser('~/SEANCE/r2.github.io'); G = f'{R}/stage/globe'
+TILE, COLS = 128, 16
+html = open(f'{R}/index.html').read()
+slugs = re.findall(r'<a class="proj" data-slug="([^"]+)"', html)
+SKIP_SLUG = {'depictions-of-original-sin'}            # the six artists' film
+SKIP_FILE = re.compile(r'(system|clusters|before|/globe/|atlas|og\.|favicon|frame-\d|show-\d)', re.I)
+tmp = tempfile.mkdtemp(); tiles = []; hashes = []
 
-def frame(mp4, t):
-    out = os.path.join(tempfile.mkdtemp(), hashlib.md5(f'{mp4}{t}'.encode()).hexdigest() + '.png')
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(t), '-i', f'{R}/stage/{mp4}', '-frames:v', '1', out], check=True)
-    return Image.open(out).convert('RGB')
+def dhash(im):
+    g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
+    return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
 
-def cutout(im):
-    """Ground = median of the outer band; alpha ramps with distance from it (soft edges)."""
-    im = im.convert('RGB'); gw, gh = im.size; bw = max(2, gw // 14); bh = max(2, gh // 14); px = im.load()
-    band = [px[x, y] for x in range(gw) for y in range(gh) if x < bw or x >= gw - bw or y < bh or y >= gh - bh]
-    bg = [sorted(c[k] for c in band)[len(band) // 2] for k in range(3)]
-    out = im.convert('RGBA'); po = out.load()
-    for y in range(gh):
-        for x in range(gw):
-            r, g, b = px[x, y]
-            d = max(abs(r - bg[0]), abs(g - bg[1]), abs(b - bg[2]))
-            po[x, y] = (r, g, b, max(0, min(255, int((d - 14) * 255 / 38))))
-    return out.crop(out.getbbox())
-
-def split(im, n=2):
-    """Two side-by-side pieces: cut at the emptiest column in the middle 30-70% (a soft
-    shadow can bridge the gap, so there may be no fully empty column)."""
-    a = im.split()[-1]; w, h = a.size; ap = a.load()
-    col = [sum(ap[x, y] for y in range(0, h, 2)) for x in range(w)]
-    cut = min(range(int(w * .3), int(w * .7)), key=lambda x: col[x])
-    out = []
-    for s, e in ((0, cut), (cut, w)):
-        piece = im.crop((s, 0, e, h)); out.append(piece.crop(piece.getbbox()))
-    return out
-
-# (file name, slug, label, loader) — each loader returns one RGBA object
-OBJECTS = [
-    ('shell', 'idler', 'The Shell · Idler', lambda: cutout(Image.open(f'{SRC}/shell/s0040.jpg'))),
-    ('vector', 'idler', 'Vector · Idler', lambda: cutout(Image.open(f'{SRC}/vector-dark/v040.jpg'))),
-    ('petri', 'osmosis', 'Petri dish · Osmosis', lambda: cutout(frame('osmosis/art/petri.mp4', 2.2))),
-    ('symbiota', 'biota', 'Symbiota · Biota', lambda: cutout(frame('biota/art/fish.mp4', 2.2))),
-    ('humanoid', 'studio-artifice', 'Humanoid · Studio Artifice', lambda: cutout(frame('studio-artifice/art/figure.mp4', 1.2))),
-]
-SPLITS = [
-    ('primitive', 'artifice-brand', 'Primitives · Artifice', lambda: split(cutout(frame('artifice-brand/plate.mp4', 1.4)), 2)),
-    ('object', 'the-artifact-index', 'Objects · The Artifact Index', lambda: split(cutout(Image.open(f'{R}/stage/the-artifact-index/art/objects.webp')), 2)),
-]
-items = []
-for name, slug, label, load in OBJECTS:
-    f = f'{OBJ}/{name}.png'
-    if not os.path.exists(f): load().save(f)
-    items.append((slug, label, f))
-for name, slug, label, load in SPLITS:
-    fs = sorted(p for p in os.listdir(OBJ) if p.startswith(name + '-'))
-    if not fs:
-        for i, part in enumerate(load()): part.save(f'{OBJ}/{name}-{i}.png')
-        fs = sorted(p for p in os.listdir(OBJ) if p.startswith(name + '-'))
-    items += [(slug, label, f'{OBJ}/{p}') for p in fs]
-ATOMS = {'circle': 'Circle', 'circle-hole': 'Ring', 'square': 'Square', 'square-hole': 'Socket', 'triangle': 'Triangle', 'triangle-hole': 'Aperture'}
-items += [('idler', f'{v} · Idler shape unit', f'{R}/stage/idler/atoms/{k}.png') for k, v in ATOMS.items()]
-MARKS = {'idler': ('idler', 'Idler mark'), 'artifice-glyph': ('artifice-brand', 'Artifice glyph'),
-         'codex-foundry': ('codex-foundry', 'Codex Foundry mark'), 'fielder': ('fielder', 'Fielder mark'), 'biota': ('biota', 'Biota mark')}
-items += [(slug, label, f'{SRC}/marks/{k}.png') for k, (slug, label) in MARKS.items() if os.path.exists(f'{SRC}/marks/{k}.png')]
-
-tiles = []
-for slug, label, f in items:
-    im = Image.open(f).convert('RGBA'); im = im.crop(im.getbbox()); w, h = im.size; k = TILE / max(w, h)
-    tiles.append((slug, label, os.path.relpath(f, f'{R}/stage'), im.resize((max(1, round(w * k)), max(1, round(h * k))), Image.LANCZOS)))
+for slug in slugs:
+    if slug in SKIP_SLUG: continue
+    d = f'{R}/stage/{slug}'
+    if not os.path.isdir(d): continue
+    files = []
+    for root, _, fs in os.walk(d):
+        for f in sorted(fs):
+            p = os.path.join(root, f)
+            if SKIP_FILE.search(p): continue
+            if re.search(r'\.(jpe?g|png|webp)$', f, re.I): files.append(('img', p))
+            elif f.endswith('.mp4'): files += [('mp4', p, 0.6), ('mp4', p, 2.5)]
+    for src in files:
+        try:
+            if src[0] == 'mp4':
+                out = os.path.join(tmp, hashlib.md5(f'{src[1]}{src[2]}'.encode()).hexdigest() + '.png')
+                subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(src[2]), '-i', src[1], '-frames:v', '1', out], check=True)
+                if not os.path.exists(out): continue
+                im = Image.open(out)
+            else:
+                im = Image.open(src[1])
+            im = im.convert('RGB')
+            lo, hi = im.convert('L').getextrema()
+            if hi - lo < 24: continue
+            h = dhash(im)
+            if any(bin(h ^ o).count('1') < 34 for o in hashes): continue
+            hashes.append(h)
+            w, hh = im.size; k = TILE / max(w, hh)
+            tiles.append((slug, im.resize((max(1, round(w * k)), max(1, round(hh * k))), Image.LANCZOS), os.path.relpath(src[1], f'{R}/stage')))
+        except Exception as e:
+            print('skip', src[1], e)
 
 rows = (len(tiles) + COLS - 1) // COLS
-atlas = Image.new('RGBA', (COLS * TILE, rows * TILE), (0, 0, 0, 0)); rects = []
-for i, (_, _, _, im) in enumerate(tiles):
+atlas = Image.new('RGB', (COLS * TILE, rows * TILE), (16, 16, 16)); rects = []
+for i, (_, im, _) in enumerate(tiles):
     x, y = (i % COLS) * TILE, (i // COLS) * TILE
     atlas.paste(im, (x, y)); rects.append([x, y, im.size[0], im.size[1]])
-atlas.save(f'{G}/atlas.png', optimize=True)
-subprocess.run(['cwebp', '-quiet', '-q', '88', '-alpha_q', '95', '-exact', f'{G}/atlas.png', '-o', f'{G}/atlas.webp'], check=True)
+atlas.save(f'{G}/atlas.png')
+subprocess.run(['cwebp', '-quiet', '-q', '84', f'{G}/atlas.png', '-o', f'{G}/atlas.webp'], check=True)
 os.remove(f'{G}/atlas.png')
-# flat marks and shape units sit smaller than the rendered artifacts, so the work leads
-scale = [(.45 if ('/atoms/' in t[2] or '/marks/' in t[2]) else 1) for t in tiles]
-json.dump({'tile': TILE, 'cols': COLS, 'slugs': [t[0] for t in tiles], 'labels': [t[1] for t in tiles], 'scale': scale,
+names = dict(re.findall(r'"([a-z0-9-]+)": \{"name": "([^"]+)"', html))
+json.dump({'tile': TILE, 'cols': COLS, 'slugs': [t[0] for t in tiles], 'labels': [names.get(t[0], t[0]) for t in tiles],
            'rects': rects, 'src': [t[2] for t in tiles]}, open(f'{G}/atlas.json', 'w'))
-print(len(tiles), 'objects', atlas.size, os.path.getsize(f'{G}/atlas.webp') // 1024, 'KB')
+from collections import Counter
+print(len(tiles), 'images', atlas.size, os.path.getsize(f'{G}/atlas.webp') // 1024, 'KB'); print(Counter(t[0] for t in tiles))
