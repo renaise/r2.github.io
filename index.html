@@ -425,17 +425,21 @@
   .feed{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:.55rem;}
   /* The recordings are the vector clusters alone, captured from the live apps at 2x with every
      control hidden (no search bar, no rail, no menus). Shown whole so no cluster is cut off. */
-  .sig video.fg{inset:0;width:100%;height:100%;object-fit:cover;filter:none;background:none;}
+  /* contain, not cover (2026-11-19): the map is square and the frame is taller than wide, so
+     cover cut the map's round edge off at both sides. The whole map now fits the frame's width. */
+  .sig video.fg{inset:0;width:100%;height:100%;object-fit:contain;filter:none;background:none;}
   /* Full bleed: the frame runs past the rail's gutter to both of its edges (left to the
      viewport, right to the rail's dotted rule). Behind each image is a frosted copy of itself,
      blown up, blurred and dimmed, so any shape of image fills the frame without being cropped. */
   .sig{position:relative;display:block;flex:1 1 auto;min-height:110px;max-height:440px;overflow:hidden;
     margin:0 calc(-1 * var(--gut));}
   /* Gradient blur: the clusters dissolve into a blur toward the frame's top and bottom edges. */
-  .sig::before,.sig::after{content:"";position:absolute;left:0;right:0;height:32%;z-index:2;pointer-events:none;
-    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}
-  .sig::before{top:0;-webkit-mask:linear-gradient(to bottom,#000 10%,transparent);mask:linear-gradient(to bottom,#000 10%,transparent);}
-  .sig::after{bottom:0;-webkit-mask:linear-gradient(to top,#000 10%,transparent);mask:linear-gradient(to top,#000 10%,transparent);}
+  /* Softer since the map stopped being cropped: a short band, a light blur, a long ramp, so the
+     map's top and bottom feather into the rail instead of smearing a third of it. */
+  .sig::before,.sig::after{content:"";position:absolute;left:0;right:0;height:18%;z-index:2;pointer-events:none;
+    -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);}
+  .sig::before{top:0;-webkit-mask:linear-gradient(to bottom,#000,transparent);mask:linear-gradient(to bottom,#000,transparent);}
+  .sig::after{bottom:0;-webkit-mask:linear-gradient(to top,#000,transparent);mask:linear-gradient(to top,#000,transparent);}
   .sig .sl{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;}
   .sig .sl.on{opacity:1;}
   .sig .fg{position:absolute;inset:14px var(--gut);width:calc(100% - 2 * var(--gut));height:calc(100% - 28px);
@@ -1073,7 +1077,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Aputure</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/aputure.svg);--r:4.047"></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">A Website for a Global Lighting Catalog</span><br><span class="m">Art Director + Designer</span></div></div>
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl" href="https://studioartifice.com/work/flowafx/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/depictions-of-original-sin/film-cover.jpg)"><img class="cover fill" src="/stage/depictions-of-original-sin/film-cover.jpg" alt="A frame from the film: an iridescent raven on a bare branch against black"><img class="sys" src="/stage/depictions-of-original-sin/moments/show-159.jpg" alt="" loading="lazy"><span class="tag">Production</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/depictions-of-original-sin/film-cover.jpg)"><img class="cover fill" src="/stage/depictions-of-original-sin/film-cover.jpg" alt="A frame from the film: an iridescent raven on a bare branch against black"><img class="sys" src="/stage/depictions-of-original-sin/film-be-water-zerospace.jpg" alt="" loading="lazy"><span class="tag">Production</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Google Labs (Flow)</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/depictions-of-original-sin.svg);--r:6.849"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span></div></div>
       </a>
       <a class="proj" data-slug="biota" data-cat="interface" href="/biota/">
