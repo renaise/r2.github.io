@@ -17,13 +17,13 @@
 <meta property="og:url" content="https://renaise.com/" />
 <meta property="og:title" content="Renaise Kim · Visual Systems" />
 <meta property="og:description" content="Renaise Kim is a designer and curator working from web to world: identity, product and data visualization for new technology to new productions." />
-<meta property="og:image" content="https://renaise.com/assets/og.jpg?v=4" />
+<meta property="og:image" content="https://renaise.com/assets/og.jpg?v=5" />
 <meta property="og:image:width" content="2400" />
 <meta property="og:image:height" content="1260" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Renaise Kim · Visual Systems" />
 <meta name="twitter:description" content="Renaise Kim is a designer and curator working from web to world: identity, product and data visualization for new technology to new productions." />
-<meta name="twitter:image" content="https://renaise.com/assets/og.jpg?v=4" />
+<meta name="twitter:image" content="https://renaise.com/assets/og.jpg?v=5" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Renaise Kim","url":"https://renaise.com/",
  "jobTitle":"Designer","email":"mailto:krenaise@gmail.com",
@@ -2687,7 +2687,7 @@ document.documentElement.className+=' js';
       });
     }
     function frame(){
-      raf=0; if(!drag&&hover<0) rotY+=spin;   // hold still while a tile is open
+      raf=0; if(!drag) rotY+=hover<0?spin:spin*.5;   // keeps turning, at half speed, behind an open tile
       orb.style.transform='rotateX('+rotX+'rad) rotateY('+rotY+'rad)';
       // facing: brightest where a tile looks straight at the camera, fading to the rim
       var cy=Math.cos(rotY), sy=Math.sin(rotY), cx=Math.cos(rotX), sx=Math.sin(rotX);
@@ -2715,7 +2715,7 @@ document.documentElement.className+=' js';
       // long side lands at ~62% of the globe's width once the perspective has enlarged it
       // Playing (2026-11-20): a tile from a video plays that video from the frame it shows; a
       // cutout plays its own loop at the loop's proportions; a still drifts slowly.
-      var vid=A.vid&&A.vid[o.t], full=fullSrc(o.t), ar=vid?vid[2]:(full?full.ar:TW/TH), big=Math.min(bx.width,bx.height)*.62/f, zw=ar>=1?big:big*ar, zh=zw/ar;
+      var vid=A.vid&&A.vid[o.t], full=fullSrc(o.t), ar=vid?vid[2]:(full?full.ar:TW/TH), big=Math.min(bx.width,bx.height)*(parseFloat(getComputedStyle(box).getPropertyValue('--zoom'))||.62)/f, zw=ar>=1?big:big*ar, zh=zw/ar;
       var zx=r.left-bx.left+r.width/2, zy=r.top-bx.top+r.height/2;
       zoom.style.width=zw+'px'; zoom.style.height=zh+'px'; zoom.style.left=(zx-zw/2)+'px'; zoom.style.top=(zy-zh/2)+'px';
       var cut=vid&&/^globe\/src\/objects\//.test(A.src[o.t]);   // a cutout: show its video's own poster first
