@@ -14,14 +14,36 @@ Run: python3 stage/globe/build-atlas.py
 import json, os, re, subprocess, tempfile, hashlib
 from PIL import Image
 R = os.path.expanduser('~/SEANCE/r2.github.io'); G = f'{R}/stage/globe'
-TILE, COLS = 128, 16
+TILE, COLS = 160, 16; TW, TH = 160, 120  # every tile the same 4:3 shape: the cohesion
 html = open(f'{R}/index.html').read()
 slugs = re.findall(r'<a class="proj" data-slug="([^"]+)"', html)
 SKIP_SLUG = {'depictions-of-original-sin'}            # the six artists' film
-SKIP_FILE = re.compile(r'(system|clusters|before|/globe/|atlas|og\.|favicon|frame-\d|show-\d)', re.I)
+SKIP_FILE = re.compile(r'(system|clusters|before|/globe/|atlas|og\.|favicon|frame-\d|show-\d|/art/|artifice-brand/plate|shell-turn|shell-card)', re.I)  # artifacts come from src/objects once
+def dhash(im):
+    g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
+    return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
+
 tmp = tempfile.mkdtemp(); tiles = []; hashes = []
 
-def dhash(im):
+def fit43(im):
+    # Never crop (2026-11-19): the whole image sits inside the 4:3 tile on its dark ground.
+    im = im.convert('RGB'); im.thumbnail((TW - 8, TH - 8), Image.LANCZOS)
+    t = Image.new('RGB', (TW, TH), (13, 13, 14)); t.paste(im, ((TW - im.width) // 2, (TH - im.height) // 2))
+    return t
+
+# artifacts first: each cutout centred on the tile's dark ground
+OBJ = f'{G}/src/objects'
+ART = {'shell': 'idler', 'vector': 'idler', 'petri': 'osmosis', 'symbiota': 'biota', 'humanoid': 'studio-artifice'}
+for fn in sorted(os.listdir(OBJ)) if os.path.isdir(OBJ) else []:
+    key = fn.split('.')[0].split('-')[0]
+    slug = ART.get(key) or {'primitive': 'artifice-brand', 'object': 'the-artifact-index'}.get(key)
+    if not slug: continue
+    o = Image.open(f'{OBJ}/{fn}').convert('RGBA'); o.thumbnail((int(TW * .86), int(TH * .86)), Image.LANCZOS)
+    t = Image.new('RGBA', (TW, TH), (13, 13, 14, 255)); t.alpha_composite(o, ((TW - o.width) // 2, (TH - o.height) // 2))
+    tiles.append((slug, t.convert('RGB'), 'globe/src/objects/' + fn)); hashes.append(dhash(t.convert('RGB')))
+
+
+def _unused_dhash(im):
     g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
     return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
 
@@ -51,16 +73,15 @@ for slug in slugs:
             h = dhash(im)
             if any(bin(h ^ o).count('1') < 34 for o in hashes): continue
             hashes.append(h)
-            w, hh = im.size; k = TILE / max(w, hh)
-            tiles.append((slug, im.resize((max(1, round(w * k)), max(1, round(hh * k))), Image.LANCZOS), os.path.relpath(src[1], f'{R}/stage')))
+            tiles.append((slug, fit43(im), os.path.relpath(src[1], f'{R}/stage')))
         except Exception as e:
             print('skip', src[1], e)
 
 rows = (len(tiles) + COLS - 1) // COLS
-atlas = Image.new('RGB', (COLS * TILE, rows * TILE), (16, 16, 16)); rects = []
+atlas = Image.new('RGB', (COLS * TW, rows * TH), (13, 13, 14)); rects = []
 for i, (_, im, _) in enumerate(tiles):
-    x, y = (i % COLS) * TILE, (i // COLS) * TILE
-    atlas.paste(im, (x, y)); rects.append([x, y, im.size[0], im.size[1]])
+    x, y = (i % COLS) * TW, (i // COLS) * TH
+    atlas.paste(im, (x, y)); rects.append([x, y, TW, TH])
 atlas.save(f'{G}/atlas.png')
 subprocess.run(['cwebp', '-quiet', '-q', '84', f'{G}/atlas.png', '-o', f'{G}/atlas.webp'], check=True)
 os.remove(f'{G}/atlas.png')

@@ -38,7 +38,7 @@ def cutout(im):
         for x in range(gw):
             r, g, b = px[x, y]
             d = max(abs(r - bg[0]), abs(g - bg[1]), abs(b - bg[2]))
-            po[x, y] = (r, g, b, max(0, min(255, int((d - 14) * 255 / 38))))
+            po[x, y] = (r, g, b, max(0, min(255, int((d - 26) * 255 / 34))))  # stricter: no faint halos
     return out.crop(out.getbbox())
 
 def split(im, n=2):
@@ -95,7 +95,7 @@ atlas.save(f'{G}/atlas.png', optimize=True)
 subprocess.run(['cwebp', '-quiet', '-q', '88', '-alpha_q', '95', '-exact', f'{G}/atlas.png', '-o', f'{G}/atlas.webp'], check=True)
 os.remove(f'{G}/atlas.png')
 # flat marks and shape units sit smaller than the rendered artifacts, so the work leads
-scale = [(.45 if ('/atoms/' in t[2] or '/marks/' in t[2]) else 1) for t in tiles]
+scale = [(.32 if ('/atoms/' in t[2] or '/marks/' in t[2]) else 1) for t in tiles]
 json.dump({'tile': TILE, 'cols': COLS, 'slugs': [t[0] for t in tiles], 'labels': [t[1] for t in tiles], 'scale': scale,
            'rects': rects, 'src': [t[2] for t in tiles]}, open(f'{G}/atlas.json', 'w'))
 print(len(tiles), 'objects', atlas.size, os.path.getsize(f'{G}/atlas.webp') // 1024, 'KB')
