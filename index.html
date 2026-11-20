@@ -849,7 +849,6 @@
   .cs-gated .cs{background:color-mix(in srgb,var(--bg1) 42%,transparent);
     -webkit-backdrop-filter:blur(22px) saturate(1.05);backdrop-filter:blur(22px) saturate(1.05);}
   .cs-gated .wrap{transform:none;opacity:1;}
-  .cs-gated .cs-mast{text-align:center;}
   /* on a phone the rail is not a rail: the page behind the glass keeps its own layout */
   @media(max-width:900px){ .cs-gated .side{position:static;} .cs-gated .wrap{margin-left:0;} }
   .cs-deckview .cs-top{display:none;}
@@ -1176,7 +1175,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Biota</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/biota-wordmark.svg);--r:4.643"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">Imagine Anything, Seed Everything</span><br><span class="m">Designer</span></div></div>
       </a>
       <a class="proj" data-slug="studio-artifice" data-cat="identity website" href="https://studioartifice.com">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/studio-artifice/cover.jpg)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg" aria-label="Studio Artifice worldsite, the project carousel moving between Sensitive Subjects and Osmosis"></video><img class="sys" src="/stage/studio-artifice/system.jpg" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/studio-artifice/cover.jpg?v=2)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg?v=2" aria-label="studioartifice.com: the studio statement over the turning thermal figure, with the inquiry form under it"></video><img class="sys" src="/stage/studio-artifice/system.jpg?v=2" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Studio Artifice</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">The Studio’s Identity + Website</span><br><span class="m">Founder + Creative Director</span></div></div>
       </a>
       <a class="proj" data-slug="lighthouse" data-cat="identity website" href="https://studioartifice.com/work/lighthouse/">
@@ -1208,11 +1207,11 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Vamos</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/vamos.svg);--r:4.298"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Multiplayer Itinerary Planning for Travel</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="fielder" data-cat="interface" href="https://fielder.codexfoundry.com/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/fielder/cover.jpg?v=3)"><video class="cover fill" src="/stage/fielder/cover.mp4?v=3" muted loop playsinline preload="none" poster="/stage/fielder/cover.jpg?v=3" aria-label="Fielder: a library of museum images rearranging from likeness into a color fan"></video><img class="sys rest" src="/stage/fielder/rest.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/fielder/cover.jpg?v=4)"><video class="cover fill" src="/stage/fielder/cover.mp4?v=4" muted loop playsinline preload="none" poster="/stage/fielder/cover.jpg?v=4" aria-label="Fielder: a library of museum images rearranging from likeness into a color fan"></video><img class="sys rest" src="/stage/fielder/rest.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/fielder.svg);--r:1"></span><b>Fielder</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Browsing Images by Likeness + Color</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="moshpit" data-cat="interface" href="https://moshpit.codexfoundry.com/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/moshpit/cover.jpg?v=3)"><video class="cover fill" src="/stage/moshpit/cover.mp4?v=3" muted loop playsinline preload="none" poster="/stage/moshpit/cover.jpg?v=3" aria-label="Moshpit: jazz photographs and performance works sorted into labeled crowds, then lined up by color"></video><img class="sys" src="/stage/moshpit/feeds.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/moshpit/cover.jpg?v=4)"><video class="cover fill" src="/stage/moshpit/cover.mp4?v=4" muted loop playsinline preload="none" poster="/stage/moshpit/cover.jpg?v=4" aria-label="Moshpit: jazz photographs and performance works sorted into labeled crowds, then lined up by color"></video><img class="sys" src="/stage/moshpit/feeds.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/moshpit.png?v=3);--r:1"></span><b>Moshpit</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Turning Saved Media into Shared Collections</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="codex-foundry" data-cat="website" href="https://codexfoundry.com/">
@@ -2616,10 +2615,10 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=21').then(function(r){ return r.json(); }).then(start).catch(function(){});
+  fetch('/stage/globe/atlas.json?v=22').then(function(r){ return r.json(); }).then(start).catch(function(){});
 
   function start(A){
-    var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=21';
+    var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=22';
     var ga=Math.PI*(3-Math.sqrt(5)), tiles=[], R=0, S=0, rotY=0, rotX=-.25, spin=still?0:.0016, drag=null, raf=0, seen=true, hover=-1;
     // Fibonacci sphere: even spacing; each tile keeps its longitude/latitude
     for(var k=0;k<N;k++){
@@ -2656,7 +2655,7 @@ document.documentElement.className+=' js';
     }
     function kick(){ if(!raf) raf=requestAnimationFrame(frame); }
     // the tile's own image at up to 720px (stage/globe/z), fetched when it opens
-    function fullSrc(t){ return A.ar&&A.ar[t]?{url:'/stage/globe/z/'+('00'+t).slice(-3)+'.webp?v=21', ar:A.ar[t]}:null; }
+    function fullSrc(t){ return A.ar&&A.ar[t]?{url:'/stage/globe/z/'+('00'+t).slice(-3)+'.webp?v=22', ar:A.ar[t]}:null; }
     function setHover(i){
       if(i===hover) return;
       // Parallax zoom (2026-11-19): an upright copy of the tile flies toward the camera from
