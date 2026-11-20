@@ -350,9 +350,11 @@
     object-fit:contain;object-position:center bottom;padding:6% 6% 0;background:transparent;}
   /* medium as a label ON the plate, out of the text stack. The plate is dark in both
      themes, so the label is light regardless of --ink. */
-  .media .tag{position:absolute;z-index:3;left:.55rem;bottom:.5rem;font-size:.62rem;
-    letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92);
-    padding:.22rem .4rem .18rem;border-radius:3px;pointer-events:none;
+  /* Set like the filter tabs it answers to (2026-11-20): sentence case, the same size and
+     pill, so "Interface" on a card reads as the "Interface" tab on the left. */
+  .media .tag{position:absolute;z-index:3;left:.55rem;bottom:.5rem;font-family:var(--sans);font-size:.72rem;
+    letter-spacing:0;text-transform:none;color:rgba(255,255,255,.92);line-height:normal;
+    padding:.3rem .6rem;border-radius:999px;pointer-events:none;
     background:rgba(10,10,10,.32);backdrop-filter:blur(10px) saturate(1.2);
     -webkit-backdrop-filter:blur(10px) saturate(1.2);}
   /* full-bleed exception: native 16:9 compositions fill the plate */
@@ -487,13 +489,15 @@
   .g3-zoom{position:absolute;pointer-events:none;background-repeat:no-repeat;opacity:0;transform:translate3d(0,0,0);
     transition:transform .55s cubic-bezier(.2,.7,.2,1),opacity .25s;filter:drop-shadow(0 14px 28px rgba(0,0,0,.55));}
   .g3-zoom.in{opacity:1;}
-  .g3-zoom{overflow:hidden;}
+  .g3-zoom{overflow:visible;}
   .g3-zi,.g3-zv{position:absolute;inset:0;width:100%;height:100%;background-repeat:no-repeat;}
   .g3-zv{object-fit:cover;opacity:0;transition:opacity .35s;}
   .g3-zv.on{opacity:1;}
-  /* a still has nothing to play, so it drifts: slow scale + pan while it is open */
-  .g3-zoom.drift.in .g3-zi{animation:g3drift 7s ease-in-out infinite alternate;}
-  @keyframes g3drift{from{transform:scale(1) translate(0,0);}to{transform:scale(1.09) translate(-2%,-1.5%);}}
+  /* A still has nothing to play, so it sways: a slow 3D rock of the whole image, never a
+     zoom, so every edge stays in view (2026-11-20). */
+  .g3-zoom.drift.in .g3-zi{animation:g3sway 5.5s ease-in-out infinite alternate;transform-origin:50% 50%;}
+  @keyframes g3sway{from{transform:perspective(700px) rotateY(-9deg) rotateX(3deg) translateY(2%);}
+    to{transform:perspective(700px) rotateY(9deg) rotateX(-3deg) translateY(-2%);}}
   @media(prefers-reduced-motion:reduce){ .g3-t{transition:none;} }
   .gl-tip{position:absolute;left:0;top:0;z-index:3;white-space:nowrap;padding:.15rem .4rem;background:rgba(0,0,0,.72);font-family:var(--sans);font-size:.72rem;
     color:var(--sw2);pointer-events:none;opacity:0;transition:opacity .2s;}
