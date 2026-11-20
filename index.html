@@ -2575,37 +2575,22 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=14').then(function(r){ return r.json(); }).then(function(A){
-    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.webp?v=14';
+  fetch('/stage/globe/atlas.json?v=15').then(function(r){ return r.json(); }).then(function(A){
+    var img=new Image(); img.onload=function(){ start(A,img); }; img.src='/stage/globe/atlas.webp?v=15';
   }).catch(function(){});
 
   function start(A,img){
     // One point per image: every artifact appears once (the atlas is de-duplicated by look).
     var T=A.tile, C=A.cols, n=A.slugs.length, N=n;
-    // Laid out like a Moshpit map (2026-11-19): a round cloud of small images in clusters,
-    // one cluster per project, packed through the volume rather than spread over a surface.
-    var seed=11, k, j;
+    // Artifacts only (2026-11-19): spread evenly over the sphere (Fibonacci), shuffled so
+    // neighbours come from different projects, each sized to the gap so the orb reads full.
+    var seed=11, k, j, t, order=[];
     function rnd(){ seed=(seed*16807)%2147483647; return seed/2147483647; }
-    var groups={}, gl=[];
-    for(k=0;k<N;k++){ var g=A.slugs[k]; if(!groups[g]){ groups[g]=[]; gl.push(g); } groups[g].push(k); }
-    var pts=[], ga=Math.PI*(3-Math.sqrt(5)), G=gl.length;
-    gl.forEach(function(g,gi){
-      // cluster centers spread evenly, pulled in from the rim so every group stays inside
-      var y=1-2*(gi+.5)/G, r=Math.sqrt(1-y*y), th=gi*ga, cr=.58;
-      // Clusters on the sphere's surface (2026-11-19): each project a patch around its own
-      // point on the orb, so the outline stays a clean sphere and the groups read as groups.
-      var cx=Math.cos(th)*r, cy=y, cz=Math.sin(th)*r, m=groups[g], ang=.2+.075*Math.sqrt(m.length);
-      // two tangent directions at the cluster center
-      var ax=Math.abs(cy)<.9?[0,1,0]:[1,0,0];
-      var t1=[cy*ax[2]-cz*ax[1], cz*ax[0]-cx*ax[2], cx*ax[1]-cy*ax[0]], l1=Math.hypot(t1[0],t1[1],t1[2]); t1=t1.map(function(v){ return v/l1; });
-      var t2=[cy*t1[2]-cz*t1[1], cz*t1[0]-cx*t1[2], cx*t1[1]-cy*t1[0]];
-      m.forEach(function(t,mi){
-        // sunflower spiral inside the patch: even, dense, no overlaps piling up
-        var rr=ang*Math.sqrt((mi+.5)/m.length), a=mi*ga+rnd()*.4;
-        var x=cx+rr*(Math.cos(a)*t1[0]+Math.sin(a)*t2[0]), yy=cy+rr*(Math.cos(a)*t1[1]+Math.sin(a)*t2[1]), z=cz+rr*(Math.cos(a)*t1[2]+Math.sin(a)*t2[2]);
-        var l=Math.hypot(x,yy,z); pts.push({x:x/l,y:yy/l,z:z/l,t:t,sx:0,sy:0,s:0,d:0});
-      });
-    });
+    for(k=0;k<N;k++) order.push(k);
+    for(k=N-1;k>0;k--){ j=Math.floor(rnd()*(k+1)); t=order[k]; order[k]=order[j]; order[j]=t; }
+    var pts=[], ga=Math.PI*(3-Math.sqrt(5));
+    for(k=0;k<N;k++){ var y=1-2*(k+.5)/N, r=Math.sqrt(1-y*y), th=k*ga;
+      pts.push({x:Math.cos(th)*r,y:y,z:Math.sin(th)*r,t:order[k],sx:0,sy:0,s:0,d:0}); }
     var rotY=0, rotX=-.28, spin=still?0:.0011, W=0,H=0,dpr=1,R=0,S=0, hover=-1, drag=null, raf=0, seen=true;
     function size(){
       dpr=Math.min(window.devicePixelRatio||1,2); W=box.clientWidth; H=box.clientHeight;
@@ -2613,7 +2598,7 @@ document.documentElement.className+=' js';
       // Tiles sized to the spacing between points, so the sphere reads full without repeats,
       // and the radius leaves room for the outermost tile: the globe always fits whole.
       var M=Math.min(W,H)/2, gap=Math.sqrt(4*Math.PI/N);
-      R=M*.88; S=R*.22;  // Moshpit-like: small tiles in a dense cloud  // cutouts carry no ground, so they can sit larger: denser
+      var gap=Math.sqrt(4*Math.PI/N); R=M/(1+gap*.45); S=R*gap*1.25;  // Moshpit-like: small tiles in a dense cloud  // cutouts carry no ground, so they can sit larger: denser
     }
     function frame(){
       raf=0; if(!W) size();
@@ -2639,11 +2624,13 @@ document.documentElement.className+=' js';
       // Hovered image on top (2026-11-19): drawn last at full opacity, with a hairline frame,
       // so neighbours in front of it never cover it; its name sits right above it.
       if(hover>=0){
-        var hp=pts[hover], hsc=(A.scale&&A.scale[hp.t])||1, hr=A.rects[hp.t], hw=hp.s*hsc*hr[2]/T, hh=hp.s*hsc*hr[3]/T;
-        ctx.globalAlpha=1; ctx.drawImage(img,hr[0],hr[1],hr[2],hr[3],hp.sx-hw/2,hp.sy-hh/2,hw,hh);
-        ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=1; ctx.strokeRect(Math.round(hp.sx-hw/2)-.5,Math.round(hp.sy-hh/2)-.5,Math.round(hw)+1,Math.round(hh)+1);
-        var tw=tip.offsetWidth||0, tx=Math.max(6,Math.min(W-tw-6,hp.sx-tw/2)), ty=hp.sy-hh/2-22;
-        if(ty<4) ty=hp.sy+hh/2+6;
+        // A clear view: the hovered artifact opens to ~42% of the globe, kept inside the frame.
+        var hp=pts[hover], hr=A.rects[hp.t], big=Math.min(W,H)*.42, k=big/Math.max(hr[2],hr[3]),
+            hw=hr[2]*k, hh=hr[3]*k, cx=Math.max(hw/2+6,Math.min(W-hw/2-6,hp.sx)), cy=Math.max(hh/2+28,Math.min(H-hh/2-6,hp.sy));
+        ctx.globalAlpha=.55; ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillRect(0,0,W,H);
+        ctx.globalAlpha=1; ctx.drawImage(img,hr[0],hr[1],hr[2],hr[3],cx-hw/2,cy-hh/2,hw,hh);
+        var tw=tip.offsetWidth||0, tx=Math.max(6,Math.min(W-tw-6,cx-tw/2)), ty=cy-hh/2-24;
+        if(ty<4) ty=cy+hh/2+6;
         tip.style.transform='translate('+Math.round(tx)+'px,'+Math.round(ty)+'px)';
       }
       ctx.globalAlpha=1;
