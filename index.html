@@ -309,6 +309,8 @@
   .filters button:hover::before,.filters a:hover::before{background:color-mix(in srgb,var(--ink) 10%,transparent);}
   .filters a:focus-visible,.filters button:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   .filters button[aria-pressed="true"],.filters button[aria-pressed="true"]:hover{color:var(--accent);outline:0;}
+  /* the selected filter still shows keyboard focus; outline:0 above is for the mouse */
+  .filters button[aria-pressed="true"]:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   /* One button system (2026-11-19): active is a 20% fill of the ink, hover 10%. */
   .filters button[aria-pressed="true"]::before,.filters button[aria-pressed="true"]:hover::before{background:color-mix(in srgb,var(--ink) 20%,transparent);}
   .filters button[aria-pressed="true"] .n{opacity:.7;}
@@ -1126,6 +1128,13 @@
   .note{grid-template-columns:var(--q) 1fr;column-gap:var(--col-gap);}
   @media(max-width:900px){ .note{grid-template-columns:2.4rem 1fr;column-gap:.2rem;} }
   @media(max-width:600px){ .layout{grid-template-columns:1fr;row-gap:2.8rem;} }
+  /* /cd 2026-11-20: one label system. The section chips and artifact captions follow the card
+     tags and the filter tabs: sentence case, tab size, no tracking. Touch targets on the
+     Project Deck gate reach 44px on phones. */
+  .cv .lbl{font-size:.72rem;letter-spacing:0;text-transform:none;border-radius:999px;padding:.3rem .6rem;}
+  .art .src{font-size:.72rem;letter-spacing:0;text-transform:none;}
+  .cv .sub{font-size:.72rem;letter-spacing:0;text-transform:none;}
+  @media(max-width:900px){ .cs-gate input,.cs-gate button{height:44px;} }
 </style>
 <script>
 // Runs before first paint: resolves the theme so the page never flashes the wrong one.
