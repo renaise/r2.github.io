@@ -487,6 +487,13 @@
   .g3-zoom{position:absolute;pointer-events:none;background-repeat:no-repeat;opacity:0;transform:translate3d(0,0,0);
     transition:transform .55s cubic-bezier(.2,.7,.2,1),opacity .25s;filter:drop-shadow(0 14px 28px rgba(0,0,0,.55));}
   .g3-zoom.in{opacity:1;}
+  .g3-zoom{overflow:hidden;}
+  .g3-zi,.g3-zv{position:absolute;inset:0;width:100%;height:100%;background-repeat:no-repeat;}
+  .g3-zv{object-fit:cover;opacity:0;transition:opacity .35s;}
+  .g3-zv.on{opacity:1;}
+  /* a still has nothing to play, so it drifts: slow scale + pan while it is open */
+  .g3-zoom.drift.in .g3-zi{animation:g3drift 7s ease-in-out infinite alternate;}
+  @keyframes g3drift{from{transform:scale(1) translate(0,0);}to{transform:scale(1.09) translate(-2%,-1.5%);}}
   @media(prefers-reduced-motion:reduce){ .g3-t{transition:none;} }
   .gl-tip{position:absolute;left:0;top:0;z-index:3;white-space:nowrap;padding:.15rem .4rem;background:rgba(0,0,0,.72);font-family:var(--sans);font-size:.72rem;
     color:var(--sw2);pointer-events:none;opacity:0;transition:opacity .2s;}
@@ -1191,7 +1198,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Artifice Brand Identity</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.434"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">The Identity for Artifice NYC</span><br><span class="m">Creative Director</span></div></div>
       </a>
       <a class="proj" data-slug="artifactory" data-cat="interface" href="https://artifactory.codexfoundry.com">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/artifactory/cover.jpg?v=2)"><video class="cover fill" src="/stage/artifactory/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg?v=2"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/artifactory/cover.jpg?v=3)"><video class="cover fill" src="/stage/artifactory/cover.mp4?v=3" muted loop playsinline preload="none" poster="/stage/artifactory/cover.jpg?v=3"></video><img class="sys" src="/stage/artifactory/system.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Browser-Based 3D Design Tool</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="maestro" data-cat="interface" href="https://id-maestro.pages.dev/">
@@ -2608,17 +2615,17 @@ document.documentElement.className+=' js';
   var sec=document.querySelector('.feed'); if(!sec) return;
   var old=sec.querySelector('.sig'); if(!old) return;
   var box=document.createElement('div'); box.className='sig globe g3';
-  box.innerHTML='<div class="g3-cam" role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an image to open that project."><div class="g3-push"><div class="g3-orb"></div></div><div class="g3-zoom" aria-hidden="true"></div></div><span class="gl-tip" aria-hidden="true"></span>';
+  box.innerHTML='<div class="g3-cam" role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an image to open that project."><div class="g3-push"><div class="g3-orb"></div></div><div class="g3-zoom" aria-hidden="true"><div class="g3-zi"></div><video class="g3-zv" muted loop playsinline preload="none"></video></div></div><span class="gl-tip" aria-hidden="true"></span>';
   old.replaceWith(box); sec.hidden=false;
-  var cam=box.querySelector('.g3-cam'), orb=box.querySelector('.g3-orb'), push=box.querySelector('.g3-push'), zoom=box.querySelector('.g3-zoom'), tip=box.querySelector('.gl-tip');
+  var cam=box.querySelector('.g3-cam'), orb=box.querySelector('.g3-orb'), zi=box.querySelector('.g3-zi'), zv=box.querySelector('.g3-zv'), push=box.querySelector('.g3-push'), zoom=box.querySelector('.g3-zoom'), tip=box.querySelector('.gl-tip');
   var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=22').then(function(r){ return r.json(); }).then(start).catch(function(){});
+  fetch('/stage/globe/atlas.json?v=24').then(function(r){ return r.json(); }).then(start).catch(function(){});
 
   function start(A){
-    var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=22';
+    var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=24';
     var ga=Math.PI*(3-Math.sqrt(5)), tiles=[], R=0, S=0, rotY=0, rotX=-.25, spin=still?0:.0016, drag=null, raf=0, seen=true, hover=-1;
     // Fibonacci sphere: even spacing; each tile keeps its longitude/latitude
     for(var k=0;k<N;k++){
@@ -2626,7 +2633,6 @@ document.documentElement.className+=' js';
       el.className='g3-t'; el.dataset.i=k;
       var rc=A.rects[k];
       el.style.backgroundImage='url('+URL+')';
-      zoom.style.backgroundImage='url('+URL+')';
       tiles.push({el:el, lat:lat, lon:lon, t:k}); orb.appendChild(el);
     }
     function size(){
@@ -2655,7 +2661,7 @@ document.documentElement.className+=' js';
     }
     function kick(){ if(!raf) raf=requestAnimationFrame(frame); }
     // the tile's own image at up to 720px (stage/globe/z), fetched when it opens
-    function fullSrc(t){ return A.ar&&A.ar[t]?{url:'/stage/globe/z/'+('00'+t).slice(-3)+'.webp?v=22', ar:A.ar[t]}:null; }
+    function fullSrc(t){ return A.ar&&A.ar[t]?{url:'/stage/globe/z/'+('00'+t).slice(-3)+'.webp?v=24', ar:A.ar[t]}:null; }
     function setHover(i){
       if(i===hover) return;
       // Parallax zoom (2026-11-19): an upright copy of the tile flies toward the camera from
@@ -2663,19 +2669,31 @@ document.documentElement.className+=' js';
       // eases back, so the two separate in depth. The copy starts on the tile's own rect.
       if(hover>=0) tiles[hover].el.classList.remove('on');
       hover=i;
-      if(i<0){ zoom.classList.remove('in'); push.classList.remove('back'); tip.classList.remove('on'); box.style.cursor=drag?'grabbing':'grab'; kick(); return; }
+      if(i<0){ try{ zv.pause(); }catch(_){} zv.classList.remove('on'); zoom.classList.remove('in'); push.classList.remove('back'); tip.classList.remove('on'); box.style.cursor=drag?'grabbing':'grab'; kick(); return; }
       var o=tiles[i]; o.el.classList.add('on');
       var r=o.el.getBoundingClientRect(), bx=box.getBoundingClientRect(), rc=A.rects[o.t];
       // Upscaled (2026-11-19): the zoom shows the source image itself at its own proportions,
       // sized so it lands at about 56% of the globe's width after perspective.
       var cxm=bx.width/2, cym=bx.height/2, per=parseFloat(getComputedStyle(cam).perspective)||R*3.2, depth=per*.45, f=per/(per-depth);
       // long side lands at ~62% of the globe's width once the perspective has enlarged it
-      var full=fullSrc(o.t), ar=full?full.ar:TW/TH, big=Math.min(bx.width,bx.height)*.62/f, zw=ar>=1?big:big*ar, zh=zw/ar;
+      // Playing (2026-11-20): a tile from a video plays that video from the frame it shows; a
+      // cutout plays its own loop at the loop's proportions; a still drifts slowly.
+      var vid=A.vid&&A.vid[o.t], full=fullSrc(o.t), ar=vid?vid[2]:(full?full.ar:TW/TH), big=Math.min(bx.width,bx.height)*.62/f, zw=ar>=1?big:big*ar, zh=zw/ar;
       var zx=r.left-bx.left+r.width/2, zy=r.top-bx.top+r.height/2;
       zoom.style.width=zw+'px'; zoom.style.height=zh+'px'; zoom.style.left=(zx-zw/2)+'px'; zoom.style.top=(zy-zh/2)+'px';
-      if(full){ zoom.style.backgroundImage='url("'+full.url+'")'; zoom.style.backgroundSize='100% 100%'; zoom.style.backgroundPosition='0 0'; }
-      else { var sc=zw/TW; zoom.style.backgroundImage='url('+URL+')'; zoom.style.backgroundSize=(C*TW*sc)+'px '+(rows*TH*sc)+'px'; zoom.style.backgroundPosition=(-rc[0]*sc)+'px '+(-rc[1]*sc)+'px'; }
-      var tx=(cxm-zx)*.55, ty=(cym-zy)*.55;
+      var cut=vid&&/^globe\/src\/objects\//.test(A.src[o.t]);   // a cutout: show its video's own poster first
+      if(cut){ zi.style.backgroundImage='url("/stage/'+vid[0].replace(/\.mp4$/,'.jpg')+'")'; zi.style.backgroundSize='cover'; zi.style.backgroundPosition='50% 50%'; }
+      else if(full){ zi.style.backgroundImage='url("'+full.url+'")'; zi.style.backgroundSize='100% 100%'; zi.style.backgroundPosition='0 0'; }
+      else { var sc=zw/TW; zi.style.backgroundImage='url('+URL+')'; zi.style.backgroundSize=(C*TW*sc)+'px '+(rows*TH*sc)+'px'; zi.style.backgroundPosition=(-rc[0]*sc)+'px '+(-rc[1]*sc)+'px'; }
+      zoom.classList.toggle('drift',!vid&&!still); zv.classList.remove('on');
+      if(vid&&!still){ var vs='/stage/'+vid[0]; if(zv.getAttribute('src')!==vs){ zv.setAttribute('src',vs); }
+        // preload="none" fetches nothing until play(), so play first and seek once metadata exists
+        var seek=function(){ try{ if(vid[1]&&zv.currentTime<vid[1]) zv.currentTime=vid[1]; }catch(_){} };
+        if(zv.readyState>=1) seek(); else zv.addEventListener('loadedmetadata',seek,{once:true});
+        var pr=zv.play(); if(pr&&pr.catch) pr.catch(function(){});
+        zv.onplaying=function(){ if(hover===i) zv.classList.add('on'); }; }
+      else { try{ zv.pause(); }catch(_){} }
+      var tx=cxm-zx, ty=cym-zy;   // the opened artifact lands at the globe's center
       zoom.classList.remove('in'); void zoom.offsetWidth;
       zoom.style.transform='translate3d('+tx+'px,'+ty+'px,'+depth+'px)'; zoom.classList.add('in');
       push.style.setProperty('--back',(-R*.35)+'px'); push.classList.add('back'); hoverAt=lastPt;

@@ -23,7 +23,7 @@ def dhash(im):
     g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
     return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
 
-tmp = tempfile.mkdtemp(); tiles = []; hashes = []; zooms = []  # zooms: the full image behind each tile, for the hover zoom
+tmp = tempfile.mkdtemp(); tiles = []; hashes = []; zooms = []; vids = []  # vids: what plays when a tile opens  # zooms: the full image behind each tile, for the hover zoom
 
 def fit43(im):
     # Never crop (2026-11-19): the whole image sits inside the 4:3 tile on its dark ground.
@@ -34,6 +34,9 @@ def fit43(im):
 # artifacts first: each cutout centred on the tile's dark ground
 OBJ = f'{G}/src/objects'
 ART = {'shell': 'idler', 'vector': 'idler', 'petri': 'osmosis', 'symbiota': 'biota', 'humanoid': 'studio-artifice'}
+# each cutout's own loop, played when its tile opens on the globe
+OBJ_VID = {'shell': ['idler/art/shell.mp4', 0], 'petri': ['osmosis/art/petri.mp4', 0], 'symbiota': ['biota/art/fish.mp4', 0],
+           'humanoid': ['studio-artifice/art/figure.mp4', 0], 'primitive': ['artifice-brand/plate.mp4', 0]}
 for fn in sorted(os.listdir(OBJ)) if os.path.isdir(OBJ) else []:
     key = fn.split('.')[0].split('-')[0]
     slug = ART.get(key) or {'primitive': 'artifice-brand', 'object': 'the-artifact-index'}.get(key)
@@ -42,6 +45,7 @@ for fn in sorted(os.listdir(OBJ)) if os.path.isdir(OBJ) else []:
     t = Image.new('RGBA', (TW, TH), (13, 13, 14, 255)); t.alpha_composite(o, ((TW - o.width) // 2, (TH - o.height) // 2))
     tiles.append((slug, t.convert('RGB'), 'globe/src/objects/' + fn)); hashes.append(dhash(t.convert('RGB')))
     zooms.append(Image.open(f'{OBJ}/{fn}').convert('RGBA'))
+    vids.append(OBJ_VID.get(key))
 
 
 def _unused_dhash(im):
@@ -75,6 +79,7 @@ for slug in slugs:
             if any(bin(h ^ o).count('1') < 34 for o in hashes): continue
             hashes.append(h)
             tiles.append((slug, fit43(im), os.path.relpath(src[1], f'{R}/stage'))); zooms.append(im)
+            vids.append([os.path.relpath(src[1], f'{R}/stage'), src[2]] if src[0] == 'mp4' else None)
         except Exception as e:
             print('skip', src[1], e)
 
@@ -86,6 +91,10 @@ for i, im in enumerate(zooms):
     im = im.copy(); im.thumbnail((720, 720), Image.LANCZOS); ars.append(round(im.width / im.height, 4))
     im.save(f'{Z}/{i:03d}.webp', 'WEBP', quality=86, method=6)
 
+def vid_ar(rel):
+    o = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', f'{R}/stage/{rel}'], capture_output=True, text=True).stdout.strip().split(',')
+    return round(int(o[0]) / int(o[1]), 4)
+
 rows = (len(tiles) + COLS - 1) // COLS
 atlas = Image.new('RGB', (COLS * TW, rows * TH), (13, 13, 14)); rects = []
 for i, (_, im, _) in enumerate(tiles):
@@ -96,6 +105,6 @@ subprocess.run(['cwebp', '-quiet', '-q', '84', f'{G}/atlas.png', '-o', f'{G}/atl
 os.remove(f'{G}/atlas.png')
 names = dict(re.findall(r'"([a-z0-9-]+)": \{"name": "([^"]+)"', html))
 json.dump({'tile': TILE, 'cols': COLS, 'slugs': [t[0] for t in tiles], 'labels': [names.get(t[0], t[0]) for t in tiles],
-           'rects': rects, 'src': [t[2] for t in tiles], 'ar': ars}, open(f'{G}/atlas.json', 'w'))
+           'rects': rects, 'src': [t[2] for t in tiles], 'ar': ars, 'vid': [v and v + [vid_ar(v[0])] for v in vids]}, open(f'{G}/atlas.json', 'w'))
 from collections import Counter
 print(len(tiles), 'images', atlas.size, os.path.getsize(f'{G}/atlas.webp') // 1024, 'KB'); print(Counter(t[0] for t in tiles))
