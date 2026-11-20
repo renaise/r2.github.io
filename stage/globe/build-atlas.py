@@ -23,7 +23,7 @@ def dhash(im):
     g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
     return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
 
-tmp = tempfile.mkdtemp(); tiles = []; hashes = []
+tmp = tempfile.mkdtemp(); tiles = []; hashes = []; zooms = []  # zooms: the full image behind each tile, for the hover zoom
 
 def fit43(im):
     # Never crop (2026-11-19): the whole image sits inside the 4:3 tile on its dark ground.
@@ -41,6 +41,7 @@ for fn in sorted(os.listdir(OBJ)) if os.path.isdir(OBJ) else []:
     o = Image.open(f'{OBJ}/{fn}').convert('RGBA'); o.thumbnail((int(TW * .86), int(TH * .86)), Image.LANCZOS)
     t = Image.new('RGBA', (TW, TH), (13, 13, 14, 255)); t.alpha_composite(o, ((TW - o.width) // 2, (TH - o.height) // 2))
     tiles.append((slug, t.convert('RGB'), 'globe/src/objects/' + fn)); hashes.append(dhash(t.convert('RGB')))
+    zooms.append(Image.open(f'{OBJ}/{fn}').convert('RGBA'))
 
 
 def _unused_dhash(im):
@@ -73,9 +74,17 @@ for slug in slugs:
             h = dhash(im)
             if any(bin(h ^ o).count('1') < 34 for o in hashes): continue
             hashes.append(h)
-            tiles.append((slug, fit43(im), os.path.relpath(src[1], f'{R}/stage')))
+            tiles.append((slug, fit43(im), os.path.relpath(src[1], f'{R}/stage'))); zooms.append(im)
         except Exception as e:
             print('skip', src[1], e)
+
+# hover zoom: each tile's own image at up to 720px, loaded only when that tile opens
+Z = f'{G}/z'; os.makedirs(Z, exist_ok=True)
+for f in os.listdir(Z): os.remove(f'{Z}/{f}')
+ars = []
+for i, im in enumerate(zooms):
+    im = im.copy(); im.thumbnail((720, 720), Image.LANCZOS); ars.append(round(im.width / im.height, 4))
+    im.save(f'{Z}/{i:03d}.webp', 'WEBP', quality=86, method=6)
 
 rows = (len(tiles) + COLS - 1) // COLS
 atlas = Image.new('RGB', (COLS * TW, rows * TH), (13, 13, 14)); rects = []
@@ -87,6 +96,6 @@ subprocess.run(['cwebp', '-quiet', '-q', '84', f'{G}/atlas.png', '-o', f'{G}/atl
 os.remove(f'{G}/atlas.png')
 names = dict(re.findall(r'"([a-z0-9-]+)": \{"name": "([^"]+)"', html))
 json.dump({'tile': TILE, 'cols': COLS, 'slugs': [t[0] for t in tiles], 'labels': [names.get(t[0], t[0]) for t in tiles],
-           'rects': rects, 'src': [t[2] for t in tiles]}, open(f'{G}/atlas.json', 'w'))
+           'rects': rects, 'src': [t[2] for t in tiles], 'ar': ars}, open(f'{G}/atlas.json', 'w'))
 from collections import Counter
 print(len(tiles), 'images', atlas.size, os.path.getsize(f'{G}/atlas.webp') // 1024, 'KB'); print(Counter(t[0] for t in tiles))
