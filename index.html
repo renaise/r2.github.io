@@ -1241,7 +1241,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Biota</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/biota-wordmark.svg);--r:4.643;--lw:6.127em"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">Imagine Anything, Seed Everything</span><br><span class="m">Designer</span></div></div>
       </a>
       <a class="proj" data-slug="studio-artifice" data-cat="identity website" href="https://studioartifice.com">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/studio-artifice/cover.jpg?v=2)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg?v=2" aria-label="studioartifice.com: the studio statement over the turning thermal figure, with the inquiry form under it"></video><img class="sys" src="/stage/studio-artifice/system.jpg?v=2" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/studio-artifice/cover.jpg?v=3)"><video class="cover fill" src="/stage/studio-artifice/cover.mp4?v=3" muted loop playsinline preload="none" poster="/stage/studio-artifice/cover.jpg?v=3" aria-label="studioartifice.com: the mark breaking into its two parts, the statement over the thermal figure, then the Work list of clients"></video><img class="sys" src="/stage/studio-artifice/system.jpg?v=2" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Studio Artifice</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/studio-artifice.png);--r:6.854;--lw:7.291em"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">The Studio’s Identity + Website</span><br><span class="m">Founder + Creative Director</span></div></div>
       </a>
       <a class="proj" data-slug="lighthouse" data-cat="identity website" href="https://studioartifice.com/work/lighthouse/">
@@ -2196,7 +2196,8 @@ document.documentElement.className+=' js';
     // back the offsite trip the panel exists to remove. The footer carries the
     // live thing and the guidelines, and nothing else.
     var href=card?card.getAttribute('href'):'';
-    var isCaseStudyRoute=/^\/work\//.test(href||'')||/studioartifice\.com\/work\//.test(href||'');
+    // A link back into this site (FLORA's card is /flora/) is the page already open: never a footer row.
+    var isCaseStudyRoute=/^\//.test(href||'')||/studioartifice\.com\/work\//.test(href||'');
     // When the card already pointed at the guidelines, "Open the system" is that
     // link. Two rows to one destination is a hierarchy problem, not a courtesy.
     var norm=function(u){ return String(u||'').replace(/^https?:\/\//,'').replace(/\/+$/,''); };
