@@ -363,6 +363,11 @@
   .media .sys{position:absolute;inset:0;z-index:2;width:100%;height:100%;object-fit:cover;
     object-position:center;opacity:0;transition:opacity .4s ease;}
   a.proj:hover .media .sys{opacity:1;}
+  /* Every card has a second view (2026-11-19): on hover the cover eases in a touch while the
+     second view crossfades over it. */
+  .media .cover{transition:transform .7s cubic-bezier(.2,.7,.2,1);}
+  a.proj:hover .media .cover{transform:scale(1.035);}
+  @media(prefers-reduced-motion:reduce){ .media .cover{transition:none;} a.proj:hover .media .cover{transform:none;} }
   /* The reverse: a still that sits over the video and gives way to it on hover. */
   .media .sys.rest{opacity:1;}
   a.proj:hover .media .sys.rest{opacity:0;}
@@ -417,6 +422,14 @@
   /* about / CV */
   /* ── scaffold, after brand.artificenyc.org: sticky rail + measured main column ── */
   .app{display:flex;align-items:flex-start;}
+  /* The rail widens on hover (2026-11-19): a negative right margin of the same amount keeps
+     its footprint at --rail, so it slides over the grid instead of pushing it, and the
+     globe grows with it (ResizeObserver). Desktop only; a short delay ignores fly-overs. */
+  @media(min-width:901px){
+    .side{transition:width .45s cubic-bezier(.2,.7,.2,1) .12s,margin-right .45s cubic-bezier(.2,.7,.2,1) .12s,box-shadow .45s;z-index:6;background:var(--bg1);}
+    .side:hover{width:calc(var(--rail) + 140px);margin-right:-140px;box-shadow:24px 0 48px rgba(0,0,0,.35);}
+    .cs-open .side:hover{width:var(--rail);margin-right:0;box-shadow:none;}
+  }
   .side{position:sticky;top:0;height:100vh;width:var(--rail);flex-shrink:0;
     border-right:1px dotted var(--line);padding:var(--gut) var(--gut);
     display:flex;flex-direction:column;gap:1.25rem;z-index:10;}
@@ -1100,7 +1113,7 @@ document.documentElement.className+=' js';
       
 
       <a class="proj" data-slug="idler" data-cat="identity website" href="https://studioartifice.com/work/idler/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/profile.jpg)"><video class="cover fill" data-free src="/stage/idler/profile.mp4?v=9" muted loop playsinline preload="none" poster="/stage/idler/profile.jpg" aria-label="Idler’s Skill Profile morphing through the six models, then the Shell turning, the brand’s cube of shape units"></video><span class="tag">Identity + Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/profile.jpg)"><video class="cover fill" data-free src="/stage/idler/profile.mp4?v=9" muted loop playsinline preload="none" poster="/stage/idler/profile.jpg" aria-label="Idler’s Skill Profile morphing through the six models, then the Shell turning, the brand’s cube of shape units"></video><img class="sys" src="/stage/idler/shell-card.jpg" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Idler</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/idler.svg);--r:5.142"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Identity + Launch Site for an AI Research Company</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="osmosis" data-cat="identity website" href="https://studioartifice.com/work/osmosis/">
@@ -1116,7 +1129,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>FLORA</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/flora.svg);--r:6.257"></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">Conceptualizing Low Rank Adaptors and Node Orchestration</span><br><span class="m">Founding Designer</span></div></div>
       </a>
       <a class="proj" data-slug="aputure" data-cat="website" href="https://studioartifice.com/work/industrial-lighting/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/aputure/cover.jpg)"><video class="cover fill" src="/stage/aputure/cover.mp4" muted loop playsinline preload="none" poster="/stage/aputure/cover.jpg"></video><span class="tag">Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/aputure/cover.jpg)"><video class="cover fill" src="/stage/aputure/cover.mp4" muted loop playsinline preload="none" poster="/stage/aputure/cover.jpg"></video><img class="sys" src="/stage/aputure/after.jpg" alt="" loading="lazy"><span class="tag">Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Aputure</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/aputure.svg);--r:4.047"></span></span><span class="yr">2024</span></div><div class="c1"><span class="t">A Website for a Global Lighting Catalog</span><br><span class="m">Art Director + Designer</span></div></div>
       </a>
       <a class="proj" data-slug="depictions-of-original-sin" data-cat="irl" href="https://studioartifice.com/work/flowafx/">
@@ -1124,7 +1137,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Google Labs (Flow)</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/depictions-of-original-sin.svg);--r:6.849"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">The Depictions of Original Sin</span><br><span class="m">Creative Director</span></div></div>
       </a>
       <a class="proj" data-slug="biota" data-cat="interface" href="/biota/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/biota/cover.jpg)"><video class="cover fill" src="/stage/biota/cover.mp4" muted loop playsinline preload="none" poster="/stage/biota/cover.jpg" aria-label="BIOTA M1 prototype: the feed, the compose screen with its tone presets, and a profile mid-generation"></video><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/biota/cover.jpg)"><video class="cover fill" src="/stage/biota/cover.mp4" muted loop playsinline preload="none" poster="/stage/biota/cover.jpg" aria-label="BIOTA M1 prototype: the feed, the compose screen with its tone presets, and a profile mid-generation"></video><img class="sys" src="/stage/biota/app-store.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Biota</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/biota-wordmark.svg);--r:4.643"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">Imagine Anything, Seed Everything</span><br><span class="m">Designer</span></div></div>
       </a>
       <a class="proj" data-slug="studio-artifice" data-cat="identity website" href="https://studioartifice.com">
@@ -1148,15 +1161,15 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Browser-Based 3D Design Tool</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="maestro" data-cat="interface" href="https://id-maestro.pages.dev/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/maestro/cover.jpg)"><video class="cover fill" src="/stage/maestro/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/maestro/cover.jpg" aria-label="The Maestro identity motion board: the website, cards, a pass and slides building in"></video><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/maestro/cover.jpg)"><video class="cover fill" src="/stage/maestro/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/maestro/cover.jpg" aria-label="The Maestro identity motion board: the website, cards, a pass and slides building in"></video><img class="sys" src="/stage/maestro/analytics.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Maestro</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/maestro-lockup.svg);--r:8.442"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Ticketing + Membership Software</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="cinebox" data-cat="interface" href="https://renaise.github.io/cf-cinebox/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/cinebox/cover.jpg)"><video class="cover fill" src="/stage/cinebox/cover.mp4?v=loop" muted loop playsinline preload="none" poster="/stage/cinebox/cover.jpg" aria-label="The CineBox home page: film scenes playing behind the search box"></video><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/cinebox/cover.jpg)"><video class="cover fill" src="/stage/cinebox/cover.mp4?v=loop" muted loop playsinline preload="none" poster="/stage/cinebox/cover.jpg" aria-label="The CineBox home page: film scenes playing behind the search box"></video><img class="sys" src="/stage/cinebox/film.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>CineBox</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/cinebox.svg);--r:6.806"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Finding Film References by Mood + Color</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="vamos" data-cat="interface" href="https://url-fk-vamosv2.pages.dev/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/vamos/cover.jpg?v=2)"><video class="cover fill" src="/stage/vamos/cover.mp4" muted loop playsinline preload="none" poster="/stage/vamos/cover.jpg?v=2" aria-label="Vamos: a shared trip to Japan on one map, switching from ideas to the itinerary and back while collaborators move around it"></video><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/vamos/cover.jpg?v=2)"><video class="cover fill" src="/stage/vamos/cover.mp4" muted loop playsinline preload="none" poster="/stage/vamos/cover.jpg?v=2" aria-label="Vamos: a shared trip to Japan on one map, switching from ideas to the itinerary and back while collaborators move around it"></video><img class="sys" src="/stage/vamos/plan.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Vamos</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/vamos.svg);--r:4.298"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Multiplayer Itinerary Planning for Travel</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="fielder" data-cat="interface" href="https://fielder.codexfoundry.com/">
@@ -1164,15 +1177,15 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/fielder.svg);--r:1"></span><b>Fielder</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Browsing Images by Likeness + Color</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="moshpit" data-cat="interface" href="https://moshpit.codexfoundry.com/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/moshpit/cover.jpg?v=3)"><video class="cover fill" src="/stage/moshpit/cover.mp4?v=3" muted loop playsinline preload="none" poster="/stage/moshpit/cover.jpg?v=3" aria-label="Moshpit: jazz photographs and performance works sorted into labeled crowds, then lined up by color"></video><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/moshpit/cover.jpg?v=3)"><video class="cover fill" src="/stage/moshpit/cover.mp4?v=3" muted loop playsinline preload="none" poster="/stage/moshpit/cover.jpg?v=3" aria-label="Moshpit: jazz photographs and performance works sorted into labeled crowds, then lined up by color"></video><img class="sys" src="/stage/moshpit/feeds.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/moshpit.png?v=3);--r:1"></span><b>Moshpit</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Turning Saved Media into Shared Collections</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="codex-foundry" data-cat="website" href="https://codexfoundry.com/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/codex-foundry/cover.jpg?v=2)"><video class="cover fill" src="/stage/codex-foundry/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/codex-foundry/cover.jpg?v=2" aria-label="Codex Foundry: scrolling the site from the wordmark through the news to the six products"></video><span class="tag">Website</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/codex-foundry/cover.jpg?v=2)"><video class="cover fill" src="/stage/codex-foundry/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/codex-foundry/cover.jpg?v=2" aria-label="Codex Foundry: scrolling the site from the wordmark through the news to the six products"></video><img class="sys" src="/stage/codex-foundry/02.jpg?v=2" alt="" loading="lazy"><span class="tag">Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>Codex Foundry</b></span><span class="yr">2025</span></div><div class="c1"><span class="t">A Home for Independent Software</span><br><span class="m">Founder</span></div></div>
       </a>
       <a class="proj" data-slug="mythra" data-cat="interface" href="https://mythra.vercel.app/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/mythra/cover.jpg?v=2)"><img class="cover fill" src="/stage/mythra/cover.jpg?v=2" alt="Mythra: AI + Internet, by Renaise and Shovon, the ai://mythra browser asking How can I help you today?"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/mythra/cover.jpg?v=2)"><img class="cover fill" src="/stage/mythra/cover.jpg?v=2" alt="Mythra: AI + Internet, by Renaise and Shovon, the ai://mythra browser asking How can I help you today?"><img class="sys" src="/stage/mythra/http.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Mythra</b></span><span class="yr">2023</span></div><div class="c1"><span class="t">A Protocol for Summoning Websites into Chat</span><br><span class="m">Co-author</span></div></div>
       </a>
       </div>
