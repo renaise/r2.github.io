@@ -937,6 +937,22 @@
   .cs-cta .ar{display:inline-block;width:.62em;height:.62em;}
   .cs-cta .ar svg{display:block;width:100%;height:100%;}
   .cs-cta.is-off{color:var(--sw4);}
+  /* The split: left third facts + text, pinned (scrolls on its own when taller than the
+     panel); right two thirds the creative. One column under 1100px, info first. */
+  @media(min-width:1100px){
+    .cs-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:2.4rem;align-items:start;}
+    .cs-info{position:sticky;top:0;max-height:100dvh;overflow-y:auto;scrollbar-width:none;padding-bottom:2rem;}
+    .cs-info::-webkit-scrollbar{display:none;}
+    .cs-info .cs-cards{grid-template-columns:1fr;}
+    .cs-info .cs-sec,.cs-info .cs-end{grid-template-columns:1fr;gap:.7rem;}
+    .cs-info .cs-sec > :not(.cs-lbl),.cs-info .cs-end > *{grid-column:1;}
+    .cs-info .cs-intro{max-width:none;}
+    .cs-info .cs-ledger{column-gap:1.4rem;}
+    .cs-work{padding-top:2.2rem;}
+    /* In the creative column a section's label sits on top, so plates use the full two thirds. */
+    .cs-work .cs-sec,.cs-work .cs-shot{grid-template-columns:1fr;gap:.9rem;}
+    .cs-work .cs-sec > :not(.cs-lbl),.cs-work .cs-shot > figcaption{grid-column:1;}
+  }
   /* The plate grid (gridify): one 8px gutter, plates full width or `half`, no caption rows
      between them. Captions stay in the document for screen readers. */
   .cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 2.2rem;}
@@ -2513,6 +2529,17 @@ document.documentElement.className+=' js';
     }
     group(function(k){ return k.matches('figure.cs-shot'); },'cs-grid');
     group(function(k){ return k.matches('section.cs-txt'); },'cs-cards');
+    // The split (2026-11-23, after pentagram.com/work/philharmonia, mirrored): the facts +
+    // text take the left third, the creative takes the right two thirds. A section is
+    // "info" when it carries no media, table or color swatches.
+    var info=document.createElement('div'), work=document.createElement('div'), wrap=document.createElement('div');
+    info.className='cs-info'; work.className='cs-work'; wrap.className='cs-split';
+    [].slice.call(root.children).forEach(function(k){
+      var isInfo=k.matches('.cs-mast,.cs-ledger,.cs-intro,.cs-cards,.cs-txt,.cs-end,.cs-foot')
+        || (k.matches('section.cs-sec')&&!k.matches('.cs-sys,.cs-art,.cs-stage')&&!k.querySelector('img,video,iframe,table'));
+      (isInfo?info:work).appendChild(k);
+    });
+    wrap.appendChild(info); wrap.appendChild(work); root.appendChild(wrap);
   }
   function playFilmsInView(){
     // Click-to-load runs for everyone; only autoplay below is gated on reduced motion.
