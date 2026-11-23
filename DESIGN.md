@@ -481,9 +481,10 @@ The six PNGs in `stage/idler/atoms/` are id-idler's own `/assets/atoms/` at 392p
 Each primitive is that mask filled with `#AAADAC` and the guidelines' fractalNoise SVG, clipped to
 the silhouette. The triangle mask is at 100% and the others at 81%, the optical correction on
 id-idler. The case also carries the official lockups, mark, favicons, Shell emoji, the four Shell
-builds, the eight motion stills, and the fifteen references. The Vector Orb still is not in the
-case. It returned in `7a45af1` (21 Nov 2026) after `998ec4d` (19 Nov 2026) had recorded Vector
-without it. The card poster is `profile-2560.jpg`.
+builds at 2080px (two across, never wider than 1040px), the eight motion stills (capped at
+263px), and the fifteen references. The Shell turn is a 3432px render of the official cube.
+The Vector Orb still is not in the case. It returned in `7a45af1` (21 Nov 2026) after
+`998ec4d` (19 Nov 2026) had recorded Vector without it. The card poster is `profile-2560.jpg`.
 
 The neutral ramp carries its `01`–`12` step numbers, as the Grayscale section does. Each number's
 colour is chosen from its own swatch by asking which of ink or paper wins on it — a fixed

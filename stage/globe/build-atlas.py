@@ -35,7 +35,7 @@ def fit43(im):
 OBJ = f'{G}/src/objects'
 ART = {'shell': 'idler', 'vector': 'idler', 'petri': 'osmosis', 'symbiota': 'biota', 'humanoid': 'studio-artifice'}
 # each cutout's own loop, played when its tile opens on the globe
-OBJ_VID = {'shell': ['idler/art/shell.mp4', 0], 'petri': ['osmosis/art/petri.mp4', 0], 'symbiota': ['biota/art/fish.mp4', 0],
+OBJ_VID = {'shell': ['idler/art/shell.mp4', 0],
            'humanoid': ['studio-artifice/art/figure.mp4', 0], 'primitive': ['artifice-brand/plate.mp4', 0]}
 for fn in sorted(os.listdir(OBJ)) if os.path.isdir(OBJ) else []:
     key = fn.split('.')[0].split('-')[0]
