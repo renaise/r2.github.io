@@ -47,9 +47,14 @@ TPL = """<!doctype html>
 
 for slug, d in data.items():
     e = lambda s: html.escape(str(s or ''), quote=True)
-    img = '/stage/%s/cover.jpg' % slug
-    if not os.path.exists(os.path.join(ROOT, img.lstrip('/'))):
-        img = '/assets/og.jpg'
+    img = '/assets/og.jpg'
+    # jpg first, so a project that has both keeps the preview it already ships.
+    # rememe's cover is a png, and that file is the share image.
+    for ext in ('jpg', 'jpeg', 'png', 'webp'):
+        cand = '/stage/%s/cover.%s' % (slug, ext)
+        if os.path.exists(os.path.join(ROOT, cand.lstrip('/'))):
+            img = cand
+            break
     out = TPL.format(
         slug=slug, name=e(d.get('name', slug)), case=e(d.get('title', '')),
         # A project whose headline is its own name would otherwise read

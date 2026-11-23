@@ -56,8 +56,6 @@ def split(im, n=2):
 OBJECTS = [
     ('shell', 'idler', 'The Shell · Idler', lambda: cutout(Image.open(f'{SRC}/shell/s0040.jpg'))),
     ('vector', 'idler', 'Vector · Idler', lambda: cutout(Image.open(f'{SRC}/vector-dark/v040.jpg'))),
-    ('petri', 'osmosis', 'Petri dish · Osmosis', lambda: cutout(frame('osmosis/art/petri.mp4', 2.2))),
-    ('symbiota', 'biota', 'Symbiota · Biota', lambda: cutout(frame('biota/art/fish.mp4', 2.2))),
     ('humanoid', 'studio-artifice', 'Humanoid · Studio Artifice', lambda: cutout(frame('studio-artifice/art/figure.mp4', 1.2))),
 ]
 SPLITS = [

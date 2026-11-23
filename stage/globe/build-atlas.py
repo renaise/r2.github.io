@@ -13,12 +13,28 @@ Run: python3 stage/globe/build-atlas.py
 """
 import json, os, re, subprocess, tempfile, hashlib
 from PIL import Image
-R = os.path.expanduser('~/SEANCE/r2.github.io'); G = f'{R}/stage/globe'
+R = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); G = f'{R}/stage/globe'
 TILE, COLS = 160, 16; TW, TH = 160, 120  # every tile the same 4:3 shape: the cohesion
 html = open(f'{R}/index.html').read()
 slugs = re.findall(r'<a class="proj" data-slug="([^"]+)"', html)
 SKIP_SLUG = {'depictions-of-original-sin'}            # the six artists' film
 SKIP_FILE = re.compile(r'(system|clusters|before|/globe/|atlas|og\.|favicon|frame-\d|show-\d|/art/|artifice-brand/plate|shell-turn|shell-card)', re.I)  # artifacts come from src/objects once
+# Removed from the site (2026-11-23). A tile must not point at a file that 404s.
+# official/ is the Idler kit and third-party references. cover.webp, cover-motion
+# and -v2 are poster duplicates. soot/08.jpg is the case poster; 08.mp4 stays.
+# soot/04 only: a bare /04. rule also matched lighthouse/04.jpg.
+DENY = re.compile(
+    r'(skill-profile|pareto\.webp|(^|/)board\.webp|promo\.(mp4|jpe?g)'
+    r'|/(fish|petri|hieronymus)\.(mp4|jpe?g)'
+    r'|soot/04\.(mp4|jpe?g)'
+    r'|more/t(0150|0860|1020|1062|1180|1320|1364)\.'
+    r'|/idler/official/'
+    r'|vector-dials\.webp'
+    r'|-v2\.(?:jpe?g|png|webp|mp4)'
+    r'|cover-motion\.(?:jpe?g|png|webp|mp4)'
+    r'|cover\.webp'
+    r'|soot/08\.jpe?g)',
+    re.I)
 def dhash(im):
     g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
     return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
@@ -35,7 +51,7 @@ def fit43(im):
 OBJ = f'{G}/src/objects'
 ART = {'shell': 'idler', 'vector': 'idler', 'petri': 'osmosis', 'symbiota': 'biota', 'humanoid': 'studio-artifice'}
 # each cutout's own loop, played when its tile opens on the globe
-OBJ_VID = {'shell': ['idler/art/shell.mp4', 0], 'petri': ['osmosis/art/petri.mp4', 0], 'symbiota': ['biota/art/fish.mp4', 0],
+OBJ_VID = {'shell': ['idler/art/shell.mp4', 0],
            'humanoid': ['studio-artifice/art/figure.mp4', 0], 'primitive': ['artifice-brand/plate.mp4', 0]}
 for fn in sorted(os.listdir(OBJ)) if os.path.isdir(OBJ) else []:
     key = fn.split('.')[0].split('-')[0]
@@ -60,7 +76,7 @@ for slug in slugs:
     for root, _, fs in os.walk(d):
         for f in sorted(fs):
             p = os.path.join(root, f)
-            if SKIP_FILE.search(p): continue
+            if SKIP_FILE.search(p) or DENY.search(p): continue
             if re.search(r'\.(jpe?g|png|webp)$', f, re.I): files.append(('img', p))
             elif f.endswith('.mp4'): files += [('mp4', p, 0.6), ('mp4', p, 2.5)]
     for src in files:

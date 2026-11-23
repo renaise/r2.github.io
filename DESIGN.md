@@ -192,7 +192,7 @@ poster is frame 0. **A cover cut from a live site carries that site's copy; re-s
 copy moves.**
 
 Every work card moves (2026-09-28). BIOTA was the one still; its cover is now the same composition
-with the Symbiota fish (`/stage/biota/art/fish.mp4`) playing inside the feed card, the card's UI
+with the Symbiota fish playing inside the feed card, the card's UI
 (pill, caption, Remix/Share, side icons) re-laid on top: 1920x1080, 4.6s, poster is frame 0.
 Covers autoplay on screen at every viewport size, phones included; only reduced motion holds them
 on the poster.
@@ -398,6 +398,8 @@ and the case study plate at 1403. Sizing that single file for the plate makes ev
 pay for it. Where no `plate` is declared the case study lifts the card's media as before, so this
 is opt-in per project, not a migration.
 
+**rememe's cover stays at its own 643px.** The file is `stage/rememe/cover.png`, 643×362. Nothing in the repo or the Seance record is the same image at 2150 or wider (`assets/projects/rememe.png` is a different 680px mark). The case plate uses `width: min(100%, 643px)`, centered, so the picture is 1x in the 1075px column at 1440 and fills the narrower column at 390. It is not upscaled. The globe tile and the `/rememe/` share image keep this same file.
+
 **The plate needs 2806px on a 2x display and most sources cannot reach it.** Measured 2026-09-10:
 `idler` was 960 and `the-artifact-index` 1280, both re-recorded from their live sites at 2560;
 `biota` went 1440 to 1920 and FLORA's brand film 1440 to 1920, both re-encoded from originals that
@@ -476,8 +478,15 @@ argument the block makes; any other count means the parse is wrong, not the syst
 built from the form-and-state pair, and the drawing was wrong in a way that misstated the system:
 the hole state is a small circular aperture *inside* the form, and the drawing rendered the form
 knocked out of a plate, which is its inverse. The forms are also rounded, not sharp-cornered.
-The six PNGs in `stage/idler/atoms/` are id-idler's own `/assets/atoms/`, used as supplied.
+The six PNGs in `stage/idler/atoms/` are id-idler's own `/assets/atoms/` at 392px, used as supplied.
 **A brand primitive is fixed art; deriving one from a rule is how you publish a wrong one.**
+Each primitive is that mask filled with `#AAADAC` and the guidelines' fractalNoise SVG, clipped to
+the silhouette. The triangle mask is at 100% and the others at 81%, the optical correction on
+id-idler. The case also carries the official lockups, mark, favicons, Shell emoji, the four Shell
+builds at 2080px (two across, never wider than 1040px), the eight motion stills (capped at
+263px), and the fifteen references. The Shell turn is a 3432px render of the official cube.
+The Vector Orb still is not in the case. It returned in `7a45af1` (21 Nov 2026) after
+`998ec4d` (19 Nov 2026) had recorded Vector without it. The card poster is `profile-2560.jpg`.
 
 The neutral ramp carries its `01`–`12` step numbers, as the Grayscale section does. Each number's
 colour is chosen from its own swatch by asking which of ink or paper wins on it — a fixed
