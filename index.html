@@ -898,6 +898,9 @@
   .cs-deck-close:focus-visible{outline:2px dotted var(--accent);outline-offset:3px;}
   .cs-plate{position:relative;width:100%;aspect-ratio:16/9;background:var(--tile);
     overflow:hidden;border-radius:4px;margin-bottom:2.2rem;}
+  /* A cover whose file is narrower than the column stops at its own pixels.
+     rememe/cover.png is 643 wide. Stretching it into the column would upscale it. */
+  .cs-plate.is-native{width:min(100%, var(--nat));margin-inline:auto;}
   .cs-plate video,.cs-plate img{position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;background:var(--tile);}
 
@@ -2101,11 +2104,14 @@ document.documentElement.className+=' js';
     if(!src) return '';
     var poster=big?(big.poster||''):(m?m.getAttribute('poster')||'':'');
     var alt=(m&&(m.getAttribute('alt')||m.getAttribute('aria-label')))||'';
+    // rememe/cover.png is 643px and there is no wider source. The plate stops there.
+    var nat=/\/stage\/rememe\/cover\.png(?:\?|$)/.test(src||'')?643:0;
+    var plateOpen='<div class="cs-plate'+(nat?' is-native" style="--nat:'+nat+'px"':'"')+'>';
     if(/\.mp4(?=\?|$)/.test(src)){
-      return '<div class="cs-plate"><video src="'+esc(src)+'" '+(reduced()?'':'autoplay ')+'muted loop '
+      return plateOpen+'<video src="'+esc(src)+'" '+(reduced()?'':'autoplay ')+'muted loop '
         + 'playsinline preload="auto" poster="'+esc(poster)+'"'+(alt?' aria-label="'+esc(alt)+'"':'')+'></video></div>';
     }
-    return '<div class="cs-plate"><img src="'+esc(src)+'" alt="'+esc(alt)+'"></div>';
+    return plateOpen+'<img src="'+esc(src)+'" alt="'+esc(alt)+'"></div>';
   }
 
   function render(slug,card){

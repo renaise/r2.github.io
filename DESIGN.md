@@ -398,6 +398,8 @@ and the case study plate at 1403. Sizing that single file for the plate makes ev
 pay for it. Where no `plate` is declared the case study lifts the card's media as before, so this
 is opt-in per project, not a migration.
 
+**rememe's cover stays at its own 643px.** The file is `stage/rememe/cover.png`, 643×362. Nothing in the repo or the Seance record is the same image at 2150 or wider (`assets/projects/rememe.png` is a different 680px mark). The case plate uses `width: min(100%, 643px)`, centered, so the picture is 1x in the 1075px column at 1440 and fills the narrower column at 390. It is not upscaled. The globe tile and the `/rememe/` share image keep this same file.
+
 **The plate needs 2806px on a 2x display and most sources cannot reach it.** Measured 2026-09-10:
 `idler` was 960 and `the-artifact-index` 1280, both re-recorded from their live sites at 2560;
 `biota` went 1440 to 1920 and FLORA's brand film 1440 to 1920, both re-encoded from originals that
