@@ -197,6 +197,9 @@
      out of the line's height calculation entirely. */
   .fnref.sm{vertical-align:baseline;position:relative;top:-.42em;line-height:0;
     margin-left:.08em;}
+  /* line-height:0 left the marker a 1px-tall target. Padding with an equal negative margin
+     gives it a ~24px hit area and moves nothing. */
+  .fnref.sm{padding:.7em .35em;margin:-.7em -.35em -.7em calc(.08em - .35em);}
   .fnref.sm sup{display:inline;vertical-align:baseline;line-height:0;
     font-size:.6em;font-family:var(--sans);}
   .fnref{display:inline-block;line-height:1;vertical-align:top;color:var(--sw4);
@@ -682,6 +685,11 @@
   .cv .row .nm{color:var(--ink);}
   .cv .row .yr{color:var(--sw3);font-family:var(--sans);font-size:.72rem;font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:.03em;}
   .cv .row .ctx{color:var(--sw3);font-family:var(--sans);font-size:.72rem;white-space:nowrap;letter-spacing:.03em;}
+  /* At 320 a long role ("Creative Director · 2024") beside its name ran the page 16px wide.
+     Below 380 the context drops under the name instead. */
+  @media(max-width:380px){ .cv .row{flex-wrap:wrap;row-gap:.1rem;} }
+  /* About contact links were 13px tall on phones: pad them to a 40px target. */
+  @media(max-width:900px){ .cv .links{gap:0 1.3rem;} .cv .links a{padding-block:.75rem;} }
   .cv .sub{font-family:var(--sans);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sw4);padding:.9rem 0 .3rem;}
   .cv .row.prior .nm{color:var(--sw3);}
   /* The rail eats a fixed 280px, so three columns run out of room long before the phone
@@ -1795,7 +1803,9 @@ document.documentElement.className+=' js';
     // The Shell and the instrument that plays it sit side by side.
     // shell.mp4 must be the full 30fps turn (348 frames, 11.6s, rendered on dark = already the
     // negative). A 6-frame 2fps re-render shipped 2026-11-23 and read as jitter; check nb_frames.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'cover',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
+    // Square video in a 4:3 tile: contain, never cover (cover cut the cube's top + bottom).
+    // bg is the render's own ground (#101010), so it still reads full bleed.
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'contain',bg:'#101010',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
     // The humanoid: Studio Artifice's brand figure under a heat camera, live at
     // studioartifice.com/home/figure. It sits beside the Shell, where Vector used to.
     {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler'},
