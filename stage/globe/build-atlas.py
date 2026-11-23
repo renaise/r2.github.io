@@ -20,7 +20,21 @@ slugs = re.findall(r'<a class="proj" data-slug="([^"]+)"', html)
 SKIP_SLUG = {'depictions-of-original-sin'}            # the six artists' film
 SKIP_FILE = re.compile(r'(system|clusters|before|/globe/|atlas|og\.|favicon|frame-\d|show-\d|/art/|artifice-brand/plate|shell-turn|shell-card)', re.I)  # artifacts come from src/objects once
 # Removed from the site (2026-11-23). A tile must not point at a file that 404s.
-DENY = re.compile(r'(skill-profile|pareto\.webp|(^|/)board\.webp|promo\.(mp4|jpe?g)|/(fish|petri|hieronymus)\.(mp4|jpe?g)|/04\.(mp4|jpe?g)|more/t(0150|0860|1020|1062|1180|1320|1364)\.)', re.I)
+# official/ is the Idler kit and third-party references. cover.webp, cover-motion
+# and -v2 are poster duplicates. soot/08.jpg is the case poster; 08.mp4 stays.
+# soot/04 only: a bare /04. rule also matched lighthouse/04.jpg.
+DENY = re.compile(
+    r'(skill-profile|pareto\.webp|(^|/)board\.webp|promo\.(mp4|jpe?g)'
+    r'|/(fish|petri|hieronymus)\.(mp4|jpe?g)'
+    r'|soot/04\.(mp4|jpe?g)'
+    r'|more/t(0150|0860|1020|1062|1180|1320|1364)\.'
+    r'|/idler/official/'
+    r'|vector-dials\.webp'
+    r'|-v2\.(?:jpe?g|png|webp|mp4)'
+    r'|cover-motion\.(?:jpe?g|png|webp|mp4)'
+    r'|cover\.webp'
+    r'|soot/08\.jpe?g)',
+    re.I)
 def dhash(im):
     g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
     return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])

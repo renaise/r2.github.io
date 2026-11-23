@@ -2842,10 +2842,10 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=25').then(function(r){ return r.json(); }).then(start).catch(function(){});
+  fetch('/stage/globe/atlas.json?v=26').then(function(r){ return r.json(); }).then(start).catch(function(){});
 
   function start(A){
-    var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=25';
+    var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=26';
     var ga=Math.PI*(3-Math.sqrt(5)), tiles=[], R=0, S=0, rotY=0, rotX=-.25, spin=still?0:.0016, drag=null, raf=0, seen=true, hover=-1;
     // Fibonacci sphere: even spacing; each tile keeps its longitude/latitude
     for(var k=0;k<N;k++){
@@ -2881,7 +2881,7 @@ document.documentElement.className+=' js';
     }
     function kick(){ if(!raf) raf=requestAnimationFrame(frame); }
     // the tile's own image at up to 720px (stage/globe/z), fetched when it opens
-    function fullSrc(t){ return A.ar&&A.ar[t]?{url:'/stage/globe/z/'+('00'+t).slice(-3)+'.webp?v=25', ar:A.ar[t]}:null; }
+    function fullSrc(t){ return A.ar&&A.ar[t]?{url:'/stage/globe/z/'+('00'+t).slice(-3)+'.webp?v=26', ar:A.ar[t]}:null; }
     function setHover(i){
       if(i===hover) return;
       // Parallax zoom (2026-11-19): an upright copy of the tile flies toward the camera from
