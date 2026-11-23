@@ -192,7 +192,7 @@ poster is frame 0. **A cover cut from a live site carries that site's copy; re-s
 copy moves.**
 
 Every work card moves (2026-09-28). BIOTA was the one still; its cover is now the same composition
-with the Symbiota fish (`/stage/biota/art/fish.mp4`) playing inside the feed card, the card's UI
+with the Symbiota fish playing inside the feed card, the card's UI
 (pill, caption, Remix/Share, side icons) re-laid on top: 1920x1080, 4.6s, poster is frame 0.
 Covers autoplay on screen at every viewport size, phones included; only reduced motion holds them
 on the poster.

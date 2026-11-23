@@ -13,12 +13,14 @@ Run: python3 stage/globe/build-atlas.py
 """
 import json, os, re, subprocess, tempfile, hashlib
 from PIL import Image
-R = os.path.expanduser('~/SEANCE/r2.github.io'); G = f'{R}/stage/globe'
+R = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); G = f'{R}/stage/globe'
 TILE, COLS = 160, 16; TW, TH = 160, 120  # every tile the same 4:3 shape: the cohesion
 html = open(f'{R}/index.html').read()
 slugs = re.findall(r'<a class="proj" data-slug="([^"]+)"', html)
 SKIP_SLUG = {'depictions-of-original-sin'}            # the six artists' film
 SKIP_FILE = re.compile(r'(system|clusters|before|/globe/|atlas|og\.|favicon|frame-\d|show-\d|/art/|artifice-brand/plate|shell-turn|shell-card)', re.I)  # artifacts come from src/objects once
+# Removed from the site (2026-11-23). A tile must not point at a file that 404s.
+DENY = re.compile(r'(skill-profile|pareto\.webp|(^|/)board\.webp|promo\.(mp4|jpe?g)|/(fish|petri|hieronymus)\.(mp4|jpe?g)|/04\.(mp4|jpe?g)|more/t(0150|0860|1020|1062|1180|1320|1364)\.)', re.I)
 def dhash(im):
     g = im.convert('L').resize((17, 16), Image.LANCZOS); px = list(g.getdata())
     return sum(1 << i for i in range(256) if px[(i // 16) * 17 + i % 16] > px[(i // 16) * 17 + i % 16 + 1])
@@ -60,7 +62,7 @@ for slug in slugs:
     for root, _, fs in os.walk(d):
         for f in sorted(fs):
             p = os.path.join(root, f)
-            if SKIP_FILE.search(p): continue
+            if SKIP_FILE.search(p) or DENY.search(p): continue
             if re.search(r'\.(jpe?g|png|webp)$', f, re.I): files.append(('img', p))
             elif f.endswith('.mp4'): files += [('mp4', p, 0.6), ('mp4', p, 2.5)]
     for src in files:
