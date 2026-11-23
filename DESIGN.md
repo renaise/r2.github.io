@@ -617,3 +617,14 @@ The work grid is two columns from 601–1799px (three on very wide screens); one
 Benchmarks reviewed: victorbranddesigner.com (clear role/agency attribution) and rorymccormick.ie (selected work + named disciplines). These informed hierarchy, not copied styling.
 
 - **AFXHQ slated (2026-11-17).** Removed from the work grid at Renaise's request and locked: its record keeps only name, year, title, role and medium, and the case study opens to a Private note with a request-access link. The full copy and row are in git history before commit 165568b.
+
+
+## Card logos
+
+Every wordmark on a card shares one optical size, not one width or one height. `--lw` on each
+card is generated, never typed: `scripts/logo-sizes.mjs` measures each mark's ink ratio and
+coverage and sets width = C x ratio^0.75 x coverage^-0.1, with C holding the set's median
+height. Strict equal area (ratio^0.5) made MAESTRO 9px tall beside a 15px SOOT; 0.75 was picked
+from a contact sheet against 0.5, 0.65 and 0.85. The script's `OPTICAL` map holds the only
+hand factors, each with its reason (FLORA 1.1: the swash F sets the box, so the caps read
+small). Re-run it whenever a logo file changes. Glyph rows keep the fixed-height rule.
