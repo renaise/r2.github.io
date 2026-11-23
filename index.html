@@ -2069,6 +2069,12 @@ document.documentElement.className+=' js';
     return String(t).split(/\n{1,}/).filter(Boolean)
       .map(function(x){ return '<p>'+esc(x)+'</p>'; }).join('');
   }
+  // Figma embeds go through embed.figma.com (Embed Kit 2) with footer=false, which drops
+  // the "Edited … ago" line and file bar under the frame (Renaise, 2026-11-23).
+  function figmaEmbed(u){
+    var e=String(u).replace(/^https:\/\/(www\.)?figma\.com\//,'https://embed.figma.com/');
+    return e+(e.indexOf('?')<0?'?':'&')+'embed-host=renaise&footer=false&page-selector=false';
+  }
   function section(label,text){
     return text ? '<section class="cs-sec cs-txt"><div class="cs-lbl">'+esc(label)+'</div>'+prose(text)+'</section>' : '';
   }
@@ -2227,7 +2233,7 @@ document.documentElement.className+=' js';
       document.documentElement.classList.add('cs-deckview');
       body.innerHTML='<header class="cs-mast"><h2 id="cs-name">'+esc(name)+'</h2>'
         + (d.title?'<p class="claim">'+esc(d.title)+'</p>':'')+'</header>'
-        + '<div class="cs-deck"><iframe src="https://www.figma.com/embed?embed_host=share&amp;url='+encodeURIComponent(d.embed)+'" '
+        + '<div class="cs-deck"><iframe src="'+esc(figmaEmbed(d.embed))+'" '
         + 'title="'+esc(name)+'" allowfullscreen loading="lazy"></iframe></div>'
         // The Figma frame takes keyboard focus, so Escape inside it never reaches the page:
         // a visible Close, and focus handed back to the panel once the deck has loaded.
@@ -2382,7 +2388,7 @@ document.documentElement.className+=' js';
         if(sh.frame){
           var fr=sh.frame;
           return '<figure class="cs-shot cs-embed" style="--ar:'+esc(fr.ratio||'16/9')+'"'
-            + ' data-embed="https://www.figma.com/embed?embed_host=share&amp;url='+encodeURIComponent(fr.url)+'" data-embed-title="'+esc(fr.title||'')+'">'
+            + ' data-embed="'+esc(figmaEmbed(fr.url))+'" data-embed-title="'+esc(fr.title||'')+'">'
             + '<img src="'+esc(fr.poster)+'" alt="'+esc(fr.alt||fr.title||'')+'" loading="lazy">'
             + '<button type="button" class="cs-play" aria-label="Open '+esc(fr.title||'the prototype')+'">'
             + '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6 3l13 7.2-5.6 1.6 3.3 6.3-2.4 1.3-3.3-6.3L6 17.5z"/></svg></button>'
