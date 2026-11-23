@@ -476,8 +476,14 @@ argument the block makes; any other count means the parse is wrong, not the syst
 built from the form-and-state pair, and the drawing was wrong in a way that misstated the system:
 the hole state is a small circular aperture *inside* the form, and the drawing rendered the form
 knocked out of a plate, which is its inverse. The forms are also rounded, not sharp-cornered.
-The six PNGs in `stage/idler/atoms/` are id-idler's own `/assets/atoms/`, used as supplied.
+The six PNGs in `stage/idler/atoms/` are id-idler's own `/assets/atoms/` at 392px, used as supplied.
 **A brand primitive is fixed art; deriving one from a rule is how you publish a wrong one.**
+Each primitive is that mask filled with `#AAADAC` and the guidelines' fractalNoise SVG, clipped to
+the silhouette. The triangle mask is at 100% and the others at 81%, the optical correction on
+id-idler. The case also carries the official lockups, mark, favicons, Shell emoji, the four Shell
+builds, the eight motion stills, and the fifteen references. The Vector Orb still is not in the
+case. It returned in `7a45af1` (21 Nov 2026) after `998ec4d` (19 Nov 2026) had recorded Vector
+without it. The card poster is `profile-2560.jpg`.
 
 The neutral ramp carries its `01`–`12` step numbers, as the Grayscale section does. Each number's
 colour is chosen from its own swatch by asking which of ink or paper wins on it — a fixed
