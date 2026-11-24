@@ -191,3 +191,10 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - Artifactory cover re-shot as one whole use case: pick a base mesh, pull back so the form sits at ~40% of the view, sculpt with X symmetry (draw, inflate, crease, smooth), check wireframe, open Export. 14s; hover = the Export menu still.
 - Work grid: a dotted vertical rule in the middle of each column gap, drawn on .layout (::before/::after) so filtering never breaks it; two rules at >=1800px, none at <=600px.
 - Artifacts row: every tile contain, no inset, centered, on a ground matched to its own edges (set once in LIST).
+
+## 2026-11-24 · Story format, social card, globe hover
+- Case panel: dotted rule down the gutter between the text column and the creative (`.cs-split::before`).
+- Facts (`.cs-ledger`) on a 3-column grid (2 on phones) so rows align; the Link field names its host (idler.ai), and the closing "Live" row is dropped when it repeats that link.
+- Artifact plate in a story loses its one-off dotted border, matching every other plate.
+- Social card: `scripts/og-card.mjs` renders assets/og.jpg (2400x1260) + og-1200.jpg from the live globe, signature + bio line. The 800px 5MB GIF is gone (X never animated it, one frame caught an unloaded tile). og:image and twitter:image both point at og.jpg?v=7.
+- Globe turns at one speed always; half speed on hover read as stopped.

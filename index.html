@@ -882,11 +882,14 @@
   .cs-mast .claim{margin:.8rem 0 0;font-size:clamp(.95rem,2vw,1.2rem);
     font-weight:400;line-height:1.2;color:var(--sw2);}
 
-  .cs-ledger{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:2.4rem;row-gap:1rem;
+  /* The facts sit on a three-column grid, so Role / Year / Client and the row under them
+     line up instead of wrapping ragged (2026-11-24). Two across on a phone. */
+  .cs-ledger{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:baseline;column-gap:2.4rem;row-gap:1rem;
     padding:1rem 0;border-top:1px dotted var(--line);border-bottom:1px dotted var(--line);
     margin-bottom:1.8rem;}
   .cs-ledger > div{min-width:0;}
-  .cs-ledger-link dd a{display:inline-flex;align-items:baseline;gap:.35rem;color:var(--sw2);text-decoration:none;}
+  .cs-ledger-link dd a{display:inline;color:var(--sw2);text-decoration:none;}
+  .cs-ledger-link dd a .ar{margin-left:.3em;vertical-align:.05em;}
   .cs-ledger-link dd a:hover{color:var(--accent);}
   .cs-ledger-link .ar{display:inline-block;width:.6em;height:.6em;}
   .cs-ledger-link .ar svg{display:block;width:100%;height:100%;}
@@ -959,7 +962,7 @@
   .cs-art figure{margin:0;}
   .cs-art figure > video,.cs-art figure > img{display:block;width:100%;aspect-ratio:var(--ar);
     object-fit:var(--fit,contain);object-position:var(--pos,50% 50%);padding:var(--pad,8%);
-    box-sizing:border-box;background:var(--sp-bg,var(--tile));border:1px dotted var(--line);}
+    box-sizing:border-box;background:var(--sp-bg,var(--tile));}
   .cs-art figcaption{margin-top:.6rem;color:var(--sw4);font-size:.72rem;opacity:.6;}
   /* The live-site CTA under the title: the rail pill's capsule, one size up. */
   .cs-cta{display:inline-flex;align-items:center;gap:.4rem;padding:.42rem .8rem;
@@ -1225,7 +1228,7 @@
     .cs-sec > :not(.cs-lbl),.cs-shot > figcaption{grid-column:1;}
   }
   @media(max-width:700px){
-    .cs-ledger{column-gap:1.4rem;row-gap:.9rem;}
+    .cs-ledger{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:1.4rem;row-gap:.9rem;}
     .cs-pairs{grid-template-columns:repeat(2,1fr);}
     .cs-sw,.cs-units,.cs-ramp{--spec-cols:3;}
     .cs-pairs.wide,.cs-pairs.one{grid-template-columns:1fr;}
@@ -2406,7 +2409,10 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
           ? (Array.isArray(d.contributors)?d.contributors.map(function(c){return typeof c==='string'?c:c.name;}).join(', '):d.contributors)
           : (d.team&&d.team.length?d.team.map(function(t){return t[0];}).join(', '):'');
     var linkHref=d.cta?d.cta.href:(d.live||'');
-    var linkLabel=d.cta?d.cta.label:(d.live?'Visit':'');
+    // The live link names where it goes (idler.ai), so the facts carry it and no closing row repeats it.
+    // A staging-shaped host (pages.dev, github.io) reads as unfinished, so those name the product instead.
+    var liveHost=String(d.live||'').replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,'');
+    var linkLabel=d.cta?d.cta.label:(d.live?(/\.(pages\.dev|github\.io)(\/|$)/.test(liveHost)?'Open '+name:liveHost):'');
     var linkField=linkHref
           ? '<div class="cs-ledger-link"><dt>Link</dt><dd><a href="'+esc(linkHref)+'" target="_blank" rel="noopener">'+esc(linkLabel)+' '+ar+'</a></dd></div>'
           : '';
@@ -2625,7 +2631,7 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
     if(!/<a /.test(out.slice(out.lastIndexOf('<div class="cs-foot">')))) {
       out=out.slice(0,out.lastIndexOf('<div class="cs-foot">'));
     }
-    if(d.live){
+    if(d.live&&norm(d.live)!==norm(linkHref)){
       out+='<div class="cs-end"><div class="cs-lbl">Live</div>'
         + '<a href="'+esc(d.live)+'" target="_blank" rel="noopener">'
         // A staging-shaped host (pages.dev, github.io) reads as unfinished, so those
