@@ -777,6 +777,9 @@
     filter:var(--flt,none);}
   /* neg:1 in the Artifacts list sets --flt:invert(1) hue-rotate(180deg): a negative ground that keeps the piece's own hues (the Shell, 2026-11-23) */
   .cs-art figure video,.cs-art figure img{filter:var(--flt,none);}
+  /* A piece that scrolls past its own frame (the Spaces rail) fades at the edges it scrolls through. */
+  .art .sp.fade video,.cs-art figure.fade > video{-webkit-mask-image:linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);
+    mask-image:linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);}
   /* In the CV body column the grid runs three across down to phones, then two. */
   /* The row's own dotted rule is the section divider; the card's would draw a second
      parallel line above it. */
@@ -1862,14 +1865,17 @@ document.documentElement.className+=' js';
     // negative). A 6-frame 2fps re-render shipped 2026-11-23 and read as jitter; check nb_frames.
     // Square video in a 4:3 tile: contain, never cover (cover cut the cube's top + bottom).
     // bg is the render's own ground (#101010), so it still reads full bleed.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'contain',bg:'#101010',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/'},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'contain',bg:'#101010',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/',w:1680,h:1680},
     // The humanoid: Studio Artifice's brand figure under a heat camera, live at
     // studioartifice.com/home/figure. It sits beside the Shell, where Vector used to.
-    {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler'},
-    {s:'biota',n:'Symbiota',src:'biota/art/fish-2x.mp4',fit:'cover',pad:'0',pos:'50% 50%'},
-    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp'},
-    {s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0'},
-    {s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fit:'cover',pad:'0'},
+    {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler',w:1200,h:1200},
+    // Whole (Round 14): full vertical travel, contained on its own black; the clip's left edge sits on the tile's.
+    {s:'biota',n:'Symbiota',src:'biota/art/fish-whole.mp4',fit:'contain',pad:'0',bg:'#000',pos:'0% 50%',w:1608,h:1520},
+    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp',w:1400,h:834},
+    // Deliberate crop: 16:9 into the 4:3 tile shows x 12.5-87.5%; the two objects never leave x 23-77%.
+    {s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0',pos:'50% 50%',bg:'#000',w:2560,h:1440},
+    // The rail scrolls: its top and bottom fade, so a passing thumbnail never reads as a cut.
+    {s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fit:'contain',pad:'0',fade:1,w:960,h:720},
   ];
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -1884,7 +1890,7 @@ document.documentElement.className+=' js';
     var poster=src.replace(/\.mp4(?=\?|$)/,'.jpg');
     el.className='art'; el.href='/'+a.s+'#artifact'; el.setAttribute('data-slug',a.s);
     var style=(a.fit?'--fit:'+a.fit+';':'')+(a.pad?'--pad:'+a.pad+';':'')+(a.bg?'--sp-bg:'+a.bg+';':'')+(a.pos?'--pos:'+a.pos+';':'')+(a.neg?'--flt:invert(1) hue-rotate(180deg);':'');
-    el.innerHTML='<div class="sp" style="'+style+'">'
+    el.innerHTML='<div class="sp'+(a.fade?' fade':'')+'" style="'+style+'">'
       + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
              : '<img src="'+esc(src)+'" alt="" loading="lazy">')
       + '</div><div class="cap"><span class="nm">'+esc(a.n)+'</span>'
@@ -1896,7 +1902,7 @@ document.documentElement.className+=' js';
   // Rows always fill: four across when the count divides by four, else three.
   // Column count comes from the page grid (CSS), so each tile sits on a quarter line.
   // The case study renders the same piece in its own Artifact section.
-  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg,neg:a.neg,url:a.url,madeIn:a.madeIn,madeUrl:a.madeUrl}; });
+  window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg,neg:a.neg,url:a.url,madeIn:a.madeIn,madeUrl:a.madeUrl,fade:a.fade}; });
   // Motion plays only while on screen, and never under reduced motion.
   if('IntersectionObserver' in window && !reduce){
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){
@@ -2322,7 +2328,7 @@ document.documentElement.className+=' js';
       var asrc=art.src, st='--ar:4/3;'+(art.fit?'--fit:'+art.fit+';':'')+(art.pad?'--pad:'+art.pad+';':'')
         + (art.pos?'--pos:'+art.pos+';':'')+(art.bg?'--sp-bg:'+art.bg+';':'')+(art.neg?'--flt:invert(1) hue-rotate(180deg);':'');
       out+='<section class="cs-sec cs-art" id="cs-artifact"><div class="cs-lbl">Artifact</div>'
-        + '<figure style="'+st+'">'
+        + '<figure'+(art.fade?' class="fade"':'')+' style="'+st+'">'
         + (/\.mp4(?=\?|$)/.test(asrc)
             ? '<video class="cs-film" src="'+esc(asrc)+'" poster="'+esc(asrc.replace(/\.mp4(?=\?|$)/,'.jpg'))+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
             : '<img src="'+esc(asrc)+'" alt="" loading="lazy">')
@@ -2997,7 +3003,7 @@ document.documentElement.className+=' js';
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
-  fetch('/stage/globe/atlas.json?v=26').then(function(r){ return r.json(); }).then(start).catch(function(){});
+  fetch('/stage/globe/atlas.json?v=27').then(function(r){ return r.json(); }).then(start).catch(function(){});
 
   function start(A){
     var N=A.slugs.length, C=A.cols, TW=A.rects[0][2], TH=A.rects[0][3], rows=Math.ceil(N/C), URL='/stage/globe/atlas.webp?v=26';
