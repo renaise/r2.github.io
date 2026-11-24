@@ -1297,6 +1297,18 @@
   .note{grid-template-columns:var(--q) 1fr;column-gap:var(--col-gap);}
   @media(max-width:900px){ .note{grid-template-columns:2.4rem 1fr;column-gap:.2rem;} }
   @media(max-width:600px){ .layout{grid-template-columns:1fr;row-gap:2.8rem;} }
+  /* Column rules (2026-11-24): one dotted vertical down the middle of every column gap, drawn
+     on the grid itself so filtering, the WIP card and an odd last row never break it. */
+  .layout{position:relative;}
+  .layout::before,.layout::after{content:"";position:absolute;top:0;bottom:0;width:0;
+    border-left:1px dotted var(--line);pointer-events:none;}
+  .layout::before{left:50%;}
+  .layout::after{display:none;}
+  @media(min-width:1800px){
+    .layout::before{left:calc((100% - 2 * var(--col-gap)) / 3 + var(--col-gap) / 2);}
+    .layout::after{display:block;left:calc((100% - 2 * var(--col-gap)) * 2 / 3 + var(--col-gap) * 1.5);}
+  }
+  @media(max-width:600px){ .layout::before,.layout::after{display:none;} }
   /* /cd 2026-11-20: one label system. The section chips and artifact captions follow the card
      tags and the filter tabs: sentence case, tab size, no tracking. Touch targets on the
      Project Deck gate reach 44px on phones. */
@@ -1983,17 +1995,19 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
     // negative). A 6-frame 2fps re-render shipped 2026-11-23 and read as jitter; check nb_frames.
     // Square video in a 4:3 tile: contain, never cover (cover cut the cube's top + bottom).
     // bg is the render's own ground (#101010), so it still reads full bleed.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'contain',bg:'#101010',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/',w:1680,h:1680,cap:"I drew the Shell in Vector, the browser tool I built to draw with Idler's six units."},
+    {fit:'contain',pad:'0',pos:'50% 50%',s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',bg:'#101010',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/',w:1680,h:1680,cap:"I drew the Shell in Vector, the browser tool I built to draw with Idler's six units."},
+    // Every tile is framed the same way (2026-11-24): contained edge to edge (nothing cropped), centered, on a
+    // ground that matches its own edges. Set it here, not per tile.
     // The humanoid: Studio Artifice's brand figure under a heat camera, live at
     // studioartifice.com/home/figure. It sits beside the Shell, where Vector used to.
-    {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler',w:1200,h:1200,cap:"I put Studio Artifice's figure under a heat camera. It stands on the studio's home page."},
+    {fit:'contain',pad:'0',pos:'50% 50%',s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',url:'https://studioartifice.com/home/figure',after:'idler',w:1200,h:1200,cap:"I put Studio Artifice's figure under a heat camera. It stands on the studio's home page."},
     // Whole (Round 14): full vertical travel, contained on its own black; the clip's left edge sits on the tile's.
-    {s:'biota',n:'Symbiota',src:'biota/art/fish-whole.mp4',fit:'contain',pad:'0',bg:'#000',pos:'0% 50%',w:1608,h:1520,cap:"Biota's welcome: a fish I lit to glow in black water, shown whole and at 2x."},
-    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp',w:1400,h:834,cap:"Two objects from The Artifact Index, the archive I built to tie each artifact to its makers."},
+    {fit:'contain',pad:'0',pos:'50% 50%',s:'biota',n:'Symbiota',src:'biota/art/fish-whole.mp4',bg:'#000',w:1608,h:1520,cap:"Biota's welcome: a fish I lit to glow in black water, shown whole and at 2x."},
+    {fit:'contain',pad:'0',pos:'50% 50%',s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp',w:1400,h:834,cap:"Two objects from The Artifact Index, the archive I built to tie each artifact to its makers."},
     // Deliberate crop: 16:9 into the 4:3 tile shows x 12.5-87.5%; the two objects never leave x 23-77%.
-    {s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0',pos:'50% 50%',bg:'#000',w:2560,h:1440,cap:"Two primitives from the identity I made for Artifice NYC, turning on carbon."},
+    {fit:'contain',pad:'0',pos:'50% 50%',s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',bg:'#000',w:2560,h:1440,cap:"Two primitives from the identity I made for Artifice NYC, turning on carbon."},
     // The rail scrolls: its top and bottom fade, so a passing thumbnail never reads as a cut.
-    {s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fit:'contain',pad:'0',fade:1,w:960,h:720,cap:"The Spaces rail from SOOT, the library I designed to keep files together by how they look."},
+    {fit:'contain',pad:'0',pos:'50% 50%',s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fade:1,w:960,h:720,cap:"The Spaces rail from SOOT, the library I designed to keep files together by how they look."},
   ];
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }

@@ -188,3 +188,6 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - Fielder opens on the interface video; hover shows the bunny cover (rest.jpg lost its .rest inversion).
 - rememe: data-cat "identity interface", tag "Identity + Interface".
 - Artifactory cover is now edit mode on the live tool, the whole UI in view (edit.mp4, 12s, scripts/artifactory-edit-capture.mjs); hover = the finished sculpt still. pieces.mp4 (Blender) stays unreferenced.
+- Artifactory cover re-shot as one whole use case: pick a base mesh, pull back so the form sits at ~40% of the view, sculpt with X symmetry (draw, inflate, crease, smooth), check wireframe, open Export. 14s; hover = the Export menu still.
+- Work grid: a dotted vertical rule in the middle of each column gap, drawn on .layout (::before/::after) so filtering never breaks it; two rules at >=1800px, none at <=600px.
+- Artifacts row: every tile contain, no inset, centered, on a ground matched to its own edges (set once in LIST).
