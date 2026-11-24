@@ -1,0 +1,28 @@
+# Renaise Kim
+
+> Selected public portfolio work by Renaise Kim, designer and curator.
+
+[Public work index](https://renaise.com/work/) · [Interactive portfolio](https://renaise.com/)
+
+## Public case studies
+
+- [Idler](https://renaise.com/work/idler/): Identity + launch site for an AI research company. Role: Brand Designer.
+- [Osmosis](https://renaise.com/work/osmosis/): An identity for task-specific AI. Role: Brand Designer.
+- [SOOT](https://renaise.com/work/soot/): A library organized by visual similarity. Role: Lead Product Designer.
+- [FLORA](https://renaise.com/work/flora/): A node canvas for AI image + video models. Role: Founding Designer.
+- [Maestro](https://renaise.com/work/maestro/): Programming + membership in one product. Role: Design Lead.
+- [Aputure](https://renaise.com/work/aputure/): A website for a global lighting catalog. Role: Art Director + Designer.
+- [The Depictions of Original Sin](https://renaise.com/work/depictions-of-original-sin/): AI film screening with Flow x Artifice. Role: Creative Director.
+- [Biota](https://renaise.com/work/biota/): Imagine anything, seed everything. Role: Designer.
+- [Studio Artifice](https://renaise.com/work/studio-artifice/): The studio’s identity + website. Role: Founder + Creative Director.
+- [Lighthouse](https://renaise.com/work/lighthouse/): A website for U.S. visa applications. Role: Lead Designer.
+- [The Artifact Index](https://renaise.com/work/the-artifact-index/): An archive of creative process. Role: Creative Director.
+- [Artifice Brand Identity](https://renaise.com/work/artifice-brand/): The identity for Artifice NYC. Role: Creative Director.
+- [ARTIFACTORY](https://renaise.com/work/artifactory/): A browser-based 3D design tool. Role: Designer + Developer.
+- [CineBox](https://renaise.com/work/cinebox/): Finding film references by mood + color. Role: Designer + Developer.
+- [Vamos](https://renaise.com/work/vamos/): Multiplayer itinerary planning for travel. Role: Design Director.
+- [Fielder](https://renaise.com/work/fielder/): Browsing images by likeness + color. Role: Designer + Developer.
+- [Moshpit](https://renaise.com/work/moshpit/): Turning saved media into shared collections. Role: Designer + Developer.
+- [Codex Foundry](https://renaise.com/work/codex-foundry/): A home for independent software. Role: Founder.
+- [Mythra](https://renaise.com/work/mythra/): A protocol for summoning websites into chat. Role: Co-author.
+- [rememe](https://renaise.com/work/rememe/): A creation-first social app for remixing. Role: Product Designer.
