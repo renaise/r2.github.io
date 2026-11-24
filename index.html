@@ -975,6 +975,12 @@
      panel); right two thirds the creative. One column under 1100px, info first. */
   @media(min-width:1100px){
     .cs-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:2.4rem;align-items:start;}
+    /* A dotted rule down the middle of the gutter, full height of the split, so the text
+       column reads as its own segment beside the creative (the info column is sticky, so
+       the rule hangs off the split, not off .cs-info). */
+    .cs-split{position:relative;}
+    .cs-split::before{content:"";position:absolute;top:0;bottom:0;width:0;pointer-events:none;
+      left:calc((100% - 2.4rem) / 3 + 1.2rem);border-left:1px dotted var(--line);}
     .cs-info{position:sticky;top:0;max-height:100dvh;overflow-y:auto;scrollbar-width:none;padding-bottom:2rem;}
     .cs-info::-webkit-scrollbar{display:none;}
     .cs-info .cs-cards{grid-template-columns:1fr;}
