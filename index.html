@@ -397,7 +397,7 @@
   @keyframes cvdrift{from{transform:scale(1.04) translate(-1.2%,.6%);}to{transform:scale(1.04) translate(1.2%,-.6%);}}
   @media(prefers-reduced-motion:reduce){ .media .cover.drift{animation:none;} }
   /* Mythra: the recording is a whole window on black; show all of it, centered, no inset */
-  .media .cover.whole{object-fit:contain;object-position:center;padding:0;background:#000;}
+  .media .cover.whole,.media .sys.whole{object-fit:contain;object-position:center;padding:0;background:#000;}
   .media .sys.rest{opacity:1;}
   a.proj:hover .media .sys.rest{opacity:0;}
   @media(prefers-reduced-motion:reduce){ .media .sys{transition:none;} }
@@ -1442,7 +1442,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Vamos</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/vamos.svg);--r:4.298;--lw:4.572em"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Multiplayer Itinerary Planning for Travel</span><br><span class="m">Design Director</span></div></div>
       </a>
       <a class="proj" data-slug="fielder" data-cat="interface" href="https://fielder.codexfoundry.com/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/fielder/cover.jpg?v=4)"><video class="cover fill" src="/stage/fielder/cover.mp4?v=4" muted loop playsinline preload="none" poster="/stage/fielder/cover.jpg?v=4" aria-label="Fielder: a library of museum images rearranging from likeness into a color fan"></video><img class="sys rest" src="/stage/fielder/rest.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/fielder/cover.jpg?v=4)"><video class="cover fill" src="/stage/fielder/cover.mp4?v=4" muted loop playsinline preload="none" poster="/stage/fielder/cover.jpg?v=4" aria-label="Fielder: a library of museum images rearranging from likeness into a color fan"></video><img class="sys" src="/stage/fielder/rest.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/fielder.svg);--r:1"></span><b>Fielder</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">Browsing Images by Likeness + Color</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="moshpit" data-cat="interface" href="https://moshpit.codexfoundry.com/">
@@ -1454,15 +1454,15 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>Codex Foundry</b></span><span class="yr">2025</span></div><div class="c1"><span class="t">A Home for Independent Software</span><br><span class="m">Founder</span></div></div>
       </a>
       <a class="proj" data-slug="mythra" data-cat="interface" href="https://mythra.vercel.app/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/mythra/summon@2x.webp)"><video class="cover whole" data-free src="/stage/mythra/summon.mp4" muted loop playsinline preload="none" poster="/stage/mythra/summon@2x.webp" aria-label="Mythra summoning a weather app inside the chat"></video><img class="sys" src="/stage/mythra/cover.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/mythra/summon-169.jpg)"><video class="cover fill" data-free src="/stage/mythra/summon-169.mp4" muted loop playsinline preload="none" poster="/stage/mythra/summon-169.jpg" aria-label="Mythra summoning a weather app inside the chat"></video><img class="sys" src="/stage/mythra/cover.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Mythra</b></span><span class="yr">2023</span></div><div class="c1"><span class="t">A Protocol for Summoning Websites into Chat</span><br><span class="m">Co-author</span></div></div>
       </a>
-      <a class="proj" data-slug="rememe" data-cat="interface" href="/rememe">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/rememe/cover@2x.webp)"><img class="cover fill drift" src="/stage/rememe/cover@2x.webp" srcset="/stage/rememe/cover.png 643w, /stage/rememe/cover@2x.webp 2150w" sizes="(max-width:900px) 100vw, 50vw" alt="rememe: a grayscale reclining nude with a green spiral and the rememe wordmark"><img class="sys" src="/stage/rememe/cover@2x.webp" alt="" loading="lazy"><span class="tag">Interface</span></div>
+      <a class="proj" data-slug="rememe" data-cat="identity interface" href="/rememe">
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/rememe/cover@2x.webp)"><img class="cover fill drift" src="/stage/rememe/cover@2x.webp" srcset="/stage/rememe/cover.png 643w, /stage/rememe/cover@2x.webp 2150w" sizes="(max-width:900px) 100vw, 50vw" alt="rememe: a grayscale reclining nude with a green spiral and the rememe wordmark"><img class="sys" src="/stage/rememe/cover@2x.webp" alt="" loading="lazy"><span class="tag">Identity + Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>rememe</b></span><span class="yr">2023</span></div><div class="c1"><span class="t">A Creation-First Social App for Remixing</span><br><span class="m">Product Designer</span></div></div>
       </a>
       <div class="proj wip" data-cat="identity">
-        <div class="media" aria-hidden="true"><div class="cover fill wip-plate"><span>AFXBOT</span></div><span class="tag">In Development</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/studio-artifice/art/figure.jpg)"><video class="cover whole" data-free src="/stage/studio-artifice/art/figure.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/art/figure.jpg" aria-label="The Studio Artifice figure under a heat camera"></video><img class="sys whole" src="/stage/studio-artifice/art/figure.jpg" alt="" loading="lazy"><span class="tag">In Development</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>AFXBOT</b></span><span class="yr">In Development</span></div><div class="c1"><span class="t">Agentic Brand System</span><br><span class="m">In progress</span></div></div>
       </div>
       </div>
