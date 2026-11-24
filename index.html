@@ -1307,16 +1307,6 @@
   @media(max-width:600px){ .layout{grid-template-columns:1fr;row-gap:2.8rem;} }
   /* Column rules (2026-11-24): one dotted vertical down the middle of every column gap, drawn
      on the grid itself so filtering, the WIP card and an odd last row never break it. */
-  .layout{position:relative;}
-  .layout::before,.layout::after{content:"";position:absolute;top:0;bottom:0;width:0;
-    border-left:1px dotted var(--line);pointer-events:none;}
-  .layout::before{left:50%;}
-  .layout::after{display:none;}
-  @media(min-width:1800px){
-    .layout::before{left:calc((100% - 2 * var(--col-gap)) / 3 + var(--col-gap) / 2);}
-    .layout::after{display:block;left:calc((100% - 2 * var(--col-gap)) * 2 / 3 + var(--col-gap) * 1.5);}
-  }
-  @media(max-width:600px){ .layout::before,.layout::after{display:none;} }
   /* /cd 2026-11-20: one label system. The section chips and artifact captions follow the card
      tags and the filter tabs: sentence case, tab size, no tracking. Touch targets on the
      Project Deck gate reach 44px on phones. */
