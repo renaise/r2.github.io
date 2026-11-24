@@ -12,6 +12,13 @@ const W=ms=>pg.waitForTimeout(ms);
 await pg.goto('https://idler.ai/collections/shelflife',{waitUntil:'networkidle'}); await W(1500);
 const top=await pg.evaluate(()=>{const h=[...document.querySelectorAll('body *')].find(e=>e.childElementCount<=1&&/^\s*Skill Profile/.test(e.textContent)&&e.textContent.length<40);return h.getBoundingClientRect().top+scrollY});
 await pg.evaluate(y=>scrollTo(0,y-40),top); await pg.mouse.move(1180,300); await W(900);
+// hide the pinned nav + tab row so the frame can sit centered on the chart (equal margins)
+await pg.evaluate(()=>{const t=[...document.querySelectorAll('a')].find(a=>a.textContent.trim()==='Leaderboard'); if(t) t.parentElement.style.visibility='hidden';
+  for(const e of document.querySelectorAll('header,nav')) e.style.visibility='hidden';
+  for(const e of document.querySelectorAll('body *')){ if(e.childElementCount<=2&&/^\s*(Skill Profile|Model performance on the tasks tagged)/.test(e.textContent)&&e.textContent.length<80) e.style.visibility='hidden'; }
+  const r=[...document.querySelectorAll('svg')].map(s=>s.getBoundingClientRect()).find(r=>r.width>600&&r.height>400);
+  const chips=[...document.querySelectorAll('.mtagnm')].map(e=>e.getBoundingClientRect()); window.__box=[r.top, Math.max(...chips.map(c=>c.bottom))]; });
+console.log('content y', await pg.evaluate(()=>window.__box));
 const chip=n=>pg.evaluate(n=>{const e=[...document.querySelectorAll('button,[role=button],div,span')].filter(e=>e.textContent.trim()===n).sort((a,b)=>a.getBoundingClientRect().width-b.getBoundingClientRect().width).pop();const r=e.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]},n);
 const cdp=await pg.context().newCDPSession(pg); const frames=[];
 cdp.on('Page.screencastFrame',async f=>{frames.push({t:f.metadata.timestamp,d:f.data});try{await cdp.send('Page.screencastFrameAck',{sessionId:f.sessionId})}catch(e){}});
