@@ -1,4 +1,6 @@
-// idler.ai Skill Profile: all six models, then a clockwise sweep of the ten skills (hover isolates each skill's scores). CDP screencast, headed for 2x.
+// idler.ai Skill Profile: all six models, then each model on its own in turn, as if tabbed through.
+// STAGED (Renaise, 2026-11-24): idler.ai's model buttons are not interactive, so the one-model state is
+// set during capture with the site's own isolation styles (.skwrap[data-iso], .skiso on series + chip). CDP screencast, headed for 2x.
 import { chromium } from 'playwright';
 import fs from 'fs';
 const OUT=process.env.O+'/sprec/'; fs.rmSync(OUT,{recursive:true,force:true}); fs.mkdirSync(OUT,{recursive:true});
@@ -11,7 +13,7 @@ await pg.addInitScript(()=>{ addEventListener('DOMContentLoaded',()=>{ const c=d
 const W=ms=>pg.waitForTimeout(ms);
 await pg.goto('https://idler.ai/collections/shelflife',{waitUntil:'networkidle'}); await W(1500);
 const top=await pg.evaluate(()=>{const h=[...document.querySelectorAll('body *')].find(e=>e.childElementCount<=1&&/^\s*Skill Profile/.test(e.textContent)&&e.textContent.length<40);return h.getBoundingClientRect().top+scrollY});
-await pg.evaluate(y=>scrollTo(0,y-40),top); await pg.mouse.move(1180,300); await W(900);
+await pg.evaluate(y=>scrollTo(0,y-40),top); await pg.mouse.move(1439,809); await W(900);
 // hide the pinned nav + tab row so the frame can sit centered on the chart (equal margins)
 await pg.evaluate(()=>{const t=[...document.querySelectorAll('a')].find(a=>a.textContent.trim()==='Leaderboard'); if(t) t.parentElement.style.visibility='hidden';
   for(const e of document.querySelectorAll('header,nav')) e.style.visibility='hidden';
@@ -24,9 +26,14 @@ const cdp=await pg.context().newCDPSession(pg); const frames=[];
 cdp.on('Page.screencastFrame',async f=>{frames.push({t:f.metadata.timestamp,d:f.data});try{await cdp.send('Page.screencastFrameAck',{sessionId:f.sessionId})}catch(e){}});
 await cdp.send('Page.startScreencast',{format:'jpeg',quality:90,maxWidth:2880,maxHeight:1620});
 await W(1300);
-// sweep the ten skills clockwise from the top; each hover isolates the leader and shows the scores
-for(let i=0;i<10;i++){ const t=i*Math.PI/5, x=720+150*Math.sin(t), y=365-150*Math.cos(t); await pg.mouse.move(x,y,{steps:i?14:22}); await W(1250); }
-await pg.mouse.move(1180,300,{steps:24}); await W(1300);
+await pg.addStyleTag({content:'.skwrap[data-iso] .skseries.skiso:not(.sktop){display:inline!important;opacity:1!important} .skwrap[data-iso] .skseries.skiso:not(.sktop) .skline{stroke:var(--mc)!important;stroke-width:2.6px!important;fill:var(--mc)!important;fill-opacity:.16!important} .skwrap[data-iso] .skseries.sktop{display:none!important}'});
+const iso=i=>pg.evaluate(i=>{const w=document.querySelector('.skwrap'); const ser=[...w.querySelectorAll('.skseries')], chips=[...w.querySelectorAll('.skchip')];
+  if(i<0){ w.removeAttribute('data-iso'); ser.forEach(g=>g.classList.remove('skiso')); chips.forEach(c=>c.classList.remove('skiso')); return; }
+  w.setAttribute('data-iso',''); const mk=ser[i].getAttribute('data-mk');
+  ser.forEach(g=>g.classList.toggle('skiso',g.getAttribute('data-mk')===mk)); chips.forEach((c,k)=>c.classList.toggle('skiso',k===i)); },i);
+for(let i=0;i<6;i++){ await iso(i); await W(1700); }
+await iso(-1); await W(1400);
+
 await cdp.send('Page.stopScreencast');
 let list=''; frames.forEach((f,i)=>{const fn=`f${String(i).padStart(4,'0')}.jpg`; fs.writeFileSync(OUT+fn,Buffer.from(f.d,'base64')); const dur=i<frames.length-1?frames[i+1].t-f.t:0.04; list+=`file '${fn}'\nduration ${dur.toFixed(4)}\n`;});
 fs.writeFileSync(OUT+'list.txt',list); console.log('frames',frames.length,'secs',(frames.at(-1).t-frames[0].t).toFixed(2));
