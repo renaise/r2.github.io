@@ -396,8 +396,8 @@
   .media .cover.drift{animation:cvdrift 14s ease-in-out infinite alternate;}
   @keyframes cvdrift{from{transform:scale(1.04) translate(-1.2%,.6%);}to{transform:scale(1.04) translate(1.2%,-.6%);}}
   @media(prefers-reduced-motion:reduce){ .media .cover.drift{animation:none;} }
-  /* AFXBOT's placeholder: the square figure, whole, on black */
-  .media .cover.ph,.media .sys.ph{object-fit:contain;background:#000;}
+  /* Mythra: the recording is a whole window on black; show all of it, centered, no inset */
+  .media .cover.whole{object-fit:contain;object-position:center;padding:0;background:#000;}
   .media .sys.rest{opacity:1;}
   a.proj:hover .media .sys.rest{opacity:0;}
   @media(prefers-reduced-motion:reduce){ .media .sys{transition:none;} }
@@ -1431,7 +1431,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>Artifice Brand Identity</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/artifice-brand.svg);--r:8.434;--lw:8.164em"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">The Identity for Artifice NYC</span><br><span class="m">Creative Director</span></div></div>
       </a>
       <a class="proj" data-slug="artifactory" data-cat="interface" data-out href="https://artifactory.codexfoundry.com" target="_blank" rel="noopener">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/artifactory/hover@2x.webp)"><video class="cover fill" data-free src="/stage/artifactory/hover.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/hover@2x.webp" aria-label="Pieces made in ARTIFACTORY: Endless column, Ribbon, Bust, Gyroid, Armillary, Totem"></video><img class="sys" src="/stage/artifactory/cover-2x.jpg" alt="" loading="lazy"><span class="tag">Instrument · Live tool ↗</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/artifactory/pieces.jpg)"><video class="cover fill" data-free src="/stage/artifactory/pieces.mp4" muted loop playsinline preload="none" poster="/stage/artifactory/pieces.jpg" aria-label="Six pieces made in ARTIFACTORY: endless column, ribbon, bust, pierced sphere, armillary, totem"></video><img class="sys" src="/stage/artifactory/pieces-sheet.webp" alt="" loading="lazy"><span class="tag">Live tool ↗</span></div>
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>ARTIFACTORY</b></span><span class="yr">2026</span></div><div class="c1"><span class="t">A Browser-Based 3D Design Tool</span><br><span class="m">Designer + Developer</span></div></div>
       </a>
       <a class="proj" data-slug="cinebox" data-cat="interface" href="https://renaise.github.io/cf-cinebox/">
@@ -1455,7 +1455,7 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw glyph"><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/codex-foundry.svg);--r:0.9968"></span><b>Codex Foundry</b></span><span class="yr">2025</span></div><div class="c1"><span class="t">A Home for Independent Software</span><br><span class="m">Founder</span></div></div>
       </a>
       <a class="proj" data-slug="mythra" data-cat="interface" href="https://mythra.vercel.app/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/mythra/summon@2x.webp)"><video class="cover" data-free src="/stage/mythra/summon.mp4" muted loop playsinline preload="none" poster="/stage/mythra/summon@2x.webp" aria-label="Mythra summoning a weather app inside the chat"></video><img class="sys" src="/stage/mythra/cover.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/mythra/summon@2x.webp)"><video class="cover whole" data-free src="/stage/mythra/summon.mp4" muted loop playsinline preload="none" poster="/stage/mythra/summon@2x.webp" aria-label="Mythra summoning a weather app inside the chat"></video><img class="sys" src="/stage/mythra/cover.jpg?v=2" alt="" loading="lazy"><span class="tag">Interface</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Mythra</b></span><span class="yr">2023</span></div><div class="c1"><span class="t">A Protocol for Summoning Websites into Chat</span><br><span class="m">Co-author</span></div></div>
       </a>
       <a class="proj" data-slug="rememe" data-cat="interface" href="/rememe">
@@ -1463,8 +1463,8 @@ document.documentElement.className+=' js';
         <div class="cols"><div class="c0"><span class="nmw"><b>rememe</b></span><span class="yr">2023</span></div><div class="c1"><span class="t">A Creation-First Social App for Remixing</span><br><span class="m">Product Designer</span></div></div>
       </a>
       <div class="proj wip" data-cat="identity">
-        <div class="media" aria-hidden="true"><video class="cover fill ph" data-free src="/stage/studio-artifice/art/figure.mp4" muted loop playsinline preload="none" poster="/stage/studio-artifice/art/figure.jpg" aria-label="Placeholder: the Studio Artifice figure under a heat camera"></video><img class="sys ph" src="/stage/studio-artifice/art/figure.jpg" alt="" loading="lazy"><span class="tag">WIP · Placeholder</span></div>
-        <div class="cols"><div class="c0"><span class="nmw"><b>AFXBOT</b></span><span class="yr">WIP</span></div><div class="c1"><span class="t">Agentic Brand System</span><br><span class="m">In progress</span></div></div>
+        <div class="media" aria-hidden="true"><div class="cover fill wip-plate"><span>AFXBOT</span></div><span class="tag">In Development</span></div>
+        <div class="cols"><div class="c0"><span class="nmw"><b>AFXBOT</b></span><span class="yr">In Development</span></div><div class="c1"><span class="t">Agentic Brand System</span><br><span class="m">In progress</span></div></div>
       </div>
       </div>
       <p class="none" id="none" hidden>Nothing matches that.</p>
@@ -1915,11 +1915,11 @@ document.documentElement.className+=' js';
     var touch=matchMedia('(pointer:coarse)').matches;
     el.innerHTML='<div class="pa-in">'
       + '<div class="pa-top"><span class="pa-n">'+pad(i+1)+' / '+pad(S.length)+'</span>'
-      + '<span class="pa-kind">'+(a.instrument?'Instrument':'Artifact')+'</span></div>'
+      + '<span class="pa-kind">'+(a.instrument?'Tool':'Artifact')+'</span></div>'
       + '<div class="pa-name">'+esc(a.n)+'</div>'
       + (a.cap?'<p class="pa-text">'+esc(a.cap)+'</p>':'')
       + '<p class="pa-prov"><span>From '+esc(a.from)+' &middot; '+esc(a.year)+'</span>'
-      + (a.madeIn?'<a href="'+esc(a.madeUrl)+'" target="_blank" rel="noopener">Made in '+esc(a.madeIn)+' <i class="pa-tag">Instrument</i> &#8599;</a>':'')
+      + (a.madeIn?'<a href="'+esc(a.madeUrl)+'" target="_blank" rel="noopener">Made in '+esc(a.madeIn)+' &#8599;</a>':'')
       + (a.url?'<a href="'+esc(a.url)+'" target="_blank" rel="noopener">See it live &#8599;</a>':'')
       + '<a href="/'+esc(a.s)+'#artifact" data-cs="'+esc(a.s)+'">The case study &rarr;</a></p>'
       + (S.length>1?'<p class="pa-next">Next: '+esc(nx.n)+'</p>':'')
@@ -3122,7 +3122,7 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
   var sec=document.querySelector('.feed'); if(!sec) return;
   var old=sec.querySelector('.sig'); if(!old) return;
   var box=document.createElement('div'); box.className='sig globe g3';
-  box.innerHTML='<div class="g3-cam" role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an artifact to step through them, Vector to open the instrument, or any other image to open its project."><div class="g3-push"><div class="g3-orb"></div></div><div class="g3-zoom" aria-hidden="true"><div class="g3-zi"></div><video class="g3-zv" muted loop playsinline preload="none"></video></div></div><span class="gl-tip" aria-hidden="true"></span>';
+  box.innerHTML='<div class="g3-cam" role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an artifact to step through them, Vector to open the tool, or any other image to open its project."><div class="g3-push"><div class="g3-orb"></div></div><div class="g3-zoom" aria-hidden="true"><div class="g3-zi"></div><video class="g3-zv" muted loop playsinline preload="none"></video></div></div><span class="gl-tip" aria-hidden="true"></span>';
   old.replaceWith(box); sec.hidden=false;
   var cam=box.querySelector('.g3-cam'), orb=box.querySelector('.g3-orb'), zi=box.querySelector('.g3-zi'), zv=box.querySelector('.g3-zv'), push=box.querySelector('.g3-push'), zoom=box.querySelector('.g3-zoom'), tip=box.querySelector('.gl-tip');
   var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3213,7 +3213,7 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
       zoom.style.transform='translate3d('+tx+'px,'+ty+'px,'+depth+'px)'; zoom.classList.add('in');
       push.style.setProperty('--back',(-R*.35)+'px'); push.classList.add('back'); hoverAt=lastPt;
         var slug=A.slugs[o.t], ob=objOf(A.src[o.t]), sq=ob&&ob.s?(window.__ARTSEQ||[])[seqOf(ob.s)]:null;
-        tip.textContent=ob&&ob.tool?ob.n+' \u00b7 Instrument \u2197':(sq?sq.n+' \u00b7 '+sq.from:((A.labels&&A.labels[o.t])||names[slug]||slug)); tip.classList.add('on');
+        tip.textContent=ob&&ob.tool?ob.n+' \u00b7 Live tool \u2197':(sq?sq.n+' \u00b7 '+sq.from:((A.labels&&A.labels[o.t])||names[slug]||slug)); tip.classList.add('on');
         var vw=zw*f, vh=zh*f, vx=cxm+(zx+tx-cxm)*f, vy=cym+(zy+ty-cym)*f, tw=tip.offsetWidth||0;
         tip.style.transform='translate('+Math.round(Math.max(6,Math.min(bx.width-tw-6,vx-tw/2)))+'px,'+Math.round(Math.max(4,vy-vh/2-26))+'px)';
       box.style.cursor=i<0?(drag?'grabbing':'grab'):'pointer'; kick();

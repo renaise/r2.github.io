@@ -178,3 +178,7 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - Globe: spin is now 0.05 rad/s scaled by frame time (was 0.0016 per frame, so double speed on 120Hz and a stutter on every dropped frame); tiles lost their opacity transition, which frame() was restarting 145 times a frame.
 - Every cover moves and every hover is a still. Artifactory: the pieces loop is the cover, the build still the hover. Maestro + Depictions hovers are now their posters. rememe has only a still, so it drifts (cvdrift, off under reduced motion).
 - AFXBOT: the Studio Artifice humanoid stands in as a placeholder, tagged "WIP · Placeholder".
+- Mythra cover shows the whole recorded window, centered on black (`.cover.whole`); it was bottom-anchored with a 6% inset and cut at the card's foot.
+- AFXBOT placeholder removed; WIP now reads "In Development".
+- "Instrument" retired as a label: the tag, the lightbox kind, the "Made in" tag and the globe tip now say Tool / Live tool.
+- Artifactory cover re-rendered cool and untextured from scripts/artifactory-pieces.py (Blender 5.3, Eevee): stage/artifactory/pieces.mp4, hover = pieces-sheet.webp (the six, 3x2). The old warm, textured hover.mp4 stays unreferenced.
