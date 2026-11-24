@@ -628,3 +628,9 @@ height. Strict equal area (ratio^0.5) made MAESTRO 9px tall beside a 15px SOOT; 
 from a contact sheet against 0.5, 0.65 and 0.85. The script's `OPTICAL` map holds the only
 hand factors, each with its reason (FLORA 1.1: the swash F sets the box, so the caps read
 small). Re-run it whenever a logo file changes. Glyph rows keep the fixed-height rule.
+
+## Type treatment after neuehaus.io (2026-11-24)
+Redaction carries every line a reader reads, set tight: story titles at leading .92 (-.025em),
+subtitles and card subtitles at 1.15, the opening statement at 1.2, section prose at 1.38.
+Diatype steps back to weight 300 and only labels the chrome (eyebrows, facts, role lines, crumbs).
+Titles are sentence case everywhere. The rules sit last in index.html's main stylesheet.

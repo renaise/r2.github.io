@@ -1332,6 +1332,21 @@
     .side .socials .ic{display:none;}
     .side .socials .tx{position:static;width:auto;height:auto;overflow:visible;clip:auto;}
   }
+  /* Type after neuehaus.io (2026-11-24): the serif carries every line a reader reads, set tight
+     (display leading .9-.95, statements 1.15-1.2); the sans steps back to a light weight and only
+     labels the chrome. Last in the sheet so it settles the earlier per-breakpoint sizes. */
+  .cs-mast h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.5rem,4.6vw,3.9rem);line-height:.92;letter-spacing:-.025em;}
+  .cs-mast .claim{font-family:var(--serif);font-size:clamp(1.25rem,1.6vw,1.55rem);line-height:1.15;letter-spacing:-.01em;margin-top:1rem;text-wrap:balance;}
+  .cs-intro{font-size:clamp(1.25rem,1.5vw,1.5rem);line-height:1.2;letter-spacing:-.01em;}
+  .cs-sec p{line-height:1.38;}
+  .c1 .t{font-family:var(--serif);font-weight:400;font-size:1.2rem;line-height:1.15;letter-spacing:-.008em;text-wrap:balance;}
+  .c1 .m,.cs-lbl,.cs-ledger dt,.cs-ledger dd,.crumbs,.cs-crumbs{font-weight:300;}
+  @media(max-width:600px){
+    .cs-mast h2{font-size:2.4rem;}
+    .cs-intro{font-size:1.2rem;line-height:1.22;}
+    .cs-sec p{line-height:1.4;}
+    .c1 .t{font-size:1.15rem;}
+  }
 </style>
 <script>
 // Runs before first paint: resolves the theme so the page never flashes the wrong one.

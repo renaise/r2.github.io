@@ -198,3 +198,4 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - Artifact plate in a story loses its one-off dotted border, matching every other plate.
 - Social card: `scripts/og-card.mjs` renders assets/og.jpg (2400x1260) + og-1200.jpg from the live globe, signature + bio line. The 800px 5MB GIF is gone (X never animated it, one frame caught an unloaded tile). og:image and twitter:image both point at og.jpg?v=7.
 - Globe turns at one speed always; half speed on hover read as stopped.
+- Type after neuehaus.io: serif titles/subtitles/card subtitles set tight, sans labels at 300; titles sentence case; five opening lines rewritten so they stop restating the title.
