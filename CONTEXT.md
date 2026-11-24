@@ -172,3 +172,9 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - Case grid (gridify): plates in one 8px gutter, `half` = two across, text sections as tinted cards. After portorocha.com/tinder.
 - Idler cut to deliverables; identity board (comp) restored.
 - Open: Artifactory cover (waiting on Renaise).
+
+## 2026-11-24
+- Aputure back to its pre-PR #2 state (e4dc093): copy, the before/after slider on stills, the two homepage pairs, the original cover loop and after-v2.jpg. The motion assets stay in stage/aputure, unreferenced.
+- Globe: spin is now 0.05 rad/s scaled by frame time (was 0.0016 per frame, so double speed on 120Hz and a stutter on every dropped frame); tiles lost their opacity transition, which frame() was restarting 145 times a frame.
+- Every cover moves and every hover is a still. Artifactory: the pieces loop is the cover, the build still the hover. Maestro + Depictions hovers are now their posters. rememe has only a still, so it drifts (cvdrift, off under reduced motion).
+- AFXBOT: the Studio Artifice humanoid stands in as a placeholder, tagged "WIP · Placeholder".
