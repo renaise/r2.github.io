@@ -2393,7 +2393,10 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
       document.documentElement.classList.add('cs-deckview');
       body.innerHTML='<header class="cs-mast"><h2 id="cs-name">'+esc(name)+'</h2>'
         + (d.title?'<p class="claim">'+esc(d.title)+'</p>':'')+'</header>'
-        + '<div class="cs-deck"><iframe src="'+esc(figmaEmbed(d.embed))+'" '
+        // Figma's /slides/ link embeds the editor (a thumbnail rail and a zoomable canvas, no
+        // way to step through). /deck/ is the presentation view: back/next, a 1/105 counter
+        // and arrow keys once the deck has focus (2026-11-24).
+        + '<div class="cs-deck"><iframe src="'+esc(figmaEmbed(String(d.embed).replace('figma.com/slides/','figma.com/deck/')))+'" '
         + 'title="'+esc(name)+'" allowfullscreen loading="lazy"></iframe></div>'
         // The Figma frame takes keyboard focus, so Escape inside it never reaches the page:
         // a visible Close, and focus handed back to the panel once the deck has loaded.
