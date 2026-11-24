@@ -187,3 +187,4 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - AFXBOT: the humanoid figure is its cover (whole, on black); tag stays "In Development".
 - Fielder opens on the interface video; hover shows the bunny cover (rest.jpg lost its .rest inversion).
 - rememe: data-cat "identity interface", tag "Identity + Interface".
+- Artifactory cover is now edit mode on the live tool, the whole UI in view (edit.mp4, 12s, scripts/artifactory-edit-capture.mjs); hover = the finished sculpt still. pieces.mp4 (Blender) stays unreferenced.
