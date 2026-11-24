@@ -182,3 +182,4 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - AFXBOT placeholder removed; WIP now reads "In Development".
 - "Instrument" retired as a label: the tag, the lightbox kind, the "Made in" tag and the globe tip now say Tool / Live tool.
 - Artifactory cover re-rendered cool and untextured from scripts/artifactory-pieces.py (Blender 5.3, Eevee): stage/artifactory/pieces.mp4, hover = pieces-sheet.webp (the six, 3x2). The old warm, textured hover.mp4 stays unreferenced.
+- Case panel: Problem/Process/Solution/Impact lose their plates for dotted dividers; every eyebrow (section labels, ledger, captions) is sentence case at .72rem, opacity .6.
