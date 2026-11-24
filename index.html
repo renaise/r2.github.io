@@ -988,6 +988,11 @@
       left:calc((100% - 2.4rem) / 3 + 1.2rem);border-left:1px dotted var(--line);}
     .cs-info{position:sticky;top:0;max-height:100dvh;overflow-y:auto;scrollbar-width:none;padding-bottom:2rem;}
     .cs-info::-webkit-scrollbar{display:none;}
+    /* Gradient scroll (2026-11-24, after portorocha.com): the text fades out at an edge
+       only while there is more to read past it. JS sets --ft/--fb from the scroll position. */
+    .cs-info{--ft:0px;--fb:0px;
+      -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ft),#000 calc(100% - var(--fb)),transparent 100%);
+              mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ft),#000 calc(100% - var(--fb)),transparent 100%);}
     .cs-info .cs-cards{grid-template-columns:1fr;}
     .cs-info .cs-sec,.cs-info .cs-end{grid-template-columns:1fr;gap:.7rem;}
     .cs-info .cs-sec > :not(.cs-lbl),.cs-info .cs-end > *{grid-column:1;}
@@ -2715,6 +2720,14 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
       (isInfo?info:work).appendChild(k);
     });
     wrap.appendChild(info); wrap.appendChild(work); root.appendChild(wrap);
+    function fade(){
+      var top=info.scrollTop, rest=info.scrollHeight-info.clientHeight-top;
+      info.style.setProperty('--ft',Math.min(top,64)+'px');
+      info.style.setProperty('--fb',Math.min(Math.max(rest,0),96)+'px');
+    }
+    info.addEventListener('scroll',fade,{passive:true});
+    if(window.ResizeObserver) new ResizeObserver(fade).observe(info);
+    fade();
   }
   function playFilmsInView(){
     // Click-to-load runs for everyone; only autoplay below is gated on reduced motion.
