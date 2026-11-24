@@ -765,6 +765,29 @@
   .art:hover .sp,.art:focus-visible .sp{border-color:var(--accent);}
   .layout[hidden]{display:none;}
   .art .cap{margin-top:.45rem;}
+  /* Artifacts in sequence (Round 14): PhotoSwipe, dressed in the site's tokens. */
+  .sec>.arts-note,.sec>#arts{grid-column:-2 / -1;}
+  .arts-note{margin:0;color:var(--sw4);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;line-height:1.5;}
+  .art .num{color:var(--sw4);margin-right:.5em;font-variant-numeric:tabular-nums;}
+  .art .sp{cursor:zoom-in;}
+  .pswp--arts{--pswp-bg:#0b0b0c;--pswp-placeholder-bg:#101010;--pswp-icon-color:#e8e8e8;--pswp-icon-color-secondary:#0b0b0c;}
+  .pswp--arts .pa-v{display:block;object-fit:contain;}
+  .pswp--arts .pswp__arts-caption{position:absolute;left:0;right:0;bottom:0;padding:0 84px 22px;pointer-events:none;
+    font-family:var(--sans);color:#cfcfcf;}
+  .pswp--arts .pa-in{max-width:44rem;margin:0 auto;pointer-events:auto;}
+  .pswp--arts .pa-top{display:flex;gap:.9rem;align-items:baseline;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(207,207,207,.72);}
+  .pswp--arts .pa-n{font-variant-numeric:tabular-nums;color:#fff;}
+  .pswp--arts .pa-name{margin:.35rem 0 .2rem;font-family:var(--serif);font-size:1.35rem;line-height:1.15;color:#fff;}
+  .pswp--arts .pa-text{margin:0 0 .45rem;font-size:.86rem;line-height:1.38;color:#d6d6d6;}
+  .pswp--arts .pa-prov{margin:0;display:flex;flex-wrap:wrap;gap:.35rem 1rem;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(207,207,207,.72);}
+  .pswp--arts .pa-prov a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35);}
+  .pswp--arts .pa-prov a:hover,.pswp--arts .pa-prov a:focus-visible{border-color:#fff;}
+  .pswp--arts .pa-tag{font-style:normal;margin-left:.3em;padding:.08rem .3rem;border:1px solid rgba(255,255,255,.45);border-radius:2px;font-size:.56rem;}
+  .pswp--arts .pa-next{margin:.55rem 0 0;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(207,207,207,.55);}
+  .pswp--arts .pa-hint{margin:.35rem 0 0;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(207,207,207,.55);transition:opacity .6s;}
+  .pswp--arts .pa-hint.off{opacity:0;}
+  @media(max-width:700px){ .pswp--arts .pswp__arts-caption{padding:0 16px 16px;} .pswp--arts .pa-name{font-size:1.15rem;} .pswp--arts .pa-text{font-size:.8rem;} }
+
   /* Artifact names in Redaction: the object's name reads as a title, set apart from the
      sans project labels in the grid above. */
   .art .nm{display:block;color:var(--sw2);font-family:var(--serif);font-weight:400;font-size:1.06rem;line-height:1.2;letter-spacing:0;
@@ -1447,6 +1470,7 @@ document.documentElement.className+=' js';
       <div class="cv">
         <div class="sec">
           <div class="lbl">Artifacts</div>
+          <p class="arts-note">One object from each project, in order. Open any one, then step through all of them.</p>
           <div class="arts" id="arts"></div>
         </div>
       </div>
@@ -1850,6 +1874,86 @@ document.documentElement.className+=' js';
 </script>
 
 <script>
+// ── Artifacts in sequence (Round 14, 2026-11-23) ─────────────────────────────
+// The same viewer dongdeng.studio/animation-collection uses: Cargo's "QuickView" image zoom is a
+// rename of PhotoSwipe (v4 core: quick-view-zoom-wrap, pinchToClose, closeOnVerticalDrag,
+// verticalDragRange .75, maxSpreadZoom 1.33). Here it is PhotoSwipe 5.4.4 (MIT), vendored at
+// /assets/vendor/photoswipe/ and loaded on first use. Where Cargo shows the bare image, this walks
+// the viewer through: a counter, the object's name, one line from me, where it came from, what it
+// was made in (instruments say so and open the live tool), what comes next, and how to step.
+(function(){
+  var PS='/assets/vendor/photoswipe/', ready=null, lb=null, hinted=false;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function load(){
+    if(ready) return ready;
+    ready=new Promise(function(res,rej){
+      var l=document.createElement('link'); l.rel='stylesheet'; l.href=PS+'photoswipe.css?v=544'; document.head.appendChild(l);
+      var n=0; ['photoswipe.umd.min.js','photoswipe-lightbox.umd.min.js'].forEach(function(f){
+        var s=document.createElement('script'); s.src=PS+f+'?v=544'; s.onload=function(){ if(++n===2) res(); }; s.onerror=rej; document.head.appendChild(s); });
+    });
+    return ready;
+  }
+  function esc(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function pad(n){ return (n<10?'0':'')+n; }
+  // Displayed at no more than half its pixels, so every slide is at least 2x sharp.
+  function slide(a){
+    var k=a.lb||2, w=Math.round(a.w/k), h=Math.round(a.h/k);
+    return a.kind==='video'
+      ? {type:'video', src:a.src, poster:a.poster, width:w, height:h, a:a}
+      : {src:a.full||a.src, width:w, height:h, alt:a.n, a:a};
+  }
+  function caption(el,pswp){
+    var S=window.__ARTSEQ||[], i=pswp.currIndex, a=S[i], nx=S[(i+1)%S.length]; if(!a) return;
+    var touch=matchMedia('(pointer:coarse)').matches;
+    el.innerHTML='<div class="pa-in">'
+      + '<div class="pa-top"><span class="pa-n">'+pad(i+1)+' / '+pad(S.length)+'</span>'
+      + '<span class="pa-kind">'+(a.instrument?'Instrument':'Artifact')+'</span></div>'
+      + '<div class="pa-name">'+esc(a.n)+'</div>'
+      + (a.cap?'<p class="pa-text">'+esc(a.cap)+'</p>':'')
+      + '<p class="pa-prov"><span>From '+esc(a.from)+' &middot; '+esc(a.year)+'</span>'
+      + (a.madeIn?'<a href="'+esc(a.madeUrl)+'" target="_blank" rel="noopener">Made in '+esc(a.madeIn)+' <i class="pa-tag">Instrument</i> &#8599;</a>':'')
+      + (a.url?'<a href="'+esc(a.url)+'" target="_blank" rel="noopener">See it live &#8599;</a>':'')
+      + '<a href="/'+esc(a.s)+'#artifact" data-cs="'+esc(a.s)+'">The case study &rarr;</a></p>'
+      + (S.length>1?'<p class="pa-next">Next: '+esc(nx.n)+'</p>':'')
+      + '<p class="pa-hint'+(hinted?' off':'')+'">'+(touch?'Swipe to step &middot; pinch to zoom &middot; swipe down to close':'&larr; &rarr; to step &middot; click to zoom &middot; Esc to close')+'</p>'
+      + '</div>';
+    if(!hinted) setTimeout(function(){ hinted=true; var h=el.querySelector('.pa-hint'); if(h) h.classList.add('off'); },4200);
+  }
+  window.__artOpen=function(i,from){
+    var S=window.__ARTSEQ; if(!S||!S.length) return false;
+    load().then(function(){
+      if(lb){ try{ lb.destroy(); }catch(_){} }
+      lb=new PhotoSwipeLightbox({
+        dataSource:S.map(slide), pswpModule:PhotoSwipe, index:i, loop:true, counter:false,
+        bgOpacity:.96, showHideAnimationType:reduce?'none':'fade', clickToCloseNonZoomable:false,
+        wheelToZoom:false, preloaderDelay:400, arrowPrevTitle:'Previous artifact', arrowNextTitle:'Next artifact',
+        closeTitle:'Close (Esc)', zoomTitle:'Zoom', mainClass:'pswp--arts',
+        paddingFn:function(v){ return v.x<700 ? {top:52,bottom:208,left:12,right:12} : {top:56,bottom:172,left:84,right:84}; }
+      });
+      lb.on('contentLoad',function(e){ var c=e.content; if(c.type!=='video') return; e.preventDefault();
+        var v=document.createElement('video'); v.className='pa-v'; v.muted=true; v.loop=true; v.playsInline=true;
+        v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.preload='auto'; v.poster=c.data.poster||''; v.src=c.data.src;
+        v.style.background=c.data.a.bg||'#000'; v.setAttribute('aria-label',c.data.a.n+': '+(c.data.a.cap||''));
+        v.addEventListener('canplay',function(){ if(!reduce&&c.slide&&c.slide.isActive&&v.paused){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); } });
+        c.element=v; c.onLoaded&&c.onLoaded(); });
+      lb.on('change',function(){ var ps=lb.pswp; var cs=ps&&ps.currSlide; var v=cs&&cs.content&&cs.content.element; if(v&&v.tagName==='VIDEO'&&!reduce&&v.paused){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); } });
+      lb.on('contentActivate',function(e){ var v=e.content.element; if(v&&v.tagName==='VIDEO'&&!reduce){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); } });
+      lb.on('contentDeactivate',function(e){ var v=e.content.element; if(v&&v.tagName==='VIDEO') v.pause(); });
+      lb.on('uiRegister',function(){
+        lb.pswp.ui.registerElement({name:'arts-caption', order:9, isButton:false, appendTo:'root', html:'',
+          onInit:function(el,pswp){ el.setAttribute('aria-live','polite'); pswp.on('change',function(){ caption(el,pswp); });
+            el.addEventListener('click',function(ev){ var c=ev.target.closest('a[data-cs]'); if(!c||ev.metaKey||ev.ctrlKey||ev.shiftKey) return;
+              ev.preventDefault(); var s=c.getAttribute('data-cs'); pswp.close();
+              var card=document.querySelector('#work .proj[data-slug="'+s+'"]'); if(card){ window.__artJump=s; card.click(); } else location.href=c.href; }); } });
+      });
+      lb.on('destroy',function(){ if(from&&from.focus) try{ from.focus({preventScroll:true}); }catch(_){} });
+      lb.init(); lb.loadAndOpen(i);
+    }).catch(function(){ var a=S[i]; if(a) location.href='/'+a.s+'#artifact'; });
+    return true;
+  };
+})();
+</script>
+<script>
 // ── Artifacts ────────────────────────────────────────────────────────────────
 // One illustration per project, lifted out of the identity work and shown on its own.
 // Files live in /stage/<slug>/art/. fit: contain keeps a cut-out object whole on
@@ -1865,17 +1969,17 @@ document.documentElement.className+=' js';
     // negative). A 6-frame 2fps re-render shipped 2026-11-23 and read as jitter; check nb_frames.
     // Square video in a 4:3 tile: contain, never cover (cover cut the cube's top + bottom).
     // bg is the render's own ground (#101010), so it still reads full bleed.
-    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'contain',bg:'#101010',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/',w:1680,h:1680},
+    {s:'idler',n:'The Shell',src:'idler/art/shell.mp4?v=6',pad:'0',fit:'contain',bg:'#101010',pos:'50% 50%',madeIn:'Vector',madeUrl:'https://artifactory-vector.pages.dev/',w:1680,h:1680,cap:"I drew the Shell in Vector, the browser tool I built to draw with Idler's six units."},
     // The humanoid: Studio Artifice's brand figure under a heat camera, live at
     // studioartifice.com/home/figure. It sits beside the Shell, where Vector used to.
-    {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler',w:1200,h:1200},
+    {s:'studio-artifice',n:'Humanoid',src:'studio-artifice/art/figure.mp4',bg:'#000',pad:'9%',fit:'contain',url:'https://studioartifice.com/home/figure',after:'idler',w:1200,h:1200,cap:"I put Studio Artifice's figure under a heat camera. It stands on the studio's home page."},
     // Whole (Round 14): full vertical travel, contained on its own black; the clip's left edge sits on the tile's.
-    {s:'biota',n:'Symbiota',src:'biota/art/fish-whole.mp4',fit:'contain',pad:'0',bg:'#000',pos:'0% 50%',w:1608,h:1520},
-    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp',w:1400,h:834},
+    {s:'biota',n:'Symbiota',src:'biota/art/fish-whole.mp4',fit:'contain',pad:'0',bg:'#000',pos:'0% 50%',w:1608,h:1520,cap:"Biota's welcome: a fish I lit to glow in black water, shown whole and at 2x."},
+    {s:'the-artifact-index',n:'SCI + FI',src:'the-artifact-index/art/objects.webp',w:1400,h:834,cap:"Two objects from The Artifact Index, the archive I built to tie each artifact to its makers."},
     // Deliberate crop: 16:9 into the 4:3 tile shows x 12.5-87.5%; the two objects never leave x 23-77%.
-    {s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0',pos:'50% 50%',bg:'#000',w:2560,h:1440},
+    {s:'artifice-brand',n:'Primitives',src:'artifice-brand/plate.mp4',fit:'cover',pad:'0',pos:'50% 50%',bg:'#000',w:2560,h:1440,cap:"Two primitives from the identity I made for Artifice NYC, turning on carbon."},
     // The rail scrolls: its top and bottom fade, so a passing thumbnail never reads as a cut.
-    {s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fit:'contain',pad:'0',fade:1,w:960,h:720},
+    {s:'soot',n:'Spaces rail',src:'soot/art/rail.mp4',bg:'#E9E9E9',fit:'contain',pad:'0',fade:1,w:960,h:720,cap:"The Spaces rail from SOOT, the library I designed to keep files together by how they look."},
   ];
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -1889,19 +1993,24 @@ document.documentElement.className+=' js';
     var r=D[a.s], el=document.createElement('a'), src=A+a.src, isV=/\.mp4(?=\?|$)/.test(src);
     var poster=src.replace(/\.mp4(?=\?|$)/,'.jpg');
     el.className='art'; el.href='/'+a.s+'#artifact'; el.setAttribute('data-slug',a.s);
+    el.setAttribute('aria-label',a.n+', from '+r.name+'. Opens the artifacts in sequence.');
     var style=(a.fit?'--fit:'+a.fit+';':'')+(a.pad?'--pad:'+a.pad+';':'')+(a.bg?'--sp-bg:'+a.bg+';':'')+(a.pos?'--pos:'+a.pos+';':'')+(a.neg?'--flt:invert(1) hue-rotate(180deg);':'');
     el.innerHTML='<div class="sp'+(a.fade?' fade':'')+'" style="'+style+'">'
       + (isV ? '<video src="'+esc(src)+'" poster="'+esc(poster)+'" muted loop playsinline preload="none" aria-hidden="true"></video>'
              : '<img src="'+esc(src)+'" alt="" loading="lazy">')
       + '</div><div class="cap"><span class="nm">'+esc(a.n)+'</span>'
       // One kind of fact per line: the object, then the project it came from + year.
-      + '<span class="src">'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+'</span></div>';
+      + '<span class="src"><span class="num">'+(LIST.indexOf(a)<9?'0':'')+(LIST.indexOf(a)+1)+'</span>'+esc(r.name)+' &middot; '+esc(String(r.year).slice(0,4))+'</span></div>';
     el.__text=(a.n+' '+r.name+' '+r.year+' '+(a.madeIn||'')).toLowerCase();
     box.appendChild(el); return el;
   });
   // Rows always fill: four across when the count divides by four, else three.
   // Column count comes from the page grid (CSS), so each tile sits on a quarter line.
   // The case study renders the same piece in its own Artifact section.
+  window.__ARTSEQ=LIST.filter(function(a){ return D[a.s]; }).map(function(a){ var r=D[a.s], src=A+a.src, v=/\.mp4(?=\?|$)/.test(src);
+    return {s:a.s,n:a.n,cap:a.cap,from:r.name,year:String(r.year).slice(0,4),kind:v?'video':'image',src:src,
+      poster:v?(window.__up2x||String)(src.replace(/\.mp4(?=\?|$)/,'.jpg')):'',full:v?'':(window.__up2x||String)(src),
+      w:a.w||1600,h:a.h||1200,bg:a.bg||'#101010',url:a.url,madeIn:a.madeIn,madeUrl:a.madeUrl,lb:a.lb,instrument:!!a.instrument}; });
   window.__ART={}; LIST.forEach(function(a){ window.__ART[a.s]={n:a.n,src:A+a.src,fit:a.fit,pad:a.pad,pos:a.pos,bg:a.bg,neg:a.neg,url:a.url,madeIn:a.madeIn,madeUrl:a.madeUrl,fade:a.fade}; });
   // Motion plays only while on screen, and never under reduced motion.
   if('IntersectionObserver' in window && !reduce){
@@ -1914,8 +2023,10 @@ document.documentElement.className+=' js';
   box.addEventListener('click',function(e){
     var a=e.target.closest('.art'); if(!a) return;
     if(e.metaKey||e.ctrlKey||e.shiftKey||e.button) return;
-    var card=document.querySelector('#work .proj[data-slug="'+a.getAttribute('data-slug')+'"]');
-    if(card){ e.preventDefault(); window.__artJump=a.getAttribute('data-slug'); card.click(); }
+    var sl=a.getAttribute('data-slug'), k=(window.__ARTSEQ||[]).map(function(x){ return x.s; }).indexOf(sl);
+    if(k>=0&&window.__artOpen){ e.preventDefault(); window.__artOpen(k,a); return; }
+    var card=document.querySelector('#work .proj[data-slug="'+sl+'"]');
+    if(card){ e.preventDefault(); window.__artJump=sl; card.click(); }
   });
 })();
 </script>
@@ -2996,10 +3107,14 @@ document.documentElement.className+=' js';
   var sec=document.querySelector('.feed'); if(!sec) return;
   var old=sec.querySelector('.sig'); if(!old) return;
   var box=document.createElement('div'); box.className='sig globe g3';
-  box.innerHTML='<div class="g3-cam" role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an image to open that project."><div class="g3-push"><div class="g3-orb"></div></div><div class="g3-zoom" aria-hidden="true"><div class="g3-zi"></div><video class="g3-zv" muted loop playsinline preload="none"></video></div></div><span class="gl-tip" aria-hidden="true"></span>';
+  box.innerHTML='<div class="g3-cam" role="img" aria-label="Every project as a turning globe of its images. Drag to turn it; select an artifact to step through them, Vector to open the instrument, or any other image to open its project."><div class="g3-push"><div class="g3-orb"></div></div><div class="g3-zoom" aria-hidden="true"><div class="g3-zi"></div><video class="g3-zv" muted loop playsinline preload="none"></video></div></div><span class="gl-tip" aria-hidden="true"></span>';
   old.replaceWith(box); sec.hidden=false;
   var cam=box.querySelector('.g3-cam'), orb=box.querySelector('.g3-orb'), zi=box.querySelector('.g3-zi'), zv=box.querySelector('.g3-zv'), push=box.querySelector('.g3-push'), zoom=box.querySelector('.g3-zoom'), tip=box.querySelector('.gl-tip');
   var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var OBJ={'shell':{s:'idler'},'humanoid':{s:'studio-artifice'},'symbiota':{s:'biota'},'object-0':{s:'the-artifact-index'},'object-1':{s:'the-artifact-index'},
+    'primitive-0':{s:'artifice-brand'},'primitive-1':{s:'artifice-brand'},'vector':{tool:'https://artifactory-vector.pages.dev/',n:'Vector'}};
+  function objOf(src){ var m=/^globe\/src\/objects\/([a-z0-9-]+)\.png$/.exec(src||''); return m&&OBJ[m[1]]; }
+  function seqOf(s){ return (window.__ARTSEQ||[]).map(function(x){ return x.s; }).indexOf(s); }
   var names={};
   document.querySelectorAll('#work a.proj').forEach(function(a){
     var b=a.querySelector('.c0 b'); names[a.getAttribute('data-slug')]=b?b.textContent.trim():a.getAttribute('data-slug'); });
@@ -3078,7 +3193,8 @@ document.documentElement.className+=' js';
       zoom.classList.remove('in'); void zoom.offsetWidth;
       zoom.style.transform='translate3d('+tx+'px,'+ty+'px,'+depth+'px)'; zoom.classList.add('in');
       push.style.setProperty('--back',(-R*.35)+'px'); push.classList.add('back'); hoverAt=lastPt;
-        var slug=A.slugs[o.t]; tip.textContent=(A.labels&&A.labels[o.t])||names[slug]||slug; tip.classList.add('on');
+        var slug=A.slugs[o.t], ob=objOf(A.src[o.t]), sq=ob&&ob.s?(window.__ARTSEQ||[])[seqOf(ob.s)]:null;
+        tip.textContent=ob&&ob.tool?ob.n+' \u00b7 Instrument \u2197':(sq?sq.n+' \u00b7 '+sq.from:((A.labels&&A.labels[o.t])||names[slug]||slug)); tip.classList.add('on');
         var vw=zw*f, vh=zh*f, vx=cxm+(zx+tx-cxm)*f, vy=cym+(zy+ty-cym)*f, tw=tip.offsetWidth||0;
         tip.style.transform='translate('+Math.round(Math.max(6,Math.min(bx.width-tw-6,vx-tw/2)))+'px,'+Math.round(Math.max(4,vy-vh/2-26))+'px)';
       box.style.cursor=i<0?(drag?'grabbing':'grab'):'pointer'; kick();
@@ -3101,7 +3217,10 @@ document.documentElement.className+=' js';
       if(d.moved<6){
         var t=d.t||document.elementFromPoint(e.clientX,e.clientY); t=t&&t.closest&&t.closest('.g3-t');
         var i=hover>=0?hover:(t?+t.dataset.i:-1);  // the lifted tile has moved off the pointer: open what is lifted
-        if(i>=0){ var slug=A.slugs[tiles[i].t], card=document.querySelector('#work a.proj[data-slug="'+slug+'"]'); if(card) card.click(); }
+        if(i>=0){ var slug=A.slugs[tiles[i].t], ob=objOf(A.src[tiles[i].t]), q=ob&&ob.s?seqOf(ob.s):-1;
+          if(ob&&ob.tool){ window.open(ob.tool,'_blank','noopener'); }
+          else if(q>=0&&window.__artOpen){ setHover(-1); window.__artOpen(q,null); }
+          else { var card=document.querySelector('#work a.proj[data-slug="'+slug+'"]'); if(card) card.click(); } }
       }
       kick();
     });
