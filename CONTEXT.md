@@ -199,3 +199,6 @@ The section's row rule is its only divider (card border dropped to avoid paralle
 - Social card: `scripts/og-card.mjs` renders assets/og.jpg (2400x1260) + og-1200.jpg from the live globe, signature + bio line. The 800px 5MB GIF is gone (X never animated it, one frame caught an unloaded tile). og:image and twitter:image both point at og.jpg?v=7.
 - Globe turns at one speed always; half speed on hover read as stopped.
 - Type after neuehaus.io: serif titles/subtitles/card subtitles set tight, sans labels at 300; titles sentence case; five opening lines rewritten so they stop restating the title.
+- Idler card cover = idler.ai Skill Profile sweep (scripts/idler-skill-profile-capture.mjs); story still opens on the tabs clip.
+- Rail: Public work link removed.
+- Light mode: ink #646464 / alpha steps on rgb 100; globe rim fades to the page in light (opacity .02+.98*f^1.9).
