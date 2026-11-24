@@ -1,0 +1,35 @@
+// idler.ai collection page: Leaderboard -> Skill Profile -> Documentation -> Sample -> Leaderboard, by CDP screencast.
+import { chromium } from 'playwright';
+import fs from 'fs';
+const OUT=process.env.O+'/rec/'; fs.rmSync(OUT,{recursive:true,force:true}); fs.mkdirSync(OUT,{recursive:true});
+const b=await chromium.launch({channel:'chrome',headless:false,args:['--window-position=-2400,0']});
+const pg=await b.newPage({viewport:{width:1440,height:810},deviceScaleFactor:2});
+await pg.addInitScript(()=>{ addEventListener('DOMContentLoaded',()=>{ const c=document.createElement('div');
+  c.innerHTML='<svg width="18" height="22" viewBox="0 0 18 22"><path d="M1 1v17l4.6-4.3 3 6.8 2.8-1.2-3-6.6H15z" fill="#111" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+  Object.assign(c.style,{position:'fixed',left:'0',top:'0',zIndex:2147483647,pointerEvents:'none',transform:'translate(-100px,-100px)',transition:'scale .12s'}); document.body.appendChild(c);
+  addEventListener('mousemove',e=>{c.style.transform=`translate(${e.clientX-1}px,${e.clientY-1}px)`},true);
+  addEventListener('mousedown',()=>c.style.scale='.85',true); addEventListener('mouseup',()=>c.style.scale='1',true); }); });
+const W=ms=>pg.waitForTimeout(ms);
+await pg.goto('https://idler.ai/collections/shelflife',{waitUntil:'networkidle'}); await W(1500);
+const ease=async(y,ms=1100)=>pg.evaluate(([y,ms])=>new Promise(r=>{const y0=scrollY,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/ms),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;scrollTo(0,y0+(y-y0)*e);k<1?requestAnimationFrame(f):r()};requestAnimationFrame(f)}),[y,ms]);
+const tabY=await pg.evaluate(()=>{const a=[...document.querySelectorAll('a')].find(a=>a.textContent.trim()==='Leaderboard');return a.getBoundingClientRect().top+scrollY});
+const spY=await pg.evaluate(()=>{let best=null;for(const e of document.querySelectorAll('body *')){if(e.childElementCount<=1&&/^\s*Skill Profile/.test(e.textContent)&&e.textContent.length<40){best=e;break}}return best?best.getBoundingClientRect().top+scrollY:null});
+console.log('tabY',tabY,'spY',spY);
+const TOP=tabY-90; await pg.evaluate(y=>scrollTo(0,y),TOP); await pg.mouse.move(1150,260); await W(800);
+const tab=n=>pg.evaluate(n=>{const a=[...document.querySelectorAll('a')].find(a=>a.textContent.trim()===n);const r=a.getBoundingClientRect();return [r.x+r.width/2,r.y+r.height/2]},n);
+const click=async n=>{const [x,y]=await tab(n); await pg.mouse.move(x,y,{steps:22}); await W(220); await pg.mouse.down(); await W(90); await pg.mouse.up();};
+const cdp=await pg.context().newCDPSession(pg); const frames=[];
+cdp.on('Page.screencastFrame',async f=>{frames.push({t:f.metadata.timestamp,d:f.data});try{await cdp.send('Page.screencastFrameAck',{sessionId:f.sessionId})}catch(e){}});
+await cdp.send('Page.startScreencast',{format:'jpeg',quality:90,maxWidth:2880,maxHeight:1620});
+await W(1400);
+// leaderboard rows, then down to the skill profile
+await pg.mouse.move(760,330,{steps:18}); await W(500); await pg.mouse.move(760,400,{steps:14}); await W(500);
+await ease(spY-70,1500); await pg.mouse.move(720,520,{steps:20}); await W(2600);
+await ease(TOP,1200); await W(300);
+await click('Documentation'); await W(1300); await ease(TOP+340,1000); await W(1200); await ease(TOP,900); await W(200);
+await click('Sample'); await W(1300); await ease(TOP+340,1000); await W(1200); await ease(TOP,900); await W(200);
+await click('Leaderboard'); await W(400); await pg.mouse.move(1150,260,{steps:20}); await W(900);
+await cdp.send('Page.stopScreencast');
+let list=''; frames.forEach((f,i)=>{const fn=`f${String(i).padStart(4,'0')}.jpg`; fs.writeFileSync(OUT+fn,Buffer.from(f.d,'base64')); const dur=i<frames.length-1?frames[i+1].t-f.t:0.04; list+=`file '${fn}'\nduration ${dur.toFixed(4)}\n`;});
+fs.writeFileSync(OUT+'list.txt',list); console.log('frames',frames.length,'secs',(frames.at(-1).t-frames[0].t).toFixed(2));
+await b.close();
