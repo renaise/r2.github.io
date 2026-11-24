@@ -1408,10 +1408,6 @@ document.documentElement.className+=' js';
       <div class="layout">
       
 
-      <a class="proj" data-slug="idler" data-cat="identity website" href="https://studioartifice.com/work/idler/">
-        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/skill-profile.jpg?v=3)"><video class="cover fill" data-free src="/stage/idler/skill-profile.mp4?v=3" muted loop playsinline preload="none" poster="/stage/idler/skill-profile.jpg?v=3" aria-label="Idler’s Skill Profile on idler.ai: all six models, then each model’s shape on its own in turn"></video><img class="sys" src="/stage/idler/shell-card.jpg" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
-        <div class="cols"><div class="c0"><span class="nmw"><b>Idler</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/idler.svg);--r:5.142;--lw:5.349em"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Identity + launch site for an AI research company</span><br><span class="m">Brand Designer</span></div></div>
-      </a>
       <a class="proj" data-slug="osmosis" data-cat="identity website" href="https://studioartifice.com/work/osmosis/">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/osmosis/cover@2x.webp)"><video class="cover fill" src="/stage/osmosis/cover.mp4?v=loop" muted loop playsinline preload="none" poster="/stage/osmosis/cover@2x.webp" aria-label="osmosis.ai, running from the landing through to the platform sections"></video><img class="sys" src="/stage/osmosis/system.jpg" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Osmosis</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/osmosis.svg);--r:5.12;--lw:5.508em"></span></span><span class="yr">2025</span></div><div class="c1"><span class="t">An identity for task-specific AI</span><br><span class="m">Brand Designer</span></div></div>
@@ -1447,6 +1443,10 @@ document.documentElement.className+=' js';
       <a class="proj" data-slug="lighthouse" data-cat="identity website" href="https://studioartifice.com/work/lighthouse/">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/lighthouse/cover.jpg?v=2)"><video class="cover fill" src="/stage/lighthouse/cover.mp4?v=2" muted loop playsinline preload="none" poster="/stage/lighthouse/cover.jpg?v=2" aria-label="lighthousehq.com, the cloud hero running down into the client row and the case counts"></video><img class="sys" src="/stage/lighthouse/system.jpg" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
         <div class="cols"><div class="c0"><span class="nmw"><b>Lighthouse</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/lighthouse.svg);--r:5.458;--lw:6.266em"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">A website for U.S. visa applications</span><br><span class="m">Lead Designer</span></div></div>
+      </a>
+      <a class="proj" data-slug="idler" data-cat="identity website" href="https://studioartifice.com/work/idler/">
+        <div class="media" aria-hidden="true" style="--poster:url(/stage/idler/skill-profile.jpg?v=3)"><video class="cover fill" data-free src="/stage/idler/skill-profile.mp4?v=3" muted loop playsinline preload="none" poster="/stage/idler/skill-profile.jpg?v=3" aria-label="Idler’s Skill Profile on idler.ai: all six models, then each model’s shape on its own in turn"></video><img class="sys" src="/stage/idler/shell-card.jpg" alt="" loading="lazy"><span class="tag">Identity + Website</span></div>
+        <div class="cols"><div class="c0"><span class="nmw"><b>Idler</b><span class="cl" aria-hidden="true" style="--m:url(/assets/logos/idler.svg);--r:5.142;--lw:5.349em"></span></span><span class="yr">2026</span></div><div class="c1"><span class="t">Identity + launch site for an AI research company</span><br><span class="m">Brand Designer</span></div></div>
       </a>
       <a class="proj" data-slug="the-artifact-index" data-cat="interface" href="https://index.artificenyc.org">
         <div class="media" aria-hidden="true" style="--poster:url(/stage/the-artifact-index/cover.jpg)"><video class="cover fill" src="/stage/the-artifact-index/cover.mp4" muted loop playsinline preload="none" poster="/stage/the-artifact-index/cover.jpg"></video><img class="sys" src="/stage/the-artifact-index/system.jpg" alt="" loading="lazy"><span class="tag">Interface</span></div>
@@ -2117,7 +2117,7 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
   // `order` maps slug -> rank. Unknown slugs sink to the bottom in their
   // authored order, so a project absent from the store is never dropped.
   function apply(order){
-    var featured=['idler','osmosis','soot'];
+    var featured=['osmosis','soot'];   // Idler moved to the middle of the grid (2026-11-24)
     var items=[].slice.call(layout.querySelectorAll('.proj'));
     if(!items.length) return;
     var ranked=items.map(function(el,i){
