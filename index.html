@@ -1199,6 +1199,13 @@
   .cs-pairs dd{margin:0;font-family:var(--serif);font-weight:300;font-size:var(--prose);
     line-height:var(--prose-lh);color:var(--prose-ink);}
   .cs-type{width:100%;border-collapse:collapse;}
+  /* Type scale specimens: each step at its own size, one hairline between steps. */
+  .cs-scale{display:flex;flex-direction:column;}
+  .cs-scale .sc-row{display:flex;flex-direction:column;gap:.5rem;padding:1.1rem 0;border-bottom:1px dotted var(--line);}
+  .cs-scale .sc-row:first-child{padding-top:0;}
+  .cs-scale .sc-row:last-child{border-bottom:0;}
+  .cs-scale .sc-s{color:var(--sw2);overflow-wrap:anywhere;}
+  .cs-scale .sc-m{font-family:var(--sans);font-size:.72rem;color:var(--sw4);letter-spacing:.01em;font-variant-numeric:tabular-nums;}
   .cs-type th{text-align:left;font-weight:400;font-size:.62rem;letter-spacing:.1em;
     text-transform:uppercase;color:var(--sw4);padding:0 .8rem .6rem 0;
     border-bottom:1px dotted var(--line);}
@@ -2335,12 +2342,34 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
     }
     if(sys.faces&&sys.faces.length){
       h+='<div class="cs-sw cs-faces" style="--n:'+sys.faces.length+'">'+sys.faces.map(function(f){
-        return '<div><span class="ch fc">Aa</span>'
+        return '<div><span class="ch fc" style="font-family:\''+esc(String(f.name).replace(/'/g,''))+'\',var(--sans)">Aa</span>'
           + '<span class="nm">'+esc(f.name)+'</span>'
           + '<span class="hx">'+esc(String(f.token||'').replace(/^-+/,''))+'</span></div>';
       }).join('')+'</div>';
     }
-    if(sys.type&&sys.type.rows&&sys.type.rows.length){
+    // Type scale as specimens (2026-11-25, Renaise: "the h1, h2 need to be the same size, not
+    // system size"): each step is set at its own size, leading + tracking, in its face where the
+    // visitor has it, so Heading 1 reads as 88px, not as a row of 11px table text. The specs
+    // that were columns become one line under each sample. Tables with no Size column stay tables.
+    var tcols=sys.type&&sys.type.cols?sys.type.cols.map(function(c){ return String(c).toLowerCase(); }):[];
+    if(sys.type&&sys.type.rows&&sys.type.rows.length&&tcols.indexOf('size')>=0){
+      var ci=function(n){ return tcols.indexOf(n); }, W={thin:200,light:300,book:350,roman:400,regular:400,medium:500,semibold:600,bold:700};
+      var face0=sys.faces&&sys.faces[0]?sys.faces[0].name:'';
+      var tmax=Math.max.apply(null,sys.type.rows.map(function(r){ return parseFloat(r[ci('size')])||16; }));
+      h+='<div class="cs-scale">'+sys.type.rows.map(function(r){
+        var at=function(n){ var i=ci(n); return i>=0?String(r[i]):''; };
+        var px=parseFloat(at('size'))||16, lead=parseFloat(at('leading')), trk=parseFloat(at('tracking'));
+        var face=at('face')||face0, wt=W[(at('weight').toLowerCase().match(/[a-z]+/)||[''])[0]]||400;
+        // one scale for the whole ladder: the largest step fits 11vw on a phone, the rest shrink in
+        // proportion (never below 16px or their own size), so Heading 1 stays above Heading 2
+        var st='font-size:max('+Math.min(px,16)+'px,calc('+px+' * min(1px, 11vw / '+tmax+')));font-weight:'+wt
+          + (isNaN(lead)?'':';line-height:'+(lead/100))+(isNaN(trk)?'':';letter-spacing:'+(trk/100)+'em')
+          + (face?';font-family:\''+face.replace(/'/g,'')+'\',var(--sans)':'');
+        var meta=r.slice(1).filter(function(c){ return String(c).trim(); }).map(function(c){ return esc(String(c).replace(/(\d) (rem|px)\b/g,'$1$2')); }).join(' &middot; ');
+        return '<div class="sc-row"><span class="sc-s" style="'+st+'">'+esc(r[0])+'</span><span class="sc-m">'+meta+'</span></div>';
+      }).join('')+'</div>';
+    }
+    else if(sys.type&&sys.type.rows&&sys.type.rows.length){
       h+='<table class="cs-type"><thead><tr>'
         + sys.type.cols.map(function(c){ return '<th>'+esc(c)+'</th>'; }).join('')
         + '</tr></thead><tbody>'
@@ -2705,17 +2734,7 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
   // The duration lives in CSS. Read it rather than restating it, so changing the
   // token cannot leave the JS waiting on a number the transition no longer uses.
   function dur(){
-    // The column scrolls inside .cs-body, which starts under the crumb bar, so 100dvh ran
-    // ~80px past the screen and hid the last lines + the bottom fade (2026-11-24). Cap it
-    // at the scroller's own inner height instead.
-    var scroller=root.closest('.cs-body')||document.querySelector('.cs-body');
-    function fit(){
-      if(!scroller||!window.matchMedia('(min-width:1100px)').matches){ info.style.maxHeight=''; return; }
-      var cs=getComputedStyle(scroller);
-      info.style.maxHeight=(scroller.clientHeight-parseFloat(cs.paddingTop))+'px';
-    }
     var v=getComputedStyle(root).getPropertyValue('--cs-dur').trim();
-      fit();
     var n=parseFloat(v)||0.52;
     return /ms$/.test(v)?n:n*1000;
   }
@@ -2746,7 +2765,17 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
       (isInfo?info:work).appendChild(k);
     });
     wrap.appendChild(info); wrap.appendChild(work); root.appendChild(wrap);
+    // The column scrolls inside .cs-body, which starts under the crumb bar, so 100dvh ran
+    // ~80px past the screen and hid the last lines + the bottom fade (2026-11-24). Cap it
+    // at the scroller's own inner height instead.
+    var scroller=root.closest('.cs-body')||document.querySelector('.cs-body');
+    function fit(){
+      if(!scroller||!window.matchMedia('(min-width:1100px)').matches){ info.style.maxHeight=''; return; }
+      var cs=getComputedStyle(scroller);
+      info.style.maxHeight=(scroller.clientHeight-parseFloat(cs.paddingTop))+'px';
+    }
     function fade(){
+      fit();
       var top=info.scrollTop, rest=info.scrollHeight-info.clientHeight-top;
       info.style.setProperty('--ft',Math.min(top,64)+'px');
       info.style.setProperty('--fb',Math.min(Math.max(rest,0),96)+'px');
