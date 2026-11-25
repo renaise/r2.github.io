@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /project-deck
+Disallow: /project-report
+
+Sitemap: https://renaise.com/sitemap.xml
