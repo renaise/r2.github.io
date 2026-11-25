@@ -1,5 +1,5 @@
 ---
-updated: 2026-11-17
+updated: 2026-11-25
 ---
 # renaise.com
 
@@ -13,6 +13,8 @@ index.html owns cards + case-study data. DESIGN.md defines visual rules. scripts
 GitHub Pages publishes main from renaise/r2.github.io to renaise.com. CNAME must remain.
 
 ## State
+Maestro case study uses the deck’s uncropped 16:9 staff demo as its first walkthrough; the deck-sharing flow is unchanged.
+
 Principal-brand portfolio pass published + verified on renaise.com: Idler, Osmosis, SOOT lead; preserved archive + design identity.
 
 ## Decisions
@@ -28,3 +30,5 @@ Lead with delivered systems + individual scope, without invented business metric
 - 2026-11-18: QA passed at 1440, 768, 390 + 320px: no document/panel overflow or JavaScript errors. LinkedIn fix 4aa0a1b verified live; homepage FLORA 404 replaced with existing local case route, Biota card points to public overview instead of restricted prototype. External 403/999 responses are access restrictions, not asserted as dead links.
 
 - 2026-11-18: Cut portfolio copy to concrete work: rewrote introduction, 18 project titles/hooks + three lead case studies; preserved attribution, status + links.
+
+- 2026-11-25: Added the deck’s silent looping Maestro staff demo to the public case study using footage of the public prototype.
