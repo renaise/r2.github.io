@@ -3313,20 +3313,6 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
         var t=d.t||document.elementFromPoint(e.clientX,e.clientY); t=t&&t.closest&&t.closest('.g3-t');
         var i=hover>=0?hover:(t?+t.dataset.i:-1);  // the lifted tile has moved off the pointer: open what is lifted
         if(i>=0){ var slug=A.slugs[tiles[i].t], ob=objOf(A.src[tiles[i].t]), q=ob&&ob.s?seqOf(ob.s):-1;
-<script>
-/* Rail edge fade: --ft/--fb grow with how much is hidden above/below (max 64/96px). */
-(function(){
-  var side=document.querySelector('.side'); if(!side) return;
-  function fade(){
-    var top=side.scrollTop, rest=side.scrollHeight-side.clientHeight-top;
-    side.style.setProperty('--ft',Math.min(top,64)+'px');
-    side.style.setProperty('--fb',Math.min(Math.max(rest,0),96)+'px');
-  }
-  side.addEventListener('scroll',fade,{passive:true});
-  if(window.ResizeObserver) new ResizeObserver(fade).observe(side);
-  window.addEventListener('resize',fade); fade();
-})();
-</script>
           if(ob&&ob.tool){ window.open(ob.tool,'_blank','noopener'); }
           else if(q>=0&&window.__artOpen){ setHover(-1); window.__artOpen(q,null); }
           else { var card=document.querySelector('#work a.proj[data-slug="'+slug+'"]'); if(card) card.click(); } }
@@ -3357,6 +3343,20 @@ document.addEventListener('input',function(e){
   var t=e.target; if(!t||!t.closest||t.type!=='range') return;
   var ba=t.closest('.cs-ba'); if(ba){ ba.style.setProperty('--x',t.value+'%'); ba.classList.add('used'); }
 });
+</script>
+<script>
+/* Rail edge fade: --ft/--fb grow with how much is hidden above/below (max 64/96px). */
+(function(){
+  var side=document.querySelector('.side'); if(!side) return;
+  function fade(){
+    var top=side.scrollTop, rest=side.scrollHeight-side.clientHeight-top;
+    side.style.setProperty('--ft',Math.min(top,64)+'px');
+    side.style.setProperty('--fb',Math.min(Math.max(rest,0),96)+'px');
+  }
+  side.addEventListener('scroll',fade,{passive:true});
+  if(window.ResizeObserver) new ResizeObserver(fade).observe(side);
+  window.addEventListener('resize',fade); fade();
+})();
 </script>
 </body>
 </html>
