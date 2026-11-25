@@ -966,6 +966,12 @@
   .cs-deckview:not(.cs-gated) .cs-mast{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   .cs-deckview:not(.cs-gated) .cs-deck{margin-top:0;}
   .cs-deckview .cs{cursor:zoom-out;}
+  /* Centered (2026-11-25): the gate and the open deck sit in the middle of the panel, both
+     ways; the deck is as large as fits the screen at 16:9. */
+  .cs-deckview .cs-body{display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:2rem;padding-bottom:2rem;}
+  .cs-deckview.cs-gated .cs-mast{text-align:center;padding-top:0;}
+  .cs-deckview .cs-gate{margin:1.2rem auto 0;}
+  .cs-deckview:not(.cs-gated) .cs-deck{width:min(100%,calc((100dvh - 4rem) * 16 / 9));flex:none;}
   .cs-deckview .cs-gate,.cs-deckview .cs-deck,.cs-deckview #cs-name{cursor:auto;}
   .cs-gate .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
   .cs-gate-row{gap:.5rem;}
