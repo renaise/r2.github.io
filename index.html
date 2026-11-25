@@ -475,6 +475,16 @@
        never shows a horizontal bar. */
     overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;}
   .side::-webkit-scrollbar{display:none;}
+  /* Gradient scroll on the rail (2026-11-24, after portorocha.com, same rule as .cs-info):
+     the rail fades out at an edge only while there is more past it. JS sets --ft/--fb. */
+  @media(min-width:901px){
+    /* Second layer keeps the right 1px (the dotted border) fully opaque, so the rail's
+       line still runs top to bottom while the content fades. */
+    .side{--ft:0px;--fb:0px;
+      -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ft),#000 calc(100% - var(--fb)),transparent 100%),linear-gradient(to left,#000 1px,transparent 1px);
+              mask-image:linear-gradient(to bottom,transparent 0,#000 var(--ft),#000 calc(100% - var(--fb)),transparent 100%),linear-gradient(to left,#000 1px,transparent 1px);
+      -webkit-mask-composite:source-over;mask-composite:add;}
+  }
   /* Nothing in the rail shrinks to fit; the globe keeps at least 260px and the rail scrolls. */
   @media(min-width:901px){ .side>*{flex-shrink:0;} .side>.feed{flex-shrink:1;min-height:260px;} }
   .brand-h1{margin:0;font-size:inherit;font-weight:inherit;line-height:0;}
@@ -990,7 +1000,9 @@
        column reads as its own segment beside the creative (the info column is sticky, so
        the rule hangs off the split, not off .cs-info). */
     .cs-split{position:relative;}
-    .cs-split::before{content:"";position:absolute;top:0;bottom:0;width:0;pointer-events:none;
+    /* bottom:-5rem runs the rule through .cs-body's 5rem bottom padding so it meets the
+       panel's end instead of stopping short of it (2026-11-24). */
+    .cs-split::before{content:"";position:absolute;top:0;bottom:-5rem;width:0;pointer-events:none;
       left:calc((100% - 2.4rem) / 3 + 1.2rem);border-left:1px dotted var(--line);}
     .cs-info{position:sticky;top:0;max-height:100dvh;overflow-y:auto;scrollbar-width:none;padding-bottom:2rem;}
     .cs-info::-webkit-scrollbar{display:none;}
@@ -2693,7 +2705,17 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
   // The duration lives in CSS. Read it rather than restating it, so changing the
   // token cannot leave the JS waiting on a number the transition no longer uses.
   function dur(){
+    // The column scrolls inside .cs-body, which starts under the crumb bar, so 100dvh ran
+    // ~80px past the screen and hid the last lines + the bottom fade (2026-11-24). Cap it
+    // at the scroller's own inner height instead.
+    var scroller=root.closest('.cs-body')||document.querySelector('.cs-body');
+    function fit(){
+      if(!scroller||!window.matchMedia('(min-width:1100px)').matches){ info.style.maxHeight=''; return; }
+      var cs=getComputedStyle(scroller);
+      info.style.maxHeight=(scroller.clientHeight-parseFloat(cs.paddingTop))+'px';
+    }
     var v=getComputedStyle(root).getPropertyValue('--cs-dur').trim();
+      fit();
     var n=parseFloat(v)||0.52;
     return /ms$/.test(v)?n:n*1000;
   }
@@ -2730,7 +2752,7 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
       info.style.setProperty('--fb',Math.min(Math.max(rest,0),96)+'px');
     }
     info.addEventListener('scroll',fade,{passive:true});
-    if(window.ResizeObserver) new ResizeObserver(fade).observe(info);
+    if(window.ResizeObserver){ var ro=new ResizeObserver(fade); ro.observe(info); if(scroller) ro.observe(scroller); }
     fade();
   }
   function playFilmsInView(){
@@ -3291,6 +3313,20 @@ window.__up2x=function(u){ var b=String(u).split('?')[0]; return (window.__UP2X&
         var t=d.t||document.elementFromPoint(e.clientX,e.clientY); t=t&&t.closest&&t.closest('.g3-t');
         var i=hover>=0?hover:(t?+t.dataset.i:-1);  // the lifted tile has moved off the pointer: open what is lifted
         if(i>=0){ var slug=A.slugs[tiles[i].t], ob=objOf(A.src[tiles[i].t]), q=ob&&ob.s?seqOf(ob.s):-1;
+<script>
+/* Rail edge fade: --ft/--fb grow with how much is hidden above/below (max 64/96px). */
+(function(){
+  var side=document.querySelector('.side'); if(!side) return;
+  function fade(){
+    var top=side.scrollTop, rest=side.scrollHeight-side.clientHeight-top;
+    side.style.setProperty('--ft',Math.min(top,64)+'px');
+    side.style.setProperty('--fb',Math.min(Math.max(rest,0),96)+'px');
+  }
+  side.addEventListener('scroll',fade,{passive:true});
+  if(window.ResizeObserver) new ResizeObserver(fade).observe(side);
+  window.addEventListener('resize',fade); fade();
+})();
+</script>
           if(ob&&ob.tool){ window.open(ob.tool,'_blank','noopener'); }
           else if(q>=0&&window.__artOpen){ setHover(-1); window.__artOpen(q,null); }
           else { var card=document.querySelector('#work a.proj[data-slug="'+slug+'"]'); if(card) card.click(); } }
