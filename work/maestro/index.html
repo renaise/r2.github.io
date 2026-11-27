@@ -12,7 +12,8 @@
 .ref-rail.audit{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ref-rail figure{margin:0;border:1px solid var(--line);border-radius:4px;padding:.65rem}
 .ref-rail img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:#111}
-.ref-rail strong{display:block;margin-top:.5rem}
+.ref-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.2rem .5rem;margin-top:.5rem}
+.ref-status{font-size:.72rem}.ref-rail strong{display:block}
 .ref-rail small{display:block}
 @media(max-width:650px){.ref-rail,.ref-rail.audit{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.ref-rail,.ref-rail.audit{grid-template-columns:1fr}}
@@ -29,15 +30,15 @@
 <section><h2>Process</h2><p>I set the CMS foundation and introduced a review flow: the team checks numbered revisions in the Lab before the client sees one build on the Stage.</p></section>
 <section><h2>Frontier stack</h2>
 <div class="ref-rail">
-<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/mercury.webp"><img src="/stage/maestro/references/mercury.gif" alt="Mercury dashboard highlighting the Create invoice action." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Mercury</strong>Dashboard actions<small>Borrowed: New invoice sits on the Maestro dashboard.</small></figcaption></figure>
-<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/ramp.webp"><img src="/stage/maestro/references/ramp.gif" alt="Ramp budget overview highlighting the period comparison chart." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Ramp</strong>Period comparisons<small>Borrowed: compare ticket revenue with the previous period.</small></figcaption></figure>
-<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/sanity.webp"><img src="/stage/maestro/references/sanity.gif" alt="Sanity Studio showing draft preview beside the editor." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Sanity</strong>CMS to evaluate<small>Test drafting, previewing, and publishing event updates. Not in the prototype.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/mercury.webp"><img src="/stage/maestro/references/mercury.gif" alt="Mercury dashboard highlighting the Create invoice action." width="1152" height="648" loading="lazy"></picture><figcaption><div class="ref-head"><strong>Mercury</strong><span class="ref-status">Borrowed</span></div>Dashboard actions<small>Maestro puts New invoice beside the revenue overview.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/ramp.webp"><img src="/stage/maestro/references/ramp.gif" alt="Ramp budget overview highlighting the period comparison chart." width="1152" height="648" loading="lazy"></picture><figcaption><div class="ref-head"><strong>Ramp</strong><span class="ref-status">Borrowed</span></div>Period comparisons<small>Maestro compares ticket revenue with the previous period.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/sanity.webp"><img src="/stage/maestro/references/sanity.gif" alt="Sanity Studio showing draft preview beside the editor." width="1152" height="648" loading="lazy"></picture><figcaption><div class="ref-head"><strong>Sanity Studio</strong><span class="ref-status">To evaluate</span></div>Draft preview<small>Test drafting, previewing, and publishing an event update. Not in the prototype.</small></figcaption></figure>
 </div>
 </section>
 <section><h2>Institutional stack audit</h2>
 <div class="ref-rail audit">
-<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/tessitura.webp"><img src="/stage/maestro/references/tessitura.gif" alt="Tessitura ticket-sales report highlighting the period summary." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Tessitura</strong>Ticket sales reporting<small>Tessitura shows sales for one period. Maestro adds the previous period.</small></figcaption></figure>
-<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/submittable.webp"><img src="/stage/maestro/references/submittable.gif" alt="Submittable application record highlighting the review tabs." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Submittable</strong>Application review<small>Activity, reviews, messages, and funds are separate tabs.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/tessitura.webp"><img src="/stage/maestro/references/tessitura.gif" alt="Tessitura ticket-sales report highlighting the period summary." width="1152" height="648" loading="lazy"></picture><figcaption><div class="ref-head"><strong>Tessitura</strong></div>Ticket sales reporting<small>This report shows one period. Maestro shows the previous period alongside it.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/submittable.webp"><img src="/stage/maestro/references/submittable.gif" alt="Submittable application record highlighting the review tabs." width="1152" height="648" loading="lazy"></picture><figcaption><div class="ref-head"><strong>Submittable</strong></div>Application review<small>Reviews and votes share one tab. Activity, messages, and funds sit in separate tabs.</small></figcaption></figure>
 </div>
 </section>
 <section><h2>Solution</h2><p>Membership sits in one place: tonight&#x27;s update and renewal dates on Home, held tickets apart from discovery in Events, admission in the pass. The admin portal compares revenue with the previous period.</p></section>
