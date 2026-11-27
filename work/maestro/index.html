@@ -7,6 +7,16 @@
 <meta name="description" content="I led design on Maestro: one product where institution staff, from zoos to orchestras, run their programming and memberships.">
 <link rel="canonical" href="https://renaise.com/work/maestro/">
 <link rel="stylesheet" href="/work/read.css">
+<style>
+.ref-rail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.ref-rail.audit{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ref-rail figure{margin:0;border:1px solid var(--line);border-radius:4px;padding:.65rem}
+.ref-rail img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;background:#111}
+.ref-rail strong{display:block;margin-top:.5rem}
+.ref-rail small{display:block}
+@media(max-width:650px){.ref-rail,.ref-rail.audit{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.ref-rail,.ref-rail.audit{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <nav aria-label="Portfolio"><a href="/">Renaise</a> / <a href="/work/">Public work</a></nav>
@@ -16,7 +26,20 @@
 <dl><dt>Role</dt><dd>Design Lead</dd><dt>Year</dt><dd>2026</dd><dt>Medium</dt><dd>Interface</dd></dl>
 <p>I led design on Maestro: one product where institution staff, from zoos to orchestras, run their programming and memberships.</p>
 <section><h2>Problem</h2><p>Staff needed programming and memberships in one place, with their records linked to what members see.</p></section>
-<section><h2>Process</h2><p>I set the CMS foundation and added review: the team checks numbered revisions in the Lab; the client sees one build on the Stage, from navigation map to design system. Patterns came from Mercury and Ramp, set against Tessitura and Submittable.</p></section>
+<section><h2>Process</h2><p>I set the CMS foundation and introduced a review flow: the team checks numbered revisions in the Lab before the client sees one build on the Stage.</p></section>
+<section><h2>Frontier stack</h2>
+<div class="ref-rail">
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/mercury.webp"><img src="/stage/maestro/references/mercury.gif" alt="Mercury dashboard highlighting the Create invoice action." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Mercury</strong>Dashboard actions<small>Borrowed: New invoice sits on the Maestro dashboard.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/ramp.webp"><img src="/stage/maestro/references/ramp.gif" alt="Ramp budget overview highlighting the period comparison chart." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Ramp</strong>Period comparisons<small>Borrowed: compare ticket revenue with the previous period.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/sanity.webp"><img src="/stage/maestro/references/sanity.gif" alt="Sanity Studio showing draft preview beside the editor." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Sanity</strong>CMS to evaluate<small>Test drafting, previewing, and publishing event updates. Not in the prototype.</small></figcaption></figure>
+</div>
+</section>
+<section><h2>Institutional stack audit</h2>
+<div class="ref-rail audit">
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/tessitura.webp"><img src="/stage/maestro/references/tessitura.gif" alt="Tessitura ticket-sales report highlighting the period summary." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Tessitura</strong>Ticket sales reporting<small>Tessitura shows sales for one period. Maestro adds the previous period.</small></figcaption></figure>
+<figure><picture><source media="(prefers-reduced-motion: reduce)" srcset="/stage/maestro/references/submittable.webp"><img src="/stage/maestro/references/submittable.gif" alt="Submittable application record highlighting the review tabs." width="1152" height="648" loading="lazy"></picture><figcaption><strong>Submittable</strong>Application review<small>Activity, reviews, messages, and funds are separate tabs.</small></figcaption></figure>
+</div>
+</section>
 <section><h2>Solution</h2><p>Membership sits in one place: tonight&#x27;s update and renewal dates on Home, held tickets apart from discovery in Events, admission in the pass. The admin portal compares revenue with the previous period.</p></section>
 <section><h2>Impact</h2><p>Two prototypes and an identity, on simulated integrations and demo data. Next: test real staff tasks for completion and errors.</p></section>
 <p><a href="/maestro/">View Maestro in the interactive portfolio</a></p>
